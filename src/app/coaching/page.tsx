@@ -263,11 +263,19 @@ export const metadata: Metadata = {
 export default function CoachingPage() {
   return (
     <main>
-      {/* ── 09 · HOOK — hero סנד חם (פורטרט אמיתי של אלונה ממתין; עד אז washes רכים בלבד, בלי פנים מזויפות) ── */}
+      {/* ── 09 · HOOK — hero סנד חם: still שולחן-הייעוץ המיוצר (layer 8, בלי פנים) נושם
+             בצד הרחוק תחת מסך-סנד; פורטרט אמיתי של אלונה יחליף אותו כשיגיע. ── */}
       <section data-light-hero className="relative isolate overflow-hidden border-b border-line bg-sand">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/media/generated/09-coaching-table.jpg"
+            alt=""
+            className="absolute inset-y-0 -end-0 hidden h-full w-[42%] object-cover md:block"
+          />
+          <div className="absolute inset-y-0 -end-0 hidden h-full w-[46%] bg-gradient-to-l from-transparent via-sand/40 to-sand md:block" />
           <div className="absolute -top-24 -start-24 h-[26rem] w-[26rem] rounded-full bg-blush/70 blur-3xl" />
-          <div className="absolute -bottom-28 -end-20 h-[24rem] w-[24rem] rounded-full bg-gold-soft/80 blur-3xl" />
+          <div className="absolute -bottom-28 -end-20 h-[24rem] w-[24rem] rounded-full bg-gold-soft/50 blur-3xl" />
         </div>
         <div className="mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 md:py-24">
           <Breadcrumbs items={[{ label: "איך עובדים איתי", href: "/coaching" }]} />
@@ -341,29 +349,49 @@ export default function CoachingPage() {
         </Reveal>
       </Section>
 
-      {/* ── 11 · GUIDE — ארבעת עמודי המנגנון (זיג-זג עריכתי; פאנלי wash עד שייווצרו סטילס) ── */}
+      {/* ── 11 · GUIDE — ארבעת עמודי המנגנון (זיג-זג עריכתי): עמוד 1 נושא צילום-מנה
+             אמיתי שלה (הוכחת "דיאטנית שמבשלת"), עמוד 2 את still קצב-השבוע; 3–4 נשארים
+             פאנלים מעוצבים לקצב. ── */}
       <Section tone="sand" id="method" seam>
         <SectionHeading eyebrow={METHOD.kicker} title={METHOD.title} />
         <FeatureAlternating
           className="mt-14"
-          features={METHOD.pillars.map((p, i) => ({
-            title: p.title,
-            body: <p>{p.body}</p>,
-            media: (
-              <div
-                aria-hidden
-                className={`relative flex items-center justify-center overflow-hidden rounded-[10px] border border-line ${
-                  i % 2 === 0 ? "bg-gold-soft" : "bg-blush"
-                }`}
-                style={{ aspectRatio: "var(--aspect-feature)" }}
-              >
-                <span className="font-serif text-7xl font-black text-navy/15 md:text-8xl">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div aria-hidden className="grain-overlay" />
-              </div>
-            ),
-          }))}
+          features={METHOD.pillars.map((p, i) => {
+            const pillarImg =
+              i === 0
+                ? { src: "/media/client/recipes/cauliflower-fried-rice.jpg", alt: "אורז מוקפץ מכרובית, מנה אמיתית מהמטבח של אלונה" }
+                : i === 1
+                  ? { src: "/media/generated/11-method-week-bowls.jpg", alt: "" }
+                  : null;
+            return {
+              title: p.title,
+              body: <p>{p.body}</p>,
+              media: pillarImg ? (
+                <div
+                  className="relative overflow-hidden rounded-[10px] border border-line"
+                  style={{ aspectRatio: "var(--aspect-feature)" }}
+                  aria-hidden={pillarImg.alt === "" || undefined}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={pillarImg.src} alt={pillarImg.alt} className="absolute inset-0 h-full w-full object-cover" />
+                  <div aria-hidden className="grain-overlay" />
+                </div>
+              ) : (
+                <div
+                  aria-hidden
+                  className={`relative flex items-center justify-center overflow-hidden rounded-[10px] border border-line ${
+                    i % 2 === 0 ? "bg-gold-soft" : "bg-blush"
+                  }`}
+                  style={{ aspectRatio: "var(--aspect-feature)" }}
+                >
+                  <span className="font-serif text-7xl font-black text-navy/15 md:text-8xl">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div aria-hidden className="grain-overlay" />
+                </div>
+              ),
+            };
+          })}
         />
         <Reveal delay={120} className="mt-12">
           <Link

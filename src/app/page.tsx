@@ -203,12 +203,20 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ── 01 · HOOK — full-bleed-hero on warm paper (generated kitchen still pending:
-             sage/blush wash band per the media fallback rule — no broken src, no stock) ── */}
+      {/* ── 01 · HOOK — full-bleed-hero: the generated kitchen still (plan layer 8,
+             faceless hands preparing produce) under a warm paper veil; text lives on
+             the veiled inline-start side, the scene breathes on the far side. ── */}
       <section className="relative overflow-hidden">
         <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-24 -start-24 h-[420px] w-[420px] rounded-full bg-gold-soft opacity-70 blur-3xl" />
-          <div className="absolute -bottom-36 -end-28 h-[480px] w-[480px] rounded-full bg-blush opacity-60 blur-3xl" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/media/generated/01-hero-kitchen.jpg"
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover object-[30%_center]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-l from-bg via-bg/85 to-bg/15" />
+          <div className="absolute -top-24 -start-24 h-[420px] w-[420px] rounded-full bg-gold-soft opacity-50 blur-3xl" />
+          <div className="absolute -bottom-36 -end-28 h-[480px] w-[480px] rounded-full bg-blush opacity-40 blur-3xl" />
         </div>
         <div aria-hidden className="grain-overlay" />
         <Container width="wide" className="flex min-h-[72vh] flex-col justify-center py-20 md:py-28">
@@ -326,8 +334,9 @@ export default function HomePage() {
       </section>
 
       {/* ── 04 · PLAN — sticky-scroll ladder: three named rungs climb from a free call
-             to the support that stays; rung 03 lands in the sage-wash. SSR-drawn media
-             panels (the kitchen still is pending — wash panels per the fallback rule). ── */}
+             to the support that stays. Rungs 01–02 carry the generated stills (the
+             conversation · the weekly plan, plan layer 8); rung 03 keeps the designed
+             sage panel so the ladder ends on the site's own calm. ── */}
       <ShapedSection tone="sand" shape="arc" edge="top">
         <Container width="wide" className="py-16 sm:py-20 md:py-32">
           <SectionHeading eyebrow={PLAN.kicker} title={PLAN.title} lead={PLAN.lead} />
@@ -341,7 +350,21 @@ export default function HomePage() {
                     i === PLAN.steps.length - 1 ? "bg-gold-soft" : "bg-card"
                   }`}
                 >
-                  <span aria-hidden className="font-serif text-[6rem] font-black leading-none text-gold-ink/15 md:text-[8rem]">
+                  {i < 2 && (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={i === 0 ? "/media/generated/11-method-two-cups.jpg" : "/media/generated/04-plan-week.jpg"}
+                      alt=""
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  )}
+                  {i < 2 && <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-navy/25 to-transparent" />}
+                  <span
+                    aria-hidden
+                    className={`relative font-serif text-[6rem] font-black leading-none md:text-[8rem] ${
+                      i < 2 ? "text-white/50" : "text-gold-ink/15"
+                    }`}
+                  >
                     {s.n}
                   </span>
                 </div>

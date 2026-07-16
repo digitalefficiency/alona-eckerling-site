@@ -286,8 +286,18 @@ export default function SaneVoicePage() {
           קישור-רשימה → סימן R.D. */}
       <section data-light-hero className="border-b border-line">
         <Container className="grid grid-cols-1 items-center gap-10 py-14 md:grid-cols-[52fr_48fr] md:gap-14 md:py-24">
-          {/* פנל הכריכה — ראשון ב-DOM = צד ימין ב-RTL */}
+          {/* פנל הכריכה — ראשון ב-DOM = צד ימין ב-RTL; ה-still המיוצר (חוברת על שולחן
+              חם, layer 8) הוא הרקע האווירתי, הכריכה הטיפוגרפית הכנה צפה מעליו */}
           <div className="relative overflow-hidden rounded-[16px] bg-blush px-6 py-10 sm:px-10 sm:py-14">
+            <div aria-hidden className="pointer-events-none absolute inset-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/media/generated/26-booklet-object.jpg"
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover opacity-80"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-blush/90 via-blush/40 to-blush/20" />
+            </div>
             <div aria-hidden className="grain-overlay" />
             <Reveal className="relative">
               <BookletCover />
