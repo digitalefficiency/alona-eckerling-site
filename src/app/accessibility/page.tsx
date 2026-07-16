@@ -1,86 +1,112 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/site";
-import { LegalShell, LH, LP, LUL, LLI, LFlag } from "@/components/legal/LegalShell";
+import { LegalShell, LH, LP, LUL, LLI } from "@/components/legal/LegalShell";
+
+// ── COPY: ### סקשן 40 · Section width=prose (הצהרת נגישות) ──────────────────
+// Coordinator specifics (שם, ערוץ פנייה, תאריך/גורם מבצע) are pending
+// verification — they render from site.ts fields only when filled; until then
+// the generic-safe channel is the contact page (never the personal phone,
+// never the old Gmail). Studio gate: בדיקת מומחה נגישות לפני עלייה לאוויר.
+const COPY = {
+  eyebrow: "נגישות",
+  title: "הצהרת נגישות",
+  intro:
+    "אלונה אקרלינג רואה חשיבות רבה במתן שירות שוויוני ונגיש לכלל הציבור, ופועלת להנגשת האתר בהתאם לחוק שוויון זכויות לאנשים עם מוגבלות ולתקנות הנגישות.",
+  // §1 רמת הנגישות — תמיד «ככל הניתן», לעולם לא «נגיש לחלוטין»;
+  // «ההנגשה בוצעה [תאריך/גורם]» יתווסף רק אחרי אימות
+  conformance: "האתר הונגש בהתאם לתקן הישראלי ת״י 5568 ולהנחיות",
+  conformanceEnd: "ברמת התאמה",
+  conformanceHedge: ", ככל הניתן. ההנגשה נבדקת מעת לעת.",
+  // §2 אמצעי ההנגשה — רק מה שקיים בפועל (תפריט הנגישות של האתר)
+  meansLead: "בצד המסך מופיע כפתור ״נגישות״ הפותח תפריט המאפשר התאמה אישית של חוויית הגלישה, לרבות:",
+  means: [
+    "הגדלה והקטנה של טקסט.",
+    "ניגודיות גבוהה ותצוגת גווני אפור.",
+    "הדגשת קישורים וגופן קריא.",
+    "עצירת אנימציות ותנועה.",
+    "סמן עכבר מוגדל.",
+    "איפוס.",
+  ],
+  meansExtra: "בנוסף, האתר תומך בניווט מקלדת, במבנה כותרות סמנטי ובתיאורי תמונה חלופיים.",
+  // §3 מגבלות ידועות — גילוי כן, בלי הסתרה
+  limitations:
+    "חרף מאמצינו, ייתכן שחלקים מסוימים, לרבות תכני צד שלישי או מדיה בארכיון המתכונים, טרם הונגשו במלואם. אנו פועלים לתיקון מתמשך ונשמח לקבל פניות.",
+  // §4 רכז/ת נגישות
+  coordinatorLead: "נתקלת בבעיית נגישות? נשמח שתעדכני את רכז/ת הנגישות ונטפל בכך בהקדם:",
+  coordinatorChannelFallback: "ערוץ פנייה: דרך",
+  // §5 יצירת קשר כללית
+  generalContact: "לכל פנייה נוספת אפשר להשתמש ב",
+  contactPageLabel: "עמוד יצירת הקשר",
+} as const;
 
 export const metadata: Metadata = {
   title: "הצהרת נגישות",
-  description: `הצהרת הנגישות של אתר ${site.name} — עמידה בתקן הישראלי ת״י 5568 ובהנחיות WCAG 2.0 רמה AA, אמצעי הנגשה, ופרטי רכז הנגישות.`,
+  description: `הצהרת הנגישות של אתר ${site.name}: התאמה לתקן הישראלי ת״י 5568 ולהנחיות WCAG 2.0 ברמת AA ככל הניתן, אמצעי ההנגשה באתר ופניות בנושא נגישות.`,
   alternates: { canonical: "/accessibility" },
 };
 
-// NOTE: template statement — verify conformance level and coordinator details with
-// an accessibility professional before public launch (תקנות נגישות השירות).
 export default function AccessibilityPage() {
   const c = site.accessibilityCoordinator;
+  const hasCoordinator = Boolean(c.name || c.phone || c.email);
   return (
-    <LegalShell
-      eyebrow="נגישות"
-      title="הצהרת נגישות"
-      intro={`${site.name} רואה חשיבות רבה במתן שירות שוויוני ונגיש לכלל הציבור, ופועל להנגשת האתר בהתאם לחוק שוויון זכויות לאנשים עם מוגבלות ולתקנות הנגישות.`}
-    >
-      <LH>1. רמת הנגישות באתר</LH>
+    <LegalShell eyebrow={COPY.eyebrow} title={COPY.title} intro={COPY.intro}>
+      <LH id="conformance">1. רמת הנגישות באתר</LH>
       <LP>
-        האתר הונגש בהתאם לתקן הישראלי ת״י 5568 ולהנחיות{" "}
-        <span dir="ltr">WCAG 2.0</span> ברמת התאמה <span dir="ltr">AA</span>, ככל הניתן. ההנגשה
-        בוצעה <LFlag>[תאריך/גורם מבצע — לאימות]</LFlag> ונבדקת מעת לעת.
+        {COPY.conformance} <span dir="ltr">WCAG 2.0</span> {COPY.conformanceEnd}{" "}
+        <span dir="ltr">AA</span>
+        {COPY.conformanceHedge}
       </LP>
 
-      <LH>2. אמצעי ההנגשה באתר</LH>
-      <LP>
-        בתחתית/בצד המסך מופיע כפתור ״נגישות״ הפותח תפריט המאפשר התאמה אישית של חוויית הגלישה,
-        לרבות:
-      </LP>
+      <LH id="means">2. אמצעי ההנגשה באתר</LH>
+      <LP>{COPY.meansLead}</LP>
       <LUL>
-        <LLI>הגדלה והקטנה של גודל הטקסט.</LLI>
-        <LLI>ניגודיות גבוהה ותצוגת גווני אפור.</LLI>
-        <LLI>הדגשת קישורים וגופן קריא.</LLI>
-        <LLI>עצירת אנימציות ותנועה.</LLI>
-        <LLI>סמן עכבר מוגדל.</LLI>
-        <LLI>איפוס ההגדרות.</LLI>
+        {COPY.means.map((s) => (
+          <LLI key={s}>{s}</LLI>
+        ))}
       </LUL>
-      <LP>בנוסף, האתר תומך בניווט מקלדת, במבנה כותרות סמנטי ובתיאורי תמונה חלופיים (alt).</LP>
+      <LP>{COPY.meansExtra}</LP>
 
-      <LH>3. מגבלות ידועות</LH>
-      <LP>
-        חרף מאמצי המשרד, ייתכן שחלקים מסוימים באתר טרם הונגשו במלואם או יציגו אי-התאמות בשל מורכבות
-        טכנית או תכנים של צד שלישי. אנו פועלים לתיקון מתמשך ונשמח לקבל פניות.{" "}
-        <LFlag>[פירוט מגבלות, אם קיימות — לאימות]</LFlag>
-      </LP>
+      <LH id="limitations">3. מגבלות ידועות</LH>
+      <LP>{COPY.limitations}</LP>
 
-      <LH>4. פניות בנושא נגישות (רכז נגישות)</LH>
-      <LP>
-        נתקלתם בבעיית נגישות? נשמח שתעדכנו את רכז/ת הנגישות של המשרד, ונפעל לטפל בכך בהקדם:
-      </LP>
-      <LUL>
-        <LLI>שם: {c.name || <LFlag>[שם רכז/ת הנגישות — לאימות]</LFlag>}</LLI>
-        <LLI>
-          טלפון:{" "}
-          {c.phone ? (
-            <a href={`tel:${c.phone}`} dir="ltr" className="text-gold-ink underline">
-              {c.phone}
-            </a>
-          ) : (
-            <LFlag>[טלפון — לאימות]</LFlag>
+      <LH id="coordinator">4. פניות בנושא נגישות (רכז/ת נגישות)</LH>
+      <LP>{COPY.coordinatorLead}</LP>
+      {hasCoordinator ? (
+        <LUL>
+          {c.name && <LLI>שם: {c.name}</LLI>}
+          {c.phone && (
+            <LLI>
+              טלפון:{" "}
+              <a href={`tel:${c.phone}`} dir="ltr" className="text-gold-ink underline">
+                {c.phone}
+              </a>
+            </LLI>
           )}
-        </LLI>
-        <LLI>
-          דוא״ל:{" "}
-          {c.email ? (
-            <a href={`mailto:${c.email}`} className="text-gold-ink underline">
-              {c.email}
-            </a>
-          ) : (
-            <LFlag>[דוא״ל — לאימות]</LFlag>
+          {c.email && (
+            <LLI>
+              דוא״ל:{" "}
+              <a href={`mailto:${c.email}`} className="text-gold-ink underline">
+                {c.email}
+              </a>
+            </LLI>
           )}
-        </LLI>
-      </LUL>
+        </LUL>
+      ) : (
+        <LP>
+          {COPY.coordinatorChannelFallback}{" "}
+          <Link href="/contact" className="font-semibold text-gold-ink underline hover:text-gold-dark">
+            {COPY.contactPageLabel}
+          </Link>
+          .
+        </LP>
+      )}
 
-      <LH>5. יצירת קשר כללית</LH>
+      <LH id="general-contact">5. יצירת קשר כללית</LH>
       <LP>
-        לכל פנייה נוספת ניתן להשתמש ב
+        {COPY.generalContact}
         <Link href="/contact" className="font-semibold text-gold-ink underline hover:text-gold-dark">
-          עמוד יצירת הקשר
+          {COPY.contactPageLabel}
         </Link>
         .
       </LP>

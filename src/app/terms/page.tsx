@@ -1,80 +1,146 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/site";
-import { LegalShell, LH, LP, LUL, LLI, LFlag } from "@/components/legal/LegalShell";
+import { LegalShell, LH, LP, LUL, LLI } from "@/components/legal/LegalShell";
+
+// ── COPY: ### סקשן 38 · Section width=prose (תקנון) ─────────────────────────
+// Lawyer-pending items (ניסוח סופי לעו"ד, מספר עוסק מורשה, מע"מ, מחוז שיפוט,
+// מייל רשמי) render as the generic-safe wording only — studio gate: אישור עו"ד
+// + אימות מספר הרישיון מול התעודה לפני עלייה לאוויר. Never render markers.
+const COPY = {
+  eyebrow: "משפטי",
+  title: "תקנון",
+  intro:
+    "ריכזתי כאן, בשפה ברורה, את הכללים של האתר והשירות, כדי שתדעי בדיוק מה מגיע לך, בלי אותיות קטנות.",
+  // §1 מי אנחנו — נוסח הקרדנציאל לאימות מול התעודה לפני עלייה (studio gate)
+  whoWeAre:
+    "האתר והשירות מופעלים על-ידי אלונה אקרלינג, דיאטנית קלינית מוסמכת (R.D.), רישיון משרד הבריאות 204526-11, עוסק מורשה. השירות ניתן בקליניקה ברעננה ואונליין בכל הארץ.",
+  whoWeAreContact: "לכל שאלה אפשר לפנות דרך",
+  // §2 השירותים והמוצרים
+  services: [
+    "שיחת היכרות ללא עלות.",
+    "ליווי אישי בתשלום, בחבילות.",
+    "חוברת «הקול השפוי» בעלות 149 ₪, הכוללת צירוף לקבוצת וואטסאפ.",
+  ],
+  // §3 רכישה ותשלום
+  purchase:
+    "המחירים באתר נקובים בשקלים חדשים. התשלום מתבצע בסליקה חיצונית מאובטחת (משולם), הדיוור נשלח באמצעות Smoove, ומוצרים דיגיטליים נמסרים באופן מיידי.",
+  // §4 ביטולים והחזרים — הנוסח הסופי בשער עו"ד; כאן הנוסח הכללי-הבטוח בלבד
+  cancellations:
+    "ביטול עסקה והחזרים נעשים בהתאם לחוק הגנת הצרכן, התשמ״א-1981 ותקנותיו, כולל ההבחנה בין שירות למוצר-מידע דיגיטלי.",
+  // §5 דיסקליימר תזונתי-רפואי (מרונדר בעמוד, verbatim)
+  disclaimer:
+    "התכנים באתר הם מידע כללי ואינם ייעוץ רפואי או תחליף לו. אם יש לך מצב רפואי, הריון או הנקה, תרופות קבועות או רקע של הפרעת אכילה, התייעצי עם הרופא המטפל לפני כל שינוי תזונתי.",
+  // §6 + §7 — נוסח בסיס כללי-בטוח מהתבנית (בשער עו"ד)
+  ip: "כל זכויות הקניין הרוחני באתר ובתכניו, לרבות טקסטים, מתכונים, עיצוב, לוגו ותמונות, שייכות לאלונה אקרלינג או לבעלי הזכויות מטעמה, ואין לעשות בהם שימוש ללא הרשאה מראש ובכתב.",
+  liability:
+    "האתר ותכניו ניתנים כמות שהם (As-Is). אין באמור באתר התחייבות לתוצאה, ואלונה אקרלינג לא תישא באחריות לנזק ישיר או עקיף הנובע מהסתמכות על מידע כללי באתר ללא ליווי אישי, או מתקלה טכנית או אי-זמינות של האתר.",
+  // §9 דין וסמכות שיפוט — מחוז השיפוט ייקבע בשער עו"ד; נוסח כללי-בטוח
+  law: "על תקנון זה יחולו דיני מדינת ישראל בלבד, וסמכות השיפוט נתונה לבית המשפט המוסמך על-פי דין.",
+  // §10 עדכונים ויצירת קשר
+  updates: "התקנון עשוי להתעדכן מעת לעת; הגרסה המעודכנת תופיע כאן עם תאריך.",
+  contactQuestion: "שאלה על התקנון? כתבי לי דרך",
+  contactPageLabel: "עמוד יצירת הקשר",
+} as const;
+
+// תוכן עניינים עוגני (עוזר-נגישות) — כותרות הסעיפים מתוך שלד-הסעיפים של COPY
+const TOC = [
+  { id: "who-we-are", label: "מי אנחנו" },
+  { id: "services", label: "השירותים והמוצרים" },
+  { id: "purchase", label: "רכישה ותשלום" },
+  { id: "cancellations", label: "ביטולים והחזרים" },
+  { id: "disclaimer", label: "דיסקליימר תזונתי-רפואי" },
+  { id: "ip", label: "קניין רוחני" },
+  { id: "liability", label: "הגבלת אחריות" },
+  { id: "privacy-a11y", label: "פרטיות ונגישות" },
+  { id: "law", label: "דין וסמכות שיפוט" },
+  { id: "updates", label: "עדכונים ויצירת קשר" },
+] as const;
 
 export const metadata: Metadata = {
-  title: "תקנון ותנאי שימוש",
-  description: `תנאי השימוש באתר ${site.name} — שימוש מותר, קניין רוחני, הגבלת אחריות, היעדר התחייבות לתוצאה, ודין שיפוט.`,
+  title: "תקנון",
+  description: `תקנון האתר של ${site.name}: השירותים והמוצרים, רכישה ותשלום, ביטולים והחזרים לפי חוק הגנת הצרכן, קניין רוחני ודין ישראלי.`,
   alternates: { canonical: "/terms" },
 };
 
-// NOTE: template text — to be reviewed by an Israeli lawyer before public launch.
 export default function TermsPage() {
   return (
-    <LegalShell
-      eyebrow="משפטי"
-      title="תקנון ותנאי שימוש"
-      intro={`תנאים אלה מסדירים את השימוש באתר ${site.name}. הגלישה והשימוש באתר מהווים הסכמה לתנאים. אם אינכם מסכימים — אנא הימנעו משימוש באתר.`}
-    >
-      <LH>1. כללי</LH>
-      <LP>
-        אתר זה ({site.url.replace("https://", "")}) מופעל על-ידי {site.legalName}. השימוש בלשון
-        זכר הוא מטעמי נוחות בלבד. {site.name} רשאי לעדכן תנאים אלה מעת לעת; הנוסח המחייב הוא המפורסם בעמוד זה.
-      </LP>
+    <LegalShell eyebrow={COPY.eyebrow} title={COPY.title} intro={COPY.intro}>
+      {/* תוכן עניינים — chips בסייג' רגוע, ניווט פנימי בלבד */}
+      <nav aria-label="תוכן העניינים">
+        <ul className="flex flex-wrap gap-2">
+          {TOC.map((item, i) => (
+            <li key={item.id}>
+              <a
+                href={`#${item.id}`}
+                className="inline-block rounded-btn bg-gold-soft/60 px-3 py-1.5 text-sm font-semibold text-gold-ink hover:bg-gold-soft"
+              >
+                {i + 1}. {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
-      <LH>2. אופי המידע באתר</LH>
+      <LH id="who-we-are">1. מי אנחנו</LH>
+      <LP>{COPY.whoWeAre}</LP>
       <LP>
-        התכנים באתר — לרבות מאמרים, מדריכים ועמודי תחומי ההתמחות — הם מידע כללי
-        בלבד למטרות הסברה. <strong>אין באמור באתר משום ייעוץ מקצועי פרטני</strong>,
-        ואין להסתמך עליו כתחליף להתייעצות פרטנית המתחשבת בנסיבות המקרה הספציפי שלכם.
-      </LP>
-
-      <LH>3. היעדר התחייבות לתוצאה</LH>
-      <LP>
-        כל מקרה נבחן לגופו ותלוי בנתונים, בתשתית התכנונית, בשיקול דעת הרשויות והערכאות ובתנאי השוק.
-        אין באתר, בתכניו או בכל פנייה ראשונית כדי להבטיח תוצאה, סכום, פטור או הצלחה כלשהי. הצגת ניסיון
-        או תיקים קודמים אינה ערובה לתוצאה דומה.
-      </LP>
-
-      <LH>4. שימוש מותר</LH>
-      <LUL>
-        <LLI>השימוש באתר מותר למטרות אישיות ולא-מסחריות בלבד.</LLI>
-        <LLI>אין להעתיק, לשכפל, להפיץ או לפרסם תכנים מהאתר ללא אישור מראש ובכתב.</LLI>
-        <LLI>אין לבצע פעולה הפוגעת בתפקוד האתר, באבטחתו או בזכויות צד שלישי.</LLI>
-      </LUL>
-
-      <LH>5. קניין רוחני</LH>
-      <LP>
-        כל זכויות הקניין הרוחני באתר ובתכניו — לרבות טקסטים, עיצוב, לוגו ותמונות —
-        שייכות ל{site.legalName} או לבעלי הזכויות מטעמו, ואין לעשות בהם שימוש ללא הרשאה.
-      </LP>
-
-      <LH>6. הגבלת אחריות</LH>
-      <LP>
-        האתר ותכניו ניתנים כמות שהם (As-Is). {site.name} לא יישא באחריות לכל נזק ישיר או עקיף הנובע
-        מהסתמכות על מידע כללי באתר ללא קבלת ייעוץ פרטני, או מתקלה טכנית/אי-זמינות של האתר.
-      </LP>
-
-      <LH>7. פרטיות</LH>
-      <LP>
-        איסוף המידע והשימוש בו כפופים ל
-        <Link href="/privacy" className="font-semibold text-gold-ink underline hover:text-gold-dark">
-          מדיניות הפרטיות
+        {COPY.whoWeAreContact}{" "}
+        <Link href="/contact" className="font-semibold text-gold-ink underline hover:text-gold-dark">
+          {COPY.contactPageLabel}
         </Link>
         .
       </LP>
 
-      <LH>8. דין וסמכות שיפוט</LH>
+      <LH id="services">2. השירותים והמוצרים</LH>
+      <LUL>
+        {COPY.services.map((s) => (
+          <LLI key={s}>{s}</LLI>
+        ))}
+      </LUL>
+
+      <LH id="purchase">3. רכישה ותשלום</LH>
+      <LP>{COPY.purchase}</LP>
+
+      <LH id="cancellations">4. ביטולים והחזרים</LH>
+      <LP>{COPY.cancellations}</LP>
+
+      <LH id="disclaimer">5. דיסקליימר תזונתי-רפואי</LH>
+      {/* inset-band רך (blush-wash, דקורטיבי בלבד) — נוכחות שקטה בלי אזעקה */}
+      <div className="mt-4 rounded-card bg-blush/70 p-6">
+        <p className="leading-relaxed text-ink">{COPY.disclaimer}</p>
+      </div>
+
+      <LH id="ip">6. קניין רוחני</LH>
+      <LP>{COPY.ip}</LP>
+
+      <LH id="liability">7. הגבלת אחריות</LH>
+      <LP>{COPY.liability}</LP>
+
+      <LH id="privacy-a11y">8. פרטיות ונגישות</LH>
       <LP>
-        על תנאים אלה יחולו דיני מדינת ישראל בלבד, וסמכות השיפוט הבלעדית תהא נתונה לבתי המשפט
-        המוסמכים {site.address.city ? `במחוז ${site.address.city}` : <LFlag>[מחוז שיפוט — לאימות מול הלקוח]</LFlag>}.
+        איסוף המידע והשימוש בו מוסדרים ב
+        <Link href="/privacy" className="font-semibold text-gold-ink underline hover:text-gold-dark">
+          מדיניות הפרטיות
+        </Link>
+        , והתאמות הנגישות מפורטות ב
+        <Link href="/accessibility" className="font-semibold text-gold-ink underline hover:text-gold-dark">
+          הצהרת הנגישות
+        </Link>
+        .
       </LP>
 
+      <LH id="law">9. דין וסמכות שיפוט</LH>
+      <LP>{COPY.law}</LP>
+
+      <LH id="updates">10. עדכונים ויצירת קשר</LH>
+      <LP>{COPY.updates}</LP>
       <LP>
-        <span className="mt-8 block text-sm text-muted">
-          נוסח בסיס — אינו מהווה ייעוץ משפטי. יש להעבירו לבדיקת עו״ד טרם פרסום ציבורי.
-        </span>
+        {COPY.contactQuestion}{" "}
+        <Link href="/contact" className="font-semibold text-gold-ink underline hover:text-gold-dark">
+          {COPY.contactPageLabel}
+        </Link>
+        .
       </LP>
     </LegalShell>
   );

@@ -1,115 +1,180 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/site";
-import { LegalShell, LH, LP, LUL, LLI, LFlag } from "@/components/legal/LegalShell";
+import { LegalShell, LH, LP, LUL, LLI } from "@/components/legal/LegalShell";
 import { CookiePrefsButton } from "@/components/CookiePrefsButton";
+
+// ── COPY: ### סקשן 39 · Section width=prose (מדיניות פרטיות) ────────────────
+// Lawyer-pending items (מספר עוסק מורשה, מייל רשמי, רשימת ספקי-עיבוד סופית)
+// render as the generic-safe wording only — studio gate: אישור עו"ד + אימות
+// הספקים לפני עלייה לאוויר. Never render markers.
+const COPY = {
+  eyebrow: "משפטי",
+  title: "מדיניות פרטיות",
+  intro: "הפרטיות שלך חשובה לי. כאן בדיוק כתוב איזה מידע נאסף, למה, ומה הזכויות שלך עליו.",
+  // §1 מי אני — נוסח הקרדנציאל לאימות מול התעודה לפני עלייה (studio gate)
+  whoAmI:
+    "האתר מופעל על-ידי אלונה אקרלינג, דיאטנית קלינית מוסמכת (R.D.), רישיון משרד הבריאות 204526-11, עוסק מורשה, רעננה.",
+  whoAmIContact: "פניות בנושא פרטיות אפשר לשלוח דרך",
+  // §2 איזה מידע נאסף
+  dataYouGiveLead: "מידע שאת מוסרת:",
+  dataYouGive: [
+    "בטופס יצירת הקשר: שם, טלפון, אימייל ותוכן הפנייה.",
+    "בהרשמה לרשימת התפוצה: כתובת האימייל.",
+    "ברכישת החוברת: פרטי הרכישה. פרטי אשראי מעובדים בדף סליקה מאובטח חיצוני ואינם נשמרים אצלי.",
+    "בליווי: מידע בריאותי-תזונתי שאת בוחרת לשתף.",
+  ],
+  dataAutomatic: "מידע שנאסף אוטומטית: נתוני שימוש בסיסיים ועוגיות.",
+  // §3 מטרות
+  purposes: [
+    "לחזור אלייך (עד 4 ימי עסקים).",
+    "לתת את הליווי.",
+    "לשלוח תוכן שביקשת, בהסכמה, עם אפשרות הסרה בכל רגע.",
+    "לעבד רכישה.",
+    "לשפר את האתר.",
+  ],
+  // §4 מידע בריאותי בסודיות מקצועית (הלב הרגשי של העמוד, verbatim)
+  healthConfidentiality:
+    "מידע בריאותי ותזונתי הוא מידע רגיש. ככל שתבחרי לשתף אותו במסגרת הליווי, הוא נשמר בסודיות מקצועית של דיאטנית קלינית מוסמכת, משמש אך ורק לצורך הליווי שלך, ואינו מועבר לאף גורם ללא הסכמתך המפורשת, למעט חובה חוקית.",
+  // §5 עם מי המידע משותף — ספקים אמיתיים בלבד; ספק לא-מאושר מנוסח כללי
+  sharingLead: "אני לא מוכרת ולא משכירה את המידע; אני נעזרת בספקי שירות בלבד:",
+  sharing: [
+    "סליקת תשלומים (משולם).",
+    "דיוור (Smoove).",
+    "אחסון האתר.",
+    "וואטסאפ/Meta, בהסכמתך.",
+    "כלי מדידה, בכפוף להסכמת העוגיות.",
+  ],
+  sharingAbroad: "חלק מהספקים מעבדים מידע גם מחוץ לישראל.",
+  // §6 אבטחה
+  security: "אני נוקטת אמצעים סבירים לאבטחת המידע. התשלום מתבצע בסביבת סליקה חיצונית מאובטחת.",
+  // §7 הזכויות שלך
+  rights:
+    "לפי חוק הגנת הפרטיות, התשמ״א-1981, עומדות לך זכויות עיון, תיקון ומחיקה. הסרה מרשימת התפוצה אפשרית בכל רגע, בקישור שבתחתית כל מייל.",
+  rightsContact: "בקשות אפשר לשלוח דרך",
+  // §8 + §9 + §10
+  retention: "המידע נשמר כל עוד הוא נחוץ, ובכפוף לחובות חוקיות.",
+  minors: "השירותים באתר מיועדים לבגירות (18+).",
+  changes: "מדיניות זו עשויה להתעדכן; הגרסה המעודכנת תופיע כאן עם תאריך.",
+  contactPageLabel: "עמוד יצירת הקשר",
+  siblingsLead: "מסמכים נוספים:",
+} as const;
+
+// תוכן עניינים עוגני — כותרות הסעיפים מתוך שלד-הסעיפים של COPY
+const TOC = [
+  { id: "who-am-i", label: "מי אני" },
+  { id: "what-data", label: "איזה מידע נאסף" },
+  { id: "purposes", label: "מטרות" },
+  { id: "health-data", label: "מידע בריאותי בסודיות מקצועית" },
+  { id: "sharing", label: "עם מי המידע משותף" },
+  { id: "security", label: "אבטחה" },
+  { id: "rights", label: "הזכויות שלך" },
+  { id: "retention", label: "שמירת מידע" },
+  { id: "minors", label: "קטינות" },
+  { id: "changes", label: "שינויים" },
+] as const;
 
 export const metadata: Metadata = {
   title: "מדיניות פרטיות",
-  description: `מדיניות הפרטיות של ${site.name} — אילו פרטים נאספים באתר, למה, כמה זמן הם נשמרים, וזכויותיכם לפי חוק הגנת הפרטיות ותיקון 13.`,
+  description: `מדיניות הפרטיות של ${site.name}: איזה מידע נאסף, למה, עם מי הוא משותף, ומה הזכויות שלך לפי חוק הגנת הפרטיות, התשמ״א-1981.`,
   alternates: { canonical: "/privacy" },
 };
 
-// NOTE: template text — every statutory/operational detail is flagged for an
-// Israeli privacy lawyer's review before the noindex gate is lifted. Not legal advice.
 export default function PrivacyPage() {
   return (
-    <LegalShell
-      eyebrow="משפטי"
-      title="מדיניות פרטיות"
-      intro={`${site.name} מכבד את פרטיותכם. מסמך זה מסביר אילו פרטים נאספים באתר, לאילו מטרות, כיצד הם נשמרים ומהן זכויותיכם — בהתאם לחוק הגנת הפרטיות, התשמ״א-1981 ולתיקון 13 לחוק.`}
-    >
-      <LH>1. כללי</LH>
+    <LegalShell eyebrow={COPY.eyebrow} title={COPY.title} intro={COPY.intro}>
+      {/* תוכן עניינים — chips בסייג' רגוע, ניווט פנימי בלבד */}
+      <nav aria-label="תוכן העניינים">
+        <ul className="flex flex-wrap gap-2">
+          {TOC.map((item, i) => (
+            <li key={item.id}>
+              <a
+                href={`#${item.id}`}
+                className="inline-block rounded-btn bg-gold-soft/60 px-3 py-1.5 text-sm font-semibold text-gold-ink hover:bg-gold-soft"
+              >
+                {i + 1}. {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <LH id="who-am-i">1. מי אני</LH>
+      <LP>{COPY.whoAmI}</LP>
       <LP>
-        מדיניות זו חלה על השימוש באתר {site.url.replace("https://", "")} (להלן: ״האתר״) ועל המידע
-        הנאסף במסגרתו. הגלישה באתר ומסירת פרטים בטופס יצירת הקשר מהוות הסכמה לאמור במדיניות זו.
-        השימוש בלשון זכר הוא מטעמי נוחות בלבד ומתייחס לכל המגדרים.
-      </LP>
-
-      <LH>2. אילו פרטים נאספים</LH>
-      <LP>פרטים שאתם מוסרים ביוזמתכם בטופס יצירת קשר:</LP>
-      <LUL>
-        <LLI>שם מלא ומספר טלפון (שדות חובה).</LLI>
-        <LLI>כתובת דוא״ל, עיר/כתובת הנכס, סוג הפנייה ותוכן ההודעה (ככל שתמסרו).</LLI>
-      </LUL>
-      <LP>נתונים טכניים הנאספים אוטומטית (בכפוף להסכמת עוגיות):</LP>
-      <LUL>
-        <LLI>כתובת IP, סוג דפדפן ומכשיר, עמוד הכניסה ומקור ההגעה (מנוע חיפוש / קמפיין).</LLI>
-        <LLI>נתוני שימוש כלליים: עמודים שנצפו, זמן שהייה ועומק גלילה — לצורכי מדידה ושיפור.</LLI>
-      </LUL>
-
-      <LH>3. למה אנחנו אוספים את המידע</LH>
-      <LUL>
-        <LLI>יצירת קשר ומתן מענה לפנייתכם.</LLI>
-        <LLI>ניהול הפנייה ומתן השירות המקצועי.</LLI>
-        <LLI>שיפור האתר והשירות.</LLI>
-        <LLI>מדידה שיווקית וייחוס מקור הפנייה — אך ורק בכפוף להסכמתכם לעוגיות.</LLI>
-      </LUL>
-
-      <LH>4. בסיס משפטי והסכמה</LH>
-      <LP>
-        עיבוד המידע נשען על הסכמתכם המפורשת (סימון תיבת ההסכמה בטופס) ועל האינטרס הלגיטימי של
-        {site.name} למתן מענה לפנייה. ניתן לבטל את ההסכמה בכל עת — ראו סעיף ״זכויותיכם״.
-      </LP>
-
-      <LH>5. עוגיות וטכנולוגיות מדידה</LH>
-      <LP>
-        האתר עושה שימוש בעוגיות חיוניות (הנדרשות לתפקוד) ובעוגיות מדידה/שיווק שאינן חיוניות
-        (למשל מדידת תנועה). עוגיות שאינן חיוניות נטענות אך ורק לאחר קבלת הסכמתכם בבאנר העוגיות.
-        תוכלו לשנות את בחירתכם בכל עת:
-      </LP>
-      <LP>
-        <CookiePrefsButton className="font-semibold text-gold-ink underline hover:text-gold-dark" />
-      </LP>
-
-      <LH>6. שמירת המידע ואבטחתו</LH>
-      <LP>
-        המידע נשמר למשך הזמן הנדרש למימוש המטרות שלעיל או כנדרש על-פי דין, ולא מעבר לכך
-        (תקופת שמירה: <LFlag>[לאימות מול הלקוח]</LFlag>). {site.name} נוקט באמצעים סבירים לאבטחת המידע,
-        אך אינו יכול להבטיח חסינות מוחלטת מפני חדירה.
-      </LP>
-
-      <LH>7. העברת מידע לצדדים שלישיים</LH>
-      <LP>
-        {site.name} אינו מוכר ואינו משכיר את המידע. ייתכן שימוש בספקי שירות (אחסון אתר, דיוור,
-        כלי מדידה) הפועלים מטעמו ובכפוף להתחייבות לשמירת סודיות. מידע יימסר לרשות מוסמכת
-        ככל שהדבר נדרש על-פי דין. <LFlag>[רשימת ספקים/מקבלי מידע — לאימות]</LFlag>
-      </LP>
-
-      <LH>8. זכויותיכם (תיקון 13 לחוק)</LH>
-      <LUL>
-        <LLI>עיון במידע שנאסף עליכם.</LLI>
-        <LLI>תיקון מידע שאינו נכון, שלם או מעודכן.</LLI>
-        <LLI>מחיקת מידע.</LLI>
-        <LLI>ביטול הסכמה לדיוור או לעיבוד.</LLI>
-      </LUL>
-      <LP>למימוש הזכויות ניתן לפנות לממונה הגנת הפרטיות (סעיף 9).</LP>
-
-      <LH>9. ממונה הגנת הפרטיות</LH>
-      <LP>
-        {site.privacyOfficer.name || <LFlag>[שם ממונה הגנת הפרטיות — לאימות]</LFlag>}
-        {site.privacyOfficer.email ? ` · ${site.privacyOfficer.email}` : " · "}
-        {!site.privacyOfficer.email && <LFlag>[דוא״ל — לאימות]</LFlag>}
-      </LP>
-
-      <LH>10. עדכונים</LH>
-      <LP>
-        {site.name} רשאי לעדכן מדיניות זו מעת לעת. הנוסח המעודכן יפורסם בעמוד זה עם תאריך העדכון.
-      </LP>
-
-      <LH>11. יצירת קשר</LH>
-      <LP>
-        בשאלות בנושא פרטיות ניתן לפנות דרך{" "}
+        {COPY.whoAmIContact}{" "}
         <Link href="/contact" className="font-semibold text-gold-ink underline hover:text-gold-dark">
-          עמוד יצירת הקשר
+          {COPY.contactPageLabel}
         </Link>
         .
       </LP>
 
+      <LH id="what-data">2. איזה מידע נאסף</LH>
+      <LP>{COPY.dataYouGiveLead}</LP>
+      <LUL>
+        {COPY.dataYouGive.map((s) => (
+          <LLI key={s}>{s}</LLI>
+        ))}
+      </LUL>
+      <LP>{COPY.dataAutomatic}</LP>
       <LP>
-        <span className="mt-8 block text-sm text-muted">
-          מסמך זה הוא נוסח בסיס ואינו מהווה ייעוץ משפטי. יש להעבירו לבדיקת עו״ד טרם פרסום ציבורי.
-        </span>
+        <CookiePrefsButton className="font-semibold text-gold-ink underline hover:text-gold-dark" />
+      </LP>
+
+      <LH id="purposes">3. מטרות</LH>
+      <LUL>
+        {COPY.purposes.map((s) => (
+          <LLI key={s}>{s}</LLI>
+        ))}
+      </LUL>
+
+      <LH id="health-data">4. מידע בריאותי בסודיות מקצועית</LH>
+      {/* inset-band רך (sage-wash, דקורטיבי בלבד) — הבטחת הסודיות, בלי כרטיס שיווקי */}
+      <div className="mt-4 rounded-card bg-gold-soft/60 p-6">
+        <p className="leading-relaxed text-ink">{COPY.healthConfidentiality}</p>
+      </div>
+
+      <LH id="sharing">5. עם מי המידע משותף</LH>
+      <LP>{COPY.sharingLead}</LP>
+      <LUL>
+        {COPY.sharing.map((s) => (
+          <LLI key={s}>{s}</LLI>
+        ))}
+      </LUL>
+      <LP>{COPY.sharingAbroad}</LP>
+
+      <LH id="security">6. אבטחה</LH>
+      <LP>{COPY.security}</LP>
+
+      <LH id="rights">7. הזכויות שלך</LH>
+      <LP>{COPY.rights}</LP>
+      <LP>
+        {COPY.rightsContact}{" "}
+        <Link href="/contact" className="font-semibold text-gold-ink underline hover:text-gold-dark">
+          {COPY.contactPageLabel}
+        </Link>
+        .
+      </LP>
+
+      <LH id="retention">8. שמירת מידע</LH>
+      <LP>{COPY.retention}</LP>
+
+      <LH id="minors">9. קטינות</LH>
+      <LP>{COPY.minors}</LP>
+
+      <LH id="changes">10. שינויים</LH>
+      <LP>{COPY.changes}</LP>
+
+      {/* קישורי-אחיות שקטים — יציאה רכה, בלי CTA מכירתי */}
+      <LP>
+        {COPY.siblingsLead}{" "}
+        <Link href="/terms" className="font-semibold text-gold-ink underline hover:text-gold-dark">
+          תקנון
+        </Link>
+        {" · "}
+        <Link href="/accessibility" className="font-semibold text-gold-ink underline hover:text-gold-dark">
+          הצהרת נגישות
+        </Link>
       </LP>
     </LegalShell>
   );

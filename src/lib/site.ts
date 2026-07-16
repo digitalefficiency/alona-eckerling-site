@@ -2,7 +2,7 @@
 // SITE CONFIG — content/identity for THIS site (separate from brand.config.ts,
 // which is colors/fonts/direction). The scaffold step rewrites this per project.
 // Keep the export SHAPE — many components import { site, nav, services, team,
-// cta, credentials } from here. Placeholder values below: replace them.
+// cta, credentials } from here. Values below are filled from the signed brief.
 //
 // The CMS substrate (opt-in) may override a NAP/hours subset from
 // content/settings/business.json — see lib/settings.ts. That file ships `{}`,
@@ -143,43 +143,48 @@ export type TeamMember = {
   qa?: readonly QaItem[]; // personal Q&A
 };
 
+// אלונה היא העסק — איש צוות אחד, אמיתי. פורטרט יתווסף כשיגיע צילום אמיתי (YMYL).
 export const team: readonly TeamMember[] = [
-  { slug: "person-1", name: "שם איש צוות", role: "תפקיד / תואר", generation: 1, file: "person-1" },
-  { slug: "person-2", name: "שם איש צוות", role: "תפקיד / תואר", generation: 2, file: "person-2" },
-  { slug: "person-3", name: "שם איש צוות", role: "תפקיד / תואר", generation: 3, file: "person-3" },
+  {
+    slug: "alona",
+    name: "אלונה אקרלינג",
+    role: "דיאטנית קלינית מוסמכת · R.D.",
+    oneLiner: "ליווי תזונתי אישי לנשים, בלי דיאטות קיצוניות ובלי אשמה.",
+    credentials: [
+      "דיאטנית קלינית מוסמכת · רישיון משרד הבריאות 204526-11",
+      "B.Sc במדעי התזונה · המרכז האקדמי פרס",
+      "התמחות קלינית · בית החולים איכילוב",
+    ],
+  },
 ];
 
 export const cta = {
-  primary: { label: "דברו איתנו — שיחת ייעוץ ראשונית", short: "שיחת ייעוץ ראשונית", href: "/contact" },
-  secondary: { label: "לכל השירותים", href: "/services" },
+  primary: { label: "בואי נדבר, שיחת היכרות חינם", short: "בואי נדבר", href: "/contact" },
+  secondary: { label: "למתכונים שלי", href: "/recipes" },
 } as const;
 
 // Stated response-time commitment (trust/ResponsePromise) — rendered beside
-// every lead form. Fill with a promise the office actually keeps; while empty
-// the component simply doesn't render (never invent a commitment).
+// every lead form. שאלון Q29.
 export const responsePromise: { promise: string; sub?: string } = {
-  promise: "",
-  sub: "",
+  promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
+  sub: "בלי התחייבות ובלי לחץ.",
 };
 
 // Contact-form config — the subject <select> options and the brand name used in
 // the consent line ("אני מאשר/ת ש<consentBrandName> ייצור עמי קשר…").
-// REQUIRED per project: replace `subjects` with the client's actual service lines
-// (from services[] / COPY.md) and `consentBrandName` with the client's legal name.
-// These placeholders exist so the build compiles — lint-copy flags them until filled.
 export const contactForm: { subjects: readonly string[]; consentBrandName: string } = {
   subjects: [
-    "נושא הפנייה 1",
-    "נושא הפנייה 2",
-    "נושא הפנייה 3",
+    "ליווי אישי, בואי נדבר",
+    "שאלה על חוברת הקול השפוי",
+    "שיתוף פעולה",
     "אחר",
   ],
-  consentBrandName: "שם העסק המלא",
+  consentBrandName: "אלונה אקרלינג",
 };
 
-// Verifiable trust signals (never fabricate). Replace per project.
+// Verifiable trust signals (never fabricate) — שאלון Q2+Q3. [לאימות מול התעודה לפני עלייה לאוויר]
 export const credentials = [
-  { t: "אסמכתא 1", d: "פרט תומך" },
-  { t: "אסמכתא 2", d: "פרט תומך" },
-  { t: "אסמכתא 3", d: "פרט תומך" },
+  { t: "דיאטנית קלינית מוסמכת · R.D.", d: "רישיון משרד הבריאות 204526-11" },
+  { t: "B.Sc במדעי התזונה", d: "המרכז האקדמי פרס, 2024" },
+  { t: "התמחות קלינית", d: "בית החולים איכילוב, 2025" },
 ] as const;

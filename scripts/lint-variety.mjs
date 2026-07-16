@@ -20,20 +20,36 @@ if (!existsSync(p)) { console.log("• lint-variety: no COMPOSE-MAP.md (skipped)
 const txt = readFileSync(p, "utf8");
 if (!/archetype/i.test(txt)) { console.log("• lint-variety: COMPOSE-MAP has no archetype column (skipped — older map)"); process.exit(0); }
 
-// scan in document (scroll) order; the first library token on a line is that section's archetype
-const seq = [];
+// scan in document (scroll) order; the first library token on a line is that section's archetype.
+// PAGE-AWARE (2026-07-16): adjacency + the ≥3-distinct floor apply PER PAGE — §D is a per-scroll
+// rule, and the last section of one page is never visually adjacent to the first of the next.
+// A map whose table rows carry a page cell ("| n | <page> | <section>.md | …") groups by it;
+// a map without one falls back to the original single-sequence scan (backward compatible).
+const groups = new Map(); // page → archetype seq (insertion order preserved)
 for (const line of txt.split("\n")) {
   const hit = ARCHETYPES.find((a) => new RegExp(`\\b${a}\\b`).test(line));
-  if (hit) seq.push(hit);
+  if (!hit) continue;
+  const cells = line.split("|").map((c) => c.trim()).filter(Boolean);
+  const page =
+    cells.length >= 4 && /^\d+$/.test(cells[0]) && !cells[1].includes(".md") && cells[1] !== hit
+      ? cells[1]
+      : "";
+  if (!groups.has(page)) groups.set(page, []);
+  groups.get(page).push(hit);
 }
+const seq = [...groups.values()].flat();
 
 const fails = [];
 if (seq.length < 2) fails.push("no per-section archetypes found — every COMPOSE-MAP row must name one from pipeline.md §B (typo/invented names don't count)");
-for (let i = 1; i < seq.length; i++)
-  if (seq[i] === seq[i - 1]) fails.push(`sections ${i} & ${i + 1} share archetype "${seq[i]}" — adjacent sections must DIFFER (pipeline §D)`);
+for (const [page, s] of groups) {
+  const tag = page ? ` (page: ${page})` : "";
+  for (let i = 1; i < s.length; i++)
+    if (s[i] === s[i - 1]) fails.push(`sections ${i} & ${i + 1}${tag} share archetype "${s[i]}" — adjacent sections must DIFFER (pipeline §D)`);
+  const d = new Set(s).size;
+  if (s.length >= 3 && d < 3)
+    fails.push(`only ${d} distinct archetype(s) across ${s.length} sections${tag} — the variety floor is 3 (§D); the page reads monotonous`);
+}
 const distinct = new Set(seq).size;
-if (seq.length >= 3 && distinct < 3)
-  fails.push(`only ${distinct} distinct archetype(s) across ${seq.length} sections — the variety floor is 3 (§D); the page reads monotonous`);
 
 if (fails.length) {
   console.error("✗ lint-variety: variety-within-unity broken —");

@@ -1,0 +1,456 @@
+{
+ "client": "alona-eckerling",
+ "generatedAt": "2026-07-16",
+ "assets": [
+  {
+   "id": "cl-001",
+   "installPath": "/media/client/recipes/baked-tofu-schnitzel.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "5c5e1818fe76e2ac55b849863b07fa97cebf88e4413a107a53dea3bc51333051",
+    "bytes": 168252
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "baked tofu schnitzel",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-002",
+   "installPath": "/media/client/recipes/baked-tuna-patties.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "0947839a39b98945064c1074ace679fd48c8dda599fc264690f81d7895714e59",
+    "bytes": 511760
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "baked tuna patties",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-003",
+   "installPath": "/media/client/recipes/bean-noodle-fish-salad.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "501d93a7dd3de9b3de1406a8a0f5c34061154b6ec44ffc8639bb8a8b1220a672",
+    "bytes": 234182
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "bean noodle fish salad",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-004",
+   "installPath": "/media/client/recipes/broccoli-onion-quiche.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "656ef2575250875a463147d335683e76ac009c48f895e39f09ff2aae390f5b90",
+    "bytes": 322176
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "broccoli onion quiche",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-005",
+   "installPath": "/media/client/recipes/bulgur-broccoli-salad.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "9dbdd1f07965d127b0a9a455aee7103ef2d7eb7580a1cd47c6e8c7432de04cf8",
+    "bytes": 159567
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "bulgur broccoli salad",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-006",
+   "installPath": "/media/client/recipes/cauliflower-fried-rice.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "7ef040a9d38bb389340d92cb8d7aea59c2e5a2d6c56e43c5347d5d01fed85c8c",
+    "bytes": 802847
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "cauliflower fried rice",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-007",
+   "installPath": "/media/client/recipes/cauliflower-tabbouleh.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "ba08b6f0d86e5b4b8e4d282cc16c1e6dfb73a4246db136f1deed991d6a5d1446",
+    "bytes": 227156
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "cauliflower tabbouleh",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-008",
+   "installPath": "/media/client/recipes/date-energy-bars.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "a512ef780ee354f2c845d8b98558c533f512317d14f5e9c3b9e41e7f898fb625",
+    "bytes": 183918
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "date energy bars",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-009",
+   "installPath": "/media/client/recipes/fish-patties-sweet-sauce.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "cc3bb0751e4771313cf268ac7037294a8539eb07a2768145db1c50f6327f3767",
+    "bytes": 1272811
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "fish patties sweet sauce",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-010",
+   "installPath": "/media/client/recipes/flourless-brownies.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "f9ecb71a24a3820a2734fd1ddee2e99d72120f96fde62231f3daa6229837dbc2",
+    "bytes": 106396
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "flourless brownies",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-011",
+   "installPath": "/media/client/recipes/green-curry-stir-fry.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "b6e25de90e7056a229b0aa22e57c7f37f92888b12469e5e06d0aecb317250aaa",
+    "bytes": 215675
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "green curry stir fry",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-012",
+   "installPath": "/media/client/recipes/green-shakshuka.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "60ffb347dc18887bf99d56cce16d6f82fffc9d66a081ee0c7682facddbfff455",
+    "bytes": 1562001
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "green shakshuka",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-013",
+   "installPath": "/media/client/recipes/homemade-granola.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "f1f607d46ee10832bc284f66f56476699fd6a71e31d625f509e82240d91d86d7",
+    "bytes": 522113
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "homemade granola",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-014",
+   "installPath": "/media/client/recipes/homemade-hummus.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "f5aab4c2e132475f40e71b13a58983c9abe65d61bb4548bb941150f84fc4c486",
+    "bytes": 779215
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "homemade hummus",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-015",
+   "installPath": "/media/client/recipes/moroccan-fish.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "bdc6ba8881d80e8045c9ffb5fa7fe38dc54e9618eb230d80c13aaecf3eb112c0",
+    "bytes": 565522
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "moroccan fish",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-016",
+   "installPath": "/media/client/recipes/oatmeal-chocolate-chip-cookies.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "65781ba6960bc7a6f776f691fb033c217efbc69c6487799676679abb0deba1ff",
+    "bytes": 1237157
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "oatmeal chocolate chip cookies",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-017",
+   "installPath": "/media/client/recipes/one-pot-bulgur-stew.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "ba7bd465ebcb4ca7f34afbf6d6e25d60cd48f6ff535806790e613d2b9ad49e78",
+    "bytes": 193183
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "one pot bulgur stew",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-018",
+   "installPath": "/media/client/recipes/protein-cheesecake.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "a54a2a86691f5ac9f0abc9b4a5ef00f4a27458f5ed07548cf013de4f6e04d44b",
+    "bytes": 213139
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "protein cheesecake",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-019",
+   "installPath": "/media/client/recipes/quinoa-citrus-salad.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "5fbc62991d361eda8fc0f90bf889372f155963d7216446c0678ae9bcff04fd95",
+    "bytes": 152909
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "quinoa citrus salad",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-020",
+   "installPath": "/media/client/recipes/quinoa-in-red-sauce.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "855c25307ca76dcf53d86fac3e20c8d5a461e8c7cf4ce450dd57e5762d0862e0",
+    "bytes": 239702
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "quinoa in red sauce",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-021",
+   "installPath": "/media/client/recipes/roasted-tomato-soup.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "06642bc2124f604921670dcb8821cc635ca48d1b8767134ee36eff08672cf0c0",
+    "bytes": 612050
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "roasted tomato soup",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-022",
+   "installPath": "/media/client/recipes/soba-noodle-salad.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "91dea3eeb7baed236cb09083870bbba3241b1d14134a92b25356c7a6a4a1729e",
+    "bytes": 564332
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "soba noodle salad",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-023",
+   "installPath": "/media/client/recipes/spelt-banana-cake.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "c77c76c7261c4d876612da975f8a197606e023a0bc86e7fb03c3f46ccad2b21e",
+    "bytes": 798568
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "spelt banana cake",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-024",
+   "installPath": "/media/client/recipes/spinach-cheese-bourekas.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "d46c4c703d943a09af1ce5493337128d39780d379f470cf1447c7d5cc0f49792",
+    "bytes": 973024
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "spinach cheese bourekas",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-025",
+   "installPath": "/media/client/recipes/spinach-cheese-pie.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "73995e7eea650b3aa411a72fad80be5b1f96ae22e67bc103dc4da83a39ac8288",
+    "bytes": 204589
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "spinach cheese pie",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-026",
+   "installPath": "/media/client/recipes/sweet-and-sour-tofu.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "85fbdd6718c4e07be8dec220ac0f63ee2c18b4fe33856cf664e93dec38d9819e",
+    "bytes": 303337
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "sweet and sour tofu",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-027",
+   "installPath": "/media/client/recipes/three-ingredient-date-balls.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "90fa792a4cf3ddf434fff13f8cf4989d8839a4491407a84b0d664f0d3e2355d4",
+    "bytes": 132943
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "three ingredient date balls",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-028",
+   "installPath": "/media/client/recipes/tofu-shawarma.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "18e5434230bd9514f0a0bc1e218c8c984ee15a205a371e76f10b99969af9d0fb",
+    "bytes": 159881
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "tofu shawarma",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-029",
+   "installPath": "/media/client/recipes/tuna-shawarma.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "bd8e1a3bae81aa0871ec888823f5d0b6ef5a824fd8db5c2f9d99952ce514034c",
+    "bytes": 46299
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "tuna shawarma",
+   "source": "wix-cdn-migration-2026-07-16"
+  },
+  {
+   "id": "cl-030",
+   "installPath": "/media/client/recipes/zucchini-feta-salad.jpg",
+   "status": "installed",
+   "optimized": {
+    "sha256": "11276257956078a33f1ce1fdfbfae0eb707308786cfd04cf2fde641a94a8303e",
+    "bytes": 608242
+   },
+   "license": {
+    "status": "client-confirmed",
+    "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
+   },
+   "alt": "zucchini feta salad",
+   "source": "wix-cdn-migration-2026-07-16"
+  }
+ ]
+}
