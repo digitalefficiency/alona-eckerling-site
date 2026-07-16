@@ -8,6 +8,7 @@ import { SectionSeam } from "@/components/layout/SectionSeam";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
 import { SplitText } from "@/components/motion/SplitText";
+import { DrawnRule } from "@/components/motion/DrawnRule";
 import { RevealHeading } from "@/components/motion/RevealHeading";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SpotlightCard } from "@/components/section/SpotlightCard";
@@ -135,20 +136,29 @@ export default function AboutPage() {
       <section data-light-hero className="border-b border-line">
         <Container className="grid grid-cols-1 items-center gap-10 py-14 md:grid-cols-2 md:gap-14 md:py-24">
           {/* Portrait slot - REAL Alona portraits only (YMYL). Until the photo
-              lands this renders the designed empty-state: dashed warm frame +
-              the COPY line. Never a generated face, never a stock image. */}
+              lands this renders a DESIGNED calling-card empty-state: sage wash,
+              her hand-script signature, name + role. Never a generated face,
+              never a stock image, no developer-dashed frame. When the real 4:5
+              portrait arrives it mounts here with alt={HERO.portraitLabel}. */}
           <Reveal>
             <div
-              className="relative mx-auto w-full max-w-[26rem] overflow-hidden rounded-[16px] border-2 border-dashed border-rose/60 bg-blush/25 md:max-w-none"
+              className="relative mx-auto w-full max-w-[26rem] overflow-hidden rounded-[16px] border border-line bg-gold-soft/70 md:max-w-none"
               style={{ aspectRatio: "4 / 5" }}
             >
-              <div className="flex h-full flex-col items-center justify-center gap-3 p-8 text-center">
-                <span className="text-[0.7rem] leading-none text-gold" aria-hidden>
-                  ◆
+              <div aria-hidden className="grain-overlay" />
+              <div className="relative flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
+                <span className={`${signatureScript.className} text-6xl text-navy`}>
+                  {STORY.signature}
                 </span>
-                <p className="max-w-[24ch] text-sm font-semibold leading-relaxed text-muted">
-                  {HERO.portraitLabel}
+                <span aria-hidden className="flex items-center gap-3">
+                  <span className="h-px w-12 bg-gold/60" />
+                  <span className="text-[0.55rem] leading-none text-gold">◆</span>
+                  <span className="h-px w-12 bg-gold/60" />
+                </span>
+                <p className="font-serif text-xl font-black leading-snug text-navy">
+                  {HERO.title}
                 </p>
+                <p className="text-sm font-semibold text-muted">{CREDENTIALS.anchor.title}</p>
               </div>
             </div>
           </Reveal>
@@ -276,7 +286,7 @@ export default function AboutPage() {
                 <span className={`${signatureScript.className} text-5xl text-navy`}>
                   {AGE.signature}
                 </span>
-                <span aria-hidden className="mt-3 block h-[3px] w-20 rounded-full bg-rose/70" />
+                <DrawnRule className="mt-3 h-[3px] w-20 rounded-full bg-rose/70" />
               </figcaption>
             </Reveal>
           </figure>
@@ -291,23 +301,30 @@ export default function AboutPage() {
         <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
           {/* Anchor tile - the one navy cell: the verifiable government license */}
           <Reveal className="md:col-span-2">
-            <article className="flex h-full flex-col justify-between rounded-[16px] bg-navy p-7 text-white md:p-8">
+            <article className="flex h-full flex-col justify-between rounded-[16px] bg-navy p-7 text-white transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)] md:p-8">
               <div>
                 <h3 className="font-serif text-2xl font-black leading-snug">
                   {CREDENTIALS.anchor.title}
                 </h3>
                 <p className="mt-3 text-lg font-semibold tracking-wide">{CREDENTIALS.anchor.line}</p>
               </div>
-              <p className="mt-6 flex items-center gap-2.5 text-sm font-semibold text-gold-soft">
+              {/* the checkability promise is a REAL link: the MOH practitioners registry */}
+              <a
+                href="https://practitioners.health.gov.il"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cta="about-credentials-verify"
+                className="mt-6 inline-flex items-center gap-2.5 self-start text-sm font-semibold text-gold-soft underline-offset-4 transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+              >
                 <span className="text-[0.6rem] leading-none" aria-hidden>
                   ◆
                 </span>
                 {CREDENTIALS.anchor.verify}
-              </p>
+              </a>
             </article>
           </Reveal>
           <Reveal delay={60}>
-            <article className="flex h-full flex-col rounded-[16px] border border-line bg-card p-7">
+            <article className="flex h-full flex-col rounded-[16px] border border-line bg-card p-7 transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)]">
               <h3 className="font-serif text-xl font-black leading-snug text-navy">
                 {CREDENTIALS.bsc.title}
               </h3>
@@ -315,7 +332,7 @@ export default function AboutPage() {
             </article>
           </Reveal>
           <Reveal delay={120}>
-            <article className="flex h-full flex-col rounded-[16px] border border-line bg-card p-7">
+            <article className="flex h-full flex-col rounded-[16px] border border-line bg-card p-7 transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)]">
               <h3 className="font-serif text-xl font-black leading-snug text-navy">
                 {CREDENTIALS.intern.title}
               </h3>
@@ -324,7 +341,7 @@ export default function AboutPage() {
           </Reveal>
           {/* Craft tile - sage wash, the "dietitian who cooks" proof-of-craft */}
           <Reveal delay={180} className="md:col-span-2">
-            <article className="flex h-full flex-col rounded-[16px] bg-gold-soft p-7 md:p-8">
+            <article className="flex h-full flex-col rounded-[16px] bg-gold-soft p-7 transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)] md:p-8">
               <h3 className="font-serif text-2xl font-black leading-snug text-navy">
                 {CREDENTIALS.craft.title}
               </h3>
@@ -345,6 +362,16 @@ export default function AboutPage() {
         <Reveal delay={220}>
           <p className="mt-10 max-w-[62ch] text-base leading-relaxed text-muted">
             {CREDENTIALS.bridge}
+          </p>
+          {/* the full credentials page (/team/alona) gets its one quiet inbound door */}
+          <p className="mt-4">
+            <Link
+              href="/team/alona"
+              data-cta="about-credentials-team"
+              className="text-sm font-bold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:decoration-gold"
+            >
+              לעמוד ההסמכות המלא ←
+            </Link>
           </p>
         </Reveal>
       </Section>

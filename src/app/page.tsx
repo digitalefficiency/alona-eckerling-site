@@ -16,6 +16,9 @@ import { Comparison } from "@/components/section/Comparison";
 import { RecognitionBadges } from "@/components/trust/RecognitionBadges";
 import { ResponsePromise } from "@/components/trust/ResponsePromise";
 import { ContactLeadForm } from "@/components/ContactLeadForm";
+import { JsonLd } from "@/components/JsonLd";
+import { professionalService } from "@/lib/schema-presets";
+import { site, services } from "@/lib/site";
 import { listDocs, type CollectionEntry } from "@/lib/collections";
 
 // ============================================================================
@@ -132,7 +135,7 @@ const PROOF = {
   title: "היא באמת מבשלת",
   body: "לא עוד תמונה יפה. אוכל אמיתי שאני מבשלת, בנוי סביב שבוע אמיתי, בלי לוותר על מה שאת אוהבת.",
   countChip: "בערך 30 מתכונים · מתכון חדש כל שבוע",
-  darkTestimonial: "המלצות אמיתיות יופיעו כאן ברגע שיהיו. אנחנו לא ממציאים סיפור שלא קרה.",
+  darkTestimonial: "המלצות אמיתיות יופיעו כאן ברגע שיהיו. אני לא ממציאה סיפור שלא קרה.",
   darkLogos: "שיתופי פעולה ומדיה יתווספו עם האישור.",
   cta: "לכל המתכונים ←",
 } as const;
@@ -195,6 +198,16 @@ const CTA = {
   magnet: "עוד לא מוכנה לשיחה? הצטרפי לרשימה השפויה וקבלי ממני מתכון וטיפ שקט למייל",
 } as const;
 
+// One neutral meta line at most (mirrors the archive's tileMeta): a real prep
+// time, then the first diet tag — never invented numbers (YMYL).
+function recipeMeta(e: CollectionEntry): string | undefined {
+  const parts: string[] = [];
+  const prep = e.data.prepTime ? String(e.data.prepTime) : "";
+  if (/\d/.test(prep)) parts.push(prep);
+  if (e.tags[0]) parts.push(e.tags[0]);
+  return parts.length ? parts.slice(0, 2).join(" · ") : undefined;
+}
+
 export default function HomePage() {
   // 3 real recipe cards from the CMS (proof-of-craft) — real client photography only.
   const recipes = listDocs("recipes")
@@ -203,15 +216,23 @@ export default function HomePage() {
 
   return (
     <>
+      {/* structured identity for the front door (GEO/SEO) — same builder as /contact */}
+      <JsonLd data={professionalService(site, services)} />
       {/* ── 01 · HOOK — full-bleed-hero: the generated kitchen still (plan layer 8,
              faceless hands preparing produce) under a warm paper veil; text lives on
-             the veiled inline-start side, the scene breathes on the far side. ── */}
-      <section className="relative overflow-hidden">
-        <div aria-hidden className="pointer-events-none absolute inset-0">
+             the veiled inline-start side, the scene breathes on the far side.
+             data-light-hero: the floating header must take its dark-ink treatment
+             here (light wash, not a dark hero). isolate + -z-10 keep the media stack
+             strictly UNDER the static text at every paint. ── */}
+      <section data-light-hero className="relative isolate overflow-hidden">
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/media/generated/01-hero-kitchen.jpg"
             alt=""
+            fetchPriority="high"
+            loading="eager"
+            decoding="async"
             className="absolute inset-0 h-full w-full object-cover object-[30%_center]"
           />
           <div className="absolute inset-0 bg-gradient-to-l from-bg via-bg/85 to-bg/15" />
@@ -219,7 +240,7 @@ export default function HomePage() {
           <div className="absolute -bottom-36 -end-28 h-[480px] w-[480px] rounded-full bg-blush opacity-40 blur-3xl" />
         </div>
         <div aria-hidden className="grain-overlay" />
-        <Container width="wide" className="flex min-h-[72vh] flex-col justify-center py-20 md:py-28">
+        <Container width="wide" className="flex min-h-[72vh] flex-col justify-center py-20 pb-32 md:py-28 md:pb-40">
           <MOrchestrate className="max-w-[760px]">
             <MItem as="p" className="flex items-center gap-2.5 text-[13px] font-bold tracking-[0.14em] text-muted">
               <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
@@ -273,21 +294,27 @@ export default function HomePage() {
 
       {/* ── 02 · TENSION — the site's ONE signature moment: the pinned «בניית המנה»
              scroll-film (14 frames), noise-chips pile up → the turn → quiet on the
-             gold frame. Static twin (reduced-motion / no-JS): final frame + PAS prose. ── */}
-      <SequenceFilm
-        frames={FILM_FRAMES}
-        kicker={FILM.kicker}
-        chips={FILM_CHIPS}
-        captions={FILM_CAPTIONS}
-        staticKicker={FILM.staticKicker}
-        staticHeading={FILM.staticHeading}
-        staticBody={FILM.staticBody}
-        finalAlt={FILM.finalAlt}
-      />
+             gold frame. Static twin (reduced-motion / no-JS): final frame + PAS prose.
+             The ShapedSection arc (sand — the film's own stage tone) is the soft-arc
+             seam the direction mandates between the psychological beats: the hero
+             exhales into the film instead of a hard photographic cut. ── */}
+      <ShapedSection tone="sand" shape="arc" edge="top">
+        <SequenceFilm
+          frames={FILM_FRAMES}
+          kicker={FILM.kicker}
+          chips={FILM_CHIPS}
+          captions={FILM_CAPTIONS}
+          staticKicker={FILM.staticKicker}
+          staticHeading={FILM.staticHeading}
+          staticBody={FILM.staticBody}
+          finalAlt={FILM.finalAlt}
+        />
+      </ShapedSection>
 
       {/* ── 03 · GUIDE — asymmetric-split: empathy → checkable credentials → the age
              answer in her voice → the mechanism. Portrait slot = honest empty-state
-             (real Alona photo pending — never a generated face). ── */}
+             (real Alona photo pending — never a generated face), styled as a designed
+             calling card (sage wash + ◆ + serif name), never a dashed wireframe. ── */}
       <section className="relative">
         <Container width="wide" className="py-16 sm:py-20 md:py-32">
           <SectionSeam className="mb-12" />
@@ -295,10 +322,12 @@ export default function HomePage() {
           <div className="mt-12 grid items-start gap-12 md:grid-cols-[0.85fr_1.15fr]">
             {/* portrait column — RTL inline-start (right): the real-photo slot, kept honest */}
             <div className="mx-auto w-full max-w-[420px]">
-              <div className="flex aspect-[4/5] flex-col items-center justify-center gap-3 rounded-[16px] border-2 border-dashed border-line bg-sand p-8 text-center">
-                <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-                <div className="font-serif text-2xl font-bold text-navy">{GUIDE.name}</div>
-                <div className="text-sm font-semibold text-muted">{GUIDE.role}</div>
+              <div className="relative flex aspect-[4/5] flex-col items-center justify-center gap-3 overflow-hidden rounded-[16px] border border-line bg-gold-soft p-8 text-center">
+                <div aria-hidden className="grain-overlay" />
+                <span className="relative text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
+                <div className="relative font-serif text-3xl font-bold text-navy">{GUIDE.name}</div>
+                <span aria-hidden className="relative h-[3px] w-10 rounded-full bg-rose" />
+                <div className="relative font-serif text-base font-semibold text-navy-700">{GUIDE.role}</div>
               </div>
               <figure className="mt-7 border-s-4 border-rose ps-5">
                 <blockquote className="font-serif text-lg italic leading-relaxed text-navy">
@@ -402,43 +431,46 @@ export default function HomePage() {
           </span>
         </div>
         <MStagger className="mt-12 grid gap-6 md:grid-cols-3">
-          {recipes.map((e) => (
-            <Link
-              key={e.slug}
-              href={`/recipes/${e.slug}`}
-              className="group block overflow-hidden rounded-[16px] border border-line bg-card transition hover:border-gold/60"
-            >
-              <div className="relative aspect-[3/2] overflow-hidden">
-                <Image
-                  src={e.image}
-                  alt={e.imageAlt || e.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 380px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-5">
-                <h3 className="font-serif text-lg font-bold leading-snug text-navy">{e.title}</h3>
-                {typeof e.data.category === "string" && e.data.category.length > 0 && (
-                  <span className="mt-3 inline-block rounded-full bg-gold-soft px-3 py-1 text-xs font-semibold text-gold-ink">
-                    {e.data.category}
-                  </span>
-                )}
-              </div>
-            </Link>
-          ))}
+          {recipes.map((e) => {
+            const meta = recipeMeta(e);
+            const category =
+              typeof e.data.category === "string" && e.data.category.length > 0
+                ? e.data.category
+                : undefined;
+            return (
+              <Link
+                key={e.slug}
+                href={`/recipes/${e.slug}`}
+                data-cta={`proof-recipe-${e.slug}`}
+                className="group block h-full overflow-hidden rounded-2xl border border-line bg-card transition duration-300 ease-[var(--ease-out)] hover:-translate-y-1 hover:border-gold/60 hover:shadow-[var(--elevation-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+              >
+                <div className="relative aspect-[3/2] overflow-hidden">
+                  <Image
+                    src={e.image}
+                    alt={e.imageAlt || e.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 380px"
+                    className="object-cover transition duration-700 ease-[var(--ease-out)] group-hover:scale-[1.02]"
+                  />
+                  {/* the ONE shared image grade (archive continuity) */}
+                  <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+                  <div aria-hidden className="grain-overlay" />
+                  {category && (
+                    <span className="absolute top-3 start-3 rounded-full border border-line bg-bg/90 px-3 py-1 text-xs font-semibold text-gold-ink">
+                      {category}
+                    </span>
+                  )}
+                </div>
+                <div className="p-5">
+                  <h3 className="font-serif text-lg font-bold leading-snug text-navy transition-colors group-hover:text-gold-ink">
+                    {e.title}
+                  </h3>
+                  {meta && <p className="mt-1.5 text-[0.8rem] font-medium text-muted">{meta}</p>}
+                </div>
+              </Link>
+            );
+          })}
         </MStagger>
-        {/* dark slots — structurally honest empty states, never fake cards */}
-        <div className="mt-10 grid gap-4 md:grid-cols-2">
-          <div className="rounded-[16px] border border-dashed border-line bg-bg2 p-7 text-center">
-            <span className="text-[0.6rem] leading-none text-gold" aria-hidden>◆</span>
-            <p className="mt-3 text-sm leading-relaxed text-muted">{PROOF.darkTestimonial}</p>
-          </div>
-          <div className="rounded-[16px] border border-dashed border-line bg-bg2 p-7 text-center">
-            <span className="text-[0.6rem] leading-none text-gold" aria-hidden>◆</span>
-            <p className="mt-3 text-sm leading-relaxed text-muted">{PROOF.darkLogos}</p>
-          </div>
-        </div>
         <div className="mt-12 text-center">
           <Link
             href="/recipes"
@@ -447,6 +479,16 @@ export default function HomePage() {
           >
             {PROOF.cta}
           </Link>
+        </div>
+        {/* the honest dark slots — ONE quiet wash band, structurally dark until real
+            proof lands (soft wash + ◆, never card-sized ghosts, never dashed chrome) */}
+        <div className="mt-10 rounded-[16px] bg-bg2 px-6 py-4 text-center">
+          <p className="text-sm leading-relaxed text-muted">
+            <span className="text-[0.6rem] leading-none text-gold" aria-hidden>◆ </span>
+            {PROOF.darkTestimonial}
+            <span className="mx-2.5 text-[0.6rem] leading-none text-gold" aria-hidden>◆</span>
+            {PROOF.darkLogos}
+          </p>
         </div>
       </Section>
 
@@ -516,14 +558,14 @@ export default function HomePage() {
           <Container width="prose" className="py-28 text-center md:py-44">
             <div className="flex items-center justify-center gap-2.5">
               <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-              <span className="text-xs font-bold tracking-[0.18em] text-gold-ink">{SUCCESS.kicker}</span>
+              <p className="font-serif text-[1.2rem] font-medium leading-snug text-navy">{SUCCESS.kicker}:</p>
             </div>
             <RevealHeading
               as="h2"
               text={SUCCESS.lines}
               className="mt-8 text-center font-serif font-bold leading-[1.45] text-navy"
               style={{ fontSize: "clamp(1.6rem, 3.6vw, 2.6rem)" }}
-              lastLineClass="underline decoration-rose decoration-[3px] underline-offset-8"
+              lastLineClass="relative mx-auto w-fit after:absolute after:inset-x-0 after:bottom-[0.02em] after:h-[3px] after:rounded-full after:bg-rose after:origin-[100%_50%] after:transition-transform after:duration-[var(--dur-rule)] after:ease-[var(--ease-signature)] after:delay-[calc(var(--dur-reveal)_+_2*var(--dur-stagger))] motion-reduce:after:transition-none [.is-masked_&]:after:scale-x-0"
             />
             <div className="mt-10">
               <Link

@@ -8,7 +8,14 @@
 // Two layers, never one: the static fallback (final frame + prose) is ALWAYS in
 // the DOM and SSR-rendered; the cinema layer mounts only when motion is allowed
 // (prefers-reduced-motion / a11y-stop-motion / no-JS all get the static twin).
+// The static twin also serves as the POSTER: it stays visible until the opening
+// frame is decoded, so the film never opens on a blank stage.
 // Copy arrives via props from COPY.md — this file contains NO copy of its own.
+//
+// GPU discipline: frames are eager-loaded (they ARE the moment) but only the
+// active crossfade pair is promoted (will-change) — set/unset imperatively in
+// the scroll handler and released entirely when the section leaves the viewport,
+// so 14+ full-viewport composited layers never coexist.
 
 import { useEffect, useRef, useState } from "react";
 import { useScroll, useMotionValueEvent } from "motion/react";
@@ -28,7 +35,7 @@ export type FilmChip = {
 export type FilmCaption = {
   big: string;
   small?: string;
-  /** "turn" tints the big line with the accent (the pivot beat) */
+  /** "turn" marks the pivot beat — rendered with a sage accent bar over the big line */
   tone?: "default" | "turn";
   from: number;
   to: number;
@@ -42,7 +49,7 @@ export type SequenceFilmProps = {
   kicker?: string;
   chips?: readonly FilmChip[];
   captions?: readonly FilmCaption[];
-  /** total scroll length, in viewport-heights (default 55vh per frame, min 400) */
+  /** total scroll length, in viewport-heights (default 30vh per frame, min 400) */
   lengthVh?: number;
   /** static twin: heading + body shown to reduced-motion / no-JS readers */
   staticHeading: string;
@@ -65,16 +72,38 @@ export function SequenceFilm({
   staticBody,
   staticKicker,
   holdStart = 0.08,
-  holdEnd = 0.82,
+  holdEnd = 0.78,
 }: SequenceFilmProps) {
   const motionAllowed = useMotionAllowed();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
-  const cinema = mounted && motionAllowed && frames.length > 1;
+
+  // Poster gate: decode the opening frame BEFORE the cinema mounts. Until then
+  // the static twin stays visible, so the signature moment never flashes blank.
+  const [posterDone, setPosterDone] = useState(false);
+  useEffect(() => {
+    if (!mounted || !motionAllowed || frames.length < 2 || posterDone) return;
+    let cancelled = false;
+    const arm = () => {
+      if (!cancelled) setPosterDone(true);
+    };
+    const img = new window.Image();
+    img.src = frames[0];
+    if (typeof img.decode === "function") img.decode().then(arm, arm);
+    else {
+      img.onload = arm;
+      img.onerror = arm;
+    }
+    return () => {
+      cancelled = true;
+    };
+  }, [mounted, motionAllowed, frames, posterDone]);
+
+  const cinema = mounted && motionAllowed && frames.length > 1 && posterDone;
 
   const sectionRef = useRef<HTMLElement | null>(null);
   const frameRefs = useRef<(HTMLImageElement | null)[]>([]);
-  const overlayRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const overlayRefs = useRef<HTMLDivElement[]>([]);
   const barRef = useRef<HTMLDivElement | null>(null);
 
   const { scrollYProgress } = useScroll({
@@ -83,6 +112,8 @@ export function SequenceFilm({
   });
 
   // Imperative per-frame opacity on scroll (no per-frame React renders).
+  // will-change lives ONLY on the active crossfade pair — every other frame
+  // stays unpromoted so raster memory never holds N full-viewport layers.
   useMotionValueEvent(scrollYProgress, "change", (p) => {
     if (!cinema) return;
     const span =
@@ -93,9 +124,10 @@ export function SequenceFilm({
     frameRefs.current.forEach((img, k) => {
       if (!img) return;
       img.style.opacity = k === i ? "1" : k === i + 1 ? String(f) : "0";
+      const wc = k === i || k === i + 1 ? "opacity" : "auto";
+      if (img.style.willChange !== wc) img.style.willChange = wc;
     });
     overlayRefs.current.forEach((el) => {
-      if (!el) return;
       const from = Number(el.dataset.from);
       const to = Number(el.dataset.to);
       const on = p >= from && p <= to;
@@ -107,7 +139,32 @@ export function SequenceFilm({
     if (barRef.current) barRef.current.style.width = `${(p * 100).toFixed(1)}%`;
   });
 
-  const height = lengthVh ?? Math.max(400, frames.length * 55);
+  // Release ALL promoted layers when the film leaves the viewport — the GPU
+  // owes the rest of the page (credentials, proof, lead form) its memory back.
+  useEffect(() => {
+    if (!cinema) return;
+    const section = sectionRef.current;
+    if (!section) return;
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry && !entry.isIntersecting) {
+        frameRefs.current.forEach((img) => {
+          if (img && img.style.willChange !== "auto")
+            img.style.willChange = "auto";
+        });
+      }
+    });
+    io.observe(section);
+    return () => io.disconnect();
+  }, [cinema]);
+
+  const setOverlayRef = (el: HTMLDivElement | null) => {
+    // prune detached nodes (cinema can unmount/remount via the a11y stop-motion
+    // toggle) so the scroll handler never mutates stale, off-DOM elements
+    overlayRefs.current = overlayRefs.current.filter((n) => n.isConnected);
+    if (el && !overlayRefs.current.includes(el)) overlayRefs.current.push(el);
+  };
+
+  const height = lengthVh ?? Math.max(400, frames.length * 30);
   const lastFrame = frames[frames.length - 1];
 
   return (
@@ -130,8 +187,9 @@ export function SequenceFilm({
               src={src}
               alt=""
               className="absolute inset-0 h-full w-full object-cover"
-              style={{ opacity: k === 0 ? 1 : 0, willChange: "opacity" }}
-              loading={k < 3 ? "eager" : "lazy"}
+              style={{ opacity: k === 0 ? 1 : 0 }}
+              loading="eager"
+              decoding="async"
             />
           ))}
           {/* soft veil for caption legibility */}
@@ -148,50 +206,53 @@ export function SequenceFilm({
           </div>
           {kicker && (
             <div
-              ref={(el) => {
-                if (el) overlayRefs.current[overlayRefs.current.length] = el;
-              }}
+              ref={setOverlayRef}
               data-from="0"
               data-to="0.97"
-              className="absolute top-8 inset-x-0 text-center text-[13px] font-semibold tracking-[0.12em] text-card"
+              className="pointer-events-none absolute top-8 inset-x-0 text-center"
               style={{
                 opacity: 0,
-                textShadow: "0 1px 8px rgba(34,48,76,.35)",
+                transform: "translateY(12px)",
                 transition:
                   "opacity var(--dur-reveal) var(--ease-out), transform var(--dur-reveal) var(--ease-out)",
               }}
             >
-              {kicker}
+              {/* paper chip — same family as the thought-chips, reads over any frame */}
+              <span className="inline-block rounded-full border border-line bg-bg/85 px-4 py-1.5 text-[13px] font-semibold tracking-[0.12em] text-ink shadow-sm">
+                {kicker}
+              </span>
             </div>
           )}
-          {chips.map((c) => (
-            <div
-              key={c.text}
-              ref={(el) => {
-                if (el) overlayRefs.current[overlayRefs.current.length] = el;
-              }}
-              data-from={c.from}
-              data-to={c.to}
-              data-tilt={c.tilt ?? 0}
-              className="absolute whitespace-nowrap rounded-full border border-line bg-bg/85 px-5 py-2.5 font-serif italic text-ink shadow-sm"
-              style={{
-                ...c.position,
-                fontSize: "clamp(15px, 1.9vw, 21px)",
-                opacity: 0,
-                transform: `translateY(12px) rotate(${c.tilt ?? 0}deg)`,
-                transition:
-                  "opacity var(--dur-reveal) var(--ease-out), transform var(--dur-reveal) var(--ease-out)",
-              }}
-            >
-              {c.text}
+          {/* chip stage: inset on small screens (positions pull inward, clear of the
+              kicker) so no chip can touch or overflow the viewport edge */}
+          {chips.length > 0 && (
+            <div className="absolute inset-x-[4vw] top-20 bottom-0 md:inset-x-0 md:top-0">
+              {chips.map((c) => (
+                <div
+                  key={c.text}
+                  ref={setOverlayRef}
+                  data-from={c.from}
+                  data-to={c.to}
+                  data-tilt={c.tilt ?? 0}
+                  className="absolute max-w-[min(85vw,34rem)] rounded-full border border-line bg-bg/85 px-5 py-2.5 text-center font-serif italic text-ink shadow-sm [text-wrap:balance]"
+                  style={{
+                    ...c.position,
+                    fontSize: "clamp(15px, 1.9vw, 21px)",
+                    opacity: 0,
+                    transform: `translateY(12px) rotate(${c.tilt ?? 0}deg)`,
+                    transition:
+                      "opacity var(--dur-reveal) var(--ease-out), transform var(--dur-reveal) var(--ease-out)",
+                  }}
+                >
+                  {c.text}
+                </div>
+              ))}
             </div>
-          ))}
+          )}
           {captions.map((cap) => (
             <div
               key={cap.big}
-              ref={(el) => {
-                if (el) overlayRefs.current[overlayRefs.current.length] = el;
-              }}
+              ref={setOverlayRef}
               data-from={cap.from}
               data-to={cap.to}
               className="absolute bottom-[9vh] inset-x-0 px-6 text-center pointer-events-none"
@@ -202,31 +263,33 @@ export function SequenceFilm({
                   "opacity var(--dur-reveal) var(--ease-out), transform var(--dur-reveal) var(--ease-out)",
               }}
             >
-              <div
-                className={`mx-auto max-w-[24ch] font-serif font-medium leading-[1.3] ${
-                  cap.tone === "turn" ? "text-gold-ink" : "text-ink"
-                }`}
-                style={{
-                  fontSize: "clamp(1.6rem, 3.4vw, 2.7rem)",
-                  textShadow: "0 1px 14px rgba(251,246,241,.8)",
-                }}
-              >
-                {cap.big}
-              </div>
-              {cap.small && (
+              {/* soft paper scrim so the caption reads over any frame */}
+              <div className="mx-auto w-fit max-w-[min(88vw,40rem)] rounded-2xl bg-bg/75 px-6 py-4 backdrop-blur-[2px] shadow-sm">
+                {cap.tone === "turn" && (
+                  <div className="mx-auto mb-3 h-[3px] w-12 rounded-full bg-gold" />
+                )}
                 <div
-                  className="mt-3 text-muted"
-                  style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)" }}
+                  className="mx-auto max-w-[24ch] font-serif font-medium leading-[1.3] text-ink"
+                  style={{ fontSize: "clamp(1.6rem, 3.4vw, 2.7rem)" }}
                 >
-                  {cap.small}
+                  {cap.big}
                 </div>
-              )}
+                {cap.small && (
+                  <div
+                    className="mt-3 text-muted"
+                    style={{ fontSize: "clamp(1rem, 1.8vw, 1.2rem)" }}
+                  >
+                    {cap.small}
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>
       )}
 
-      {/* ── Layer A — the static twin (SSR, crawlable, no-JS, reduced-motion) ── */}
+      {/* ── Layer A — the static twin (SSR, crawlable, no-JS, reduced-motion,
+             and the visible poster until the opening frame is decoded) ── */}
       <div className={cinema ? "sr-only" : "py-24"}>
         <div className="mx-auto max-w-[760px] px-7 text-center">
           {staticKicker && (

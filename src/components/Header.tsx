@@ -8,30 +8,31 @@ import { site, nav, cta } from "@/lib/site";
 import { BrandLogo } from "@/components/BrandLogo";
 
 // Floating "island" header: a rounded, detached bar that hovers over the page.
-// Over the dark hero at the top it is TRANSPARENT with light text (so the curtain
-// / hero reads through it); once scrolled it settles into a solid glass island
-// with navy text. Inline nav on lg+, accessible hamburger drawer below lg.
+// DEFAULT is the solid glass island with navy text — always readable, on any hero.
+// The transparent white-on-dark treatment is an explicit OPT-IN: a page marks its
+// dark hero with [data-dark-hero], and only then (top of page, drawer closed) the
+// island goes transparent. Inline nav on lg+, accessible hamburger drawer below lg.
 export function Header() {
   const pathname = usePathname();
-  const [solid, setSolid] = useState(false);
+  const [solid, setSolid] = useState(true);
   const [condensed, setCondensed] = useState(false);
   const [open, setOpen] = useState(false);
   const barRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    let solidNow = false;
+    let solidNow = true;
     const onScroll = () => {
       const y = window.scrollY;
-      // Force the solid (dark-text) header when the top of the page is a LIGHT hero
-      // (e.g. SplitHero on /why-us, /team/[slug]) — otherwise the white nav vanishes
-      // on the sand background. Dark heroes (ImageHero/EditorialHero) have no marker.
-      const lh = document.querySelector("[data-light-hero]");
-      const overLight = !!lh && lh.getBoundingClientRect().bottom > 90;
+      // The white (light-text) treatment requires an explicit [data-dark-hero]
+      // marker on the page's opening dark hero — without one the header stays
+      // solid, so a light page can never ship an invisible nav.
+      const dh = document.querySelector("[data-dark-hero]");
+      const overDark = !!dh && dh.getBoundingClientRect().bottom > 90;
       // hysteresis so the transparent↔solid swap doesn't flicker at the boundary
-      if (!solidNow && (y > 64 || overLight)) {
+      if (!solidNow && (y > 64 || !overDark)) {
         solidNow = true;
         setSolid(true);
-      } else if (solidNow && y < 24 && !overLight) {
+      } else if (solidNow && y < 24 && overDark) {
         solidNow = false;
         setSolid(false);
       }
@@ -58,7 +59,7 @@ export function Header() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  // Over the dark hero (top, not scrolled, drawer closed) → light treatment.
+  // Over an opted-in dark hero (top, not scrolled, drawer closed) → light treatment.
   const light = !solid && !open;
 
   return (
@@ -111,7 +112,7 @@ export function Header() {
               data-cta="header-consult"
               className={`hidden rounded-[6px] px-5 py-2.5 text-sm font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 lg:inline-flex ${
                 light
-                  ? "bg-gold text-navy hover:bg-gold-soft focus-visible:ring-offset-transparent"
+                  ? "bg-gold text-white hover:bg-gold-dark focus-visible:ring-offset-transparent"
                   : "bg-navy text-white hover:bg-navy-700"
               }`}
             >

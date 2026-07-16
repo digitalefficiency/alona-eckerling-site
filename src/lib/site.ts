@@ -69,6 +69,7 @@ export const nav = [
   { href: "/recipes", label: "מתכונים" },
   { href: "/coaching", label: "איך עובדים איתי" },
   { href: "/about", label: "עליי" },
+  { href: "/testimonials", label: "המלצות" },
   { href: "/sane-voice", label: "הקול השפוי" },
   { href: "/contact", label: "צור קשר" },
 ] as const;

@@ -106,6 +106,29 @@ export const drawLine: Variants = {
   show: { scaleX: 1, transition: revealTransition },
 };
 
+/**
+ * slideIn — the inline-axis side entrance ("a lean-in, never a flight").
+ * Direction is LOGICAL: "inline-start"/"inline-end" resolve against the html
+ * dir, so an RTL site slides from the correct visual side without callers
+ * thinking in left/right. Distance stays 32–48px (the quiet register).
+ * Use for: the rationed narrative side-moments ONLY (a card arriving beside a
+ * half-bleed image, two futures approaching from opposite sides, process cards
+ * stepping toward sticky media) — everything else stays block-axis (fadeUp).
+ * SSR/no-JS/reduced-motion render the settled position (house `initial={false}`).
+ */
+export const slideIn = (
+  from: "inline-start" | "inline-end" = "inline-start",
+  distance = 40,
+  dir: "rtl" | "ltr" = "rtl",
+): Variants => {
+  // logical → physical x: in RTL, inline-start is the RIGHT edge (positive x).
+  const sign = (from === "inline-start") === (dir === "rtl") ? 1 : -1;
+  return {
+    hidden: { opacity: 0, x: sign * distance, transition: SNAP },
+    show: { opacity: 1, x: 0, transition: softTransition },
+  };
+};
+
 // ---------------------------------------------------------------------------
 // Stagger helpers (containers)
 // ---------------------------------------------------------------------------

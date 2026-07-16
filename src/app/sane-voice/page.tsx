@@ -25,8 +25,10 @@ import { JsonLd } from "@/components/JsonLd";
 // קישור עמוד הסליקה של משולם טרם חובר — עד שיתקבל ה-URL מהלקוחה, כפתור הרכישה
 // מפנה לוואטסאפ העסקי (ערוץ הפניות הקיים, site.whatsapp). להחליף כאן בלבד.
 const CHECKOUT_HREF = `https://wa.me/${site.whatsapp}`;
-// עמוד ההצטרפות לרשימה (Smoove) טרם חובר — בינתיים ההצטרפות דרך עמוד יצירת הקשר.
-const LIST_HREF = "/contact";
+// עמוד ההצטרפות לרשימה (Smoove) טרם חובר — בינתיים ההצטרפות דרך עמוד יצירת הקשר,
+// ישירות אל עוגן הטופס (#lead). הפרמטר ?list=1 מיועד לסימון-מראש של צ'קבוקס הרשימה
+// ב-ContactQuietForm — החיווט שם בבעלות אחרת (ביקורת-עיצוב #51).
+const LIST_HREF = "/contact?list=1#lead";
 const WHATSAPP_HREF = `https://wa.me/${site.whatsapp}`;
 
 // COPY: ### סקשן 26 · SplitHero (כריכת החוברת + מחיר)
@@ -47,7 +49,10 @@ const FORYOU = {
   kicker: "למי זה מתאים",
   title: "כל שבוע טרנד חדש, ואת לא יודעת מה נכון",
   subtitle: "הנה קול אחד שפוי, נכתב בשבילך.",
-  body: "קטו, פחמימות זה רע, רק חלבון, בלי לאכול אחרי שבע. הפיד לא מפסיק, ובאמצע כל הרעש קשה בכלל לזכור מה בא לך לאכול. וזה לא כי משהו לא בסדר איתך: פשוט אף אחד עוד לא באמת דיבר אלייך, אל אישה צעירה שרוצה להרגיש טוב בגוף שלה, בלי להפוך את זה לדיאטה של אמא שלה.",
+  // re-layout בלבד של גוף COPY §27 (ביקורת-עיצוב #33): ארבעת שברי-הטרנד מוצגים
+  // כצ'יפי-רעש (הד למוטיב צ'יפי-הסרט מהבית), שאר המשפטים כפסקה. כל מילה נשמרת, בסדרה.
+  noise: ["קטו", "פחמימות זה רע", "רק חלבון", "בלי לאכול אחרי שבע"],
+  body: "הפיד לא מפסיק, ובאמצע כל הרעש קשה בכלל לזכור מה בא לך לאכול. וזה לא כי משהו לא בסדר איתך: פשוט אף אחד עוד לא באמת דיבר אלייך, אל אישה צעירה שרוצה להרגיש טוב בגוף שלה, בלי להפוך את זה לדיאטה של אמא שלה.",
   pullQuoteLead: "זו לא הדיאטה של אמא שלך. ",
   pullQuoteMark: "זה נכתב בשבילך.",
   solution: "אוכל שאת אוהבת, בלי חוקים מיותרים, ולצידך נשים כמוך שהולכות באותה דרך.",
@@ -137,7 +142,10 @@ const FAQ = {
     },
     {
       q: "איך קונים ומתי מקבלים גישה?",
-      a: "לוחצים, משלמים בעמוד סליקה מאובטח של משולם, ומקבלים קובץ דיגיטלי שנפתח בכל מכשיר. ההצטרפות לקבוצה מיד אחרי.",
+      // זרימת-ביניים כנה (ביקורת-עיצוב #20): כפתור הרכישה מפנה כרגע לוואטסאפ, לא
+      // לעמוד סליקה. להחזיר את נוסח COPY §30 המקורי כש-CHECKOUT_HREF יקבל את
+      // ה-URL האמיתי של משולם.
+      a: "כרגע קונים דרך וואטסאפ: כותבים לי ומקבלים קישור תשלום מאובטח של משולם. אחרי התשלום מקבלים קובץ דיגיטלי שנפתח בכל מכשיר, וההצטרפות לקבוצה מיד אחרי.",
     },
   ],
   closeBefore: 'נשאר עוד "כן, אבל"? ',
@@ -156,7 +164,9 @@ const CHECKOUT = {
   body: "כל מה שראית פה מחכה לך במקום אחד: «הקול השפוי», חוברת המתכונים המלאה שלי. אוכל אמיתי, בלי חוקים מיותרים, בדרך שמתאימה לחיים שלך.",
   community: "עם הרכישה את גם נכנסת לקבוצת הוואטסאפ: מתכונים, טיפים שקטים, וקהילה של בנות שמדברות אותך.",
   ctaPrimary: "אני רוצה את החוברת · 149 ₪",
-  secure: "התשלום מתבצע בעמוד מאובטח של משולם. פרטי התשלום שלך לא נשמרים אצלנו.",
+  // זרימת-ביניים כנה (ביקורת-עיצוב #20): ה-CTA מפנה כרגע לוואטסאפ. להחזיר את
+  // מיקרו-הביטחון של COPY §31 כש-CHECKOUT_HREF יקבל את ה-URL האמיתי של משולם.
+  secure: "כרגע קונים דרך וואטסאפ: כותבים לי ומקבלים קישור תשלום מאובטח של משולם. פרטי התשלום שלך לא נשמרים אצלנו.",
   ctaSecondary: "הצטרפי לרשימה השפויה, חינם",
 } as const;
 
@@ -175,6 +185,23 @@ const faqSchema = {
     name: i.q,
     acceptedAnswer: { "@type": "Answer", text: i.a },
   })),
+};
+
+// Product/Offer JSON-LD (ביקורת-עיצוב #50) — נגזר מהקבועים הקיימים בלבד;
+// המחיר 149 (שער-בנייה: לעולם לא 119), התמונה = ה-still שכבר חי בהירו.
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: HERO.title,
+  description: HERO.body,
+  image: `${site.url}/media/generated/26-booklet-object.jpg`,
+  offers: {
+    "@type": "Offer",
+    price: "149",
+    priceCurrency: "ILS",
+    availability: "https://schema.org/InStock",
+    url: `${site.url}/sane-voice`,
+  },
 };
 
 // ── גליפים דקורטיביים (SSR, aria-hidden) — לעולם לא צילומי-מסך/תוכן מומצא ──
@@ -279,6 +306,7 @@ export default function SaneVoicePage() {
   return (
     <>
       <JsonLd data={faqSchema} />
+      <JsonLd data={productSchema} />
 
       {/* ── 26 · hero — HOOK · asymmetric-split ──────────────────────────────
           עצם-מוצר מוגבה על פנל blush (ימין ב-RTL, העין פוגשת את הכריכה קודם) +
@@ -288,8 +316,9 @@ export default function SaneVoicePage() {
         <Container className="grid grid-cols-1 items-center gap-10 py-14 md:grid-cols-[52fr_48fr] md:gap-14 md:py-24">
           {/* פנל הכריכה — ראשון ב-DOM = צד ימין ב-RTL; ה-still המיוצר (חוברת על שולחן
               חם, layer 8) הוא הרקע האווירתי, הכריכה הטיפוגרפית הכנה צפה מעליו */}
-          <div className="relative overflow-hidden rounded-[16px] bg-blush px-6 py-10 sm:px-10 sm:py-14">
-            <div aria-hidden className="pointer-events-none absolute inset-0">
+          {/* isolate + ‎-z-10 — סדר-צביעה בטוח: המדיה הממוקמת לעולם לא נצבעת מעל הכריכה (ביקורת-עיצוב #3/#13) */}
+          <div className="relative isolate overflow-hidden rounded-[16px] bg-blush px-6 py-10 sm:px-10 sm:py-14">
+            <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/media/generated/26-booklet-object.jpg"
@@ -393,7 +422,19 @@ export default function SaneVoicePage() {
             <MItem as="p" className="mt-4 font-serif text-xl font-bold text-gold-ink sm:text-2xl">
               {FORYOU.subtitle}
             </MItem>
-            <MItem as="p" className="mt-8 text-lg leading-relaxed text-muted">
+            {/* צ'יפי-הרעש — סטטיים (SSR, בלי אנימציה), הטיה מתחלפת ±2° במשפחת צ'יפי-הסרט */}
+            <MItem className="mt-8 flex flex-wrap items-center gap-3">
+              {FORYOU.noise.map((n, i) => (
+                <span
+                  key={n}
+                  className="rounded-full border border-line bg-card px-5 py-2.5 font-serif italic text-ink shadow-sm"
+                  style={{ transform: `rotate(${i % 2 === 0 ? -2 : 2}deg)` }}
+                >
+                  {n}
+                </span>
+              ))}
+            </MItem>
+            <MItem as="p" className="mt-7 text-lg leading-relaxed text-muted">
               {FORYOU.body}
             </MItem>
             <MItem>

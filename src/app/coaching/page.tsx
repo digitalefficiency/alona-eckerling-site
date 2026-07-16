@@ -9,6 +9,7 @@ import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
 import { Reveal } from "@/components/Reveal";
 import { FeatureAlternating } from "@/components/section/FeatureAlternating";
+import { ClipReveal } from "@/components/motion/ClipReveal";
 import { ProcessTimeline } from "@/components/media/ProcessTimeline";
 import { MediaFrame } from "@/components/media/MediaFrame";
 import { FaqAccordion } from "@/components/FaqAccordion";
@@ -41,7 +42,10 @@ const PROBLEM = {
   kicker: "למה דווקא ליווי",
   title: "את כבר יודעת מה לאכול",
   subtitle: "מה שחסר זה לא עוד ידע.",
-  body: "שמרת את הפוסטים, קראת את התפריטים, התחלת ביום ראשון. ולבד, שוב, זה לא החזיק, וזה לא כי טעית או לא ניסית מספיק. הידע כבר אצלך; מה שאף מדריך לא נתן לך זה מישהי לצדך, בתוך השבוע האמיתי שלך.",
+  // re-layout בלבד של גוף COPY §10 (ביקורת-עיצוב #35): פיצול בגבול-משפט לשתי
+  // פסקאות, כשה-PullQuote הקיים נושם ביניהן. אפס שינוי-ניסוח.
+  body1: "שמרת את הפוסטים, קראת את התפריטים, התחלת ביום ראשון. ולבד, שוב, זה לא החזיק, וזה לא כי טעית או לא ניסית מספיק.",
+  body2: "הידע כבר אצלך; מה שאף מדריך לא נתן לך זה מישהי לצדך, בתוך השבוע האמיתי שלך.",
   pullQuoteStart: "הפער הוא לא במה לאכול. הפער הוא לעשות את זה ",
   pullQuoteMark: "לבד",
   pullQuoteEnd: ".",
@@ -121,6 +125,16 @@ const PACKAGE_COPY: Record<
     highlight: true,
   },
 };
+
+// רצועת-עובדות שקטה מעל רשת החבילות (ביקורת-עיצוב #35) — מורכבת אך ורק
+// ממחרוזות COPY שכבר חיות בעמוד (צ'יפ הפגישה, שמות החבילות, HERO.micro).
+// בלי אנימציית-ספירה, בלי מדדים מומצאים.
+const PACKAGE_FACTS = [
+  "60 עד 75 דקות",
+  "ליווי בסיס · 60 יום",
+  "ליווי מורחב · 120 יום",
+  "מענה עד 4 ימי עסקים",
+] as const;
 
 // סדר הצגה: קל → עמוק (חד-פעמית → בסיס 60 → מורחב 120), מעל שירותי site.ts.
 const PACKAGE_ORDER = ["single-session", "coaching-60", "coaching-120"] as const;
@@ -260,6 +274,27 @@ export const metadata: Metadata = {
   alternates: { canonical: "/coaching" },
 };
 
+// ביקורת-עיצוב #32 — still-הוכחה עם חשיפת ink-wipe: משכפל את גרייד-הבית של
+// MediaFrame (טינט + גרעון, aria-hidden, סטטיים) סביב ClipReveal — חשיפת-המדיה
+// החתומה של DESIGN-DIRECTION D2. תאום reduced-motion כבר בנוי ב-.clip-frame
+// (globals.css) — בלי תנועה ה-SSR מציג את התמונה הסופית.
+function ProofStill({ src, alt }: { src: string; alt: string }) {
+  return (
+    <div
+      className="relative overflow-hidden rounded-[10px] border border-line"
+      style={{ aspectRatio: "16 / 9" }}
+    >
+      <ClipReveal src={src} alt={alt} sizes="(max-width:768px) 100vw, 400px" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{ background: "var(--grade-tint)" }}
+      />
+      <div aria-hidden className="grain-overlay" />
+    </div>
+  );
+}
+
 export default function CoachingPage() {
   return (
     <main>
@@ -322,6 +357,22 @@ export default function CoachingPage() {
               {HERO.micro}
             </MItem>
           </MOrchestrate>
+          {/* ביקורת-עיצוב #31 — במובייל ה-still חבוי (hidden md:block ברקע); רצועת 16/9
+              שקטה עם אותו צילום, תחת מסך-סנד עדין, כדי שגם מבקרות אינסטגרם יפגשו קליניקה. */}
+          <Reveal className="mt-10 md:hidden">
+            <div className="relative">
+              <MediaFrame
+                src="/media/generated/09-coaching-table.jpg"
+                alt=""
+                ratio="16/9"
+                sizes="100vw"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 rounded-[10px] bg-gradient-to-t from-sand/45 to-transparent"
+              />
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -329,7 +380,7 @@ export default function CoachingPage() {
       <Section tone="white" width="prose" border>
         <SectionHeading eyebrow={PROBLEM.kicker} title={PROBLEM.title} lead={PROBLEM.subtitle} />
         <Reveal delay={120}>
-          <p className="mt-8 text-lg leading-relaxed text-ink">{PROBLEM.body}</p>
+          <p className="mt-8 text-lg leading-relaxed text-ink">{PROBLEM.body1}</p>
         </Reveal>
         <Reveal delay={180}>
           <PullQuote>
@@ -339,6 +390,9 @@ export default function CoachingPage() {
           </PullQuote>
         </Reveal>
         <Reveal delay={220}>
+          <p className="mb-8 text-lg leading-relaxed text-ink">{PROBLEM.body2}</p>
+        </Reveal>
+        <Reveal delay={260}>
           <Link
             href="#method"
             data-cta="coaching-problem-to-method"
@@ -407,13 +461,25 @@ export default function CoachingPage() {
       {/* ── 12 · PLAN — שלוש חבילות מ-site.ts, מועשרות מ-COPY; בלי מחיר, בלי דחיפה ── */}
       <Section tone="white" id="packages" border>
         <SectionHeading eyebrow={PACKAGES.kicker} title={PACKAGES.title} lead={PACKAGES.lead} />
+        <Reveal delay={100} className="mt-8">
+          <ul className="flex flex-wrap items-center gap-2.5">
+            {PACKAGE_FACTS.map((fact) => (
+              <li key={fact}>
+                <span className="inline-flex rounded-full border border-line bg-card px-3 py-1 text-xs font-bold text-navy-700">
+                  {fact}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
         <MStagger className="mt-12 grid gap-6 md:grid-cols-3" itemClassName="h-full">
           {packageCards.map((card) => (
             <article
               key={card.slug}
-              className={`flex h-full flex-col rounded-[16px] border p-7 ${
-                card.highlight ? "border-gold/50 bg-gold-soft" : "border-line bg-sand"
+              className={`flex h-full flex-col rounded-[16px] border p-7 transition-[transform,box-shadow] duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)] motion-reduce:transition-none ${
+                card.highlight ? "border-gold/50 bg-gold-soft md:-translate-y-2" : "border-line bg-sand"
               }`}
+              style={card.highlight ? { boxShadow: "var(--elevation-2)" } : undefined}
             >
               <h3 className="font-serif text-xl font-black leading-snug text-navy">
                 <span className="underline decoration-rose decoration-2 underline-offset-8">{card.name}</span>
@@ -475,7 +541,7 @@ export default function CoachingPage() {
         <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.lead} />
         <MStagger className="mt-12 grid gap-6 md:grid-cols-3">
           {PROOF.stills.map((s) => (
-            <MediaFrame key={s.src} src={s.src} alt={s.alt} ratio="16/9" sizes="(max-width:768px) 100vw, 400px" />
+            <ProofStill key={s.src} src={s.src} alt={s.alt} />
           ))}
         </MStagger>
         <Reveal delay={120} className="mt-10">

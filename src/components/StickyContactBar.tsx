@@ -2,23 +2,24 @@ import Link from "next/link";
 import { site, cta } from "@/lib/site";
 
 // Mobile-only persistent conversion bar (premium-tier "Conversion" gate: sticky
-// mobile call/book bar, booking ≤2 taps from any page). Fixed to the viewport
+// mobile contact bar, booking ≤2 taps from any page). Fixed to the viewport
 // bottom below md, ALWAYS present — no dismiss. Two actions from lib/site.ts:
-// tel: call (NAP phone, gold) + the primary booking link (navy). When no phone
-// is configured the booking action takes the full width; the bar never invents
-// a number. Server component: zero JS, zero animation → reduced-motion-safe by
-// construction. Safe-area padding for notched devices; a same-height spacer
-// keeps the page end (footer) reachable above the fixed bar.
+// WhatsApp (the site's referral channel — sage, white text) + the primary booking
+// link (navy). No tel: action — the phone number is deliberately unpublished
+// (brief Q4); the bar never invents a number. When no WhatsApp is configured the
+// booking action takes the full width. Server component: zero JS, zero animation
+// → reduced-motion-safe by construction. Safe-area padding for notched devices;
+// a same-height spacer keeps the page end (footer) reachable above the fixed bar.
 export function StickyContactBar({
-  callLabel = "שיחה למשרד",
+  whatsappLabel = "וואטסאפ",
   bookLabel = cta.primary.short,
   bookHref = cta.primary.href,
 }: {
-  callLabel?: string;
+  whatsappLabel?: string;
   bookLabel?: string;
   bookHref?: string;
 }) {
-  const phone = site.phone;
+  const whatsapp = site.whatsapp;
   return (
     <>
       {/* spacer — same height as the bar (+ safe area) so nothing hides behind it */}
@@ -28,14 +29,16 @@ export function StickyContactBar({
         className="fixed inset-x-0 bottom-0 z-50 border-t border-gold/40 bg-navy pb-[env(safe-area-inset-bottom)] md:hidden"
       >
         <div className="flex items-stretch">
-          {phone && (
+          {whatsapp && (
             <a
-              href={`tel:${phone}`}
-              data-cta="sticky-bar-call"
-              className="flex min-h-14 flex-1 items-center justify-center gap-2 bg-gold px-4 text-[0.95rem] font-bold text-navy transition-colors hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-inset"
+              href={`https://wa.me/${whatsapp}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cta="sticky-bar-whatsapp"
+              className="flex min-h-14 flex-1 items-center justify-center gap-2 bg-gold px-4 text-[0.95rem] font-bold text-white transition-colors hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-inset"
             >
               <span aria-hidden className="text-[0.55rem] leading-none">◆</span>
-              {callLabel}
+              {whatsappLabel}
             </a>
           )}
           <Link

@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { getAttributionSnapshot, getCampaignDimensions } from "@/lib/attribution";
 import { getEngagement } from "@/lib/engagement";
 import { trackFormView, trackFormStart, trackGenerateLead } from "@/lib/analytics";
-import { contactForm } from "@/lib/site";
+import { contactForm, responsePromise } from "@/lib/site";
 
 const FORM_ID = "contact";
 
@@ -53,13 +53,12 @@ export function ContactLeadForm() {
     setServerError("");
 
     const fd = new FormData(e.currentTarget);
-    const time = String(fd.get("time") || "").trim();
     const engagement = getEngagement();
     const payload = {
       name: String(fd.get("name") || ""),
       phone: String(fd.get("phone") || ""),
       project_type: String(fd.get("subject") || ""),
-      message: time ? `שעת חזרה מועדפת: ${time}` : "",
+      message: String(fd.get("message") || "").trim(),
       consent: fd.get("consent") === "on",
       company: String(fd.get("company") || ""), // honeypot
       form_id: FORM_ID,
@@ -87,7 +86,7 @@ export function ContactLeadForm() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) {
         if (data.errors) setErrors(data.errors);
-        else setServerError("אירעה תקלה בשליחה. נסו שוב מאוחר יותר.");
+        else setServerError("אירעה תקלה בשליחה. נסי שוב מאוחר יותר.");
         setStatus("error");
         return;
       }
@@ -102,7 +101,7 @@ export function ContactLeadForm() {
       });
       setStatus("success");
     } catch {
-      setServerError("אירעה תקלה בשליחה. נסו שוב מאוחר יותר.");
+      setServerError("אירעה תקלה בשליחה. נסי שוב מאוחר יותר.");
       setStatus("error");
     }
   }
@@ -114,8 +113,8 @@ export function ContactLeadForm() {
     return (
       <div className="rounded-[10px] border border-line bg-card p-7 text-center" role="status">
         <span className="mx-auto grid h-12 w-12 place-items-center rounded-full border border-gold bg-gold-soft text-xl text-gold-ink" aria-hidden>✓</span>
-        <p className="mt-4 font-serif text-xl font-bold text-navy">הפרטים התקבלו — תודה!</p>
-        <p className="mt-2 text-sm leading-relaxed text-muted">נחזור אליכם בשעה שנוחה לכם.</p>
+        <p className="mt-4 font-serif text-xl font-bold text-navy">הפרטים התקבלו, תודה!</p>
+        <p className="mt-2 text-sm leading-relaxed text-muted">{responsePromise.promise}</p>
       </div>
     );
   }
@@ -129,8 +128,8 @@ export function ContactLeadForm() {
       aria-label="טופס יצירת קשר"
       className="rounded-[10px] border border-line bg-card p-7 transition hover:border-gold/70"
     >
-      <p className="font-serif text-xl font-bold text-navy">השאירו פרטים</p>
-      <p className="mt-1 text-sm leading-relaxed text-muted">נחזור אליכם בשעה שנוחה לכם.</p>
+      <p className="font-serif text-xl font-bold text-navy">השאירי פרטים</p>
+      <p className="mt-1 text-sm leading-relaxed text-muted">{responsePromise.promise}</p>
 
       {/* honeypot */}
       <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
@@ -144,7 +143,7 @@ export function ContactLeadForm() {
       {errors.name && <p className="mt-1 text-sm text-bad">{errors.name}</p>}
 
       <label className="mt-4 block text-sm font-semibold text-navy-700">
-        טלפון *
+        טלפון / וואטסאפ *
         <input type="tel" name="phone" inputMode="tel" required autoComplete="tel" aria-invalid={!!errors.phone} dir="ltr" className={fieldClass} />
       </label>
       {errors.phone && <p className="mt-1 text-sm text-bad">{errors.phone}</p>}
@@ -158,15 +157,16 @@ export function ContactLeadForm() {
         </select>
       </label>
 
+      {/* COPY §8/§16 — שדה חופשי «מה הכי מעסיק אותך עכשיו?» (אין שירות חזרה-בשעה; ההבטחה היחידה היא responsePromise) */}
       <label className="mt-4 block text-sm font-semibold text-navy-700">
-        שעת חזרה מועדפת
-        <input type="text" name="time" placeholder="למשל: בבוקר / אחה״צ" className={fieldClass} />
+        מה הכי מעסיק אותך עכשיו? (לא חובה)
+        <input type="text" name="message" className={fieldClass} />
       </label>
 
       <label className="mt-5 flex items-start gap-3 text-sm leading-relaxed text-muted">
         <input type="checkbox" name="consent" required aria-invalid={!!errors.consent} className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--color-gold-dark)]" />
         <span>
-          אני מאשר/ת ש{contactForm.consentBrandName} ייצור עמי קשר בנוגע לפנייתי. הפרטים נשמרים לצורך מענה בלבד ולא
+          אני מאשרת ש{contactForm.consentBrandName} תיצור איתי קשר בנוגע לפנייתי. הפרטים נשמרים לצורך מענה בלבד ולא
           יועברו לצד שלישי, בהתאם ל
           <Link href="/privacy" target="_blank" className="font-semibold text-gold-ink underline hover:text-gold-dark">
             מדיניות הפרטיות
@@ -184,7 +184,7 @@ export function ContactLeadForm() {
         disabled={status === "submitting"}
         className="mt-6 w-full rounded-[4px] bg-navy px-7 py-3.5 font-bold text-white transition hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:opacity-60"
       >
-        {status === "submitting" ? "שולח…" : "שליחה"}
+        {status === "submitting" ? "שולחת…" : "שליחה"}
       </button>
     </form>
   );

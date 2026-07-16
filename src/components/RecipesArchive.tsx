@@ -129,7 +129,7 @@ function ImageTile({ t, feature }: { t: RecipeTile; feature: boolean }) {
     <Link
       href={`/recipes/${t.slug}`}
       data-cta={`recipes-card-${t.slug}`}
-      className="group relative flex h-full flex-col justify-end overflow-hidden rounded-2xl border border-line bg-sand transition duration-300 ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+      className="group relative flex h-full flex-col justify-end overflow-hidden rounded-2xl border border-line bg-sand transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
     >
       <Image
         src={t.image as string}
@@ -140,7 +140,7 @@ function ImageTile({ t, feature }: { t: RecipeTile; feature: boolean }) {
             ? "(max-width:640px) 100vw, (max-width:1024px) 100vw, 820px"
             : "(max-width:640px) 100vw, (max-width:1024px) 50vw, 410px"
         }
-        className="object-cover transition duration-700 ease-[var(--ease-out)] group-hover:scale-[1.02]"
+        className="object-cover transition duration-[calc(var(--dur-reveal)*0.7)] ease-[var(--ease-out)] group-hover:scale-[1.02]"
       />
       {/* the ONE shared image grade: brand tint + the shared grain token */}
       <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
@@ -160,22 +160,37 @@ function ImageTile({ t, feature }: { t: RecipeTile; feature: boolean }) {
   );
 }
 
-// A real recipe whose photo has not been uploaded yet — an honest ivory text
-// tile (never a stock image, never a broken src). Adds quiet variety to the
-// mosaic until the client uploads her own dish photo through the CMS.
-function TextTile({ t }: { t: RecipeTile }) {
+// A real recipe whose photo has not been uploaded yet — an intentional
+// "recipe-card" object (never a stock image, never a broken src): alternating
+// warm washes keyed to the tile's mosaic position, a large faint serif ״ mark,
+// and the category as a paper chip. Reads designed, not failed, until the
+// client uploads her own dish photo through the CMS.
+function TextTile({ t, tint }: { t: RecipeTile; tint: "sage" | "blush" }) {
   const meta = tileMeta(t);
   return (
     <Link
       href={`/recipes/${t.slug}`}
       data-cta={`recipes-card-${t.slug}`}
-      className="group flex h-full flex-col justify-between rounded-2xl border border-line bg-sand p-5 transition duration-300 ease-[var(--ease-out)] hover:-translate-y-1 hover:border-gold/60 hover:shadow-[var(--elevation-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+      className={`group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-line p-5 transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:border-gold/60 hover:shadow-[var(--elevation-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
+        tint === "sage" ? "bg-gold-soft/60" : "bg-blush/50"
+      }`}
     >
-      <div className="flex items-center gap-2">
-        <span aria-hidden className="text-[0.6rem] leading-none text-gold">◆</span>
-        <span className="text-xs font-bold text-gold-ink">{t.category}</span>
+      {/* the card's quiet mark — a large faint serif quote glyph */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute -top-5 start-2 font-serif text-[6.5rem] font-black leading-none text-navy/10"
+      >
+        ״
+      </span>
+      <div className="relative">
+        {t.category && (
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-bg/85 px-3 py-1 text-xs font-bold text-gold-ink">
+            <span aria-hidden className="text-[0.55rem] leading-none text-gold">◆</span>
+            {t.category}
+          </span>
+        )}
       </div>
-      <div>
+      <div className="relative">
         <h3 className="font-serif text-lg font-bold leading-snug text-navy group-hover:text-gold-ink">{t.title}</h3>
         {meta && <p className="mt-1.5 text-[0.8rem] font-medium text-muted">{meta}</p>}
       </div>
@@ -306,11 +321,15 @@ export function RecipesArchive({ entries, labels }: { entries: RecipeTile[]; lab
             <li
               key={t.slug}
               style={phase === "in" ? { transitionDelay: `calc(var(--dur-stagger) * ${Math.min(i, 8)})` } : undefined}
-              className={`${spanFor(i)} transition-all duration-700 ease-[var(--ease-out)] ${
+              className={`${spanFor(i)} transition-all duration-[calc(var(--dur-reveal)*0.7)] ease-[var(--ease-out)] ${
                 phase === "armed" ? "translate-y-3 opacity-0" : "translate-y-0 opacity-100"
               }`}
             >
-              {t.image ? <ImageTile t={t} feature={i === 0} /> : <TextTile t={t} />}
+              {t.image ? (
+                <ImageTile t={t} feature={i === 0} />
+              ) : (
+                <TextTile t={t} tint={i % 2 === 0 ? "sage" : "blush"} />
+              )}
             </li>
           ))}
         </ul>

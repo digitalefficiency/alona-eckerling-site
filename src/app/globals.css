@@ -262,6 +262,71 @@
 .tick-3 { bottom: 9px; right: 9px; border-bottom: 1px solid; border-right: 1px solid; }
 .tick-4 { bottom: 9px; left: 9px; border-bottom: 1px solid; border-left: 1px solid; }
 
+/* ── מערכת-החתימה הגיאומטרית "המעוין של אלונה" (DESIGN-DIRECTION + plan שלב ב') ──
+   The ◆ kicker glyph grown into a shape vocabulary. All utilities are SSR-static
+   (zero motion), palette-token driven, and AA-neutral (shapes never carry text
+   contrast on their own). */
+
+/* chamfered rectangle — the site's button/card silhouette (kills the generic pill).
+   --chamfer controls the diagonal cut; RTL-symmetric (cuts opposite corners). */
+.clip-chamfer {
+  --chamfer: 10px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0,
+    100% calc(100% - var(--chamfer)), calc(100% - var(--chamfer)) 100%,
+    0 100%, 0 var(--chamfer)
+  );
+}
+
+/* diamond / wide-diamond masks — single-accent image moments + step markers. */
+.clip-diamond {
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+.clip-diamond-wide {
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  aspect-ratio: 16 / 7;
+}
+
+/* double frame — inner hairline + offset outer line (the "considered" flagship
+   card treatment). Works on any positioned box; tune via --frame-gap/--frame-color. */
+.frame-double {
+  --frame-gap: 6px;
+  --frame-color: var(--color-line);
+  position: relative;
+  border: 1px solid var(--frame-color);
+}
+.frame-double::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--frame-gap));
+  border: 1px solid color-mix(in srgb, var(--frame-color) 60%, transparent);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* the chamfered CTA pair — shared button silhouettes (swap-in for rounded-full).
+   Primary keeps the sage fill (white-on-sage AA); secondary is the quiet ghost.
+   Hover raises a soft offset frame instead of a color jump. */
+.btn-chamfer {
+  --chamfer: 10px;
+  clip-path: polygon(
+    var(--chamfer) 0, 100% 0,
+    100% calc(100% - var(--chamfer)), calc(100% - var(--chamfer)) 100%,
+    0 100%, 0 var(--chamfer)
+  );
+  transition: filter var(--dur-micro) var(--ease-micro), transform var(--dur-micro) var(--ease-micro);
+}
+.btn-chamfer:hover { filter: brightness(1.06); }
+.btn-chamfer:active { transform: scale(0.985); }
+
+/* skewed filter chip — the recipes archive's "spice-jar" parallelogram chip. */
+.chip-skew {
+  transform: skewX(-6deg);
+}
+.chip-skew > * { display: inline-block; transform: skewX(6deg); }
+[dir="rtl"] .chip-skew { transform: skewX(6deg); }
+[dir="rtl"] .chip-skew > * { transform: skewX(-6deg); }
+
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; }
   .floor-plate { transform: none !important; }

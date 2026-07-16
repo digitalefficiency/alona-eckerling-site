@@ -37,12 +37,15 @@ export function ImageHero({
         <div className="clip-scale absolute inset-0">
           <Image src={image} alt={alt} fill priority fetchPriority="high" sizes="100vw" className="object-cover" style={{ objectPosition: imagePosition }} />
         </div>
+        {/* RTL scrim in BRAND ink (color-mix on --color-navy, never a template
+            literal): the ≥45% protected zone now reaches the 85% mark so the
+            eyebrow + lede stay legible over bright food photography. */}
         <div
           aria-hidden
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to left, rgba(10,30,63,.8) 0%, rgba(10,30,63,.45) 40%, rgba(10,30,63,.15) 72%, transparent 100%), linear-gradient(to bottom, rgba(10,30,63,.5), transparent 32%)",
+              "linear-gradient(to left, color-mix(in srgb, var(--color-navy) 82%, transparent) 0%, color-mix(in srgb, var(--color-navy) 55%, transparent) 45%, color-mix(in srgb, var(--color-navy) 30%, transparent) 85%, transparent 100%), linear-gradient(to bottom, color-mix(in srgb, var(--color-navy) 50%, transparent), transparent 32%)",
           }}
         />
       </div>
@@ -67,7 +70,7 @@ export function ImageHero({
           style={{ fontSize: "var(--text-hero)" }}
         />
         {lead && (
-          <p className="hero-lead mt-6 max-w-[48ch] self-end text-lg leading-relaxed text-slate-200">{lead}</p>
+          <p className="hero-lead mt-6 max-w-[46ch] self-end text-lg leading-relaxed text-slate-200">{lead}</p>
         )}
         {ctas && ctas.length > 0 && (
           <div className="hero-cta mt-8 flex flex-wrap justify-end gap-3">

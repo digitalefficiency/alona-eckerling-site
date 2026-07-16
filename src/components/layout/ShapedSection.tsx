@@ -18,6 +18,7 @@ const FILL: Record<string, string> = {
   navy: "var(--color-navy, #0A1E3F)",
   sand: "var(--color-sand, #efe7d6)",
   white: "var(--color-card, #ffffff)",
+  blush: "var(--color-blush, #F7DED9)",
 };
 
 export function ShapedSection({
@@ -30,10 +31,17 @@ export function ShapedSection({
   children: ReactNode;
   shape?: Shape;
   edge?: "top" | "bottom";
-  tone?: "white" | "sand" | "navy";
+  tone?: "white" | "sand" | "navy" | "blush";
   className?: string;
 }) {
-  const bg = tone === "navy" ? "bg-navy text-white" : tone === "sand" ? "bg-sand" : "bg-card";
+  const bg =
+    tone === "navy"
+      ? "bg-navy text-white"
+      : tone === "sand"
+        ? "bg-sand"
+        : tone === "blush"
+          ? "bg-blush"
+          : "bg-card";
   const divider = (
     <svg aria-hidden viewBox="0 0 1440 120" preserveAspectRatio="none" className="block h-[56px] w-full sm:h-[88px]">
       <path d={PATHS[shape]} fill={FILL[tone]} />

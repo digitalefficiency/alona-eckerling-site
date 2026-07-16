@@ -7,6 +7,7 @@ import { site, allowIndexing } from "@/lib/site";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { StickyContactBar } from "@/components/StickyContactBar";
+import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { EvidenceCursor } from "@/components/EvidenceCursor";
 import { MarketingBootstrap } from "@/components/MarketingBootstrap";
 import { CookieConsent } from "@/components/CookieConsent";
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <ChromeGate>
             <Footer />
             <StickyContactBar />
+            <WhatsAppFloat />
             <EvidenceCursor />
             <AccessibilityMenu />
             <CookieConsent />

@@ -28,8 +28,6 @@ const HERO = {
     { label: "עליי והרישיון ←", href: "/about", cta: "testimonials-hero-about" },
     { label: "בואי נדבר ←", href: "/contact", cta: "testimonials-hero-contact" },
   ],
-  // הסלוט השמור נשאר חשוך — הדיסקליימר הוא הטקסט האמיתי היחיד בתוכו.
-  darkSlot: "המלצות אמיתיות יופיעו כאן ברגע שיהיו. אני לא ממציאה סיפור שלא קרה.",
 } as const;
 
 // COPY: ### סקשן 33 · TestimonialCard grid (מצב-ריק כן)
@@ -72,8 +70,10 @@ export const metadata: Metadata = {
 export default function TestimonialsPage() {
   return (
     <>
-      {/* ===== 32 · hero — centered-prose · מסגור כן (נייר חם + blush-wash) ===== */}
-      <section className="relative">
+      {/* ===== 32 · hero — centered-prose · מסגור כן (נייר חם + blush-wash) =====
+          data-light-hero: העמוד נפתח על היר בהיר — ה-Header חייב לקבל את מצב
+          הדיו הכהה מיד, אחרת הניווט לבן-על-קרם ובלתי-נראה (audit #1). */}
+      <section data-light-hero className="relative">
         <Container width="prose" className="pt-16 sm:pt-20 md:pt-28">
           <div className="rounded-[16px] bg-blush/60 px-6 py-12 text-center sm:px-10 md:px-14 md:py-16">
             <MOrchestrate>
@@ -118,14 +118,6 @@ export default function TestimonialsPage() {
               </MItem>
             </MOrchestrate>
           </div>
-
-          {/* הסלוט השמור — חשוך בכוונה, סטטי בכוונה (לא זוכה לאנימציה, plan 32 שכבה 6) */}
-          <div className="mx-auto mt-10 max-w-md rounded-[16px] border border-dashed border-muted/40 px-6 py-8 text-center">
-            <span className="block font-serif text-4xl leading-none text-muted/30" aria-hidden>
-              ״
-            </span>
-            <p className="mt-3 text-sm leading-relaxed text-muted">{HERO.darkSlot}</p>
-          </div>
         </Container>
       </section>
 
@@ -148,9 +140,19 @@ export default function TestimonialsPage() {
           </div>
 
           <MStagger className="mt-10 space-y-8">
-            <div className="mx-auto max-w-[42rem] rounded-[16px] bg-gold-soft/70 px-6 py-8 text-center sm:px-10">
-              <p className="text-lg font-bold text-navy">{GRID.emptyLead}</p>
+            {/* מצב-הריק הכן היחיד בעמוד — רצועה מעוצבת אחת (wash רך + ◆ + מוטיב
+                הגרשיים), לא כרטיסי-רפאים ולא מסגרות מקווקוות (audit #11) */}
+            <div className="mx-auto max-w-[42rem] rounded-[16px] bg-gold-soft/60 px-6 py-10 text-center sm:px-10">
+              <span className="block font-serif text-5xl leading-none text-rose/70" aria-hidden>
+                ״
+              </span>
+              <p className="mt-4 text-lg font-bold text-navy">{GRID.emptyLead}</p>
               <p className="mt-3 leading-relaxed text-ink">{GRID.emptyBody}</p>
+              <span aria-hidden className="mx-auto mt-7 flex items-center justify-center gap-3">
+                <span className="h-px w-14 bg-gold/45" />
+                <span className="text-[0.55rem] leading-none text-gold">◆</span>
+                <span className="h-px w-14 bg-gold/45" />
+              </span>
             </div>
             <div className="text-center">
               <p className="text-sm font-semibold text-muted">{GRID.redirectIntro}</p>
@@ -168,19 +170,6 @@ export default function TestimonialsPage() {
               </div>
             </div>
           </MStagger>
-
-          {/* כרטיסי-רפאים שמורים — דקורטיביים, בלי מילה מזויפת אחת; סטטיים בכוונה
-              (לעולם לא shimmer/skeleton — הבטחת-שווא, plan 33 שכבה 6) */}
-          <div aria-hidden className="mt-12 grid gap-6 sm:grid-cols-3">
-            {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="flex min-h-44 items-center justify-center rounded-[16px] border border-line bg-sand"
-              >
-                <span className="font-serif text-6xl leading-none text-muted/15">״</span>
-              </div>
-            ))}
-          </div>
 
           {/* שורת-הדדיות — ללקוחות-עבר אמיתיות בלבד */}
           <p className="mt-8 text-center text-sm leading-relaxed text-muted">{GRID.reciprocity}</p>

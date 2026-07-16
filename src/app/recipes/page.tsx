@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { site } from "@/lib/site";
 import { listDocs } from "@/lib/collections";
 import { getCollection } from "@/lib/cms/config";
@@ -212,16 +213,28 @@ export default function RecipesPage() {
               </div>
 
               {/* the honest typographic booklet cover (real printed cover =
-                  pending client asset; a cover photo is never fabricated) */}
+                  pending client asset; a cover photo is never fabricated) —
+                  the generated booklet-OBJECT still sits behind it as a quiet
+                  aria-hidden backdrop under a blush veil, never as the cover */}
               <MItem variants={scaleSoft} className="mx-auto w-full max-w-[260px]">
                 <div
                   className="-rotate-2 rounded-[14px] border border-line bg-card p-5 shadow-[var(--elevation-2)]"
                   style={{ aspectRatio: "var(--aspect-portrait)" }}
                 >
-                  <div className="flex h-full flex-col items-center justify-center gap-3 rounded-[10px] bg-blush/60 px-4 text-center">
-                    <span className="text-[0.7rem] font-bold tracking-[.22em] text-muted">{MAGNET.coverSub}</span>
-                    <span className="font-serif text-3xl font-black leading-tight text-navy">{MAGNET.coverName}</span>
-                    <span aria-hidden className="h-[3px] w-12 rounded-full bg-rose" />
+                  <div className="relative flex h-full flex-col items-center justify-center gap-3 overflow-hidden rounded-[10px] px-4 text-center">
+                    <div aria-hidden className="absolute inset-0">
+                      <Image
+                        src="/media/generated/26-booklet-object.jpg"
+                        alt=""
+                        fill
+                        sizes="260px"
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-0 bg-blush/85" />
+                    </div>
+                    <span className="relative text-[0.7rem] font-bold tracking-[.22em] text-muted">{MAGNET.coverSub}</span>
+                    <span className="relative font-serif text-3xl font-black leading-tight text-navy">{MAGNET.coverName}</span>
+                    <span aria-hidden className="relative h-[3px] w-12 rounded-full bg-rose" />
                   </div>
                 </div>
               </MItem>

@@ -61,18 +61,15 @@ export function Footer() {
 
       <div className="border-t border-white/10 px-4 py-6 text-xs text-slate-400 sm:px-6">
         <div className="mx-auto flex max-w-[1120px] flex-col items-center gap-3 text-center">
-          <nav aria-label="עמודים משפטיים" className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5">
+          <nav aria-label="עמודים משפטיים" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
             <Link href="/privacy" className="hover:text-gold-soft">מדיניות פרטיות</Link>
-            <span aria-hidden className="text-white/20">·</span>
             <Link href="/terms" className="hover:text-gold-soft">תקנון ותנאי שימוש</Link>
-            <span aria-hidden className="text-white/20">·</span>
             <Link href="/accessibility" className="hover:text-gold-soft">הצהרת נגישות</Link>
-            <span aria-hidden className="text-white/20">·</span>
             <CookiePrefsButton className="underline-offset-2 hover:text-gold-soft hover:underline" />
           </nav>
           <p className="leading-relaxed">
-            © {site.foundingYear}–{currentYear()} {site.name} · המידע באתר הוא כללי ואינו
-            מהווה ייעוץ שמאי, משפטי או מקצועי פרטני. כל מקרה נבחן לגופו ואין באמור התחייבות לתוצאה.
+            © <span dir="ltr">{site.foundingYear}-{currentYear()}</span> {site.name} · המידע באתר הוא
+            כללי ואינו מהווה ייעוץ רפואי או תזונתי אישי, ואינו תחליף להתייעצות עם גורם מקצועי מוסמך.
           </p>
         </div>
       </div>

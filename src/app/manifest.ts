@@ -5,14 +5,13 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: site.legalName,
     short_name: site.name,
-    description:
-      "שלושה דורות של מומחיות בשמאות מקרקעין — היטל השבחה, ירידת ערך, הפקעות וחוות דעת מומחה.",
+    description: site.description,
     start_url: "/",
     display: "standalone",
     lang: "he",
     dir: "rtl",
-    background_color: "#0a1e3f",
-    theme_color: "#0a1e3f",
+    background_color: "#FBF6F1",
+    theme_color: "#22304C",
     icons: [
       { src: "/icon.svg", type: "image/svg+xml", sizes: "any" },
       { src: "/apple-icon.png", type: "image/png", sizes: "180x180" },
