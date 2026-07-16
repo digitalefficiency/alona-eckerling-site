@@ -40,7 +40,13 @@ export const brand = {
     "gold-soft": "#D9E8DB",       // sage-wash (calm section bands)
     "gold-ink": "#2F5F47",        // AA-safe sage text on warm paper
     "sand": "#F4EDE4",            // raised ivory panel
-    // Polarity overrides (globals.css consumes via var(--brand-*, default)):
+  },
+
+  // Extra brand tokens beyond the 9 semantic roles (kept OUT of brand.colors so
+  // BrandColorRole / VerticalPreset typing stays at the 9-role contract):
+  // polarity overrides (bg/card/ink/muted/line — globals var(--brand-*, default))
+  // + Alona's warmth roles (rose/blush — consumed via --color-rose / --color-blush).
+  extra: {
     "bg": "#FBF6F1",              // warm paper — "החדר השקט"
     "bg2": "#FDFAF6",
     "card": "#FFFFFF",
@@ -48,11 +54,10 @@ export const brand = {
     "muted": "#586074",
     "line": "#E8DFD4",
     "line2": "#F0E9E0",
-    // Brand-specific warmth (consumed via --color-rose / --color-blush in globals):
     "rose": "#DE8E85",            // dusty rose — underlines, ticks, soft marks
     "rose-ink": "#A34E46",        // AA-safe rose text on light (emphasis only)
     "blush": "#F7DED9",           // light pink wash — warmth/success bands + magnet card
-  },
+  } as Record<string, string>,
 
   // Fonts are wired in layout.tsx via next/font. The DISPLAY font is the serif
   // voice (headlines), BODY is the sans (text). Swapping fonts = a scaffold-time
@@ -68,6 +73,7 @@ export const brand = {
 export function brandStyle(): React.CSSProperties {
   const s: Record<string, string> = {};
   for (const [k, v] of Object.entries(brand.colors)) s[`--brand-${k}`] = v;
+  for (const [k, v] of Object.entries(brand.extra ?? {})) s[`--brand-${k}`] = v;
   return s as React.CSSProperties;
 }
 
