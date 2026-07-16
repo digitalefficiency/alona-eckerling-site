@@ -11,28 +11,28 @@
 import { business, withOverrides } from "./settings";
 
 const siteBase = {
-  name: "הסטודיו",
-  legalName: "הסטודיו — שם העסק המלא",
-  tagline: "משפט תדמית קצר וחד שמסכם את ההצעה.",
+  name: "אלונה אקרלינג",
+  legalName: "אלונה אקרלינג · דיאטנית קלינית מוסמכת R.D.",
+  tagline: "את כבר יודעת מה לאכול. בואי נעשה שזה סוף סוף יישאר.",
   description:
-    "תיאור מטא קצר (עד ~155 תווים) של העסק והשירות — מה אתם עושים, למי, ולמה כדאי לפנות. ישמש למנועי חיפוש ולשיתופים.",
-  foundingYear: 2015,
-  url: "https://example.com",
+    "ליווי תזונתי אישי לנשים עם אלונה אקרלינג, דיאטנית קלינית מוסמכת. בלי דיאטות קיצוניות ובלי אשמה, עם דרך שנבנית סביב החיים שלך. אונליין בכל הארץ וקליניקה ברעננה.",
+  foundingYear: 2023, // תחילת הפעילות המקוונת (ארכיון המתכונים) — [לאימות מול אלונה]
+  url: "https://alonaeck.com",
 
-  // NAP — fill per project (rows render only when non-empty; never fabricate).
-  phone: "",
-  whatsapp: "", // international format for wa.me, e.g. 9725XXXXXXXX
-  email: "",
-  address: { street: "", city: "", region: "", country: "IL" },
+  // NAP — פר הבריף: טלפון לא מתפרסם (Q4); הפניות בוואטסאפ + טפסים בלבד.
+  phone: "", // לא לפרסום — הכרעת הלקוחה בשאלון Q4
+  whatsapp: "972526359404", // wa.me — [לאימות מולה שהוואטסאפ העסקי על המספר הזה]
+  email: "alonaeck1@gmail.com", // זמני — תוחלף ב-alona@alonaeck.com כשתוקם תיבת הדומיין
+  address: { street: "", city: "רעננה", region: "השרון", country: "IL" },
   hours: {
-    weekdays: "א׳–ה׳ 09:00–18:00",
-    friday: "ו׳ 09:00–13:00",
-    saturday: "שבת — סגור",
+    weekdays: "בתיאום מראש",
+    friday: "",
+    saturday: "",
   },
-  areasServed: ["אזור א׳", "אזור ב׳", "אזור ג׳"],
+  areasServed: ["אונליין בכל הארץ", "רעננה והשרון"],
 
   // Legal / compliance — shown on /privacy /terms /accessibility.
-  legalUpdated: "01.01.2026",
+  legalUpdated: "16.07.2026",
   accessibilityCoordinator: { name: "", phone: "", email: "" },
   privacyOfficer: { name: "", email: "" },
 };
@@ -66,8 +66,10 @@ export const i18n = {
 
 export const nav = [
   { href: "/", label: "בית" },
-  { href: "/services", label: "שירותים" },
-  { href: "/about", label: "אודות" },
+  { href: "/recipes", label: "מתכונים" },
+  { href: "/coaching", label: "איך עובדים איתי" },
+  { href: "/about", label: "עליי" },
+  { href: "/sane-voice", label: "הקול השפוי" },
   { href: "/contact", label: "צור קשר" },
 ] as const;
 
@@ -103,15 +105,25 @@ export type Service = {
   proof?: ServiceProof; // TestimonialCard / ResultCard raw material
 };
 
-// Service offerings — title + short blurb (detail fields above are filled from
-// intake per project; until then each detail page shows hero + CTA band only).
+// Service offerings — שלוש חבילות הליווי מהשאלון (Q15). הפירוט המלא (steps/faq/proof)
+// נמזג בשלב ה-compose מ-COPY.md; בלי מחירים באתר (Q19 — "בואי נדבר").
 export const services: readonly Service[] = [
-  { slug: "service-1", title: "שירות ראשון", short: "משפט קצר שמסביר את הערך של השירות הזה.", flagship: true },
-  { slug: "service-2", title: "שירות שני", short: "משפט קצר שמסביר את הערך של השירות הזה." },
-  { slug: "service-3", title: "שירות שלישי", short: "משפט קצר שמסביר את הערך של השירות הזה." },
-  { slug: "service-4", title: "שירות רביעי", short: "משפט קצר שמסביר את הערך של השירות הזה." },
-  { slug: "service-5", title: "שירות חמישי", short: "משפט קצר שמסביר את הערך של השירות הזה." },
-  { slug: "service-6", title: "שירות שישי", short: "משפט קצר שמסביר את הערך של השירות הזה." },
+  {
+    slug: "coaching-60",
+    title: "ליווי אישי · חבילת בסיס (60 יום)",
+    short: "פגישת אבחון מעמיקה, ארבעה מפגשי מעקב, ליווי וואטסאפ צמוד בין המפגשים וגישה לאפליקציה ולתכנים מקצועיים.",
+    flagship: true,
+  },
+  {
+    slug: "coaching-120",
+    title: "ליווי מורחב (120 יום)",
+    short: "אותה דרך, עם יותר זמן לבסס הרגלים. אבחון מעמיק, מפגשי מעקב, ליווי וואטסאפ ותכנים מקצועיים לאורך ארבעה חודשים.",
+  },
+  {
+    slug: "single-session",
+    title: "פגישה חד פעמית",
+    short: "אבחון מעמיק של 60 עד 75 דקות, ובסיומו תוכנית מלאה והנחיות ברורות להתנהלות עצמאית.",
+  },
 ];
 
 // ── Bio-as-landing fields (app/team/[slug]) ──────────────────────────────────
