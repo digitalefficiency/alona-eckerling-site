@@ -51,7 +51,12 @@ function pairGallery(d: Record<string, unknown>, key: string): { url: string; al
   return urls.map((url, i) => ({ url, alt: alts[i] ?? "" }));
 }
 
-export type CollectionDoc = CollectionEntry & Pick<Doc, "html" | "headings" | "faq">;
+export type CollectionDoc = CollectionEntry &
+  Pick<Doc, "html" | "headings" | "faq"> & {
+    /** raw markdown body (frontmatter stripped) — structured-schema consumers
+     *  (e.g. Recipe JSON-LD's ingredient/instruction lists) parse from here. */
+    raw: string;
+  };
 
 const dirFor = (id: string) => path.join(process.cwd(), "content", id);
 
@@ -113,8 +118,10 @@ export function getDoc(
   if (!c) return undefined;
   const entry = readCollection(c).find((e) => e.slug === slug && e.locale === locale && !e.draft);
   if (!entry) return undefined;
-  const doc = renderDoc(fs.readFileSync(path.join(dirFor(c.id), entry.file), "utf8"));
-  return { ...entry, html: doc.html, headings: doc.headings, faq: doc.faq };
+  const rawFile = fs.readFileSync(path.join(dirFor(c.id), entry.file), "utf8");
+  const doc = renderDoc(rawFile);
+  const { content } = parseFrontmatter(rawFile);
+  return { ...entry, html: doc.html, headings: doc.headings, faq: doc.faq, raw: content };
 }
 
 // generateStaticParams feeders — app/[collection] + app/[collection]/[slug].
