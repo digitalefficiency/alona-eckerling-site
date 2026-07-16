@@ -66,6 +66,12 @@ export const brand = {
     display: "Frank Ruhl Libre",  // serif display (Hebrew editorial voice)
     body: "Assistant",            // humanist sans body (peer-close "את" register)
   },
+
+  // Logo assets: Alona's original vector is still pending (materials list) —
+  // until it lands in /public/media/logo.png, BrandLogo renders the serif
+  // wordmark directly (no 404 chain, no broken-image flash). Flip to true +
+  // drop the files when the client sends the original.
+  logo: { supplied: false },
 } as const;
 
 // Inline-style object for <html> — sets every --brand-* custom property so

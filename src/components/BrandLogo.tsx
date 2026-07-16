@@ -22,8 +22,10 @@ export function BrandLogo({
   dark?: boolean;
 }) {
   const isDarkSurface = dark || (!light && brand.mode !== "light");
-  // step 0 = preferred asset, 1 = the other asset silhouetted, 2 = wordmark
-  const [step, setStep] = useState(0);
+  // step 0 = preferred asset, 1 = the other asset silhouetted, 2 = wordmark.
+  // No logo supplied yet (brand.logo.supplied=false) → straight to the wordmark:
+  // no 404 chain, no broken-image flash while the client's original is pending.
+  const [step, setStep] = useState(brand.logo?.supplied ? 0 : 2);
 
   if (step < 2) {
     const preferDark = isDarkSurface;
