@@ -1,4 +1,38 @@
 {
   "mode": "direct",
-  "collections": []
+  "collections": [
+    {
+      "id": "recipes",
+      "label": "מתכונים",
+      "labelSingular": "מתכון",
+      "description": "ארכיון המתכונים של אלונה. מתכונים אמיתיים שאני מבשלת ואוכלת, נוספים כל שבוע.",
+      "i18n": false,
+      "fields": [
+        { "key": "title",       "type": "text",  "label": "שם המתכון",              "required": true, "max": 70 },
+        { "key": "description", "type": "text",  "label": "תיאור קצר למנועי חיפוש", "required": true, "min": 70, "max": 160 },
+        { "key": "date",        "type": "date",  "label": "תאריך",                  "required": true },
+        { "key": "image",       "type": "image", "label": "תמונת המנה",             "requiredAlt": true },
+        { "key": "category",    "type": "text",  "label": "קטגוריה (בוקר / צהריים / ערב / מתוקים / סלטים / מאפים)", "required": true, "max": 30 },
+        { "key": "tags",        "type": "list",  "label": "תגיות תזונה (עתיר חלבון / ללא גלוטן / טבעוני / צמחוני / דל פחמימה)", "min": 1, "max": 5 },
+        { "key": "prepTime",    "type": "text",  "label": "זמן הכנה (למשל: 20 דקות)", "required": true, "max": 20 },
+        { "key": "servings",    "type": "text",  "label": "כמה מנות יוצאות",          "required": false, "max": 20 }
+      ],
+      "body": { "minWords": 60, "maxWords": 1200 }
+    },
+    {
+      "id": "blog",
+      "label": "טיפים ומאמרים",
+      "labelSingular": "מאמר",
+      "description": "ידע תזונתי שפוי, בגובה העיניים, בלי רעש.",
+      "i18n": false,
+      "fields": [
+        { "key": "title",       "type": "text",  "label": "כותרת",                  "required": true, "max": 70 },
+        { "key": "description", "type": "text",  "label": "תיאור למנועי חיפוש",     "required": true, "min": 70, "max": 160 },
+        { "key": "date",        "type": "date",  "label": "תאריך",                  "required": true },
+        { "key": "tags",        "type": "list",  "label": "תגיות",                  "min": 1, "max": 4 },
+        { "key": "image",       "type": "image", "label": "תמונת שער",              "requiredAlt": true }
+      ],
+      "body": { "minWords": 200, "maxWords": 1500 }
+    }
+  ]
 }
