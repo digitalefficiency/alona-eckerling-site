@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Heebo, Frank_Ruhl_Libre } from "next/font/google";
+import { Assistant, Frank_Ruhl_Libre } from "next/font/google";
 import { MotionConfig } from "motion/react";
 import "./globals.css";
-import { brand, brandStyle, applyMode } from "@/brand.config";
+import { brand, brandStyle, applyMode, applyMotionPersonality, applyCharacter } from "@/brand.config";
 import { site, allowIndexing } from "@/lib/site";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -15,10 +15,11 @@ import { ChromeGate } from "@/components/ChromeGate";
 
 // Fonts: DISPLAY (serif) + BODY (sans). Both carry Latin + Hebrew subsets, so they
 // render correctly in rtl AND ltr. Swap here per brand (see brand.config.fonts).
-const heebo = Heebo({
+// Alona: Assistant — the peer-close humanist sans (DESIGN-DIRECTION "הקול השקט").
+const assistant = Assistant({
   subsets: ["hebrew", "latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-heebo",
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-body",
   display: "swap",
 });
 const frankRuhl = Frank_Ruhl_Libre({
@@ -51,10 +52,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       lang={brand.lang}
       dir={brand.direction}
       data-scroll-behavior="smooth"
-      // applyMode composed LAST so the polarity roles (bg/card/ink/sand/gold) win
-      // over brandStyle's palette values. "light" emits {} — a no-op for light sites.
-      style={{ ...brandStyle(), ...applyMode(brand.mode) }}
-      className={`${heebo.variable} ${frankRuhl.variable} h-full antialiased`}
+      // Composition order: palette → motion temperament (still-calm: therapy's soft,
+      // unhurried scales — the closest personality to "הקול השקט") → character
+      // (warm-craft) → mode LAST so polarity roles win. "light" emits {} — no-op.
+      style={{ ...brandStyle(), ...applyMotionPersonality("therapy"), ...applyCharacter("warm-craft"), ...applyMode(brand.mode) }}
+      className={`${assistant.variable} ${frankRuhl.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden bg-bg text-ink font-sans">
         {/* The single global motion gate: every motion/react component (the

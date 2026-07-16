@@ -30,14 +30,19 @@
   --color-bad: #d6455d;
   --color-amber: #dd8f2e;
 
-  /* Typography — Frank Ruhl Libre (כותרות) + Heebo (גוף) */
-  --font-sans: var(--font-heebo), system-ui, "Segoe UI", Arial, sans-serif;
-  --font-serif: var(--font-frank-ruhl), "Heebo", Georgia, serif;
+  /* Alona warmth roles — dusty rose (marks/underlines) + blush wash (warm bands) */
+  --color-rose: var(--brand-rose, #DE8E85);
+  --color-rose-ink: var(--brand-rose-ink, #A34E46); /* AA-safe rose text on light */
+  --color-blush: var(--brand-blush, #F7DED9);
+
+  /* Typography — Frank Ruhl Libre (כותרות) + Assistant (גוף) */
+  --font-sans: var(--font-body), system-ui, "Segoe UI", Arial, sans-serif;
+  --font-serif: var(--font-frank-ruhl), var(--font-body), Georgia, serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-  /* Radius & shadow */
-  --radius-btn: 4px; /* buttons, inputs, small chips */
-  --radius-card: 10px; /* cards, image frames, asides (was 18px — DESIGN.md says sharp) */
+  /* Radius & shadow — warm-craft: soft tactile corners (DESIGN-DIRECTION), not clinical-sharp */
+  --radius-btn: 8px; /* inputs, small chips (CTAs go pill via component class) */
+  --radius-card: 16px; /* cards, image frames, asides — soft hand-made warmth */
   --shadow-card: 0 10px 30px -12px rgba(10, 30, 63, 0.18);
   --shadow-soft: 0 4px 14px -8px rgba(10, 30, 63, 0.25);
 

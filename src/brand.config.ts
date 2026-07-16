@@ -25,25 +25,41 @@ export const brand = {
   // emits an empty token map).
   mode: "light" as Mode,
 
-  // Brandable palette (semantic roles above). Override per project to reskin.
+  // Brandable palette — "הקול השקט" (DESIGN-DIRECTION.md, warm-craft still-calm).
+  // Roles read as: navy* = deep soft navy (ink + credential-trust anchor),
+  // gold* = garden sage (the interactive accent: CTA fill, links, eyebrows),
+  // sand = raised ivory panel. Polarity tokens (bg/card/ink/muted/line) shift the
+  // whole canvas to warm paper. rose/blush = the feminine warmth washes.
   colors: {
-    "navy": "#0a1e3f",
-    "navy-800": "#0e2750",
-    "navy-700": "#15355f",
-    "navy-600": "#1d4474",
-    "gold": "#c8a45c",
-    "gold-dark": "#a9853f",
-    "gold-soft": "#f3e8cf",
-    "gold-ink": "#6f5320",        // AA-safe accent text on light bg — keep contrast ≥4.5:1
-    "sand": "#efe7d6",
+    "navy": "#22304C",
+    "navy-800": "#293A5C",
+    "navy-700": "#32466E",
+    "navy-600": "#3C537F",
+    "gold": "#3E7B5C",            // garden sage — primary CTA fill (white text AA ~4.8:1)
+    "gold-dark": "#356B50",
+    "gold-soft": "#D9E8DB",       // sage-wash (calm section bands)
+    "gold-ink": "#2F5F47",        // AA-safe sage text on warm paper
+    "sand": "#F4EDE4",            // raised ivory panel
+    // Polarity overrides (globals.css consumes via var(--brand-*, default)):
+    "bg": "#FBF6F1",              // warm paper — "החדר השקט"
+    "bg2": "#FDFAF6",
+    "card": "#FFFFFF",
+    "ink": "#22304C",
+    "muted": "#586074",
+    "line": "#E8DFD4",
+    "line2": "#F0E9E0",
+    // Brand-specific warmth (consumed via --color-rose / --color-blush in globals):
+    "rose": "#DE8E85",            // dusty rose — underlines, ticks, soft marks
+    "rose-ink": "#A34E46",        // AA-safe rose text on light (emphasis only)
+    "blush": "#F7DED9",           // light pink wash — warmth/success bands + magnet card
   },
 
   // Fonts are wired in layout.tsx via next/font. The DISPLAY font is the serif
   // voice (headlines), BODY is the sans (text). Swapping fonts = a scaffold-time
   // edit of the next/font imports in layout.tsx (documented in references/rtl-ltr-and-brand.md).
   fonts: {
-    display: "Frank Ruhl Libre",  // serif display
-    body: "Heebo",                // sans body
+    display: "Frank Ruhl Libre",  // serif display (Hebrew editorial voice)
+    body: "Assistant",            // humanist sans body (peer-close "את" register)
   },
 } as const;
 
