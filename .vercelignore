@@ -1,0 +1,9 @@
+node_modules
+.next
+.vercel
+.git
+assets
+public/media/teaser
+public/ads
+public/media/ads
+public/media/ads2

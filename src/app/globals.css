@@ -1,0 +1,801 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand roles — overridable via --brand-* injected from src/brand.config.ts.
+     navy* = PRIMARY dark · gold* = ACCENT · sand = WARM panel. Defaults below. */
+  --color-navy: var(--brand-navy, #0a1e3f);
+  --color-navy-800: var(--brand-navy-800, #0e2750);
+  --color-navy-700: var(--brand-navy-700, #15355f);
+  --color-navy-600: var(--brand-navy-600, #1d4474);
+
+  --color-gold: var(--brand-gold, #c8a45c);
+  --color-gold-dark: var(--brand-gold-dark, #a9853f);
+  --color-gold-soft: var(--brand-gold-soft, #f3e8cf);
+  --color-gold-ink: var(--brand-gold-ink, #6f5320); /* AA-safe accent text on light bg */
+
+  /* Polarity tokens — overridable via --brand-* so a DARK MODE (brand.config applyMode)
+     can flip the whole page from light to dark in one move. Defaults = light (unchanged). */
+  --color-bg: var(--brand-bg, #eef1f6);
+  --color-bg2: var(--brand-bg2, #f7f9fc);
+  --color-card: var(--brand-card, #ffffff);
+  --color-sand: var(--brand-sand, #efe7d6); /* warm soft panel (alternating band) */
+
+  --color-ink: var(--brand-ink, #172033);
+  --color-muted: var(--brand-muted, #5b6678);
+
+  --color-line: var(--brand-line, #e2e8f1);
+  --color-line2: var(--brand-line2, #eef2f8);
+
+  --color-good: #1f9d6b;
+  --color-bad: #d6455d;
+  --color-amber: #dd8f2e;
+
+  /* Typography — Frank Ruhl Libre (כותרות) + Heebo (גוף) */
+  --font-sans: var(--font-heebo), system-ui, "Segoe UI", Arial, sans-serif;
+  --font-serif: var(--font-frank-ruhl), "Heebo", Georgia, serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Radius & shadow */
+  --radius-btn: 4px; /* buttons, inputs, small chips */
+  --radius-card: 10px; /* cards, image frames, asides (was 18px — DESIGN.md says sharp) */
+  --shadow-card: 0 10px 30px -12px rgba(10, 30, 63, 0.18);
+  --shadow-soft: 0 4px 14px -8px rgba(10, 30, 63, 0.25);
+
+  /* ===== Depth ladder (--elevation-1..4 — design-system.md "Depth ladder") =====
+     Four LAYERED, BRAND-TINTED shadows (tight key + soft ambient, both
+     color-mix'd from the brand primary so depth stays in the palette — never
+     flat gray). Where each level lives:
+       1 = resting cards / media frames · 2 = sticky chrome (Header,
+       StickyContactBar) · 3 = modals & overlays (AccessibilityMenu,
+       CookieConsent) · 4 = the cinema CTA / floating hero artifacts.
+     Consume via `shadow-(--elevation-N)` or `boxShadow: var(--elevation-N)`.
+     One element = one level; never stack levels. Legacy --shadow-card /
+     --shadow-soft ≈ level 1 (kept for existing compiled components). */
+  --elevation-1: 0 1px 2px color-mix(in srgb, var(--color-navy) 6%, transparent), 0 8px 20px -10px color-mix(in srgb, var(--color-navy) 16%, transparent);
+  --elevation-2: 0 2px 5px color-mix(in srgb, var(--color-navy) 8%, transparent), 0 14px 32px -12px color-mix(in srgb, var(--color-navy) 22%, transparent);
+  --elevation-3: 0 4px 10px color-mix(in srgb, var(--color-navy) 10%, transparent), 0 24px 52px -14px color-mix(in srgb, var(--color-navy) 30%, transparent);
+  --elevation-4: 0 8px 18px color-mix(in srgb, var(--color-navy) 12%, transparent), 0 38px 88px -18px color-mix(in srgb, var(--color-navy) 40%, transparent);
+
+  /* ===== Unified SCALE system ===== */
+  /* Container tiers → max-w-wide / max-w-standard / max-w-prose */
+  --container-wide: 1240px; /* page sections, hero content, grids */
+  --container-standard: 1120px; /* stat/CTA bands, centered feature blocks */
+  --container-prose: 760px; /* long-form markdown (blog, knowledge, about story) */
+
+  /* Image aspect ratios → aspect-hero / aspect-feature / aspect-card / aspect-wide / aspect-portrait / aspect-avatar */
+  --aspect-hero: 21 / 9; /* full-bleed page heroes, service banners */
+  --aspect-feature: 3 / 2; /* FeatureRow workhorse image */
+  --aspect-card: 4 / 3; /* card thumbnails (services, blog) */
+  --aspect-wide: 16 / 10; /* JuxtaposeSlider, gallery tiles */
+  --aspect-portrait: 3 / 4; /* team member standing portrait */
+  --aspect-avatar: 1 / 1; /* team grid + expert aside headshot */
+
+  /* ===== Unified image grade (MediaFrame — premium-tier "Imagery" gate) =====
+     ONE tint + ONE grain over every content image so site stills + the cinema
+     film read as a single shoot. Tint reads the brand primary (via the
+     --brand-navy-backed role above); retune per SITE here, never per image.
+     Grain stays ≤ 0.06. The grain texture itself is the shared
+     --texture-grain token + .grain-overlay class (":root" below — one camera). */
+  --grade-tint: color-mix(in srgb, var(--color-navy) 10%, transparent);
+  --grain-opacity: 0.05;
+
+  /* Heading clamp scale → text-display / text-hero / text-section / text-stat.
+     Minimums lowered so headlines don't dominate ≤360px phones; maxima unchanged. */
+  --text-display: clamp(2.1rem, 6.5vw, 6rem); /* home hero H1 */
+  --text-hero: clamp(1.85rem, 5vw, 3.4rem); /* PageHero / image-hero H1 */
+  --text-section: clamp(1.7rem, 4.4vw, 3.25rem); /* SectionHeading H2 */
+  --text-stat: clamp(2.4rem, 6vw, 4.5rem); /* StatCounters numerals */
+
+  /* ===== Motion voice tokens (source of truth: src/lib/motion-tokens.ts) =====
+     Premium rule: ALL transitions/animations reference motion tokens (these or
+     the legacy gesture vars in :root below) — never inline eases/durations.
+     --ease-out / --ease-in-out intentionally override Tailwind's defaults so
+     the `ease-out` / `ease-in-out` utilities also resolve to the house curves. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* EASE.out — house ease-out (= --ease-signature) */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* EASE.inOut (= --ease-cinematic) */
+  --ease-micro: cubic-bezier(0.2, 0.7, 0.2, 1); /* EASE.micro (= --ease-tilt) */
+  --dur-reveal: 1s; /* DUR.reveal — premium reveals (RevealHeading lines, wipes) */
+  --dur-micro: 0.25s; /* DUR.micro — hover/press micro-interactions */
+  --dur-stagger: 0.08s; /* DUR.stagger — per-line/per-child stagger step */
+}
+
+/* Base element styles MUST live in @layer base so Tailwind utilities
+   (e.g. text-white on a hero H1) can override them. Unlayered CSS would win. */
+@layer base {
+  html {
+    font-size: 17px;
+    /* clear the sticky header on every in-page anchor jump (TOC #sec-N, #guide, #lead) */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    line-height: 1.25;
+    color: var(--color-navy);
+    text-wrap: balance;
+  }
+}
+
+::selection {
+  background: var(--color-gold-soft);
+  color: var(--color-navy);
+}
+
+/* ===== Shared film-grain texture — ONE CAMERA (premium-tier "Imagery") =====
+   THE grain: the exact feTurbulence data-URI the cinema film burns over its
+   frames (addons/cinema StoryCinema). MediaFrame stills, textured navy bands
+   and the film all paint THIS token, so sections + stills + film read as one
+   art-directed shoot. Never fork or retune the SVG per surface — tune only
+   --grain-opacity (@theme above, 0.05 default, keep ≤ 0.06). */
+:root {
+  --texture-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Drop-in grain layer for any relatively-positioned surface — MediaFrame's
+   grain overlay, or a navy band that wants texture. STATIC by construction
+   (no animation → reduced-motion-safe), non-interactive; mark decorative
+   uses aria-hidden. */
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: soft-light;
+  background-image: var(--texture-grain);
+  background-size: 140px 140px;
+}
+
+/* Staggered card-content reveal — driven by per-card --lp (entrance progress)
+   and per-child --i (order). Children cascade in as their card arrives. */
+.reveal {
+  --r: clamp(0, calc((var(--lp, 1) - var(--i, 0) * 0.08) * 5), 1);
+  opacity: var(--r);
+  transform: translateY(calc((1 - var(--r)) * 16px))
+    translateZ(calc((1 - var(--r)) * -24px));
+}
+
+/* ===== Floor-plate cards ===== */
+/* OUTER wrapper: perspective + scroll-driven docking (JS writes the vars) */
+.floor-slot-card {
+  transform: perspective(1400px)
+    translate3d(var(--card-tx, 0), var(--card-ty, 0), 0)
+    scale(var(--card-scale, 1));
+}
+/* INNER plate: pointer tilt (CSS only; --mx/--my inherited from the host) */
+.floor-plate {
+  transform-style: preserve-3d;
+  transform: rotateY(calc(var(--mx, 0) * 6deg)) rotateX(calc(var(--my, 0) * -4deg));
+  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+  -webkit-backdrop-filter: blur(var(--blur, 16px));
+  backdrop-filter: blur(var(--blur, 16px));
+}
+.floor-plate::after {
+  content: "";
+  position: absolute;
+  inset-inline: 1.75rem;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  transform: scaleX(var(--dock, 0));
+  transform-origin: right center;
+  opacity: calc(var(--dock, 0) * 0.9);
+}
+/* depth layers — parallax under tilt */
+.floor-num {
+  transform: translateZ(40px);
+}
+.floor-plate h3 {
+  transform: translateZ(22px);
+}
+.ghost-num {
+  position: absolute;
+  top: -0.16em;
+  inset-inline-start: -0.04em;
+  z-index: -1;
+  pointer-events: none;
+  font-family: var(--font-serif);
+  font-weight: 900;
+  font-size: clamp(7rem, 12vw, 11rem);
+  line-height: 0.8;
+  color: color-mix(in srgb, var(--color-gold) 8%, transparent);
+  transform: translateZ(-34px);
+}
+.grid-bg {
+  transform: translateZ(-50px);
+}
+/* hero mask-reveal driven by --reveal (right→left in RTL) */
+.floor-num,
+.floor-plate h3 {
+  -webkit-mask-image: linear-gradient(
+    to left,
+    #000 var(--reveal, 100%),
+    transparent var(--reveal, 100%)
+  );
+  mask-image: linear-gradient(
+    to left,
+    #000 var(--reveal, 100%),
+    transparent var(--reveal, 100%)
+  );
+}
+/* blueprint dimension-line */
+.dim-line {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+.dim-run {
+  flex: 1;
+  height: 1px;
+  background: color-mix(in srgb, var(--color-gold) 40%, transparent);
+  transform: scaleX(var(--lp, 0));
+  transform-origin: right;
+}
+.dim-cap {
+  width: 1px;
+  height: 7px;
+  background: color-mix(in srgb, var(--color-gold) 65%, transparent);
+}
+/* corner ticks */
+.tick {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+  border-color: color-mix(in srgb, var(--color-gold) 55%, transparent);
+}
+.tick-1 { top: 9px; right: 9px; border-top: 1px solid; border-right: 1px solid; }
+.tick-2 { top: 9px; left: 9px; border-top: 1px solid; border-left: 1px solid; }
+.tick-3 { bottom: 9px; right: 9px; border-bottom: 1px solid; border-right: 1px solid; }
+.tick-4 { bottom: 9px; left: 9px; border-bottom: 1px solid; border-left: 1px solid; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+  .floor-plate { transform: none !important; }
+  .floor-num,
+  .floor-plate h3 { -webkit-mask-image: none; mask-image: none; }
+  .floor-num,
+  .ghost-num,
+  .grid-bg { transform: none !important; }
+}
+@media (pointer: coarse) {
+  .floor-plate { transform: none; }
+}
+
+/* ============================================================
+   ADVANCED MOTION SYSTEM (Emerald-grade, RTL-native)
+   Principle: every animation is OPT-IN via a JS-added class
+   (.is-animating / data-shown). The DEFAULT (no class) is the
+   FINAL resting state — so SSR, no-JS, and reduced-motion all
+   render the finished design instantly (LCP-safe, crash-proof).
+   The one signature gesture: an RTL "ink-wipe" reveal from the
+   RIGHT (reading start), shared by headlines, rules, and photos.
+   ============================================================ */
+:root {
+  --ease-signature: cubic-bezier(0.16, 1, 0.3, 1); /* house ease-out-expo */
+  --ease-tilt: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-cinematic: cubic-bezier(0.77, 0, 0.175, 1); /* strong in-out for the hero shutter */
+  /* Legacy gesture durations — TRUE ALIASES of the @theme motion tokens
+     (calc-derived), so a vertical motion personality (src/brand.config.ts →
+     applyMotionPersonality overriding --dur-reveal/--dur-stagger inline on
+     <html>) rescales the WHOLE gesture family in one move. Computed defaults
+     unchanged: 0.9s / 1.1s / 0.6s / 80ms / 70ms. */
+  --dur-wipe: calc(var(--dur-reveal) * 0.9); /* headline line wipe + image clip-uncover */
+  --dur-settle: calc(var(--dur-reveal) * 1.1); /* image counter-scale settle */
+  --dur-rule: calc(var(--dur-reveal) * 0.6); /* self-drawing rules/dividers */
+  /* --dur-reveal / --dur-micro / --dur-stagger live in @theme above —
+     sourced from src/lib/motion-tokens.ts (do NOT redeclare them here). */
+  --stagger-line: var(--dur-stagger); /* = 80ms at the default token */
+  --stagger-child: calc(var(--dur-stagger) * 0.875); /* = 70ms at the default token */
+  --dur-marquee: 36s; /* credentials ticker loop */
+}
+
+/* ---- SplitText: per-line RTL ink-wipe (headlines) ---- */
+@keyframes wipe-in {
+  from { clip-path: inset(-0.12em 0 -0.18em 100%); opacity: 0; }
+  to { clip-path: inset(-0.12em 0 -0.18em 0); opacity: 1; }
+}
+.split-line { display: block; }
+.split-inner { display: inline-block; will-change: clip-path; }
+.is-animating .split-inner {
+  animation: wipe-in var(--dur-wipe) var(--ease-signature) both;
+  animation-delay: calc(var(--base, 0ms) + var(--i, 0) * var(--stagger-line));
+}
+
+/* ---- Self-drawing rule (eyebrow ticks, seams) — RTL: from right ---- */
+@keyframes rule-draw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.rule-draw { transform-origin: right center; }
+.is-animating .rule-draw,
+[data-shown] .rule-draw {
+  animation: rule-draw var(--dur-rule) var(--ease-signature) both;
+  animation-delay: calc(120ms + var(--i, 0) * var(--stagger-line));
+}
+
+/* ---- ClipReveal: photographs uncover from the RIGHT + counter-scale ---- */
+@keyframes clip-uncover {
+  from { clip-path: inset(0 0 0 100%); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes counter-scale {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+.clip-frame { clip-path: inset(0 0 0 0); }
+.clip-frame.is-animating { animation: clip-uncover var(--dur-wipe) var(--ease-signature) both; }
+.clip-frame.is-animating .clip-scale { animation: counter-scale var(--dur-settle) var(--ease-signature) both; }
+
+/* ---- Generic fade-up (data-shown toggled by IntersectionObserver) ---- */
+.rise { opacity: 0; transform: translateY(22px); transition: opacity var(--dur-reveal) var(--ease-signature), transform var(--dur-reveal) var(--ease-signature); transition-delay: calc(var(--i, 0) * var(--stagger-child)); }
+.rise[data-shown] { opacity: 1; transform: none; }
+
+/* ---- RevealHeading: masked line reveal (premium sibling of Reveal) ----
+   Each \n line sits in an overflow-hidden mask; the inner slides up from
+   translateY(110% + headroom) → 0. DEFAULT (SSR / no-JS) is the FINAL visible
+   headline; JS arms .is-masked pre-paint only when motion is allowed, then
+   .is-revealing transitions in on first view. Tokens only: --dur-reveal /
+   --ease-out / --dur-stagger. The mask carries the same overflow headroom as
+   SplitText's clip (0.12em ascenders+nikud / 0.18em descenders) so tight serif
+   leading never crops glyph ink at rest. Block-axis motion = RTL/LTR-safe. */
+.rh-line { display: block; overflow: hidden; padding-block: 0.12em 0.18em; margin-block: -0.12em -0.18em; }
+.rh-inner { display: block; }
+.reveal-heading.is-masked .rh-inner {
+  transform: translateY(calc(110% + 0.2em)); /* 110% + mask headroom = fully hidden */
+  will-change: transform;
+}
+.reveal-heading.is-revealing .rh-inner {
+  transform: translateY(0);
+  transition: transform var(--dur-reveal) var(--ease-out);
+  transition-delay: calc(var(--rh-base, 0ms) + var(--i, 0) * var(--rh-stagger, var(--dur-stagger)));
+}
+/* Motion-sensitive gates force the final state even mid-flight. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-heading .rh-inner { transform: none !important; transition: none !important; }
+}
+html.a11y-stop-motion .reveal-heading .rh-inner { transform: none !important; transition: none !important; }
+
+/* ---- Hero entrance timeline (added on mount as data-hero-enter) ---- */
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+[data-hero-enter] .hero-eyebrow { animation: hero-fade-up 0.7s var(--ease-signature) both; }
+[data-hero-enter] .hero-lead { animation: hero-fade-up 0.8s var(--ease-signature) both; animation-delay: 0.52s; }
+[data-hero-enter] .hero-cta { animation: hero-fade-up 0.8s var(--ease-signature) both; animation-delay: 0.62s; }
+[data-hero-enter] .hero-photo { animation: clip-uncover var(--dur-wipe) var(--ease-signature) both; animation-delay: 0.64s; }
+[data-hero-enter] .hero-photo .clip-scale { animation: counter-scale 1.3s var(--ease-signature) both; animation-delay: 0.64s; }
+/* NOTE: the full-bleed hero background image is the LCP element — it is left
+   STATIC (no entrance transform) so it paints immediately. Animating it (e.g. a
+   Ken-Burns counter-scale) delays LCP by seconds. The hero's life comes from the
+   eyebrow/headline/lead/CTA choreography instead. */
+
+/* ---- HeroShutter: "image opens from both sides" entrance (opt-in, LCP-safe) ----
+   Mounted only by JS after first paint; the two leaves carry the hero photo,
+   cover the hero, then split apart. No-JS / reduced-motion never render it. */
+.hero-shutter { position: absolute; inset: 0; z-index: 20; pointer-events: none; }
+.hero-leaf {
+  position: absolute; top: 0; bottom: 0; width: 50%;
+  background-size: 100vw 100%; background-repeat: no-repeat;
+  will-change: transform; transition: transform 1.2s var(--ease-cinematic);
+}
+.hero-leaf::after { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(10,30,63,.18), rgba(10,30,63,.5)); }
+.hero-leaf-l { left: 0; background-position: left center; box-shadow: 18px 0 50px -12px rgba(0,0,0,.6); }
+.hero-leaf-r { right: 0; background-position: right center; box-shadow: -18px 0 50px -12px rgba(0,0,0,.6); }
+.hero-shutter[data-open] .hero-leaf-l { transform: translateX(-101%); }
+.hero-shutter[data-open] .hero-leaf-r { transform: translateX(101%); }
+.hero-seam {
+  position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; transform: translateX(-50%); z-index: 21;
+  background: linear-gradient(transparent, var(--color-gold) 28%, var(--color-gold) 72%, transparent);
+  opacity: .95; transition: opacity .55s var(--ease-signature);
+}
+.hero-seam i { position: absolute; top: 50%; left: 50%; width: 13px; height: 13px; transform: translate(-50%,-50%) rotate(45deg); background: var(--color-gold); box-shadow: 0 0 16px var(--color-gold); }
+.hero-shutter[data-open] .hero-seam { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .hero-shutter { display: none; } }
+
+/* ---- hero-curtain: brand intro that holds closed ~5s then splits open ---- */
+.hero-curtain {
+  position: fixed; inset: 0; z-index: 40; /* full viewport during the intro (no gap below the hero) */
+  display: grid; place-items: center;
+  overflow: hidden; pointer-events: auto;
+}
+.hero-curtain[data-opening] { pointer-events: none; }
+.hero-curtain-leaf {
+  position: absolute; top: 0; bottom: 0; width: 51%;
+  background: var(--color-navy);
+  will-change: transform; transition: transform 1.3s var(--ease-cinematic);
+}
+.hero-curtain-leaf::after { /* faint gold bloom + bottom depth, so it isn't a flat block */
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 38%, rgba(200,164,92,.10), transparent 60%),
+    linear-gradient(to bottom, transparent 55%, rgba(0,0,0,.35));
+}
+.hero-curtain-leaf-l { left: 0; box-shadow: 22px 0 60px -22px rgba(0,0,0,.7); }
+.hero-curtain-leaf-r { right: 0; box-shadow: -22px 0 60px -22px rgba(0,0,0,.7); }
+.hero-curtain[data-opening] .hero-curtain-leaf-l { transform: translateX(-101%); }
+.hero-curtain[data-opening] .hero-curtain-leaf-r { transform: translateX(101%); }
+.hero-curtain-brand {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: 0; padding: 1.5rem;
+  transition: opacity .45s var(--ease-out), transform .45s var(--ease-out);
+}
+.hero-curtain[data-opening] .hero-curtain-brand { opacity: 0; transform: translateY(-10px) scale(.98); }
+
+/* gold diamond nodes on the central axis (above logo / middle / below titles) */
+.hero-curtain-star {
+  color: var(--color-gold); line-height: 1; font-size: .8rem;
+  text-shadow: 0 0 14px rgba(200,164,92,.55);
+  animation: curtain-pop .55s var(--ease-out) both;
+}
+.hero-curtain-star-1 { animation-delay: .15s; }
+.hero-curtain-star-2 { font-size: .95rem; animation-delay: .85s; }
+.hero-curtain-star-3 { animation-delay: 1.95s; }
+
+/* thin hairline links — live ONLY in the gaps between elements, never on the text */
+.hero-curtain-thread {
+  display: block; width: 1px; height: 1.5rem;
+  background: linear-gradient(to bottom, transparent, rgba(200,164,92,.5), transparent);
+  transform-origin: center; will-change: transform;
+  animation: curtain-thread .55s var(--ease-out) both;
+}
+.hero-curtain-thread-1 { animation-delay: .3s; }
+.hero-curtain-thread-2 { animation-delay: .7s; }
+.hero-curtain-thread-3 { animation-delay: 1s; }
+.hero-curtain-thread-4 { animation-delay: 1.8s; }
+
+.hero-curtain-logo { display: block; animation: curtain-logo-in 1s var(--ease-out) .3s both; }
+.hero-curtain-title {
+  margin-top: .55rem;
+  font-family: var(--font-frank-ruhl), serif; font-weight: 700; color: #fff;
+  font-size: clamp(1.35rem, 3.6vw, 2.2rem); letter-spacing: .02em;
+  animation: curtain-rise .9s var(--ease-out) 1s both;
+}
+.hero-curtain-sub {
+  margin-top: .85rem; color: var(--color-gold-soft);
+  font-size: clamp(.78rem, 1.7vw, 1rem); font-weight: 600; letter-spacing: .22em;
+  animation: curtain-track 1s var(--ease-out) 1.3s both;
+}
+/* gold accent words — "מקרקעין" in the title, "שלושה דורות" in the subtitle */
+.hero-curtain-title em,
+.hero-curtain-sub em { font-style: normal; color: var(--color-gold); }
+/* small credential tagline, in our gold */
+.hero-curtain-tag {
+  margin-top: .7rem; color: var(--color-gold);
+  font-size: clamp(.62rem, 1.3vw, .78rem); font-weight: 600; letter-spacing: .14em;
+  animation: curtain-rise .9s var(--ease-out) 1.55s both;
+}
+@keyframes curtain-logo-in {
+  from { opacity: 0; transform: translateY(14px) scale(.9); filter: blur(7px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes curtain-rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes curtain-pop {
+  from { opacity: 0; transform: scale(.3); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes curtain-thread {
+  from { opacity: 0; transform: scaleY(0); }
+  to   { opacity: 1; transform: scaleY(1); }
+}
+@keyframes curtain-track {
+  from { opacity: 0; letter-spacing: .5em; transform: translateY(8px); }
+  to   { opacity: 1; letter-spacing: .22em; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-curtain { display: none; } }
+
+/* ---- survey-card: tactile hover (gold dock-line + corner ticks reveal) ---- */
+.survey-card { position: relative; }
+.survey-card::after {
+  content: "";
+  position: absolute;
+  inset-inline: 1.25rem;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--dur-micro) var(--ease-signature);
+  pointer-events: none;
+}
+.survey-card:hover::after,
+.survey-card:focus-within::after { transform: scaleX(1); }
+
+/* ---- ExpertiseMarquee: continuous RTL ticker ---- */
+@keyframes marquee-rtl {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee-rtl var(--dur-marquee, 36s) linear infinite;
+  will-change: transform;
+}
+.marquee-mask:hover .marquee-track,
+.marquee-mask:focus-within .marquee-track { animation-play-state: paused; }
+
+/* ---- EvidenceCursor: trailing gold ring (augments the native cursor) ---- */
+.evidence-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid color-mix(in srgb, var(--color-gold) 55%, transparent);
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0;
+  will-change: transform;
+  transition: opacity 0.3s ease, width 0.25s var(--ease-tilt), height 0.25s var(--ease-tilt),
+    background-color 0.25s ease, border-color 0.25s ease;
+}
+.evidence-cursor.is-active {
+  width: 44px;
+  height: 44px;
+  background: color-mix(in srgb, var(--color-gold) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-gold) 80%, transparent);
+}
+@media (pointer: coarse) {
+  .evidence-cursor { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .evidence-cursor { display: none; }
+}
+
+/* ---- Reduced-motion / touch: everything resolves to the final static state ---- */
+@media (prefers-reduced-motion: reduce) {
+  .is-animating .split-inner,
+  .is-animating .rule-draw,
+  [data-shown] .rule-draw,
+  .clip-frame.is-animating,
+  .clip-frame.is-animating .clip-scale,
+  [data-hero-enter] .hero-eyebrow,
+  [data-hero-enter] .hero-lead,
+  [data-hero-enter] .hero-cta,
+  [data-hero-enter] .hero-photo,
+  [data-hero-enter] .hero-photo .clip-scale,
+  .marquee-track { animation: none !important; }
+  .split-inner { clip-path: none !important; opacity: 1 !important; }
+  .rise { opacity: 1 !important; transform: none !important; }
+  .rule-draw { transform: none !important; }
+}
+
+/* Typographic styling for rendered markdown (RTL Hebrew long-form). */
+.prose-rtl {
+  color: #33405a;
+  font-size: 1.06rem;
+  line-height: 1.85;
+}
+.prose-rtl > :first-child {
+  margin-top: 0;
+}
+.prose-rtl h2 {
+  font-size: 1.6rem;
+  margin: 2.2rem 0 0.8rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--color-line);
+}
+.prose-rtl h3 {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 1.18rem;
+  color: var(--color-navy-700);
+  margin: 1.6rem 0 0.6rem;
+}
+.prose-rtl p {
+  margin: 0 0 1rem;
+}
+.prose-rtl ul,
+.prose-rtl ol {
+  margin: 0 0 1.1rem;
+  padding-inline-start: 1.4rem;
+}
+.prose-rtl li {
+  margin: 0.35rem 0;
+}
+.prose-rtl strong {
+  color: var(--color-navy-700);
+  font-weight: 700;
+}
+.prose-rtl a {
+  color: var(--color-gold-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-rtl blockquote {
+  margin: 1.4rem 0;
+  padding: 0.8rem 1.2rem;
+  border-inline-start: 4px solid var(--color-gold);
+  background: var(--color-bg2);
+  border-radius: 0 12px 12px 0;
+  color: var(--color-navy-700);
+}
+.prose-rtl table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.4rem 0;
+  font-size: 0.96rem;
+}
+.prose-rtl th,
+.prose-rtl td {
+  border: 1px solid var(--color-line);
+  padding: 0.6rem 0.8rem;
+  text-align: start;
+}
+.prose-rtl thead th {
+  background: var(--color-navy);
+  color: #fff;
+}
+.prose-rtl hr {
+  border: none;
+  border-top: 1px solid var(--color-line);
+  margin: 2rem 0;
+}
+/* Inline imagery in long-form markdown (authors add ![]() or <figure>) */
+.prose-rtl :where(img) {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-line);
+  margin: 1.8rem 0;
+}
+.prose-rtl figure {
+  margin: 2rem 0;
+}
+.prose-rtl figure img {
+  margin: 0;
+}
+.prose-rtl figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.92rem;
+  color: var(--color-muted);
+  text-align: start;
+  border-inline-start: 2px solid var(--color-gold);
+  padding-inline-start: 0.8rem;
+}
+
+/* ===== Accessibility menu (ת״י 5568) — root-element classes set by AccessibilityMenu.tsx.
+   Font-size, contrast and grayscale are applied as inline styles on <html>; these
+   classes cover the remaining toggles. ===== */
+html.a11y-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+}
+html.a11y-links a:hover,
+html.a11y-links a:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+html.a11y-readable,
+html.a11y-readable * {
+  font-family: Arial, "Helvetica Neue", system-ui, sans-serif !important;
+  letter-spacing: 0.01em !important;
+}
+html.a11y-readable p,
+html.a11y-readable li {
+  line-height: 1.9 !important;
+}
+
+/* Stop animations / transitions / smooth-scroll for motion-sensitive visitors. */
+html.a11y-stop-motion *,
+html.a11y-stop-motion *::before,
+html.a11y-stop-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Enlarged pointer (SVG cursor, hotspot at the tip). */
+html.a11y-big-cursor,
+html.a11y-big-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24'%3E%3Cpath d='M5 3 L5 19 L9.5 14.5 L12.5 20.5 L14.5 19.5 L11 13.5 L17 13.5 Z' fill='%23000' stroke='%23fff' stroke-width='1.3'/%3E%3C/svg%3E") 5 3, auto !important;
+}
+
+/* ============================================================
+   BORDERS / FRAMES (style-library.md wave 5). Opt-in motion:
+   the DEFAULT (no JS class) is the finished border; the animated
+   class is added on view ONLY when both motion gates pass. All
+   durations calc-derived from the tokens (lint-motion allowlist).
+   ============================================================ */
+@keyframes gb-pan { to { background-position: 0 0, -220% 0; } }
+.gradient-border.gb-animated { animation: gb-pan calc(var(--dur-reveal) * 12) linear infinite; }
+
+@property --bb-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@keyframes bb-sweep { from { --bb-angle: 0deg; } to { --bb-angle: 360deg; } }
+.border-beam { position: relative; }
+.border-beam.is-beaming::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: conic-gradient(from var(--bb-angle), transparent 0 68%, var(--color-gold, #c8a45c) 82%, transparent 92%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: bb-sweep calc(var(--dur-reveal) * 1.6) var(--ease-out) 1 both;
+}
+
+.underline-grow { position: relative; }
+.underline-grow::after {
+  content: ""; position: absolute; inset-inline: 0; bottom: -2px; height: 1.5px; background: var(--color-gold, #c8a45c);
+  transform: scaleX(0); transform-origin: var(--ug-origin, right); /* RTL default; :dir(ltr) flips it below */
+  transition: transform var(--dur-micro) var(--ease-out);
+}
+.underline-grow:dir(ltr)::after { transform-origin: var(--ug-origin, left); }
+.underline-grow:hover::after,
+.underline-grow:focus-visible::after { transform: scaleX(1); }
+
+.focus-ring:focus-within { outline: 2px solid var(--color-gold, #c8a45c); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-border.gb-animated { animation: none; }
+  .border-beam.is-beaming::before { animation: none; opacity: 0; }
+  .underline-grow::after { transition: none; }
+}
+
+/* ============================================================
+   MICRO-INTERACTIONS (style-library.md wave 6). Ripple + caret;
+   both are spawned by JS only when both motion gates pass, so the
+   reduced-motion path never reaches these rules. Token-derived.
+   ============================================================ */
+@keyframes ripple-ink { from { transform: scale(0); opacity: 0.5; } to { transform: scale(1); opacity: 0; } }
+.ripple-ink {
+  position: absolute; border-radius: 9999px; pointer-events: none;
+  background: color-mix(in oklab, var(--color-gold, #c8a45c) 40%, transparent);
+  animation: ripple-ink var(--dur-reveal) var(--ease-out) forwards;
+}
+@keyframes tw-caret { 50% { opacity: 0; } }
+.typewriter.is-typing::after {
+  content: ""; display: inline-block; width: 1px; height: 1em; margin-inline-start: 1px;
+  background: var(--color-gold, #c8a45c); vertical-align: text-bottom;
+  animation: tw-caret var(--dur-reveal) steps(1) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ripple-ink { animation: none; opacity: 0; }
+  .typewriter.is-typing::after { animation: none; }
+}
+
+/* ============================================================
+   SECTION / FORM / OVERLAY (style-library.md wave 7). All
+   progressive-enhancement: the functional element (native
+   <details>, a working input, the toast text) is the floor.
+   ============================================================ */
+/* SmoothAccordion: native <details> — the open panel eases in; close is instant (native). */
+@keyframes acc-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.smooth-acc[open] .acc-inner { animation: acc-in var(--dur-micro) var(--ease-out) both; }
+.smooth-acc[open] .acc-mark { transform: rotate(45deg); }
+.smooth-acc .acc-mark { transition: transform var(--dur-micro) var(--ease-out); display: inline-block; }
+
+/* FloatingField: the label floats up on focus or when filled (:placeholder-shown trick, no JS). */
+.floating-field { position: relative; }
+.ff-input { width: 100%; padding: 1.3rem 0.9rem 0.5rem; border: 1px solid var(--color-line, #e4ddcd); border-radius: 8px; background: transparent; }
+.ff-input:focus { outline: none; border-color: var(--color-gold, #c8a45c); }
+.ff-label { position: absolute; inset-inline-start: 0.95rem; top: 0.95rem; color: var(--color-muted, #6b7280); pointer-events: none; transform-origin: left top; transition: transform var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out); }
+.floating-field:dir(rtl) .ff-label { transform-origin: right top; } /* pivot at the RTL start edge (matches inset-inline-start) */
+.ff-input:focus + .ff-label,
+.ff-input:not(:placeholder-shown) + .ff-label { transform: translateY(-0.65rem) scale(0.8); color: var(--color-gold-ink, #6f5320); }
+.ff-check { position: absolute; inset-inline-end: 0.9rem; top: 1rem; }
+
+/* Toast: reading-end corner; slides up when motion allowed, opacity-only under reduced-motion. */
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes toast-fade { from { opacity: 0; } to { opacity: 1; } }
+.toast { position: fixed; inset-inline-end: 1.25rem; bottom: 1.25rem; z-index: 50; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 10px; border: 1px solid var(--color-gold, #c8a45c); background: var(--color-navy, #0a1e3f); color: #fff; padding: 0.75rem 1rem; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); animation: toast-in var(--dur-reveal) var(--ease-out) both; }
+@media (prefers-reduced-motion: reduce) {
+  .smooth-acc[open] .acc-inner { animation: none; }
+  .smooth-acc .acc-mark { transition: none; }
+  .ff-label { transition: none; }
+  .toast { animation: toast-fade var(--dur-micro) both; }
+}

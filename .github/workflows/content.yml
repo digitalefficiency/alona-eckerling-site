@@ -1,0 +1,27 @@
+name: content
+
+# THE enforcement boundary. The admin runs lint-content before publishing, but the
+# client is an owner of this repository — a direct push through the GitHub UI or a
+# git client bypasses the admin entirely. This workflow does not: make it a REQUIRED
+# status check on the default branch (Settings → Branches) and no content can reach
+# a production build without passing the same validator the admin runs.
+#
+# Zero deps, zero install, ~5 seconds.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-content:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: lint-content (client content schema + copy discipline)
+        run: node scripts/lint-content.mjs
+      - name: lint-seo (every indexable page self-canonicalizes)
+        run: node scripts/lint-seo.mjs

@@ -1,0 +1,39 @@
+import { ClipReveal } from "@/components/motion/ClipReveal";
+
+type Item = { src: string; alt: string; caption?: string };
+
+// Responsive image grid; each tile uncovers with the signature clip-wipe (its
+// own observer) and gently zooms on hover. Server component.
+export function Gallery({
+  items,
+  cols = 3,
+  ratio = "card",
+}: {
+  items: Item[];
+  cols?: 2 | 3;
+  ratio?: "card" | "wide";
+}) {
+  const ar = ratio === "wide" ? "var(--aspect-wide)" : "var(--aspect-card)";
+  return (
+    <div className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${cols === 3 ? "lg:grid-cols-3" : ""}`}>
+      {items.map((it, i) => (
+        <figure key={i} className="group">
+          <div
+            className="relative overflow-hidden rounded-[10px] border border-line"
+            style={{ aspectRatio: ar }}
+          >
+            <ClipReveal
+              src={it.src}
+              alt={it.alt}
+              sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 380px"
+              imgClassName="transition duration-700 group-hover:scale-105"
+            />
+          </div>
+          {it.caption && (
+            <figcaption className="mt-2 text-sm text-muted">{it.caption}</figcaption>
+          )}
+        </figure>
+      ))}
+    </div>
+  );
+}
