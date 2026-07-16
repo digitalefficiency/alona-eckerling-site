@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "barzilay-preview",
+      "name": "alona-dev",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["dev"],
       "autoPort": true,
