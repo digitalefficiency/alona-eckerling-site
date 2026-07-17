@@ -2,7 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion, type Variants } from "motion/react";
-import { motionAllowed } from "@/lib/motion";
+import { motionAllowed, onFirstInView } from "@/lib/motion";
 import { fadeUp, staggerChildren } from "@/lib/motion-variants";
 import { DUR } from "@/lib/motion-tokens";
 
@@ -53,17 +53,8 @@ export function MOrchestrate({
     const el = ref.current;
     if (!el) return;
     setPhase("enter"); // arm hidden before the browser paints — no flash
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setPhase("shown");
-          io.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -12% 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
+    // onFirstInView = IO + geometry-poll failsafe (IO delivery can starve).
+    return onFirstInView(el, () => setPhase("shown"));
   }, []);
 
   const Tag = CONTAINERS[as];

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { Solitreo } from "next/font/google";
 import { site } from "@/lib/site";
 import { Container } from "@/components/layout/Container";
@@ -352,20 +353,36 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* ===== 20 · GUIDE - bento-grid credential wall: checkable facts in trust
-           order (license anchor first). No logos, no metrics, no testimonials.
-           COPY: ### סקשן 20 ===== */}
+      {/* ===== 20 · GUIDE - credentials rebuilt (Rom: 'לבנות אחרת'): the bento's
+           dead-air tiles become a VERIFICATION LEDGER - the license as a
+           gold-double-framed navy certificate with a chamfered verify button,
+           two stamped record rows beneath (diamond markers, gold hairlines) -
+           and beside it the human counterpoint: the dietitian who COOKS, a real
+           dish from her kitchen. Checkable facts only, no logos, no metrics,
+           no testimonials. COPY: ### סקשן 20 ===== */}
       <Section tone="sand" seam>
         <SectionHeading eyebrow={CREDENTIALS.kicker} title={CREDENTIALS.title} />
-        <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
-          {/* Anchor tile - the one navy cell: the verifiable government license */}
-          <Reveal className="md:col-span-2">
-            <article className="flex h-full flex-col justify-between rounded-[16px] bg-navy p-7 text-white transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)] md:p-8">
-              <div>
-                <h3 className="font-serif text-2xl font-black leading-snug">
-                  {CREDENTIALS.anchor.title}
-                </h3>
-                <p className="mt-3 text-lg font-semibold tracking-wide">{CREDENTIALS.anchor.line}</p>
+        <div className="mt-12 grid items-stretch gap-10 md:grid-cols-[1.12fr_0.88fr] md:gap-12">
+          {/* ── the official ledger: certificate + stamped rows ── */}
+          <MStagger variants={slideIn("inline-start", 40)} className="flex flex-col">
+            {/* the license certificate - the one navy cell, double-framed in gold */}
+            <article
+              className="frame-double relative rounded-[16px] bg-navy p-7 text-white md:p-9"
+              style={{ "--frame-gap": "8px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
+            >
+              <div className="flex items-start justify-between gap-5">
+                <div>
+                  {/* explicit white — the global h3 rule paints navy, invisible on navy */}
+                  <h3 className="font-serif text-2xl font-black leading-snug text-white md:text-[1.65rem]">
+                    {CREDENTIALS.anchor.title}
+                  </h3>
+                  <p className="mt-3 text-lg font-semibold tracking-wide text-gold-soft">
+                    {CREDENTIALS.anchor.line}
+                  </p>
+                </div>
+                <span aria-hidden className="grid h-11 w-11 shrink-0 rotate-45 place-items-center border border-gold/60">
+                  <span className="-rotate-45 text-[0.7rem] leading-none text-gold">◆</span>
+                </span>
               </div>
               {/* the checkability promise is a REAL link: the MOH practitioners registry */}
               <a
@@ -373,50 +390,67 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cta="about-credentials-verify"
-                className="mt-6 inline-flex items-center gap-2.5 self-start text-sm font-semibold text-gold-soft underline-offset-4 transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+                className="btn-chamfer mt-7 inline-flex items-center gap-2.5 rounded-[6px] border border-gold/50 px-5 py-2.5 text-sm font-bold text-gold-soft transition hover:border-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
               >
-                <span className="text-[0.6rem] leading-none" aria-hidden>
-                  ◆
-                </span>
+                <span className="text-[0.6rem] leading-none" aria-hidden>◆</span>
                 {CREDENTIALS.anchor.verify}
               </a>
             </article>
-          </Reveal>
-          <Reveal delay={60}>
-            <article className="flex h-full flex-col rounded-[16px] border border-line bg-card p-7 transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)]">
-              <h3 className="font-serif text-xl font-black leading-snug text-navy">
-                {CREDENTIALS.bsc.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{CREDENTIALS.bsc.line}</p>
-            </article>
-          </Reveal>
-          <Reveal delay={120}>
-            <article className="flex h-full flex-col rounded-[16px] border border-line bg-card p-7 transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)]">
-              <h3 className="font-serif text-xl font-black leading-snug text-navy">
-                {CREDENTIALS.intern.title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{CREDENTIALS.intern.line}</p>
-            </article>
-          </Reveal>
-          {/* Craft tile - sage wash, the "dietitian who cooks" proof-of-craft */}
-          <Reveal delay={180} className="md:col-span-2">
-            <article className="flex h-full flex-col rounded-[16px] bg-gold-soft p-7 transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)] md:p-8">
-              <h3 className="font-serif text-2xl font-black leading-snug text-navy">
-                {CREDENTIALS.craft.title}
-              </h3>
-              <p className="mt-3 grow text-base leading-relaxed text-ink">{CREDENTIALS.craft.line}</p>
-              <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
-                <Link
-                  href="/recipes"
-                  data-cta="about-credentials-recipes"
-                  className="font-bold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:decoration-gold"
-                >
-                  {CREDENTIALS.craft.link}
-                </Link>
-                <span className="text-sm text-muted">{CREDENTIALS.craft.micro}</span>
+            {/* record row - the degree */}
+            <div className="mt-8 flex items-center gap-5 border-b border-gold/35 pb-7">
+              <span aria-hidden className="grid h-11 w-11 shrink-0 rotate-45 place-items-center border border-gold/60 bg-card">
+                <span className="-rotate-45 text-[0.6rem] leading-none text-gold">◆</span>
+              </span>
+              <div>
+                <h3 className="font-serif text-xl font-black leading-snug text-navy">
+                  {CREDENTIALS.bsc.title}
+                </h3>
+                <p className="mt-1 text-sm leading-relaxed text-muted">{CREDENTIALS.bsc.line}</p>
+              </div>
+            </div>
+            {/* record row - the clinical internship */}
+            <div className="mt-7 flex items-center gap-5 border-b border-gold/35 pb-7">
+              <span aria-hidden className="grid h-11 w-11 shrink-0 rotate-45 place-items-center border border-gold/60 bg-card">
+                <span className="-rotate-45 text-[0.6rem] leading-none text-gold">◆</span>
+              </span>
+              <div>
+                <h3 className="font-serif text-xl font-black leading-snug text-navy">
+                  {CREDENTIALS.intern.title}
+                </h3>
+                <p className="mt-1 text-sm leading-relaxed text-muted">{CREDENTIALS.intern.line}</p>
+              </div>
+            </div>
+          </MStagger>
+          {/* ── the human counterpoint: the dietitian who cooks (real dish) ── */}
+          <MStagger variants={slideIn("inline-end", 48)} className="flex" itemClassName="flex w-full">
+            <article className="flex w-full flex-col overflow-hidden rounded-[16px] border border-line bg-card shadow-[var(--elevation-1)]">
+              <div className="relative aspect-[3/2]">
+                <Image
+                  src="/media/client/recipes/quinoa-citrus-salad.jpg"
+                  alt="סלט קינואה והדרים, מנה אמיתית מהמטבח של אלונה"
+                  fill
+                  sizes="(min-width: 768px) 38vw, 92vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex grow flex-col bg-gold-soft p-7 md:p-8">
+                <h3 className="font-serif text-2xl font-black leading-snug text-navy">
+                  {CREDENTIALS.craft.title}
+                </h3>
+                <p className="mt-3 grow text-base leading-relaxed text-ink">{CREDENTIALS.craft.line}</p>
+                <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+                  <Link
+                    href="/recipes"
+                    data-cta="about-credentials-recipes"
+                    className="font-bold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:decoration-gold"
+                  >
+                    {CREDENTIALS.craft.link}
+                  </Link>
+                  <span className="text-sm text-muted">{CREDENTIALS.craft.micro}</span>
+                </div>
               </div>
             </article>
-          </Reveal>
+          </MStagger>
         </div>
         <Reveal delay={220}>
           <p className="mt-10 max-w-[62ch] text-base leading-relaxed text-muted">

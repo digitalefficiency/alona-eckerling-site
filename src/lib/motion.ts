@@ -54,6 +54,40 @@ export function useMotionAllowed(): boolean {
   return allowed;
 }
 
+// First-view notifier with a starvation failsafe: IntersectionObserver for
+// precision, plus a slow geometry poll — IO delivery can starve for seconds
+// under main-thread pressure (observed live), and an armed-hidden reveal must
+// never hold content blank while it is actually on screen. Returns a cleanup.
+export function onFirstInView(
+  el: Element,
+  cb: () => void,
+  rootMargin = "0px 0px -12% 0px",
+): () => void {
+  let done = false;
+  const fire = () => {
+    if (done) return;
+    done = true;
+    io.disconnect();
+    clearInterval(poll);
+    cb();
+  };
+  const io = new IntersectionObserver(
+    ([e]) => {
+      if (e.isIntersecting) fire();
+    },
+    { rootMargin },
+  );
+  io.observe(el);
+  const poll = setInterval(() => {
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight * 0.95 && r.bottom > 0) fire();
+  }, 700);
+  return () => {
+    io.disconnect();
+    clearInterval(poll);
+  };
+}
+
 type RevealOpts = {
   className?: string; // class added on first view (animation trigger)
   attr?: string; // attribute set on first view (e.g. "data-shown")
@@ -70,25 +104,21 @@ export function useReveal<T extends HTMLElement>(opts: RevealOpts = {}) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const { className, attr, rootMargin = "0px 0px -12% 0px", threshold = 0 } = opts;
+    const { className, attr, rootMargin = "0px 0px -12% 0px" } = opts;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (reduced) {
       if (attr) el.setAttribute(attr, "");
       return; // no class-driven animation under reduced-motion
     }
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          if (className) el.classList.add(className);
-          if (attr) el.setAttribute(attr, "");
-          io.disconnect();
-        }
+    return onFirstInView(
+      el,
+      () => {
+        if (className) el.classList.add(className);
+        if (attr) el.setAttribute(attr, "");
       },
-      { rootMargin, threshold },
+      rootMargin,
     );
-    io.observe(el);
-    return () => io.disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return ref;

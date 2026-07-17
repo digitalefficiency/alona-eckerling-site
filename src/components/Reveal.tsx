@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { onFirstInView } from "@/lib/motion";
 
 // Subtle fade-up on first view. Follows the project's opt-in rule: the DEFAULT
 // (SSR / no-JS / reduced-motion) renders the FINISHED, visible design — so
@@ -29,17 +30,8 @@ export function Reveal({
     const el = ref.current;
     if (!el) return;
     setPhase("enter"); // hide before the browser paints — no flash from visible→hidden
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setPhase("shown");
-          io.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -10% 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
+    // onFirstInView = IO + geometry-poll failsafe (IO delivery can starve).
+    return onFirstInView(el, () => setPhase("shown"), "0px 0px -10% 0px");
   }, []);
 
   const hidden = phase === "enter";
