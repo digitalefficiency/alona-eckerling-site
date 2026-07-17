@@ -107,11 +107,11 @@ export function AdminShell({
             onEdit={(file) => setView({ kind: "edit", collectionId: current.id, file })}
           />
         ) : view.kind === "edit" && current ? (
-          <DocEditor
-            collection={current}
-            file={view.file}
-            onDone={() => setView({ kind: "list", collectionId: current.id })}
-          />
+          current.id === "recipes" ? (
+            <RecipeJourney collection={current} file={view.file} onDone={() => setView({ kind: "list", collectionId: current.id })} />
+          ) : (
+            <DocEditor collection={current} file={view.file} onDone={() => setView({ kind: "list", collectionId: current.id })} />
+          )
         ) : null}
       </main>
     </div>

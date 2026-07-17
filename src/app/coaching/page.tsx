@@ -501,8 +501,9 @@ export default function CoachingPage() {
                   {METHOD.pillars.map((p, i) => (
                     <div key={p.title} className="w-[min(72vw,880px)] shrink-0 px-8">
                       <div className="border-b-2 border-rose/50 pb-10">
-                        {pillarMedia(i)}
-                        <div className="mt-7 flex items-center gap-4">
+                        {/* the caption reads ABOVE the image (client's call): diamond
+                            number + title header first, then the dish, then the body */}
+                        <div className="flex items-center gap-4">
                           <span aria-hidden className="grid h-10 w-10 shrink-0 rotate-45 place-items-center border border-gold/60 bg-card">
                             <span className="-rotate-45 font-serif text-sm font-bold text-gold-ink">
                               {String(i + 1).padStart(2, "0")}
@@ -510,7 +511,8 @@ export default function CoachingPage() {
                           </span>
                           <h3 className="font-serif text-2xl font-bold text-navy">{p.title}</h3>
                         </div>
-                        <p className="mt-4 max-w-[52ch] text-lg leading-[1.7] text-muted">{p.body}</p>
+                        <div className="mt-6">{pillarMedia(i)}</div>
+                        <p className="mt-6 max-w-[52ch] text-lg leading-[1.7] text-muted">{p.body}</p>
                       </div>
                     </div>
                   ))}

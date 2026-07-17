@@ -133,51 +133,54 @@ function TagChip({
   );
 }
 
-// The home's recipe-card anatomy, grown to bento scale: the dish is an OBJECT on
-// top (never a bed for text), the title + meta drop to a paper strip below it, and
-// the category rides the photo's corner. No scrim — the title reads on paper, so
-// the photo is never dimmed to make room for words. Hover: the photo comes closer,
-// the card stays planted (the lift is the gesture every card family makes).
+// The magazine-gallery tile (client's call): the dish photo FILLS the whole card
+// and the title rides ON it, over a bottom scrim graded into the photo. This is the
+// one place the site lets type sit on imagery — the recipe photos ARE the content,
+// so an edge-to-edge cover reads editorial, not template. Category chip on the top
+// corner; hover pushes the photo in behind the fixed title.
 function ImageTile({ t, feature }: { t: RecipeTile; feature: boolean }) {
   const meta = tileMeta(t);
   return (
     <Link
       href={`/recipes/${t.slug}`}
       data-cta={`recipes-card-${t.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-card transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:border-gold/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+      className="group relative flex h-full flex-col justify-end overflow-hidden rounded-2xl border border-line transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:border-gold/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
     >
-      <div className="relative min-h-0 flex-1 overflow-hidden">
-        <Image
-          src={t.image as string}
-          alt={t.imageAlt || t.title}
-          fill
-          sizes={
-            feature
-              ? "(max-width:640px) 100vw, (max-width:1024px) 100vw, 820px"
-              : "(max-width:640px) 100vw, (max-width:1024px) 50vw, 410px"
-          }
-          className="object-cover transition duration-[calc(var(--dur-reveal)*0.7)] ease-[var(--ease-out)] group-hover:scale-[1.02]"
-        />
-        {/* the ONE shared image grade: brand tint + the shared grain token */}
-        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
-        <div aria-hidden className="grain-overlay" />
-        {t.category && (
-          <span className="absolute top-3 start-3 rounded-[4px] border border-line bg-bg/90 px-3 py-1 text-xs font-bold text-gold-ink">
-            {t.category}
-          </span>
-        )}
-      </div>
-      {/* the paper strip — the feature tile earns the bigger type, same anatomy */}
-      <div className={feature ? "p-6" : "p-4"}>
+      <Image
+        src={t.image as string}
+        alt={t.imageAlt || t.title}
+        fill
+        sizes={
+          feature
+            ? "(max-width:640px) 100vw, (max-width:1024px) 100vw, 820px"
+            : "(max-width:640px) 100vw, (max-width:1024px) 50vw, 410px"
+        }
+        className="object-cover transition duration-[calc(var(--dur-reveal)*0.7)] ease-[var(--ease-out)] group-hover:scale-[1.04]"
+      />
+      {/* the ONE shared image grade: brand tint + the shared grain token */}
+      <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+      <div aria-hidden className="grain-overlay" />
+      {/* legibility scrim, graded UP from the navy foot so the title reads over any dish */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-navy/85 via-navy/35 to-transparent"
+      />
+      {t.category && (
+        <span className="absolute top-3 start-3 rounded-[4px] border border-white/25 bg-navy/40 px-3 py-1 text-xs font-bold text-white backdrop-blur-sm">
+          {t.category}
+        </span>
+      )}
+      {/* the title rides ON the photo (client-requested magazine cover) */}
+      <div className={`relative ${feature ? "p-6" : "p-5"}`}>
         <h3
-          className={`font-serif font-bold leading-snug text-navy transition-colors group-hover:text-gold-ink ${
+          className={`font-serif font-bold leading-snug text-white [text-shadow:0_1px_10px_rgba(10,30,63,0.45)] ${
             feature ? "text-2xl md:text-3xl" : "text-lg"
           }`}
         >
           {t.title}
         </h3>
         {meta && (
-          <p className={`mt-1.5 font-medium text-muted ${feature ? "text-sm" : "text-[0.8rem]"}`}>{meta}</p>
+          <p className={`mt-1.5 font-medium text-white/85 ${feature ? "text-sm" : "text-[0.8rem]"}`}>{meta}</p>
         )}
       </div>
     </Link>

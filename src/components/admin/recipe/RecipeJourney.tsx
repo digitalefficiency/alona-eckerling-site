@@ -20,6 +20,8 @@ import { HistoryPanel } from "@/components/admin/HistoryPanel";
 import { PublishBar } from "@/components/admin/PublishBar";
 import { JourneyRail } from "@/components/admin/recipe/JourneyRail";
 import { SeoCard } from "@/components/admin/recipe/SeoCard";
+import { SourceStation } from "@/components/admin/recipe/SourceStation";
+import { type PasteResult } from "@/lib/cms/recipe-paste.mjs";
 import {
   Station,
   DishStation,
@@ -58,6 +60,9 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [active, setActive] = useState<StationId>(STATION_ORDER[0]);
+  // Station 0 gate: an existing recipe skips it; a new one starts at the
+  // paste-or-scratch choice and only reveals the journey once made.
+  const [sourceDone, setSourceDone] = useState(Boolean(file));
 
   // The document as the server handed it to us, in CANONICAL body form so a
   // cosmetic markdown difference (bullet glyph, numbering) never reads as an edit.
@@ -208,6 +213,7 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
     setModel(parseRecipeBody(rescue.body));
     setSlug(rescue.slug);
     setRescue(null);
+    setSourceDone(true);
   }
 
   function discardRescue() {
@@ -240,6 +246,19 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
   const onInsertExtra = (markdown: string) => {
     setModel((m) => ({ ...m, extra: m.extra ? `${m.extra}\n\n${markdown}` : markdown }));
     setAdvancedOpen(true);
+  };
+
+  // Station 0 outcomes: paste seeds the model from the heuristics; scratch just
+  // opens an empty journey. Either way we reveal the rail and scroll to the top.
+  const applyPaste = (r: PasteResult) => {
+    setValues((p) => ({ ...p, ...(r.title ? { title: r.title } : {}) }));
+    setModel((m) => ({ ...m, intro: r.intro, ingredients: r.ingredients, steps: r.steps, tip: r.tip }));
+    setSourceDone(true);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0 });
+  };
+  const startScratch = () => {
+    setSourceDone(true);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0 });
   };
 
   if (loading) return <p className="py-20 text-center text-muted">{T("common.loading")}</p>;
@@ -382,16 +401,18 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
 
   return (
     <section style={{ transition: `opacity ${cssDur(DUR.reveal)} ${cssEase(EASE.out)}` }}>
-      <div className="flex flex-wrap items-center gap-4">
-        <button onClick={onDone} className="text-sm font-semibold text-gold-ink hover:underline" style={micro}>
-          {T("editor.backTo", { label: collection.label })}
-        </button>
-        {file && (
-          <button onClick={() => setConfirmOpen(true)} className="ms-auto text-sm font-semibold text-muted hover:text-ink" style={micro}>
-            {T("editor.delete")}
+      {sourceDone && (
+        <div className="flex flex-wrap items-center gap-4">
+          <button onClick={onDone} className="text-sm font-semibold text-gold-ink hover:underline" style={micro}>
+            {T("editor.backTo", { label: collection.label })}
           </button>
-        )}
-      </div>
+          {file && (
+            <button onClick={() => setConfirmOpen(true)} className="ms-auto text-sm font-semibold text-muted hover:text-ink" style={micro}>
+              {T("editor.delete")}
+            </button>
+          )}
+        </div>
+      )}
 
       {confirmOpen && (
         <ConfirmDelete
@@ -402,9 +423,11 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
         />
       )}
 
-      <h1 className="mt-4 font-serif text-3xl font-black text-ink">
-        {file ? T("editor.editVerb") : T("editor.createVerb")} {collection.labelSingular ?? collection.label}
-      </h1>
+      {sourceDone && (
+        <h1 className="mt-4 font-serif text-3xl font-black text-ink">
+          {file ? T("editor.editVerb") : T("editor.createVerb")} {collection.labelSingular ?? collection.label}
+        </h1>
+      )}
 
       {rescue && (
         <div
@@ -445,19 +468,25 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
         </p>
       ))}
 
-      <div className="mt-8 lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
-        <aside className="sticky top-0 z-10 -mx-6 bg-sand/95 px-6 py-2 backdrop-blur lg:static lg:m-0 lg:self-start lg:bg-transparent lg:p-0 lg:top-24 lg:sticky">
-          <JourneyRail status={status} errors={errors} active={active} onJump={onJump} />
-        </aside>
+      {sourceDone ? (
+        <div className="mt-8 lg:grid lg:grid-cols-[220px_1fr] lg:gap-10">
+          <aside className="sticky top-0 z-10 -mx-6 bg-sand/95 px-6 py-2 backdrop-blur lg:static lg:m-0 lg:self-start lg:bg-transparent lg:p-0 lg:top-24 lg:sticky">
+            <JourneyRail status={status} errors={errors} active={active} onJump={onJump} />
+          </aside>
 
-        <div className="mt-6 space-y-6 lg:mt-0">
-          {STATION_ORDER.map((id, i) => (
-            <Station key={id} id={id} index={i + 1} done={status[id]}>
-              {stationContent(id)}
-            </Station>
-          ))}
+          <div className="mt-6 space-y-6 lg:mt-0">
+            {STATION_ORDER.map((id, i) => (
+              <Station key={id} id={id} index={i + 1} done={status[id]}>
+                {stationContent(id)}
+              </Station>
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="mt-8">
+          <SourceStation onApply={applyPaste} onScratch={startScratch} />
+        </div>
+      )}
     </section>
   );
 }
