@@ -9,6 +9,8 @@ import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
 import { Reveal } from "@/components/Reveal";
 import { FeatureAlternating } from "@/components/section/FeatureAlternating";
+import { HorizontalPin } from "@/components/motion/HorizontalPin";
+import { slideIn } from "@/lib/motion-variants";
 import { ClipReveal } from "@/components/motion/ClipReveal";
 import { ProcessTimeline } from "@/components/media/ProcessTimeline";
 import { MediaFrame } from "@/components/media/MediaFrame";
@@ -330,16 +332,21 @@ export default function CoachingPage() {
               {HERO.body}
             </MItem>
             <MItem className="mt-7">
-              <span className="inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2">
-                <span className="text-[0.6rem] leading-none text-gold-soft" aria-hidden>◆</span>
-                <span className="text-xs font-bold text-white">{HERO.trustToken}</span>
+              {/* the rose thread is born here — a hairline under the trust chip that
+                  travels the whole page (pin rail → package rule → form rule) */}
+              <span className="inline-flex flex-col items-start gap-1.5">
+                <span className="inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2">
+                  <span className="text-[0.6rem] leading-none text-gold-soft" aria-hidden>◆</span>
+                  <span className="text-xs font-bold text-white">{HERO.trustToken}</span>
+                </span>
+                <span aria-hidden className="block h-[2px] w-16 bg-rose" />
               </span>
             </MItem>
             <MItem className="mt-8 flex flex-wrap items-center gap-3">
               <Link
                 href="#lead"
                 data-cta="coaching-hero-lead"
-                className="rounded-full bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white transition hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
+                className="btn-chamfer rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
               >
                 {HERO.ctaPrimary}
               </Link>
@@ -408,45 +415,79 @@ export default function CoachingPage() {
              פאנלים מעוצבים לקצב. ── */}
       <Section tone="sand" id="method" seam>
         <SectionHeading eyebrow={METHOD.kicker} title={METHOD.title} />
-        <FeatureAlternating
-          className="mt-14"
-          features={METHOD.pillars.map((p, i) => {
+        {(() => {
+          // one media builder feeds BOTH renders (the pin track and the vertical fallback)
+          const pillarMedia = (i: number) => {
             const pillarImg =
               i === 0
                 ? { src: "/media/client/recipes/cauliflower-fried-rice.jpg", alt: "אורז מוקפץ מכרובית, מנה אמיתית מהמטבח של אלונה" }
                 : i === 1
                   ? { src: "/media/generated/11-method-week-bowls.jpg", alt: "" }
                   : null;
-            return {
-              title: p.title,
-              body: <p>{p.body}</p>,
-              media: pillarImg ? (
-                <div
-                  className="relative overflow-hidden rounded-[10px] border border-line"
-                  style={{ aspectRatio: "var(--aspect-feature)" }}
-                  aria-hidden={pillarImg.alt === "" || undefined}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={pillarImg.src} alt={pillarImg.alt} className="absolute inset-0 h-full w-full object-cover" />
-                  <div aria-hidden className="grain-overlay" />
-                </div>
-              ) : (
-                <div
-                  aria-hidden
-                  className={`relative flex items-center justify-center overflow-hidden rounded-[10px] border border-line ${
-                    i % 2 === 0 ? "bg-gold-soft" : "bg-blush"
-                  }`}
-                  style={{ aspectRatio: "var(--aspect-feature)" }}
-                >
-                  <span className="font-serif text-7xl font-black text-navy/15 md:text-8xl">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div aria-hidden className="grain-overlay" />
-                </div>
-              ),
-            };
-          })}
-        />
+            return pillarImg ? (
+              <div
+                className="relative overflow-hidden rounded-[10px] border border-line"
+                style={{ aspectRatio: "var(--aspect-feature)" }}
+                aria-hidden={pillarImg.alt === "" || undefined}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={pillarImg.src} alt={pillarImg.alt} className="absolute inset-0 h-full w-full object-cover" />
+                <div aria-hidden className="grain-overlay" />
+              </div>
+            ) : (
+              <div
+                aria-hidden
+                className={`relative flex items-center justify-center overflow-hidden rounded-[10px] border border-line ${
+                  i % 2 === 0 ? "bg-gold-soft" : "bg-blush"
+                }`}
+                style={{ aspectRatio: "var(--aspect-feature)" }}
+              >
+                <span className="font-serif text-7xl font-black text-navy/15 md:text-8xl">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div aria-hidden className="grain-overlay" />
+              </div>
+            );
+          };
+          return (
+            <>
+              {/* ── the site's ONE pinned horizontal story (scroll-craft §D budget):
+                     the four pillars walked sideways, rtl; the rose border under every
+                     panel reads as one continuous rail — the thread drawn by the journey.
+                     Mobile + reduced-motion + no-JS: the vertical zig-zag below. ── */}
+              <div className="hidden md:block">
+                <HorizontalPin rtl panels={4} className="mt-8">
+                  {METHOD.pillars.map((p, i) => (
+                    <div key={p.title} className="w-[min(72vw,880px)] shrink-0 px-8">
+                      <div className="border-b-2 border-rose/50 pb-10">
+                        {pillarMedia(i)}
+                        <div className="mt-7 flex items-center gap-4">
+                          <span aria-hidden className="grid h-10 w-10 shrink-0 rotate-45 place-items-center border border-gold/60 bg-card">
+                            <span className="-rotate-45 font-serif text-sm font-bold text-gold-ink">
+                              {String(i + 1).padStart(2, "0")}
+                            </span>
+                          </span>
+                          <h3 className="font-serif text-2xl font-bold text-navy">{p.title}</h3>
+                        </div>
+                        <p className="mt-4 max-w-[52ch] text-lg leading-[1.7] text-muted">{p.body}</p>
+                      </div>
+                    </div>
+                  ))}
+                </HorizontalPin>
+              </div>
+              <div className="md:hidden">
+                <FeatureAlternating
+                  className="mt-14"
+                  features={METHOD.pillars.map((p, i) => ({
+                    title: p.title,
+                    body: <p>{p.body}</p>,
+                    media: pillarMedia(i),
+                  }))}
+                />
+              </div>
+            </>
+          );
+        })()}
         <Reveal delay={120} className="mt-12">
           <Link
             href="#packages"
@@ -476,11 +517,18 @@ export default function CoachingPage() {
           {packageCards.map((card) => (
             <article
               key={card.slug}
-              className={`flex h-full flex-col rounded-[16px] border p-7 transition-[transform,box-shadow] duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)] motion-reduce:transition-none ${
-                card.highlight ? "border-gold/50 bg-gold-soft md:-translate-y-2" : "border-line bg-sand"
+              className={`flex h-full flex-col rounded-[16px] p-7 transition-[transform,box-shadow] duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)] motion-reduce:transition-none ${
+                card.highlight
+                  ? "frame-double bg-gold-soft md:-translate-y-2"
+                  : "border border-line bg-sand"
               }`}
-              style={card.highlight ? { boxShadow: "var(--elevation-2)" } : undefined}
+              style={
+                card.highlight
+                  ? ({ boxShadow: "var(--elevation-2)", "--frame-color": "var(--color-gold)", "--frame-gap": "6px" } as React.CSSProperties)
+                  : undefined
+              }
             >
+              {card.highlight && <span aria-hidden className="mb-4 block h-[2px] w-16 bg-rose" />}
               <h3 className="font-serif text-xl font-black leading-snug text-navy">
                 <span className="underline decoration-rose decoration-2 underline-offset-8">{card.name}</span>
               </h3>
@@ -506,7 +554,7 @@ export default function CoachingPage() {
                 <Link
                   href="#lead"
                   data-cta={`coaching-package-${card.slug}`}
-                  className="block rounded-full bg-gold px-6 py-3 text-center font-bold text-white transition hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
+                  className="btn-chamfer block rounded-[6px] bg-gold px-6 py-3 text-center font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
                 >
                   {PACKAGES.cardCta}
                 </Link>
@@ -536,29 +584,59 @@ export default function CoachingPage() {
         </Reveal>
       </Section>
 
-      {/* ── 14 · PROOF — צילומי אוכל אמיתיים מהארכיון; סלוט העדויות נשאר חשוך בכנות ── */}
-      <Section tone="white" border>
-        <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.lead} />
-        <MStagger className="mt-12 grid gap-6 md:grid-cols-3">
-          {PROOF.stills.map((s) => (
-            <ProofStill key={s.src} src={s.src} alt={s.alt} />
-          ))}
-        </MStagger>
-        <Reveal delay={120} className="mt-10">
-          <div className="rounded-[10px] border border-dashed border-line bg-bg2 px-6 py-8 text-center">
-            <p className="text-sm leading-relaxed text-muted">{PROOF.testimonialEmpty}</p>
+      {/* ── 14 · PROOF — the "half-bg + card" pattern (the approved plan's #1 placement):
+             her real dish photo bleeds the inline-END half to the viewport edge; a
+             frosted ivory card LEANS IN from the inline-start with the proof story —
+             "standing in her kitchen". Mobile: the photo becomes a top band, the card
+             stacks, no slide. The testimonial slot stays honestly dark (soft wash, ◆). ── */}
+      <section className="relative overflow-hidden border-y border-line bg-card">
+        {/* the half-bleed photo (desktop) — inline-end half, scrimmed toward the text half */}
+        <div aria-hidden className="absolute inset-y-0 end-0 hidden w-[52%] md:block">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={PROOF.stills[0].src} alt="" className="h-full w-full object-cover" />
+          <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+          <div className="absolute inset-0 bg-gradient-to-l from-card via-card/35 to-transparent" />
+        </div>
+        {/* mobile: the photo as a top band */}
+        <div className="relative aspect-[3/2] md:hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={PROOF.stills[0].src} alt={PROOF.stills[0].alt} className="absolute inset-0 h-full w-full object-cover" />
+          <div aria-hidden className="grain-overlay" />
+        </div>
+        <div className="relative mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 md:py-28">
+          <div className="md:w-[52%]">
+            <MStagger variants={slideIn("inline-start", 48)}>
+              <div className="rounded-[16px] border border-line bg-card/80 p-7 shadow-[var(--elevation-2)] backdrop-blur-md md:p-9">
+                <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.lead} />
+                <div className="mt-8 grid grid-cols-2 gap-4">
+                  {PROOF.stills.slice(1).map((s) => (
+                    <div key={s.src} className="relative aspect-square overflow-hidden rounded-[10px] border border-line">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={s.src} alt={s.alt} className="absolute inset-0 h-full w-full object-cover" />
+                      <div aria-hidden className="grain-overlay" />
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-8 rounded-[10px] bg-bg2 px-6 py-5 text-center">
+                  <p className="text-sm leading-relaxed text-muted">
+                    <span className="text-[0.6rem] leading-none text-gold" aria-hidden>◆ </span>
+                    {PROOF.testimonialEmpty}
+                  </p>
+                </div>
+                <div className="mt-7">
+                  <Link
+                    href="/recipes"
+                    data-cta="coaching-proof-recipes"
+                    className="inline-block font-bold text-gold-ink transition hover:text-gold-dark"
+                  >
+                    {PROOF.cta}
+                  </Link>
+                </div>
+              </div>
+            </MStagger>
           </div>
-        </Reveal>
-        <Reveal delay={160} className="mt-8">
-          <Link
-            href="/recipes"
-            data-cta="coaching-proof-recipes"
-            className="inline-block font-bold text-gold-ink transition hover:text-gold-dark"
-          >
-            {PROOF.cta}
-          </Link>
-        </Reveal>
-      </Section>
+        </div>
+      </section>
 
       {/* ── 15 · OBJECTION — 11 שאלות בקולה שלה + FAQPage JSON-LD ── */}
       <Section tone="sand" width="prose" seam>
@@ -625,6 +703,8 @@ export default function CoachingPage() {
           </MOrchestrate>
           <Reveal delay={140}>
             <div>
+              {/* the rose thread ends at the door */}
+              <span aria-hidden className="mb-3 block h-[2px] w-16 bg-rose" />
               <p className="mb-4 font-serif text-xl font-bold text-white">{CTA.button}</p>
               <ContactLeadForm />
             </div>
