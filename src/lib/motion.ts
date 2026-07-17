@@ -55,9 +55,14 @@ export function useMotionAllowed(): boolean {
 }
 
 // First-view notifier with a starvation failsafe: IntersectionObserver for
-// precision, plus a slow geometry poll — IO delivery can starve for seconds
-// under main-thread pressure (observed live), and an armed-hidden reveal must
-// never hold content blank while it is actually on screen. Returns a cleanup.
+// precision, plus a slow geometry poll. IO entries are only generated during
+// rendering frames, and a hidden/occluded page (automation audits with Chrome
+// behind another window, background tabs) produces no frames at all — IO stays
+// silent indefinitely while timers keep running. The poll guarantees an
+// armed-hidden reveal never holds content blank while it is actually on
+// screen. Root-caused 2026-07-17 (see DESIGN-AUDIT.md); a visible tab
+// delivers IO in <20ms, so real users never hit the poll. Returns a cleanup.
+// NOTE: hidden pages clamp DOM timers to >=1s, so the 700ms poll ticks ~1s there.
 export function onFirstInView(
   el: Element,
   cb: () => void,
