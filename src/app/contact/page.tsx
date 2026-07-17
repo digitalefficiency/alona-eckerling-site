@@ -110,7 +110,7 @@ function SoftArc({ className = "" }: { className?: string }) {
     <svg viewBox="0 0 160 18" aria-hidden className={`mx-auto h-4 w-36 ${className}`} fill="none">
       <path
         d="M4 15 Q80 -8 156 15"
-        className="stroke-gold-soft"
+        className="stroke-gold/50"
         strokeWidth="2.5"
         strokeLinecap="round"
       />
@@ -194,7 +194,7 @@ export default function ContactPage() {
               className="pointer-events-none absolute inset-x-0 top-0 h-44"
               style={{
                 background:
-                  "radial-gradient(380px circle at 50% 0%, color-mix(in oklab, var(--color-gold-soft) 55%, transparent), transparent 72%)",
+                  "radial-gradient(380px circle at 50% 0%, rgba(255,255,255,0.75), transparent 72%)",
               }}
             />
             <MOrchestrate className="relative">

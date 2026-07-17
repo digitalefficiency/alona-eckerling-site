@@ -251,7 +251,7 @@ export default function HomePage() {
                 as="h1"
                 text={HERO.title}
                 className="mt-5 font-serif font-black leading-[1.12] text-navy"
-                style={{ fontSize: "clamp(2.6rem, 6vw, 4.75rem)" }}
+                style={{ fontSize: "clamp(2.6rem, 6vw, 4rem)" }}
               />
             </MItem>
             <MItem as="p" className="mt-7 max-w-[62ch] text-lg leading-[1.7] text-muted">
@@ -333,8 +333,8 @@ export default function HomePage() {
               <MItem variants={scaleSoft}>
                 {/* flagship card — the geometric signature's double frame */}
                 <div
-                  className="frame-double relative flex aspect-[4/5] flex-col items-center justify-center gap-3 overflow-hidden rounded-[16px] bg-gold-soft p-8 text-center"
-                  style={{ "--frame-gap": "7px" } as React.CSSProperties}
+                  className="frame-double relative flex aspect-[4/5] flex-col items-center justify-center gap-3 rounded-[16px] bg-gold-soft p-8 text-center"
+                  style={{ "--frame-gap": "7px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
                 >
                   <div aria-hidden className="grain-overlay" />
                   <span className="relative text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
@@ -409,7 +409,7 @@ export default function HomePage() {
                   <span
                     aria-hidden
                     className={`relative font-serif text-[6rem] font-black leading-none md:text-[8rem] ${
-                      i < 2 ? "text-white/50" : "text-gold-ink/15"
+                      i < 2 ? "text-white/50" : "text-gold-ink/40"
                     }`}
                   >
                     {s.n}

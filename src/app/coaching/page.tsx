@@ -310,7 +310,9 @@ export default function CoachingPage() {
             alt=""
             className="absolute inset-y-0 -end-0 hidden h-full w-[42%] object-cover md:block"
           />
-          <div className="absolute inset-y-0 -end-0 hidden h-full w-[46%] bg-gradient-to-l from-transparent via-sand/40 to-sand md:block" />
+          {/* scrim anchors the photo AT the viewport edge and melts toward the text
+              column (the section-14 recipe) — never the other way around */}
+          <div className="absolute inset-y-0 -end-0 hidden h-full w-[46%] bg-gradient-to-l from-sand via-sand/40 to-transparent md:block" />
           <div className="absolute -top-24 -start-24 h-[26rem] w-[26rem] rounded-full bg-blush/70 blur-3xl" />
           <div className="absolute -bottom-28 -end-20 h-[24rem] w-[24rem] rounded-full bg-gold-soft/50 blur-3xl" />
         </div>
@@ -423,7 +425,9 @@ export default function CoachingPage() {
                 ? { src: "/media/client/recipes/cauliflower-fried-rice.jpg", alt: "אורז מוקפץ מכרובית, מנה אמיתית מהמטבח של אלונה" }
                 : i === 1
                   ? { src: "/media/generated/11-method-week-bowls.jpg", alt: "" }
-                  : null;
+                  : i === 2
+                    ? { src: "/media/generated/11-method-science.jpg", alt: "" }
+                    : { src: "/media/generated/11-method-two-cups.jpg", alt: "" };
             return pillarImg ? (
               <div
                 className="relative overflow-hidden rounded-[10px] border border-line"

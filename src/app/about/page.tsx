@@ -148,8 +148,8 @@ export default function AboutPage() {
           <Reveal>
             {/* flagship double frame — the geometric signature's calling card */}
             <div
-              className="frame-double relative mx-auto w-full max-w-[26rem] overflow-hidden rounded-[16px] bg-gold-soft/70 md:max-w-none"
-              style={{ aspectRatio: "4 / 5", "--frame-gap": "7px" } as React.CSSProperties}
+              className="frame-double relative mx-auto w-full max-w-[26rem] rounded-[16px] bg-gold-soft/70 md:max-w-none"
+              style={{ aspectRatio: "4 / 5", "--frame-gap": "7px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
             >
               <div aria-hidden className="grain-overlay" />
               <div className="relative flex h-full flex-col items-center justify-center gap-4 p-8 text-center">

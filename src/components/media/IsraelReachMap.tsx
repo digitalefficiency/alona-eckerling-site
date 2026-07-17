@@ -29,9 +29,9 @@ export function IsraelReachMap({ className = "" }: { className?: string }) {
           cy={pin.y}
           r={300}
         >
-          <stop offset="0" style={{ stopColor: "var(--color-gold-soft)", stopOpacity: 0.95 }} />
-          <stop offset="0.55" style={{ stopColor: "var(--color-gold-soft)", stopOpacity: 0.4 }} />
-          <stop offset="1" style={{ stopColor: "var(--color-gold-soft)", stopOpacity: 0 }} />
+          <stop offset="0" style={{ stopColor: "var(--color-gold)", stopOpacity: 0.28 }} />
+          <stop offset="0.55" style={{ stopColor: "var(--color-gold)", stopOpacity: 0.12 }} />
+          <stop offset="1" style={{ stopColor: "var(--color-gold)", stopOpacity: 0 }} />
         </radialGradient>
       </defs>
 
@@ -52,7 +52,7 @@ export function IsraelReachMap({ className = "" }: { className?: string }) {
            C66 98 74 78 84 60
            C90 46 100 30 108 18
            C111 13 114 10 118 8 Z"
-        className="fill-sand stroke-line"
+        className="fill-card stroke-gold/45"
         strokeWidth="2"
         strokeLinejoin="round"
       />
@@ -76,9 +76,9 @@ export function IsraelReachMap({ className = "" }: { className?: string }) {
         fill="url(#contact-reach)"
       />
       {/* טבעות-הישג שקטות סביב אזור רעננה */}
-      <circle cx={pin.x} cy={pin.y} r="26" className="stroke-gold" strokeWidth="1.5" opacity="0.3" />
-      <circle cx={pin.x} cy={pin.y} r="48" className="stroke-gold" strokeWidth="1.2" opacity="0.16" />
-      <circle cx={pin.x} cy={pin.y} r="74" className="stroke-gold" strokeWidth="1" opacity="0.08" />
+      <circle cx={pin.x} cy={pin.y} r="26" className="stroke-gold" strokeWidth="1.5" opacity="0.55" />
+      <circle cx={pin.x} cy={pin.y} r="48" className="stroke-gold" strokeWidth="1.2" opacity="0.38" />
+      <circle cx={pin.x} cy={pin.y} r="74" className="stroke-gold" strokeWidth="1" opacity="0.24" />
       {/* עוגן-האזור — כתם רך, לא נעץ-כתובת (רמת-עיר בלבד) */}
       <circle cx={pin.x} cy={pin.y} r="13" className="fill-gold" opacity="0.3" />
       <circle cx={pin.x} cy={pin.y} r="5.5" className="fill-gold" />

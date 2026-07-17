@@ -74,9 +74,13 @@ export default function TestimonialsPage() {
       {/* ===== 32 · hero — centered-prose · מסגור כן (נייר חם + blush-wash) =====
           data-light-hero: העמוד נפתח על היר בהיר — ה-Header חייב לקבל את מצב
           הדיו הכהה מיד, אחרת הניווט לבן-על-קרם ובלתי-נראה (audit #1). */}
-      <section data-light-hero className="relative">
+      <section
+        data-light-hero
+        className="relative"
+        style={{ background: "linear-gradient(180deg, var(--color-blush) 0%, color-mix(in srgb, var(--color-blush) 35%, var(--color-bg)) 62%, transparent 100%)" }}
+      >
         <Container width="prose" className="pt-16 sm:pt-20 md:pt-28">
-          <div className="rounded-[16px] bg-blush/60 px-6 py-12 text-center sm:px-10 md:px-14 md:py-16">
+          <div className="rounded-[16px] border border-line bg-card/85 px-6 py-12 text-center shadow-[var(--elevation-1)] sm:px-10 md:px-14 md:py-16">
             <MOrchestrate>
               {/* המוטיב השקט היחיד — גרשיים פתוחים ברוז, "כאן שייך ציטוט" בלי לזייף אחד */}
               <MItem>

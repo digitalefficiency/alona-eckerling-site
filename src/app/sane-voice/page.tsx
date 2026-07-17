@@ -263,9 +263,9 @@ function LockGlyph() {
 function BubblesMotif() {
   return (
     <div className="flex items-end gap-1.5" aria-hidden>
-      <span className="h-8 w-14 rounded-2xl rounded-es-sm bg-gold/25" />
-      <span className="h-8 w-10 rounded-2xl rounded-ee-sm bg-card" />
-      <span className="h-8 w-8 rounded-full bg-rose/30" />
+      <span className="h-8 w-14 rounded-2xl rounded-es-sm bg-gold/50" />
+      <span className="h-8 w-10 rounded-2xl rounded-ee-sm border border-line bg-card" />
+      <span className="h-8 w-8 rounded-full bg-rose/60" />
     </div>
   );
 }

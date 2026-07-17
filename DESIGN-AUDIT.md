@@ -404,3 +404,30 @@
 - **תיקון:** Change the default to feminine-singular clinic voice (e.g. 'שיחה לאלונה') or remove the tel action entirely given the no-published-phone decision.
 - **ראיה:** src/components/StickyContactBar.tsx line 13.
 - **סטטוס:** ☐ פתוח
+
+---
+
+## סריקת-איכות רוחבית · 2026-07-17 (workflow: 7 בוחנים + אימות אדוורסרי; 21 ממצאים → 15 אומתו, 6 הופרכו)
+מחלקת-הכשל: "סקשנים שנקראים לא-גמורים / נשברים במסכים רחבים" (בעקבות פסילת home-success ו-about-quote ע"י רום).
+
+### תוקן מיידית (קומיט הסריקה)
+- S1 [HIGH] coaching 09: מסך-הסנד של ההירו היה הפוך — הצילום נקבר בקצה ונחתך חד ליד הטקסט → הפכתי לסדר של סקשן 14 (from-sand→to-transparent).
+- S2 [HIGH] coaching 11: פאנלים 3–4 של הפין היו מלבני-פסטל ריקים → חוברו 11-method-science.jpg (חדש) + 11-method-two-cups.jpg (היה קיים ולא מחובר).
+- S3 [HIGH] contact 37: מפת-ישראל הייתה sand-על-sand (1.008:1) → fill-card + קו-חוף gold/45 + זוהר gold + טבעות 0.24+.
+- S4 [HIGH] about 17 + home 03: באג-מחלקה — frame-double עם overflow-hidden על אותו אלמנט חתך את הטבעת החיצונית; הקו הפנימי line-על-קרם היה בלתי-נראה → overflow הוסר (grain-overlay קיבל border-radius:inherit גלובלית), --frame-color: gold.
+- S5 [HIGH] testimonials 32: ההירו היחיד בלי רצועת-רקע לרוחב מלא → רצועת-blush מלאה + כרטיס-קלף (card/85 + line + elevation-1).
+- S6 [MED] home 01: ה-H1 נשבר ל-4 שורות בכל רוחב ≥1200px (תקרת 4.75rem מול 760px) → תקרה 4rem; שתי שורות-COPY נשמרות.
+- S7 [MED] home 04: ספרת שלב-03 בסולם הייתה 15% (בלתי-נראית) → 40%.
+- S8 [MED] sane-voice 29: שלוש בועות-השיחה מתחת ל-1.3:1 → gold/50, card+border-line, rose/60.
+- S9 [MED] contact 35/37: SoftArc בלתי-נראית (נקודת-rose מרחפת) → stroke-gold/50.
+- S10 [LOW] contact 36: "בריכת-האור" gold-soft הכהתה את ראש-הכרטיס → white/75 radial (אור אמיתי).
+
+### מאומת, נדחה לאיטרציה עם רום (דורש הכרעת-עיצוב)
+- D1 [MED] about 18: חצי-הרקע משאיר רצועת-מת שטוחה בקצה במסכים רחבים (עד ~432px ב-2056) — פתרון: full-bleed מסגור או cap.
+- D2 [MED] coaching 11: חלון-הפין נעול ב-1240px אבל sticky h-screen — ב-2056 ~42% סנד מת והפאנלים נחתכים באוויר — פתרון: מסכות-קצה/פריים.
+- D3 [HIGH] recipes 24: אריחי-טקסט חסרי-תמונה נופלים בדיוק על סלוטי-הפיצ'ר (spanFor עיוור לתמונה) — פתרון: span רק לבעלי-תמונה.
+- D4 [LOW] recipes 23: מקור-ההירו 1477px מוגש ב-0.36–0.49 צפיפות ברטינה רחבה — פתרון: נכס רחב יותר או קרופ אחר.
+- D5 [—] recipes: המיון tie-inconsistent ב-collections.ts:101 (השוואת מחרוזות תאריך) — יציבות סדר האריחים.
+
+### הופרכו באימות (ללא פעולה)
+home 08 CTA · testimonials 34 CTA (חשבון-גליפים שגוי) · recipes גליף-גרשיים · recipes רדיד-החוברת · sane-voice רמז-השדרה (שקט-בכוונה).

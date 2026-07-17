@@ -152,6 +152,7 @@
 .grain-overlay {
   position: absolute;
   inset: 0;
+  border-radius: inherit;
   pointer-events: none;
   opacity: var(--grain-opacity);
   mix-blend-mode: soft-light;
