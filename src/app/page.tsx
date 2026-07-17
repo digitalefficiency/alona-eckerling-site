@@ -13,7 +13,6 @@ import { slideIn, scaleSoft } from "@/lib/motion-variants";
 import { SplitText } from "@/components/motion/SplitText";
 import { StickyScroll } from "@/components/motion/StickyScroll";
 import { SequenceFilm, type FilmChip, type FilmCaption } from "@/components/SequenceFilm";
-import { BackgroundArt } from "@/components/media/BackgroundArt";
 import { Comparison } from "@/components/section/Comparison";
 import { RecognitionBadges } from "@/components/trust/RecognitionBadges";
 import { ResponsePromise } from "@/components/trust/ResponsePromise";
@@ -172,21 +171,20 @@ const STAKES = {
   bandSecondary: "או קחי בינתיים הצצה למתכונים",
 } as const;
 
-// COPY: ### סקשן 7 · BackgroundArt + PullQuote (רעש→שקט)
+// COPY: ### סקשן 7 · חצי-קומפוזיציה: still-ערב + PullQuote (רעש→שקט)
 const SUCCESS = {
   kicker: "ככה זה יכול להרגיש",
   lines: "בפעם הראשונה, אני לא בדיאטה.\nאכלתי בחוץ, נהניתי, ובלי אשמה.\nיש לי אנרגיה, ובראש שקט.",
   bridge: "וזה מתחיל בשיחה אחת, בלי לחץ. ←",
 } as const;
 
-// COPY: ### סקשן 7 — the settled noise: the SAME thought-chips from סקשן 2,
-// resting faint and thinning downward (decorative, aria-hidden — the motif resolves).
+// COPY: ### סקשן 7 — the settled noise: three of the film's thought-chips, now
+// visibly AT REST — laid down over the frame's edge like notes set aside for
+// good (decorative, aria-hidden — the motif resolves in plain sight).
 const SETTLED_NOISE = [
-  { text: "אוקיי, סלט. בטוח.", top: "8%", side: "start" as const, offset: "10%", opacity: 0.15, tilt: -2 },
-  { text: "רגע, קינואה זה פחמימה?", top: "24%", side: "end" as const, offset: "8%", opacity: 0.12, tilt: 1.5 },
-  { text: "בטטה בערב?!", top: "44%", side: "start" as const, offset: "16%", opacity: 0.09, tilt: -1 },
-  { text: "כמה קלוריות זה כבר?", top: "63%", side: "end" as const, offset: "18%", opacity: 0.06, tilt: 1 },
-  { text: "טחינה זה שמן... אבל אני אוהבת.", top: "82%", side: "start" as const, offset: "24%", opacity: 0.04, tilt: -1.5 },
+  { text: "אוקיי, סלט. בטוח.", tilt: -3, offset: "0rem" },
+  { text: "כמה קלוריות זה כבר?", tilt: 2, offset: "1.75rem" },
+  { text: "בטטה בערב?!", tilt: -1.5, offset: "0.5rem" },
 ];
 
 // COPY: ### סקשן 8 · ContactLeadForm (פאנל נייבי #lead)
@@ -567,59 +565,75 @@ export default function HomePage() {
         />
       </section>
 
-      {/* ── 07 · SUCCESS — background-art peak-end: the sage→blush quiet field; the
-             same thought-chips from the film rest settled and fading (the motif
-             resolves to stillness). First-person felt-lines, framed as the possible
-             future — never a testimonial. ── */}
+      {/* ── 07 · SUCCESS — the quiet made tangible: a golden-hour "ate out and
+             enjoyed it" still inside the signature double frame, the felt-lines
+             reading beside it, and the film's noise-chips finally AT REST over
+             the frame's edge (the motif resolves in plain sight). First-person
+             felt-lines framed as the possible future — never a testimonial. ── */}
       <section
         className="relative"
         style={{ background: "linear-gradient(180deg, var(--color-gold-soft) 0%, var(--color-blush) 100%)" }}
       >
-        <BackgroundArt
-          amplitude={4}
-          art={
-            <div aria-hidden className="relative h-full w-full">
-              {SETTLED_NOISE.map((w) => (
-                <span
-                  key={w.text}
-                  className="absolute whitespace-nowrap font-serif italic text-navy"
-                  style={{
-                    top: w.top,
-                    ...(w.side === "start" ? { insetInlineStart: w.offset } : { insetInlineEnd: w.offset }),
-                    opacity: w.opacity,
-                    transform: `rotate(${w.tilt}deg)`,
-                    fontSize: "clamp(0.85rem, 1.6vw, 1.15rem)",
-                  }}
-                >
-                  {w.text}
-                </span>
-              ))}
-            </div>
-          }
-        >
-          <Container width="prose" className="py-28 text-center md:py-44">
-            <div className="flex items-center justify-center gap-2.5">
-              <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-              <p className="font-serif text-[1.2rem] font-medium leading-snug text-navy">{SUCCESS.kicker}:</p>
-            </div>
-            <RevealHeading
-              as="h2"
-              text={SUCCESS.lines}
-              className="mt-8 text-center font-serif font-bold leading-[1.45] text-navy"
-              style={{ fontSize: "clamp(1.6rem, 3.6vw, 2.6rem)" }}
-              lastLineClass="relative mx-auto w-fit after:absolute after:inset-x-0 after:bottom-[0.02em] after:h-[3px] after:rounded-full after:bg-rose after:origin-[100%_50%] after:transition-transform after:duration-[var(--dur-rule)] after:ease-[var(--ease-signature)] after:delay-[calc(var(--dur-reveal)_+_2*var(--dur-stagger))] motion-reduce:after:transition-none [.is-masked_&]:after:scale-x-0"
-            />
-            <div className="mt-10">
-              <Link
-                href="#lead"
-                data-cta="success-to-lead"
-                className="text-lg font-medium text-navy-700 transition hover:text-navy"
+        <Container width="wide" className="py-24 md:py-36">
+          <MOrchestrate className="grid items-center gap-16 md:grid-cols-[1.05fr_0.95fr] md:gap-12 lg:gap-20">
+            {/* the felt-lines — read first (inline-start), leaning toward the evening */}
+            <div className="text-center md:text-start">
+              <MItem
+                variants={slideIn("inline-start", 32)}
+                className="flex items-center justify-center gap-2.5 md:justify-start"
               >
-                {SUCCESS.bridge}
-              </Link>
+                <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
+                <p className="font-serif text-[1.2rem] font-medium leading-snug text-navy">{SUCCESS.kicker}:</p>
+              </MItem>
+              <RevealHeading
+                as="h2"
+                text={SUCCESS.lines}
+                className="mt-7 font-serif font-bold leading-[1.5] text-navy"
+                style={{ fontSize: "clamp(1.55rem, 3.1vw, 2.45rem)" }}
+                lastLineClass="relative mx-auto w-fit md:mx-0 after:absolute after:inset-x-0 after:bottom-[0.02em] after:h-[3px] after:rounded-full after:bg-rose after:origin-[100%_50%] after:transition-transform after:duration-[var(--dur-rule)] after:ease-[var(--ease-signature)] after:delay-[calc(var(--dur-reveal)_+_2*var(--dur-stagger))] motion-reduce:after:transition-none [.is-masked_&]:after:scale-x-0"
+              />
+              <MItem variants={slideIn("inline-start", 32)} className="mt-11">
+                <Link
+                  href="#lead"
+                  data-cta="success-to-lead"
+                  className="btn-chamfer inline-block rounded-[6px] border-2 border-navy/30 bg-bg/70 px-7 py-3.5 text-lg font-semibold text-navy transition hover:border-navy/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
+                >
+                  {SUCCESS.bridge}
+                </Link>
+              </MItem>
             </div>
-          </Container>
-        </BackgroundArt>
+            {/* the evening it points to — double-framed still entering from the far
+                side; the settled noise rests over its edge, set down for good */}
+            <MItem variants={slideIn("inline-end", 48)} className="mx-auto w-full max-w-[420px] md:max-w-[480px]">
+              <div
+                className="frame-double relative rounded-[16px]"
+                style={{ "--frame-gap": "10px", "--frame-color": "var(--color-rose)" } as React.CSSProperties}
+              >
+                <div className="relative aspect-[4/5] overflow-hidden rounded-[inherit]">
+                  <Image
+                    src="/media/generated/07-success-evening.jpg"
+                    alt="שולחן במסעדה בשעת ערב: צלחת כמעט ריקה אחרי ארוחה שנהנו ממנה, ויד נחה רגועה על השולחן"
+                    fill
+                    sizes="(min-width: 768px) 40vw, 92vw"
+                    className="object-cover"
+                  />
+                </div>
+                {/* the settled noise — the film's thought-chips, laid down */}
+                <div aria-hidden className="absolute -bottom-6 start-[-10px] flex flex-col items-start gap-2 sm:start-[-22px]">
+                  {SETTLED_NOISE.map((w) => (
+                    <span
+                      key={w.text}
+                      className="inline-block whitespace-nowrap rounded-full border border-line bg-bg/90 px-4 py-1.5 font-serif text-[0.95rem] italic text-muted shadow-sm"
+                      style={{ transform: `rotate(${w.tilt}deg)`, marginInlineStart: w.offset }}
+                    >
+                      {w.text}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </MItem>
+          </MOrchestrate>
+        </Container>
       </section>
 
       {/* ── 08 · RESOLUTION — the navy #lead: calm asymmetric split, the small free
