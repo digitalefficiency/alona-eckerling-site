@@ -7,7 +7,9 @@ import { ShapedSection } from "@/components/layout/ShapedSection";
 import { SectionHeading } from "@/components/SectionHeading";
 import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
+import { MChapter } from "@/components/motion/MChapter";
 import { RevealHeading } from "@/components/motion/RevealHeading";
+import { slideIn, scaleSoft } from "@/lib/motion-variants";
 import { SplitText } from "@/components/motion/SplitText";
 import { StickyScroll } from "@/components/motion/StickyScroll";
 import { SequenceFilm, type FilmChip, type FilmCaption } from "@/components/SequenceFilm";
@@ -263,7 +265,7 @@ export default function HomePage() {
                   <Link
                     href="#lead"
                     data-cta="hero-primary"
-                    className="rounded-full bg-gold px-8 py-4 text-base font-bold text-white transition hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                    className="btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                   >
                     {HERO.ctaPrimary}
                   </Link>
@@ -298,17 +300,21 @@ export default function HomePage() {
              The ShapedSection arc (sand — the film's own stage tone) is the soft-arc
              seam the direction mandates between the psychological beats: the hero
              exhales into the film instead of a hard photographic cut. ── */}
-      <ShapedSection tone="sand" shape="arc" edge="top">
-        <SequenceFilm
-          frames={FILM_FRAMES}
-          kicker={FILM.kicker}
-          chips={FILM_CHIPS}
-          captions={FILM_CAPTIONS}
-          staticKicker={FILM.staticKicker}
-          staticHeading={FILM.staticHeading}
-          staticBody={FILM.staticBody}
-          finalAlt={FILM.finalAlt}
-        />
+      {/* outer curve (edge=bottom): the film's sand stage EXHALES into the paper of
+          the guide instead of a hard cut — the plan's soft-transitions program. */}
+      <ShapedSection tone="sand" shape="curve" edge="bottom">
+        <ShapedSection tone="sand" shape="arc" edge="top">
+          <SequenceFilm
+            frames={FILM_FRAMES}
+            kicker={FILM.kicker}
+            chips={FILM_CHIPS}
+            captions={FILM_CAPTIONS}
+            staticKicker={FILM.staticKicker}
+            staticHeading={FILM.staticHeading}
+            staticBody={FILM.staticBody}
+            finalAlt={FILM.finalAlt}
+          />
+        </ShapedSection>
       </ShapedSection>
 
       {/* ── 03 · GUIDE — asymmetric-split: empathy → checkable credentials → the age
@@ -319,36 +325,50 @@ export default function HomePage() {
         <Container width="wide" className="py-16 sm:py-20 md:py-32">
           <SectionSeam className="mb-12" />
           <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} />
-          <div className="mt-12 grid items-start gap-12 md:grid-cols-[0.85fr_1.15fr]">
+          {/* ONE orchestrator for the whole split (choreography rule): the calling
+              card settles, her age-line LEANS IN from the inline-start (the page's
+              first side-entrance — her voice arriving beside the card), the argument
+              column staggers block-axis. */}
+          <MOrchestrate className="mt-12 grid items-start gap-12 md:grid-cols-[0.85fr_1.15fr]">
             {/* portrait column — RTL inline-start (right): the real-photo slot, kept honest */}
             <div className="mx-auto w-full max-w-[420px]">
-              <div className="relative flex aspect-[4/5] flex-col items-center justify-center gap-3 overflow-hidden rounded-[16px] border border-line bg-gold-soft p-8 text-center">
-                <div aria-hidden className="grain-overlay" />
-                <span className="relative text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-                <div className="relative font-serif text-3xl font-bold text-navy">{GUIDE.name}</div>
-                <span aria-hidden className="relative h-[3px] w-10 rounded-full bg-rose" />
-                <div className="relative font-serif text-base font-semibold text-navy-700">{GUIDE.role}</div>
-              </div>
-              <figure className="mt-7 border-s-4 border-rose ps-5">
-                <blockquote className="font-serif text-lg italic leading-relaxed text-navy">
-                  {GUIDE.ageLine}
-                </blockquote>
-              </figure>
+              <MItem variants={scaleSoft}>
+                {/* flagship card — the geometric signature's double frame */}
+                <div
+                  className="frame-double relative flex aspect-[4/5] flex-col items-center justify-center gap-3 overflow-hidden rounded-[16px] bg-gold-soft p-8 text-center"
+                  style={{ "--frame-gap": "7px" } as React.CSSProperties}
+                >
+                  <div aria-hidden className="grain-overlay" />
+                  <span className="relative text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
+                  <div className="relative font-serif text-3xl font-bold text-navy">{GUIDE.name}</div>
+                  <span aria-hidden className="relative h-[3px] w-10 rounded-full bg-rose" />
+                  <div className="relative font-serif text-base font-semibold text-navy-700">{GUIDE.role}</div>
+                </div>
+              </MItem>
+              <MItem variants={slideIn("inline-start", 32)} className="mt-7">
+                <figure className="border-s-4 border-rose ps-5">
+                  <blockquote className="font-serif text-lg italic leading-relaxed text-navy">
+                    {GUIDE.ageLine}
+                  </blockquote>
+                </figure>
+              </MItem>
             </div>
             {/* argument column — empathy strictly before authority */}
             <div>
-              <p className="max-w-[62ch] text-lg leading-[1.7] text-muted">{GUIDE.empathy}</p>
-              <div className="mt-8">
+              <MItem as="p" className="max-w-[62ch] text-lg leading-[1.7] text-muted">{GUIDE.empathy}</MItem>
+              <MItem className="mt-8">
                 <RecognitionBadges badges={[...GUIDE.credentials]} />
-              </div>
-              <MStagger as="ul" className="mt-9 grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
+              </MItem>
+              <ul className="mt-9 grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
                 {GUIDE.mechanism.map((m) => (
-                  <span key={m} className="inline-block self-start border-b-2 border-rose pb-1.5 font-serif text-lg font-bold text-navy">
-                    {m}
-                  </span>
+                  <MItem as="li" key={m} className="self-start">
+                    <span className="inline-block border-b-2 border-rose pb-1.5 font-serif text-lg font-bold text-navy">
+                      {m}
+                    </span>
+                  </MItem>
                 ))}
-              </MStagger>
-              <div className="mt-10">
+              </ul>
+              <MItem className="mt-10">
                 <Link
                   href="/coaching"
                   data-cta="guide-to-coaching"
@@ -356,9 +376,9 @@ export default function HomePage() {
                 >
                   {GUIDE.cta}
                 </Link>
-              </div>
+              </MItem>
             </div>
-          </div>
+          </MOrchestrate>
         </Container>
       </section>
 
@@ -399,13 +419,19 @@ export default function HomePage() {
                 </div>
               ),
               content: (
-                <div>
-                  <span className="grid h-11 w-11 place-items-center rounded-full border border-gold/60 bg-card font-serif text-base font-bold text-gold-ink">
-                    {s.n}
-                  </span>
-                  <h3 className="mt-4 font-serif text-2xl font-bold text-navy">{s.t}</h3>
-                  <p className="mt-3 max-w-[52ch] text-lg leading-[1.7] text-muted">{s.d}</p>
-                </div>
+                // the owner-requested upgrade: each rung is a real PROCESS CARD that
+                // LEANS IN from the inline-end toward the sticky media — "המחשבה
+                // מגיעה לצד התמונה". Diamond step-marker = the ◆ signature grown up.
+                <MStagger variants={slideIn("inline-end", 48)} itemClassName="h-full">
+                  <div className="rounded-[16px] border border-line bg-card p-7 shadow-[var(--elevation-1)]">
+                    <span aria-hidden className="grid h-11 w-11 rotate-45 place-items-center border border-gold/60 bg-gold-soft">
+                      <span className="-rotate-45 font-serif text-base font-bold text-gold-ink">{s.n}</span>
+                    </span>
+                    <h3 className="mt-5 font-serif text-2xl font-bold text-navy">{s.t}</h3>
+                    <span aria-hidden className="mt-2.5 block h-[2px] w-12 bg-rose" />
+                    <p className="mt-3 max-w-[52ch] text-lg leading-[1.7] text-muted">{s.d}</p>
+                  </div>
+                </MStagger>
               ),
             }))}
           />
@@ -418,6 +444,8 @@ export default function HomePage() {
               {PLAN.cta}
             </Link>
           </div>
+          {/* chapter seam out of the plan — ◆ hairlines hand the story to the proof */}
+          <MChapter />
         </Container>
       </ShapedSection>
 
@@ -493,23 +521,30 @@ export default function HomePage() {
       </Section>
 
       {/* ── 06 · STAKES — comparison: another noisy year vs the quiet way, the cost
-             priced in noise and guilt (never kilos), the easy free step welded beneath. ── */}
+             priced in noise and guilt (never kilos), the easy free step welded beneath.
+             THE FORK: the two futures approach from OPPOSITE inline sides (Comparison
+             fork mode); the block overlaps up out of the proof band ("the choice rises
+             out of the proof"); the sage wash at the bottom flows seamlessly into the
+             Success field — no drawn seam before the emotional peak. ── */}
       <section className="relative">
-        <Container width="wide" className="py-16 sm:py-20 md:py-32">
-          <SectionHeading eyebrow={STAKES.kicker} title={STAKES.title} />
-          <p className="mt-8 font-serif text-lg italic text-rose-ink">{STAKES.cue}</p>
-          <Comparison
-            className="mt-5"
-            left={{ label: STAKES.quiet.label, note: STAKES.quiet.note, points: [...STAKES.quiet.points], highlight: true }}
-            right={{ label: STAKES.noisy.label, note: STAKES.noisy.note, points: [...STAKES.noisy.points] }}
-          />
+        <Container width="wide" className="pb-32 pt-4 sm:pb-36 md:pb-44 md:pt-6">
+          <div className="relative z-10 -mt-10 rounded-[16px] border border-line bg-bg p-7 shadow-[var(--elevation-2)] md:-mt-14 md:p-10">
+            <SectionHeading eyebrow={STAKES.kicker} title={STAKES.title} />
+            <p className="mt-8 font-serif text-lg italic text-rose-ink">{STAKES.cue}</p>
+            <Comparison
+              className="mt-5"
+              fork
+              left={{ label: STAKES.quiet.label, note: STAKES.quiet.note, points: [...STAKES.quiet.points], highlight: true }}
+              right={{ label: STAKES.noisy.label, note: STAKES.noisy.note, points: [...STAKES.noisy.points], noisy: true }}
+            />
+          </div>
           <div className="mt-8 flex flex-col items-center justify-between gap-6 rounded-[16px] bg-blush p-7 md:flex-row md:p-9">
             <p className="max-w-[52ch] text-lg font-medium leading-relaxed text-navy">{STAKES.band}</p>
             <div className="flex shrink-0 flex-col items-center gap-3 sm:flex-row sm:gap-5">
               <Link
                 href="#lead"
                 data-cta="stakes-to-cta"
-                className="rounded-full bg-gold px-7 py-3.5 font-bold text-white transition hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                className="btn-chamfer rounded-[6px] bg-gold px-7 py-3.5 font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
               >
                 {STAKES.bandCta}
               </Link>
@@ -523,6 +558,13 @@ export default function HomePage() {
             </div>
           </div>
         </Container>
+        {/* the shared sage wash: begins inside the stakes' bottom padding and flows
+            into the Success gradient field — the seamless breath before the peak */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-28 md:h-36"
+          style={{ background: "linear-gradient(180deg, transparent 0%, var(--color-gold-soft) 100%)" }}
+        />
       </section>
 
       {/* ── 07 · SUCCESS — background-art peak-end: the sage→blush quiet field; the
