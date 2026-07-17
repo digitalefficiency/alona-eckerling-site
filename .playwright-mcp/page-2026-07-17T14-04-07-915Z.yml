@@ -1,0 +1,240 @@
+- generic [active] [ref=f4e1]:
+  - banner [ref=f4e2]:
+    - generic [ref=f4e4]:
+      - link "אלונה אקרלינג מאז 2023" [ref=f4e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f4e6]: אלונה אקרלינג
+        - generic [ref=f4e7]: מאז 2023
+      - generic [ref=f4e8]:
+        - navigation "ראשי" [ref=f4e9]:
+          - link "בית" [ref=f4e10] [cursor=pointer]:
+            - /url: /
+          - link "מתכונים" [ref=f4e11] [cursor=pointer]:
+            - /url: /recipes
+          - link "איך עובדים איתי" [ref=f4e12] [cursor=pointer]:
+            - /url: /coaching
+          - link "עליי" [ref=f4e13] [cursor=pointer]:
+            - /url: /about
+          - link "המלצות" [ref=f4e14] [cursor=pointer]:
+            - /url: /testimonials
+          - link "הקול השפוי" [ref=f4e15] [cursor=pointer]:
+            - /url: /sane-voice
+          - link "צור קשר" [ref=f4e16] [cursor=pointer]:
+            - /url: /contact
+        - link "בואי נדבר" [ref=f4e17] [cursor=pointer]:
+          - /url: /contact
+  - main [ref=f4e18]:
+    - generic [ref=f4e20]:
+      - generic [ref=f4e24]:
+        - generic [ref=f4e26]:
+          - generic [ref=f4e27]: חוברת המתכונים
+          - generic [ref=f4e28]: הקול השפוי
+          - generic [ref=f4e30]: מאת דיאטנית קלינית מוסמכת · R.D.
+        - generic [ref=f4e31]: אלונה אקרלינג
+      - generic [ref=f4e32]:
+        - navigation "breadcrumb" [ref=f4e34]:
+          - list [ref=f4e35]:
+            - listitem [ref=f4e36]:
+              - link "בית" [ref=f4e37] [cursor=pointer]:
+                - /url: /
+              - generic [ref=f4e38]: ‹
+            - listitem [ref=f4e39]:
+              - generic [ref=f4e40]: הקול השפוי
+        - generic [ref=f4e41]:
+          - paragraph [ref=f4e42]:
+            - generic [ref=f4e43]: ◆
+            - generic [ref=f4e44]: חוברת המתכונים
+          - heading "הקול השפוי" [level=1] [ref=f4e46]
+          - paragraph [ref=f4e49]: "אוכל טוב, בלי חוקים מיותרים, בדרך שמתאימה לחיים שלך. חוברת מתכונים של דיאטנית שבאמת מבשלת: מתכונים קלים, בדוקים, בלי אשמה."
+          - generic [ref=f4e50]: 149 ₪ · תשלום חד-פעמי
+          - link "אני רוצה את החוברת · 149 ₪" [ref=f4e53] [cursor=pointer]:
+            - /url: "#checkout"
+          - paragraph [ref=f4e54]: כולל כניסה לקבוצת הוואטסאפ של הקהילה
+          - paragraph [ref=f4e55]:
+            - link "רק להישאר מעודכנת? הצטרפי לרשימה" [ref=f4e56] [cursor=pointer]:
+              - /url: /contact?list=1#lead
+          - paragraph [ref=f4e57]:
+            - generic [ref=f4e58]: ◆
+            - generic [ref=f4e59]: מאת דיאטנית קלינית מוסמכת · R.D.
+    - generic [ref=f4e61]:
+      - generic [ref=f4e62]: ◆
+      - generic [ref=f4e66]:
+        - paragraph [ref=f4e67]:
+          - generic [ref=f4e68]: ◆
+          - generic [ref=f4e69]: למי זה מתאים
+        - heading "כל שבוע טרנד חדש, ואת לא יודעת מה נכון" [level=2] [ref=f4e71]
+        - paragraph [ref=f4e74]: הנה קול אחד שפוי, נכתב בשבילך.
+        - generic [ref=f4e75]:
+          - generic [ref=f4e76]: קטו
+          - generic [ref=f4e77]: פחמימות זה רע
+          - generic [ref=f4e78]: רק חלבון
+          - generic [ref=f4e79]: בלי לאכול אחרי שבע
+        - paragraph [ref=f4e80]: "הפיד לא מפסיק, ובאמצע כל הרעש קשה בכלל לזכור מה בא לך לאכול. וזה לא כי משהו לא בסדר איתך: פשוט אף אחד עוד לא באמת דיבר אלייך, אל אישה צעירה שרוצה להרגיש טוב בגוף שלה, בלי להפוך את זה לדיאטה של אמא שלה."
+        - figure [ref=f4e82]:
+          - blockquote [ref=f4e83]: זו לא הדיאטה של אמא שלך. זה נכתב בשבילך.
+        - paragraph [ref=f4e84]: אוכל שאת אוהבת, בלי חוקים מיותרים, ולצידך נשים כמוך שהולכות באותה דרך.
+        - paragraph [ref=f4e85]:
+          - link "אז הנה מה שמחכה לך בפנים ←" [ref=f4e86] [cursor=pointer]:
+            - /url: "#inside"
+    - generic [ref=f4e88]:
+      - generic [ref=f4e89]:
+        - generic [ref=f4e90]:
+          - generic [ref=f4e91]: ◆
+          - generic [ref=f4e92]: מה יש בפנים
+        - 'heading "בלי הפתעות: הנה בדיוק מה שאת מקבלת" [level=2] [ref=f4e93]'
+      - generic [ref=f4e96]:
+        - generic [ref=f4e98]:
+          - img "תבשיל בורגול בסיר אחד" [ref=f4e101]
+          - generic [ref=f4e102]:
+            - heading "מתכונים ליום-יום, לא לתמונה" [level=3] [ref=f4e103]
+            - generic [ref=f4e104]: "אוכל אמיתי שבאמת מבשלים בערב עמוס: פשוט, מהיר, ומסודר כך שתמצאי מה להכין בלי לחשוב יותר מדי. לא עוד קובץ יפה שיישב בטלפון."
+        - generic [ref=f4e106]:
+          - img "שווארמה טופו ביתית" [ref=f4e109]
+          - generic [ref=f4e110]:
+            - heading "חלבון, בלי להפוך את זה לפרויקט" [level=3] [ref=f4e111]
+            - generic [ref=f4e112]: איך להכניס חלבון לארוחות שאת ממילא אוכלת, כדי להרגיש שבעה ומלאת אנרגיה. בלי אבקות, בלי לספור, ובלי לשגע את עצמך.
+        - generic [ref=f4e114]:
+          - img "בראוניז ללא קמח" [ref=f4e117]
+          - generic [ref=f4e118]:
+            - heading "בלי לוותר על האוכל שאת אוהבת" [level=3] [ref=f4e119]
+            - generic [ref=f4e120]: הדברים שאת הכי אוהבת נשארים בפנים. בלי רשימות אסור ובלי אשמה. אוכל טוב, בלי חוקים מיותרים, בדרך שמתאימה לחיים שלך.
+      - paragraph [ref=f4e121]:
+        - link "רוצה את זה אצלך? הנה איך מקבלים ←" [ref=f4e122] [cursor=pointer]:
+          - /url: "#checkout"
+    - generic [ref=f4e124]:
+      - generic [ref=f4e125]: ◆
+      - generic [ref=f4e129]:
+        - generic [ref=f4e130]:
+          - generic [ref=f4e131]: ◆
+          - generic [ref=f4e132]: זו לא רק חוברת
+        - heading "מה מקבלים, ולמי את מצטרפת" [level=2] [ref=f4e133]
+        - paragraph [ref=f4e136]: «הקול השפוי» זה לא קובץ שמורידים ושוכחים. זו חוברת, קבוצה שלמה של בנות, וקשר שממשיך.
+      - generic [ref=f4e137]:
+        - generic [ref=f4e139]:
+          - heading "חוברת «הקול השפוי»" [level=3] [ref=f4e144]
+          - paragraph [ref=f4e145]: חוברת המתכונים המלאה שלי. אוכל אמיתי, בלי חוקים מיותרים, מסודר ושלך להישאר.
+        - generic [ref=f4e147]:
+          - heading "קבוצת הוואטסאפ" [level=3] [ref=f4e153]
+          - paragraph [ref=f4e154]: "קבוצה של בנות שמדברות אותך: שאלה, מתכון, טיפ שקט, בלי שיפוט. את לא לבד עם זה."
+        - generic [ref=f4e156]:
+          - heading "עדכונים שממשיכים" [level=3] [ref=f4e161]
+          - paragraph [ref=f4e162]: זה לא נגמר בהורדה. מתכונים חדשים וטיפים שממשיכים להגיע.
+    - generic [ref=f4e164]:
+      - generic [ref=f4e165]:
+        - generic [ref=f4e166]:
+          - generic [ref=f4e167]: ◆
+          - generic [ref=f4e168]: לפני שקונים
+        - heading "כמה שאלות שתמיד עולות לפני שקונים" [level=2] [ref=f4e169]
+        - paragraph [ref=f4e172]: בכנות, בלי לחץ, כדי שתדעי בדיוק מה את מקבלת ולמה זה שווה. אם נשאר לך עוד משהו, כתבי לי, אני עונה.
+      - generic [ref=f4e174]:
+        - group [ref=f4e175]:
+          - generic "באינסטגרם יש המון תוכן חינם. אז למה לשלם על החוברת?" [ref=f4e176] [cursor=pointer]: +
+        - group [ref=f4e179]:
+          - generic "אני לא מרגישה מוכנה לליווי אישי. החוברת בכלל בשבילי?" [ref=f4e180] [cursor=pointer]: +
+        - group [ref=f4e183]:
+          - generic "149 ש\"ח, זה לא יקר לחוברת דיגיטלית?" [ref=f4e184] [cursor=pointer]: +
+        - group [ref=f4e187]:
+          - generic "מה בעצם יש בפנים?" [ref=f4e188] [cursor=pointer]: +
+        - group [ref=f4e191]:
+          - generic "זו עוד חוברת של \"אסור\"?" [ref=f4e192] [cursor=pointer]: +
+        - group [ref=f4e195]:
+          - generic "זו באמת קהילה או סתם PDF?" [ref=f4e196] [cursor=pointer]: +
+        - group [ref=f4e199]:
+          - generic "איך קונים ומתי מקבלים גישה?" [ref=f4e200] [cursor=pointer]: +
+      - generic [ref=f4e203]:
+        - paragraph [ref=f4e204]:
+          - text: נשאר עוד "כן, אבל"?
+          - link "כתבי לי בוואטסאפ" [ref=f4e205] [cursor=pointer]:
+            - /url: https://wa.me/972526359404
+          - text: ואני אענה לך באמת.
+        - paragraph [ref=f4e206]:
+          - text: עדיין מתלבטת?
+          - link "הצטרפי קודם לרשימה השפויה" [ref=f4e207] [cursor=pointer]:
+            - /url: /contact?list=1#lead
+          - text: ", חינם, ותבואי לחוברת כשתהיי מוכנה."
+        - paragraph [ref=f4e208]:
+          - link "לרכישת החוברת ←" [ref=f4e209] [cursor=pointer]:
+            - /url: "#checkout"
+    - generic [ref=f4e216]:
+      - paragraph [ref=f4e217]:
+        - generic [ref=f4e218]: ◆
+        - generic [ref=f4e219]: החוברת המלאה
+      - heading "רוצה את «הקול השפוי» שלך?" [level=2] [ref=f4e221]
+      - paragraph [ref=f4e224]: "כל מה שראית פה מחכה לך במקום אחד: «הקול השפוי», חוברת המתכונים המלאה שלי. אוכל אמיתי, בלי חוקים מיותרים, בדרך שמתאימה לחיים שלך."
+      - paragraph [ref=f4e225]: "עם הרכישה את גם נכנסת לקבוצת הוואטסאפ: מתכונים, טיפים שקטים, וקהילה של בנות שמדברות אותך."
+      - generic [ref=f4e226]:
+        - link "אני רוצה את החוברת · 149 ₪" [ref=f4e227] [cursor=pointer]:
+          - /url: https://wa.me/972526359404
+        - paragraph [ref=f4e228]: "כרגע קונים דרך וואטסאפ: כותבים לי ומקבלים קישור תשלום מאובטח של משולם. פרטי התשלום שלך לא נשמרים אצלנו."
+        - link "הצטרפי לרשימה השפויה, חינם" [ref=f4e232] [cursor=pointer]:
+          - /url: /contact?list=1#lead
+  - contentinfo [ref=f4e233]:
+    - generic [ref=f4e234]:
+      - generic [ref=f4e235]:
+        - paragraph [ref=f4e236]: אלונה אקרלינג
+        - paragraph [ref=f4e237]: את כבר יודעת מה לאכול. בואי נעשה שזה סוף סוף יישאר.
+        - paragraph [ref=f4e238]: מאז 2023
+      - generic [ref=f4e239]:
+        - paragraph [ref=f4e240]: ניווט
+        - list [ref=f4e241]:
+          - listitem [ref=f4e242]:
+            - link "בית" [ref=f4e243] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f4e244]:
+            - link "מתכונים" [ref=f4e245] [cursor=pointer]:
+              - /url: /recipes
+          - listitem [ref=f4e246]:
+            - link "איך עובדים איתי" [ref=f4e247] [cursor=pointer]:
+              - /url: /coaching
+          - listitem [ref=f4e248]:
+            - link "עליי" [ref=f4e249] [cursor=pointer]:
+              - /url: /about
+          - listitem [ref=f4e250]:
+            - link "המלצות" [ref=f4e251] [cursor=pointer]:
+              - /url: /testimonials
+          - listitem [ref=f4e252]:
+            - link "הקול השפוי" [ref=f4e253] [cursor=pointer]:
+              - /url: /sane-voice
+          - listitem [ref=f4e254]:
+            - link "צור קשר" [ref=f4e255] [cursor=pointer]:
+              - /url: /contact
+      - generic [ref=f4e256]:
+        - paragraph [ref=f4e257]: שירותים
+        - list [ref=f4e258]:
+          - listitem [ref=f4e259]:
+            - link "ליווי אישי · חבילת בסיס (60 יום)" [ref=f4e260] [cursor=pointer]:
+              - /url: /coaching
+          - listitem [ref=f4e261]:
+            - link "ליווי מורחב (120 יום)" [ref=f4e262] [cursor=pointer]:
+              - /url: /coaching
+          - listitem [ref=f4e263]:
+            - link "פגישה חד פעמית" [ref=f4e264] [cursor=pointer]:
+              - /url: /coaching
+      - generic [ref=f4e265]:
+        - paragraph [ref=f4e266]: יצירת קשר
+        - list [ref=f4e267]:
+          - listitem [ref=f4e268]: רעננה, השרון
+          - listitem [ref=f4e269]:
+            - text: "דוא״ל:"
+            - link "alonaeck1@gmail.com" [ref=f4e270] [cursor=pointer]:
+              - /url: mailto:alonaeck1@gmail.com
+          - listitem [ref=f4e271]:
+            - link "לעמוד יצירת הקשר ›" [ref=f4e272] [cursor=pointer]:
+              - /url: /contact
+    - generic [ref=f4e274]:
+      - navigation "עמודים משפטיים" [ref=f4e275]:
+        - link "מדיניות פרטיות" [ref=f4e276] [cursor=pointer]:
+          - /url: /privacy
+        - link "תקנון ותנאי שימוש" [ref=f4e277] [cursor=pointer]:
+          - /url: /terms
+        - link "הצהרת נגישות" [ref=f4e278] [cursor=pointer]:
+          - /url: /accessibility
+        - button "ניהול הגדרות עוגיות" [ref=f4e279]
+      - paragraph [ref=f4e280]:
+        - text: ©
+        - generic [ref=f4e281]: 2023-2026
+        - text: אלונה אקרלינג · המידע באתר הוא כללי ואינו מהווה ייעוץ רפואי או תזונתי אישי, ואינו תחליף להתייעצות עם גורם מקצועי מוסמך.
+  - link "לכתוב לי בוואטסאפ" [ref=f4e282] [cursor=pointer]:
+    - /url: https://wa.me/972526359404
+  - button "פתיחת תפריט נגישות" [ref=f4e285]
+  - alert [ref=f4e289]

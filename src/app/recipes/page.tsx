@@ -141,7 +141,7 @@ export default function RecipesPage() {
           <Link
             href={HERO.ctaHref}
             data-cta="recipes-hero-booklet"
-            className="mt-8 inline-flex rounded-full border border-navy/25 px-6 py-3 text-[0.95rem] font-bold text-navy transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+            className="btn-chamfer mt-8 inline-flex items-center rounded-[6px] border border-navy/20 px-7 py-3.5 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
           >
             {HERO.cta}
           </Link>
@@ -198,14 +198,15 @@ export default function RecipesPage() {
                     className="inline-flex items-center gap-2.5 btn-chamfer rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
                   >
                     {MAGNET.primary}
-                    <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-[0.8rem] font-bold">
-                      {MAGNET.price}
+                    {/* the price as a chip-skew, not a pill — one geometry per button */}
+                    <span className="chip-skew inline-block rounded-[4px] bg-white/20 px-2.5 py-0.5 text-[0.8rem] font-bold">
+                      <span>{MAGNET.price}</span>
                     </span>
                   </Link>
                   <Link
                     href={MAGNET.secondaryHref}
                     data-cta="recipes-magnet-list"
-                    className="inline-flex items-center rounded-full border border-navy/25 px-6 py-3.5 text-[0.95rem] font-bold text-navy transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
+                    className="btn-chamfer inline-flex items-center rounded-[6px] border border-navy/20 px-6 py-3.5 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
                   >
                     {MAGNET.secondary}
                   </Link>

@@ -3,7 +3,7 @@ import { MStagger } from "@/components/motion/MStagger";
 import { slideIn } from "@/lib/motion-variants";
 
 // Comparison archetype (pipeline.md §B) — two approaches side by side, one the
-// recommended column (gold border + ◆ badge). The DECISION / tension beat: "the
+// recommended column (gold border + gold bullets). The DECISION / tension beat: "the
 // usual way vs. our way", a plan chosen, a status quo rejected. Renders only the
 // text you pass — no invented superiority claims (YMYL). Server component. RTL-safe
 // (logical columns, symmetric grid).
@@ -42,12 +42,14 @@ export function Comparison({
               c.highlight ? "border-2 border-gold bg-card" : "border border-line bg-card/60"
             }`}
           >
-            <div className="mb-4 flex items-center gap-2.5">
-              {c.highlight && <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>}
-              <h3 className={`font-serif text-lg font-black ${c.highlight ? "text-navy" : "text-muted"}`}>
-                {c.label}
-              </h3>
-            </div>
+            {/* No ◆ badge here: the ◆ is a STRUCTURE mark (kickers, seams, step
+                markers), and this is a label. The recommended column is already
+                announced three times over — the 2px gold border, the gold bullets
+                and the ink-dark label against the muted one. A fourth signal is
+                wallpaper. */}
+            <h3 className={`mb-4 font-serif text-lg font-black ${c.highlight ? "text-navy" : "text-muted"}`}>
+              {c.label}
+            </h3>
             {c.note && <p className="mb-4 text-xs leading-relaxed text-muted/80">{c.note}</p>}
             <ul className="flex flex-col gap-3">
               {c.points.map((p, j) => (
@@ -77,7 +79,7 @@ export function Comparison({
             {card}
           </MStagger>
         ) : (
-          <Reveal key={i} delay={i * 90}>
+          <Reveal key={i} delay={i * 80}>
             {card}
           </Reveal>
         );

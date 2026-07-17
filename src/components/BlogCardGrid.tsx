@@ -13,12 +13,18 @@ export function BlogCardGrid({ posts, base = "/blog" }: { posts: BlogListItem[];
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {posts.map((p, i) => {
         const img = blogImage(p.slug, p.data);
+        // Metronome = DUR.stagger (80ms), the declared voice. The `% 3` resets the
+        // count per grid ROW on purpose — it is not drift. A flat `i * 80` would
+        // make the 12th post on /blog wait ~1s after it enters view before it
+        // appears, which reads as lag, not rhythm.
         return (
-        <Reveal as="div" key={p.slug} delay={(i % 3) * 70}>
+        <Reveal as="div" key={p.slug} delay={(i % 3) * 80}>
+          {/* ONE hover gesture: the gold dock-line that grows under the card
+              (.survey-card::after). The card does not also levitate. */}
           <Link
             href={`${base}/${p.slug}`}
             data-cta={`${ctaPrefix}-card-${p.slug}`}
-            className="survey-card group flex h-full flex-col overflow-hidden rounded-[10px] border border-line bg-card transition hover:-translate-y-1 hover:border-gold/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+            className="survey-card group flex h-full flex-col overflow-hidden rounded-[10px] border border-line bg-card transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:border-gold/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
           >
             {img && (
             <div className="relative overflow-hidden" style={{ aspectRatio: "var(--aspect-card)" }}>

@@ -33,11 +33,12 @@ const HERO = {
 
 // COPY: ### סקשן 33 · TestimonialCard grid (מצב-ריק כן)
 const GRID = {
-  kicker: "במילים שלהן",
+  // הקיקר «במילים שלהן» ירד: הכותרת קופלה לתוך כרטיס מצב-הריק, ומוטיב הגרשיים
+  // פותח במקומו (ראו סקשן 33 למטה). לסנכרון COPY.md.
   title: "המלצות אמיתיות בלבד",
-  emptyLead: "עוד לא פרסמנו המלצות. נעדכן כאן ברגע שיהיו.",
+  emptyLead: "עוד לא פרסמתי המלצות. אעדכן כאן ברגע שיהיו.",
   emptyBody:
-    "אנחנו לא ממציאים סיפור שלא קרה. כשיגיעו המלצות אמיתיות, של נשים אמיתיות, הן יופיעו כאן, במילים שלהן ובאישורן.",
+    "אני לא ממציאה סיפור שלא קרה. כשיגיעו המלצות אמיתיות, של נשים אמיתיות, הן יופיעו כאן, במילים שלהן ובאישורן.",
   redirectIntro: "בינתיים, הנה מה שאפשר לבדוק כבר עכשיו:",
   redirects: [
     { label: "המתכונים שאני באמת מבשלת ←", href: "/recipes", cta: "testimonials-redirect-recipes" },
@@ -52,11 +53,11 @@ const CTA = {
   titleLine2: "בואי נכתוב אחד אמיתי, יחד.",
   body: "המלצות אמיתיות יופיעו כאן עם שם ואישור פרסום, ולא רגע לפני. הכנות הזאת היא בדיוק מה שתקבלי גם בליווי עצמו. בינתיים, הדבר האמיתי ביותר שאני יכולה להציע לך הוא שיחת היכרות קצרה, בלי עלות ובלי התחייבות.",
   packages:
-    "הליווי נמכר בחבילות שמתאימות לחיים שלך, ועל זה בדיוק נדבר בשיחה, בלי הפתעות ובלי מחיר שקופץ מהמסך.",
+    "הליווי נמכר בחבילות שמתאימות לחיים שלך. על החבילה והמחיר נדבר בשיחה עצמה, בגובה העיניים.",
   promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
   trustToken: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
   button: { label: "בואי נדבר, שיחת היכרות חינם", href: "/contact#lead", cta: "testimonials-cta-primary" },
-  soft: { label: "רוצה עוד משהו לבדוק בעצמך עכשיו? המתכונים כאן ←", href: "/recipes", cta: "testimonials-cta-recipes" },
+  soft: { label: "משהו לבדוק בעצמך עכשיו: המתכונים כאן ←", href: "/recipes", cta: "testimonials-cta-recipes" },
 } as const;
 
 export const metadata: Metadata = {
@@ -80,7 +81,12 @@ export default function TestimonialsPage() {
         style={{ background: "linear-gradient(180deg, var(--color-blush) 0%, color-mix(in srgb, var(--color-blush) 35%, var(--color-bg)) 62%, transparent 100%)" }}
       >
         <Container width="prose" className="pt-16 sm:pt-20 md:pt-28">
-          <div className="rounded-[16px] border border-line bg-card/85 px-6 py-12 text-center shadow-[var(--elevation-1)] sm:px-10 md:px-14 md:py-16">
+          {/* חוט-הרוז מקבל מסגרת: frame-double ורוד — אותה מחווה של תעודת-הרישיון
+              בעמוד «עליי», כאן בצבע השרשור של העדות. שובר את מונו-התרבות של rounded-[16px]. */}
+          <div
+            className="frame-double relative rounded-[16px] bg-card/85 px-6 py-12 text-center shadow-[var(--elevation-1)] sm:px-10 md:px-14 md:py-16"
+            style={{ "--frame-gap": "8px", "--frame-color": "var(--color-rose)" } as React.CSSProperties}
+          >
             <MOrchestrate>
               {/* המוטיב השקט היחיד — גרשיים פתוחים ברוז, "כאן שייך ציטוט" בלי לזייף אחד */}
               <MItem>
@@ -130,28 +136,26 @@ export default function TestimonialsPage() {
       <section>
         <Container width="standard" className="py-16 sm:py-20 md:py-28">
           <SectionSeam className="mb-12" />
-          <div className="text-center">
-            <p className="flex items-center justify-center gap-2.5">
-              <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-              <span className="text-xs font-bold tracking-[.18em] text-gold-ink">{GRID.kicker}</span>
-            </p>
-            <SplitText
-              as="h2"
-              text={GRID.title}
-              className="mt-4 font-serif font-black leading-[1.08] text-navy"
-              style={{ fontSize: "var(--text-section)" }}
-            />
-            <span className="mx-auto mt-4 block h-[3px] w-16 rounded-full bg-rose" aria-hidden />
-          </div>
-
-          <MStagger className="mt-10 space-y-8">
+          <MStagger className="space-y-8">
             {/* מצב-הריק הכן היחיד בעמוד — רצועה מעוצבת אחת (wash רך + ◆ + מוטיב
-                הגרשיים), לא כרטיסי-רפאים ולא מסגרות מקווקוות (audit #11) */}
-            <div className="mx-auto max-w-[42rem] rounded-[16px] bg-gold-soft/60 px-6 py-10 text-center sm:px-10">
+                הגרשיים), לא כרטיסי-רפאים ולא מסגרות מקווקוות (audit #11).
+                הטקס קופל פנימה (דפוס-הבית «כותרת בתוך הכרטיס»): הגרשיים הוורודים
+                פותחים, «המלצות אמיתיות בלבד» היא כותרת הכרטיס עצמו, ושורת-הקיקר
+                העצמאית + פס-הרוז ירדו. אותן מילים, חצי מהטקס. */}
+            <div
+              className="frame-double relative mx-auto max-w-[42rem] rounded-[16px] bg-gold-soft/60 px-6 py-10 text-center sm:px-10"
+              style={{ "--frame-gap": "8px", "--frame-color": "var(--color-rose)" } as React.CSSProperties}
+            >
               <span className="block font-serif text-5xl leading-none text-rose/70" aria-hidden>
                 ״
               </span>
-              <p className="mt-4 text-lg font-bold text-navy">{GRID.emptyLead}</p>
+              <SplitText
+                as="h2"
+                text={GRID.title}
+                className="mt-4 font-serif font-black leading-[1.08] text-navy"
+                style={{ fontSize: "var(--text-section)" }}
+              />
+              <p className="mt-6 text-lg font-bold text-navy">{GRID.emptyLead}</p>
               <p className="mt-3 leading-relaxed text-ink">{GRID.emptyBody}</p>
               <span aria-hidden className="mx-auto mt-7 flex items-center justify-center gap-3">
                 <span className="h-px w-14 bg-gold/45" />
@@ -167,7 +171,7 @@ export default function TestimonialsPage() {
                     key={l.href}
                     href={l.href}
                     data-cta={l.cta}
-                    className="rounded-full border border-gold/45 bg-card px-5 py-2.5 text-sm font-semibold text-gold-ink transition-colors hover:border-gold hover:text-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                    className="btn-chamfer inline-block rounded-[6px] border border-gold/45 bg-card px-5 py-2.5 text-sm font-semibold text-gold-ink transition-colors hover:border-gold hover:text-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                   >
                     {l.label}
                   </Link>

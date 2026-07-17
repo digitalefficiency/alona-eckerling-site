@@ -21,6 +21,7 @@ export type FieldSpec = {
   min?: number; // min length (text) / min items (list, gallery)
   max?: number; // max length (text) / max items (list, gallery)
   requiredAlt?: boolean; // image fields: alt text is mandatory
+  options?: string[]; // chip choices for text (single) / list (multi) fields; values outside the list still render as selected chips
   // A "gallery" field stores TWO parallel string lists: <key> (the /media/ urls) and
   // <key>Alt (the descriptions), paired by index — the tags shape, so it round-trips
   // through gray-matter cleanly (see lib/cms/frontmatter-normalize.mjs). Alt is always

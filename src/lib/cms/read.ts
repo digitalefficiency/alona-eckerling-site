@@ -21,6 +21,7 @@ export type AdminDoc = {
   title: string;
   date: string;
   draft: boolean;
+  hasImage: boolean;
   sha: string;
 };
 
@@ -43,6 +44,7 @@ function toDoc(c: CollectionConfig, name: string, text: string, sha: string): Ad
     title: String(data.title ?? base),
     date: String(data.date ?? ""),
     draft: data.draft === true,
+    hasImage: typeof data.image === "string" && data.image.trim() !== "",
     sha,
   };
 }

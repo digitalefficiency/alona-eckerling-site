@@ -17,7 +17,7 @@ export function Footer() {
           <ul className="space-y-2 text-sm">
             {nav.map((n) => (
               <li key={n.href}>
-                <Link href={n.href} className="hover:text-gold-soft">{n.label}</Link>
+                <Link href={n.href} className="transition-colors duration-[var(--dur-micro)] hover:text-gold-soft">{n.label}</Link>
               </li>
             ))}
           </ul>
@@ -28,7 +28,7 @@ export function Footer() {
           <ul className="space-y-2 text-sm">
             {services.map((s) => (
               <li key={s.slug}>
-                <Link href="/coaching" className="hover:text-gold-soft">{s.title}</Link>
+                <Link href="/coaching" className="transition-colors duration-[var(--dur-micro)] hover:text-gold-soft">{s.title}</Link>
               </li>
             ))}
           </ul>
@@ -41,13 +41,13 @@ export function Footer() {
             {site.phone && (
               <li>
                 טלפון:{" "}
-                <a href={`tel:${site.phone}`} dir="ltr" data-cta="footer-phone" className="hover:text-gold-soft">{site.phone}</a>
+                <a href={`tel:${site.phone}`} dir="ltr" data-cta="footer-phone" className="transition-colors duration-[var(--dur-micro)] hover:text-gold-soft">{site.phone}</a>
               </li>
             )}
             {site.email && (
               <li>
                 דוא״ל:{" "}
-                <a href={`mailto:${site.email}`} data-cta="footer-email" className="hover:text-gold-soft">{site.email}</a>
+                <a href={`mailto:${site.email}`} data-cta="footer-email" className="transition-colors duration-[var(--dur-micro)] hover:text-gold-soft">{site.email}</a>
               </li>
             )}
             <li>
@@ -62,10 +62,10 @@ export function Footer() {
       <div className="border-t border-white/10 px-4 py-6 text-xs text-slate-400 sm:px-6">
         <div className="mx-auto flex max-w-[1120px] flex-col items-center gap-3 text-center">
           <nav aria-label="עמודים משפטיים" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
-            <Link href="/privacy" className="hover:text-gold-soft">מדיניות פרטיות</Link>
-            <Link href="/terms" className="hover:text-gold-soft">תקנון ותנאי שימוש</Link>
-            <Link href="/accessibility" className="hover:text-gold-soft">הצהרת נגישות</Link>
-            <CookiePrefsButton className="underline-offset-2 hover:text-gold-soft hover:underline" />
+            <Link href="/privacy" className="transition-colors duration-[var(--dur-micro)] hover:text-gold-soft">מדיניות פרטיות</Link>
+            <Link href="/terms" className="transition-colors duration-[var(--dur-micro)] hover:text-gold-soft">תקנון ותנאי שימוש</Link>
+            <Link href="/accessibility" className="transition-colors duration-[var(--dur-micro)] hover:text-gold-soft">הצהרת נגישות</Link>
+            <CookiePrefsButton className="underline-offset-2 transition-colors duration-[var(--dur-micro)] hover:text-gold-soft hover:underline" />
           </nav>
           <p className="leading-relaxed">
             © <span dir="ltr">{site.foundingYear}-{currentYear()}</span> {site.name} · המידע באתר הוא

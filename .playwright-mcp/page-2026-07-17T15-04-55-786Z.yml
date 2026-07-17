@@ -1,0 +1,229 @@
+- generic [ref=f13e1]:
+  - banner [ref=f13e2]:
+    - generic [ref=f13e4]:
+      - link "אלונה אקרלינג מאז 2023" [ref=f13e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f13e6]: אלונה אקרלינג
+        - generic [ref=f13e7]: מאז 2023
+      - generic [ref=f13e8]:
+        - navigation "ראשי" [ref=f13e9]:
+          - link "בית" [ref=f13e10] [cursor=pointer]:
+            - /url: /
+          - link "מתכונים" [ref=f13e11] [cursor=pointer]:
+            - /url: /recipes
+          - link "איך עובדים איתי" [ref=f13e12] [cursor=pointer]:
+            - /url: /coaching
+          - link "עליי" [active] [ref=f13e13] [cursor=pointer]:
+            - /url: /about
+          - link "המלצות" [ref=f13e14] [cursor=pointer]:
+            - /url: /testimonials
+          - link "הקול השפוי" [ref=f13e15] [cursor=pointer]:
+            - /url: /sane-voice
+          - link "צור קשר" [ref=f13e16] [cursor=pointer]:
+            - /url: /contact
+        - link "בואי נדבר" [ref=f13e17] [cursor=pointer]:
+          - /url: /contact
+  - main [ref=f13e18]:
+    - generic [ref=f13e563]:
+      - generic [ref=f13e566]:
+        - generic [ref=f13e567]: אלונה
+        - generic [ref=f13e568]: ◆
+        - paragraph [ref=f13e572]: אלונה אקרלינג
+        - paragraph [ref=f13e573]: דיאטנית קלינית מוסמכת · R.D.
+      - generic [ref=f13e574]:
+        - navigation "breadcrumb" [ref=f13e576]:
+          - list [ref=f13e577]:
+            - listitem [ref=f13e578]:
+              - link "בית" [ref=f13e579] [cursor=pointer]:
+                - /url: /
+              - generic [ref=f13e580]: ‹
+            - listitem [ref=f13e581]:
+              - generic [ref=f13e582]: עליי
+        - generic [ref=f13e583]:
+          - generic [ref=f13e584]: ◆
+          - generic [ref=f13e585]: נעים להכיר
+        - heading "אלונה אקרלינג" [level=1] [ref=f13e586]
+        - paragraph [ref=f13e590]: דיאטנית קלינית מוסמכת שמלווה נשים אל שקט סביב האוכל, בגובה העיניים, בלי דיאטות ובלי אשמה. הנה מי שעומדת מאחורי כל מילה כאן.
+        - paragraph [ref=f13e592]:
+          - generic [ref=f13e593]: ◆
+          - text: דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11
+        - generic [ref=f13e594]:
+          - generic [ref=f13e595]:
+            - generic [ref=f13e596]:
+              - link "בואי נדבר" [ref=f13e597] [cursor=pointer]:
+                - /url: /contact
+              - generic [ref=f13e598]: שיחת היכרות בלי עלות
+            - link "קראי את הסיפור שלי ↓" [ref=f13e599] [cursor=pointer]:
+              - /url: "#story"
+          - paragraph [ref=f13e600]: תראי בעצמך אם זה מתאים · בלי התחייבות
+    - generic [ref=f13e607]:
+      - generic [ref=f13e608]:
+        - generic [ref=f13e609]: ◆
+        - generic [ref=f13e610]: הסיפור שלי
+      - heading "לפני שהייתי דיאטנית, הייתי בדיוק במקום שלך" [level=2] [ref=f13e611]:
+        - generic [ref=f13e612]: לפני שהייתי דיאטנית,
+        - generic [ref=f13e614]: הייתי בדיוק במקום שלך
+      - paragraph [ref=f13e616]: הכל התחיל אצלי בתקופת הקורונה, כשגיליתי את הבישול הבריא והתחלתי לשתף באינסטגרם.
+      - paragraph [ref=f13e617]: "ואז טבעתי במיתוסים: בשלב מסוים כבר לא ידעתי מה נכון ומה לא נכון. בדיוק בגלל זה הלכתי ללמוד, כדי להבין מה באמת קורה בגוף שלנו."
+      - generic [ref=f13e618]:
+        - paragraph [ref=f13e619]: "אני מאמינה שאוכל בריא לא צריך להיות משעמם. להפך: הוא יכול להיות עשיר, מגוון, טעים וצבעוני, ולא מסובך בכלל."
+        - paragraph [ref=f13e620]: אין מאכלים אסורים, אין אשמה. רק איזון חכם שמאפשר ליהנות מהכל.
+      - paragraph [ref=f13e621]: זמינה בשבילך לכל שאלה,
+      - paragraph [ref=f13e622]: אלונה
+    - generic [ref=f13e624]:
+      - generic [ref=f13e625]: ◆
+      - generic: א
+      - generic [ref=f13e629]:
+        - generic [ref=f13e630]:
+          - generic [ref=f13e631]: ◆
+          - generic [ref=f13e632]: על הגיל, בלי להתחמק
+        - figure "אני מגיעה עם אנרגיה, סקרנות ורצון ללמוד ולהתפתח. אלונה" [ref=f13e633]:
+          - blockquote [ref=f13e634]:
+            - paragraph [ref=f13e635]:
+              - generic [ref=f13e636]: כן, אני צעירה.
+              - generic [ref=f13e638]: וזה בדיוק מה שמאפשר לי
+              - generic [ref=f13e640]: להחזיק את המדע הכי עדכני,
+              - generic [ref=f13e642]: ולדבר איתך בגובה העיניים, לא מלמעלה.
+          - generic [ref=f13e644]:
+            - paragraph [ref=f13e646]: אני מגיעה עם אנרגיה, סקרנות ורצון ללמוד ולהתפתח.
+            - generic [ref=f13e647]: אלונה
+    - generic [ref=f13e652]:
+      - generic [ref=f13e653]: ◆
+      - generic [ref=f13e657]:
+        - generic [ref=f13e658]:
+          - generic [ref=f13e659]: ◆
+          - generic [ref=f13e660]: הרקע, בגילוי מלא
+        - heading "הרקע אמיתי, ואפשר לבדוק אותו" [level=2] [ref=f13e661]
+      - generic [ref=f13e664]:
+        - generic [ref=f13e665]:
+          - article [ref=f13e667]:
+            - generic [ref=f13e668]:
+              - generic [ref=f13e669]:
+                - heading "דיאטנית קלינית מוסמכת · R.D." [level=3] [ref=f13e670]
+                - paragraph [ref=f13e671]: רישיון משרד הבריאות 204526-11
+              - generic [ref=f13e672]: ◆
+            - link "בדקי אותי במאגר משרד הבריאות" [ref=f13e674] [cursor=pointer]:
+              - /url: https://practitioners.health.gov.il
+              - generic [ref=f13e675]: ◆
+              - text: בדקי אותי במאגר משרד הבריאות
+          - generic [ref=f13e677]:
+            - generic [ref=f13e678]: ◆
+            - generic [ref=f13e680]:
+              - heading "B.Sc במדעי התזונה" [level=3] [ref=f13e681]
+              - paragraph [ref=f13e682]: המרכז האקדמי פרס, 2024
+          - generic [ref=f13e684]:
+            - generic [ref=f13e685]: ◆
+            - generic [ref=f13e687]:
+              - heading "התמחות קלינית · בית החולים איכילוב" [level=3] [ref=f13e688]
+              - paragraph [ref=f13e689]: חצי שנה, 2025
+        - article [ref=f13e692]:
+          - img "סלט קינואה והדרים, מנה אמיתית מהמטבח של אלונה" [ref=f13e694]
+          - generic [ref=f13e695]:
+            - heading "דיאטנית שמבשלת" [level=3] [ref=f13e696]
+            - paragraph [ref=f13e697]: לא רק אומרת לך מה לאכול. יודעת בדיוק איך זה נראה במטבח האמיתי.
+            - generic [ref=f13e698]:
+              - link "אל המתכונים ←" [ref=f13e699] [cursor=pointer]:
+                - /url: /recipes
+              - generic [ref=f13e700]: בערך 30 מתכונים, מתעדכן מדי שבוע
+      - generic [ref=f13e701]:
+        - paragraph [ref=f13e702]: אז אם השאלה היא "אינפלואנסרית או דיאטנית אמיתית?", הנה הרקע, גלוי לבדיקה.
+        - paragraph [ref=f13e703]:
+          - link "לעמוד ההסמכות המלא ←" [ref=f13e704] [cursor=pointer]:
+            - /url: /team/alona
+    - generic [ref=f13e708]:
+      - generic [ref=f13e709]: ◆
+      - paragraph [ref=f13e710]: שיתופי פעולה ומדיה יתווספו כאן עם האישור. אני לא מציגה לוגו שלא אושר.
+    - generic [ref=f13e712]:
+      - generic [ref=f13e713]: ◆
+      - generic [ref=f13e719]:
+        - generic [ref=f13e720]:
+          - generic [ref=f13e721]: ◆
+          - generic [ref=f13e722]: הצעד שלך
+        - heading "עכשיו כשאת מכירה אותי, בשיחת היכרות בלי עלות, תראי בעצמך אם זה מתאים." [level=2] [ref=f13e723]:
+          - generic [ref=f13e724]: עכשיו כשאת מכירה אותי,
+          - generic [ref=f13e726]: בשיחת היכרות בלי עלות, תראי בעצמך אם זה מתאים.
+        - paragraph [ref=f13e729]: "עכשיו את כבר יודעת מאיפה אני מגיעה ומה הרקע שלי. מה שנשאר זה לשמוע אותך: שיחה קצרה, בלי עלות ובלי התחייבות, בגובה העיניים, ונראה אם הדרך שלי מתאימה לך. האוכל שאת אוהבת נשאר בפנים."
+        - generic [ref=f13e731]:
+          - link "בואי נדבר, שיחת היכרות חינם" [ref=f13e732] [cursor=pointer]:
+            - /url: /contact
+          - link "ורוצה קודם פשוט לראות מה אני מבשלת? המתכונים כאן ←" [ref=f13e733] [cursor=pointer]:
+            - /url: /recipes
+        - generic [ref=f13e735]:
+          - generic [ref=f13e736]:
+            - paragraph [ref=f13e737]:
+              - generic [ref=f13e738]: ◆
+              - text: דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11
+            - generic [ref=f13e739]:
+              - generic [ref=f13e740]: ◆
+              - paragraph [ref=f13e742]: אני חוזרת אלייך אישית, עד 4 ימי עסקים.
+          - paragraph [ref=f13e743]: אלונה
+  - contentinfo [ref=f13e147]:
+    - generic [ref=f13e148]:
+      - generic [ref=f13e149]:
+        - paragraph [ref=f13e150]: אלונה אקרלינג
+        - paragraph [ref=f13e151]: את כבר יודעת מה לאכול. בואי נעשה שזה סוף סוף יישאר.
+        - paragraph [ref=f13e152]: מאז 2023
+      - generic [ref=f13e153]:
+        - paragraph [ref=f13e154]: ניווט
+        - list [ref=f13e155]:
+          - listitem [ref=f13e156]:
+            - link "בית" [ref=f13e157] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f13e158]:
+            - link "מתכונים" [ref=f13e159] [cursor=pointer]:
+              - /url: /recipes
+          - listitem [ref=f13e160]:
+            - link "איך עובדים איתי" [ref=f13e161] [cursor=pointer]:
+              - /url: /coaching
+          - listitem [ref=f13e162]:
+            - link "עליי" [ref=f13e163] [cursor=pointer]:
+              - /url: /about
+          - listitem [ref=f13e164]:
+            - link "המלצות" [ref=f13e165] [cursor=pointer]:
+              - /url: /testimonials
+          - listitem [ref=f13e166]:
+            - link "הקול השפוי" [ref=f13e167] [cursor=pointer]:
+              - /url: /sane-voice
+          - listitem [ref=f13e168]:
+            - link "צור קשר" [ref=f13e169] [cursor=pointer]:
+              - /url: /contact
+      - generic [ref=f13e170]:
+        - paragraph [ref=f13e171]: שירותים
+        - list [ref=f13e172]:
+          - listitem [ref=f13e173]:
+            - link "ליווי אישי · חבילת בסיס (60 יום)" [ref=f13e174] [cursor=pointer]:
+              - /url: /coaching
+          - listitem [ref=f13e175]:
+            - link "ליווי מורחב (120 יום)" [ref=f13e176] [cursor=pointer]:
+              - /url: /coaching
+          - listitem [ref=f13e177]:
+            - link "פגישה חד פעמית" [ref=f13e178] [cursor=pointer]:
+              - /url: /coaching
+      - generic [ref=f13e179]:
+        - paragraph [ref=f13e180]: יצירת קשר
+        - list [ref=f13e181]:
+          - listitem [ref=f13e182]: רעננה, השרון
+          - listitem [ref=f13e183]:
+            - text: "דוא״ל:"
+            - link "alonaeck1@gmail.com" [ref=f13e184] [cursor=pointer]:
+              - /url: mailto:alonaeck1@gmail.com
+          - listitem [ref=f13e185]:
+            - link "לעמוד יצירת הקשר ›" [ref=f13e186] [cursor=pointer]:
+              - /url: /contact
+    - generic [ref=f13e188]:
+      - navigation "עמודים משפטיים" [ref=f13e189]:
+        - link "מדיניות פרטיות" [ref=f13e190] [cursor=pointer]:
+          - /url: /privacy
+        - link "תקנון ותנאי שימוש" [ref=f13e191] [cursor=pointer]:
+          - /url: /terms
+        - link "הצהרת נגישות" [ref=f13e192] [cursor=pointer]:
+          - /url: /accessibility
+        - button "ניהול הגדרות עוגיות" [ref=f13e193]
+      - paragraph [ref=f13e194]:
+        - text: ©
+        - generic [ref=f13e195]: 2023-2026
+        - text: אלונה אקרלינג · המידע באתר הוא כללי ואינו מהווה ייעוץ רפואי או תזונתי אישי, ואינו תחליף להתייעצות עם גורם מקצועי מוסמך.
+  - link "לכתוב לי בוואטסאפ" [ref=f13e196] [cursor=pointer]:
+    - /url: https://wa.me/972526359404
+  - button "פתיחת תפריט נגישות" [ref=f13e199]
+  - alert [ref=f13e203]: עליי | אלונה אקרלינג

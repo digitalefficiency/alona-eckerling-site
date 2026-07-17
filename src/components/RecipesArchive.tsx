@@ -56,8 +56,15 @@ const CATEGORY_ORDER = ["בוקר", "צהריים", "ערב", "סלטים", "מ�
 // of wide/tall tiles keeps the grid irregular-but-orderly (grid-flow-dense
 // backfills the gaps). RTL-safe: the grid is symmetric, order flows from the
 // inline start.
-function spanFor(i: number): string {
-  if (i === 0) return "row-span-2 sm:col-span-2";
+//
+// A big slot is a slot for a PHOTO: only entries that actually carry an image can
+// be enlarged, so an imageless recipe-card can never be blown up into a big empty
+// pastel tower. The sort is untouched — `featureIndex` is simply the first entry
+// in the existing order that has a photo (‑1 when the filter holds none, in which
+// case the mosaic opens flat rather than featuring an empty card).
+function spanFor(i: number, featureIndex: number, hasImage: boolean): string {
+  if (!hasImage) return "";
+  if (i === featureIndex) return "row-span-2 sm:col-span-2";
   if (i % 9 === 4) return "lg:col-span-2";
   if (i % 7 === 3) return "lg:row-span-2";
   return "";
@@ -113,49 +120,65 @@ function TagChip({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`rounded-full border px-3 py-1 text-[0.8rem] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-1 ${
+      className={`chip-skew inline-flex items-center rounded-[6px] border px-3 py-1 text-[0.8rem] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-1 ${
         active
           ? "border-gold bg-gold-soft/70 text-gold-ink"
           : "border-line bg-transparent text-muted hover:border-gold/60 hover:text-navy"
       }`}
     >
-      {children}
+      {/* the quiet twin of CategoryChip: same skewed spice-jar silhouette, line
+          border + transparent fill. Wrapped so .chip-skew's counter-skew applies. */}
+      <span>{children}</span>
     </button>
   );
 }
 
+// The home's recipe-card anatomy, grown to bento scale: the dish is an OBJECT on
+// top (never a bed for text), the title + meta drop to a paper strip below it, and
+// the category rides the photo's corner. No scrim — the title reads on paper, so
+// the photo is never dimmed to make room for words. Hover: the photo comes closer,
+// the card stays planted (the lift is the gesture every card family makes).
 function ImageTile({ t, feature }: { t: RecipeTile; feature: boolean }) {
   const meta = tileMeta(t);
   return (
     <Link
       href={`/recipes/${t.slug}`}
       data-cta={`recipes-card-${t.slug}`}
-      className="group relative flex h-full flex-col justify-end overflow-hidden rounded-2xl border border-line bg-sand transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-card transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:border-gold/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
     >
-      <Image
-        src={t.image as string}
-        alt={t.imageAlt || t.title}
-        fill
-        sizes={
-          feature
-            ? "(max-width:640px) 100vw, (max-width:1024px) 100vw, 820px"
-            : "(max-width:640px) 100vw, (max-width:1024px) 50vw, 410px"
-        }
-        className="object-cover transition duration-[calc(var(--dur-reveal)*0.7)] ease-[var(--ease-out)] group-hover:scale-[1.02]"
-      />
-      {/* the ONE shared image grade: brand tint + the shared grain token */}
-      <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
-      <div aria-hidden className="grain-overlay" />
-      {/* bottom scrim keeps the title AA over any dish photo */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-navy/80 via-navy/30 to-transparent"
-      />
-      <div className="relative p-5">
-        <h3 className={`font-serif font-bold leading-snug text-white ${feature ? "text-2xl md:text-3xl" : "text-lg"}`}>
+      <div className="relative min-h-0 flex-1 overflow-hidden">
+        <Image
+          src={t.image as string}
+          alt={t.imageAlt || t.title}
+          fill
+          sizes={
+            feature
+              ? "(max-width:640px) 100vw, (max-width:1024px) 100vw, 820px"
+              : "(max-width:640px) 100vw, (max-width:1024px) 50vw, 410px"
+          }
+          className="object-cover transition duration-[calc(var(--dur-reveal)*0.7)] ease-[var(--ease-out)] group-hover:scale-[1.02]"
+        />
+        {/* the ONE shared image grade: brand tint + the shared grain token */}
+        <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+        <div aria-hidden className="grain-overlay" />
+        {t.category && (
+          <span className="absolute top-3 start-3 rounded-[4px] border border-line bg-bg/90 px-3 py-1 text-xs font-bold text-gold-ink">
+            {t.category}
+          </span>
+        )}
+      </div>
+      {/* the paper strip — the feature tile earns the bigger type, same anatomy */}
+      <div className={feature ? "p-6" : "p-4"}>
+        <h3
+          className={`font-serif font-bold leading-snug text-navy transition-colors group-hover:text-gold-ink ${
+            feature ? "text-2xl md:text-3xl" : "text-lg"
+          }`}
+        >
           {t.title}
         </h3>
-        {meta && <p className="mt-1.5 text-[0.8rem] font-medium text-white/90">{meta}</p>}
+        {meta && (
+          <p className={`mt-1.5 font-medium text-muted ${feature ? "text-sm" : "text-[0.8rem]"}`}>{meta}</p>
+        )}
       </div>
     </Link>
   );
@@ -172,7 +195,7 @@ function TextTile({ t, tint }: { t: RecipeTile; tint: "sage" | "blush" }) {
     <Link
       href={`/recipes/${t.slug}`}
       data-cta={`recipes-card-${t.slug}`}
-      className={`group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-line p-5 transition duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:border-gold/60 hover:shadow-[var(--elevation-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
+      className={`group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-line p-5 transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:border-gold/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
         tint === "sage" ? "bg-gold-soft/60" : "bg-blush/50"
       }`}
     >
@@ -185,7 +208,7 @@ function TextTile({ t, tint }: { t: RecipeTile; tint: "sage" | "blush" }) {
       </span>
       <div className="relative">
         {t.category && (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-bg/85 px-3 py-1 text-xs font-bold text-gold-ink">
+          <span className="inline-flex items-center gap-1.5 rounded-[4px] bg-bg/85 px-3 py-1 text-xs font-bold text-gold-ink">
             <span aria-hidden className="text-[0.55rem] leading-none text-gold">◆</span>
             {t.category}
           </span>
@@ -224,6 +247,10 @@ export function RecipesArchive({ entries, labels }: { entries: RecipeTile[]; lab
     () => entries.filter((e) => (!category || e.category === category) && tags.every((t) => e.tags.includes(t))),
     [entries, category, tags],
   );
+
+  // the mosaic's 2×2 opener: the first entry IN THE EXISTING ORDER that carries a
+  // photo (‑1 → this filter holds no photos at all, so nothing is featured).
+  const featureIndex = useMemo(() => filtered.findIndex((e) => !!e.image), [filtered]);
 
   const listKey = `${category ?? "*"}|${tags.join("|")}`;
 
@@ -287,7 +314,7 @@ export function RecipesArchive({ entries, labels }: { entries: RecipeTile[]; lab
                 {c}
               </CategoryChip>
             ))}
-            <span className="ms-auto rounded-full bg-gold-soft px-3.5 py-1.5 text-[0.8rem] font-bold text-gold-ink">
+            <span className="ms-auto rounded-[4px] bg-gold-soft px-3.5 py-1.5 text-[0.8rem] font-bold text-gold-ink">
               {labels.countChip}
             </span>
           </div>
@@ -322,12 +349,12 @@ export function RecipesArchive({ entries, labels }: { entries: RecipeTile[]; lab
             <li
               key={t.slug}
               style={phase === "in" ? { transitionDelay: `calc(var(--dur-stagger) * ${Math.min(i, 8)})` } : undefined}
-              className={`${spanFor(i)} transition-all duration-[calc(var(--dur-reveal)*0.7)] ease-[var(--ease-out)] ${
+              className={`${spanFor(i, featureIndex, !!t.image)} transition-all duration-[calc(var(--dur-reveal)*0.7)] ease-[var(--ease-out)] ${
                 phase === "armed" ? "translate-y-3 opacity-0" : "translate-y-0 opacity-100"
               }`}
             >
               {t.image ? (
-                <ImageTile t={t} feature={i === 0} />
+                <ImageTile t={t} feature={i === featureIndex} />
               ) : (
                 <TextTile t={t} tint={i % 2 === 0 ? "sage" : "blush"} />
               )}

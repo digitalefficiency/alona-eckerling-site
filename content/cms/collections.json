@@ -12,8 +12,10 @@
         { "key": "description", "type": "text",  "label": "תיאור קצר למנועי חיפוש", "required": true, "min": 70, "max": 160 },
         { "key": "date",        "type": "date",  "label": "תאריך",                  "required": true },
         { "key": "image",       "type": "image", "label": "תמונת המנה",             "requiredAlt": true },
-        { "key": "category",    "type": "text",  "label": "קטגוריה (בוקר / צהריים / ערב / מתוקים / סלטים / מאפים)", "required": true, "max": 30 },
-        { "key": "tags",        "type": "list",  "label": "תגיות תזונה (עתיר חלבון / ללא גלוטן / טבעוני / צמחוני / דל פחמימה)", "min": 1, "max": 5 },
+        { "key": "category",    "type": "text",  "label": "קטגוריה",                "required": true, "max": 30,
+          "options": ["בוקר", "צהריים", "ערב", "מרקים", "סלטים", "מאפים", "מתוקים", "חטיפים"] },
+        { "key": "tags",        "type": "list",  "label": "תגיות תזונה",            "min": 1, "max": 5,
+          "options": ["קל ומהיר", "צמחוני", "טבעוני", "עתיר חלבון", "ללא גלוטן", "דל קלוריות", "דל פחמימה"] },
         { "key": "prepTime",    "type": "text",  "label": "זמן הכנה (למשל: 20 דקות)", "required": true, "max": 20 },
         { "key": "servings",    "type": "text",  "label": "כמה מנות יוצאות",          "required": false, "max": 20 }
       ],

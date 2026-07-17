@@ -6,9 +6,22 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 type Cta = { label: string; href: string; variant?: "primary" | "ghost"; dataCta?: string };
 
-// Full-bleed image hero for inner pages — generalizes EditorialHero's pattern
-// (bg photo + RTL navy scrim + corner ticks + choreographed entrance), with
-// breadcrumbs + configurable height. LCP-safe: the bg Image keeps `priority`.
+// Split image hero for inner pages — the photo is an OBJECT, never a backdrop.
+// Navy ink on an OPAQUE sand field (the house light-hero band), with the dish
+// cropped into a double-framed plate that fills the inline-start column and
+// bleeds off the screen edge — the same frame language as the /coaching hero —
+// and a straight gold seam carrying the ◆ structure mark where the photo field
+// meets the sand. No scrim: the dish is lit by the page, not veiled by it, so the
+// text's contrast comes from the opaque field, never from a gradient poured over
+// the food (this is the ONE page where the photos are the proof-of-craft).
+//
+// A CSS grid keeps the plate and the ink in one coordinate system, so the two
+// fields never diverge on wide screens. Mobile stacks: the whole plate (frame +
+// all four ticks) sits above the ink.
+//
+// LCP-safe: the plate's Image keeps `priority` and stays STATIC (an animated hero
+// photo costs seconds of LCP — see globals.css); the hero's life comes from the
+// eyebrow/lead/CTA choreography instead.
 export function ImageHero({
   image,
   alt,
@@ -30,72 +43,96 @@ export function ImageHero({
   minH?: "page" | "full";
   imagePosition?: string;
 }) {
-  const minHClass = minH === "full" ? "min-h-[78vh] md:min-h-[86vh]" : "min-h-[46vh] md:min-h-[58vh]";
+  const minHClass = minH === "full" ? "md:min-h-[86vh]" : "md:min-h-[58vh]";
   return (
-    <HeroEntrance className="relative isolate overflow-hidden bg-navy">
-      <div className="hero-bg absolute inset-0 -z-10">
-        <div className="clip-scale absolute inset-0">
-          <Image src={image} alt={alt} fill priority fetchPriority="high" sizes="100vw" className="object-cover" style={{ objectPosition: imagePosition }} />
+    <HeroEntrance className="relative isolate overflow-hidden border-b border-line bg-sand">
+      <div className={`grid grid-cols-1 md:grid-cols-[42%_1fr] ${minHClass}`}>
+        {/* the dish as a framed plate. Mobile: complete object in flow (frame +
+            all four ticks), margins intact. md+: fills the column and butts to the
+            inline-start screen edge, rounded only on the inner side — the picture
+            continues past the page instead of floating as a card. */}
+        {/* md+: the plate grows to fill the grid track via flex — a percentage
+            height (h-full) collapses against a stretched grid item, and the
+            unlayered .frame-double{position:relative} blocks md:absolute. */}
+        <div className="relative order-1 md:flex md:flex-col">
+          <div className="frame-double relative mx-4 my-8 aspect-[3/2] rounded-[10px] [--frame-color:var(--color-gold)] [--frame-gap:6px] sm:mx-6 md:m-0 md:aspect-auto md:min-h-0 md:flex-1 md:rounded-none md:rounded-e-[10px]">
+            {/* inner clip only — the plate itself must not hide frame-double's ::after */}
+            <div className="absolute inset-0 overflow-hidden rounded-[inherit]">
+              <Image
+                src={image}
+                alt={alt}
+                fill
+                priority
+                fetchPriority="high"
+                sizes="(max-width: 768px) 100vw, 45vw"
+                className="object-cover"
+                style={{ objectPosition: imagePosition }}
+              />
+              {/* the ONE shared image grade: brand tint + the shared grain token */}
+              <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+              <div aria-hidden className="grain-overlay" />
+            </div>
+            <span className="tick tick-1" aria-hidden />
+            <span className="tick tick-2" aria-hidden />
+            <span className="tick tick-3" aria-hidden />
+            <span className="tick tick-4" aria-hidden />
+          </div>
         </div>
-        {/* RTL scrim in BRAND ink (color-mix on --color-navy, never a template
-            literal): the ≥45% protected zone now reaches the 85% mark so the
-            eyebrow + lede stay legible over bright food photography. */}
-        <div
-          aria-hidden
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to left, color-mix(in srgb, var(--color-navy) 82%, transparent) 0%, color-mix(in srgb, var(--color-navy) 55%, transparent) 45%, color-mix(in srgb, var(--color-navy) 30%, transparent) 85%, transparent 100%), linear-gradient(to bottom, color-mix(in srgb, var(--color-navy) 50%, transparent), transparent 32%)",
-          }}
-        />
+
+        {/* the ink field — navy ink on opaque sand */}
+        <div className="order-2 flex flex-col justify-center px-6 py-14 md:py-20 md:ps-12 lg:ps-16">
+          <div className="w-full max-w-[46ch]">
+            {crumbs && (
+              <div className="mb-6">
+                <Breadcrumbs items={crumbs} />
+              </div>
+            )}
+            {eyebrow && (
+              <div className="hero-eyebrow flex items-center gap-2.5">
+                <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
+                <span className="text-xs font-bold tracking-[.2em] text-gold-ink">{eyebrow}</span>
+              </div>
+            )}
+            <SplitText
+              as="h1"
+              text={title}
+              baseDelay={140}
+              className="mt-5 font-serif font-black leading-[1.05] text-navy"
+              style={{ fontSize: "var(--text-hero)" }}
+            />
+            {lead && <p className="hero-lead mt-6 text-lg leading-relaxed text-muted">{lead}</p>}
+            {ctas && ctas.length > 0 && (
+              <div className="hero-cta mt-8 flex flex-wrap gap-3">
+                {ctas.map((c) => (
+                  <Link
+                    key={c.href}
+                    href={c.href}
+                    data-cta={c.dataCta ?? "hero-cta"}
+                    className={
+                      c.variant === "ghost"
+                        ? "btn-chamfer inline-flex items-center rounded-[6px] border border-navy/20 px-7 py-3.5 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
+                        : "btn-chamfer inline-flex items-center rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
+                    }
+                  >
+                    {c.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
-      <div className={`mx-auto flex ${minHClass} max-w-[var(--container-wide)] flex-col justify-center px-6 py-16 text-right`}>
-        {crumbs && (
-          <div className="mb-6 flex justify-end">
-            <Breadcrumbs items={crumbs} tone="dark" />
-          </div>
-        )}
-        {eyebrow && (
-          <div className="hero-eyebrow flex items-center justify-end gap-2.5">
-            <span className="text-xs font-bold tracking-[.2em] text-gold-soft">{eyebrow}</span>
-            <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
-          </div>
-        )}
-        <SplitText
-          as="h1"
-          text={title}
-          baseDelay={140}
-          className="mt-5 font-serif font-black leading-[1.05] text-white"
-          style={{ fontSize: "var(--text-hero)" }}
-        />
-        {lead && (
-          <p className="hero-lead mt-6 max-w-[46ch] self-end text-lg leading-relaxed text-slate-200">{lead}</p>
-        )}
-        {ctas && ctas.length > 0 && (
-          <div className="hero-cta mt-8 flex flex-wrap justify-end gap-3">
-            {ctas.map((c) => (
-              <Link
-                key={c.href}
-                href={c.href}
-                data-cta={c.dataCta ?? "hero-cta"}
-                className={
-                  c.variant === "ghost"
-                    ? "rounded-[4px] border border-white/30 px-7 py-3.5 text-[0.95rem] font-bold text-white transition hover:border-gold hover:text-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-                    : "rounded-[4px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-navy transition hover:bg-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
-                }
-              >
-                {c.label}
-              </Link>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <span className="tick tick-1" aria-hidden />
-      <span className="tick tick-2" aria-hidden />
-      <span className="tick tick-3" aria-hidden />
-      <span className="tick tick-4" aria-hidden />
+      {/* the seam: a straight gold hairline in the gutter where the plate field
+          meets the sand, the ◆ structure mark riding its centre (its sand box
+          masks the line). Geometry only — it divides the two fields, never the
+          photo. md+ only, since the fields stack on mobile. */}
+      <span
+        aria-hidden
+        className="absolute inset-y-0 start-[42%] hidden w-px bg-gold/25 md:flex md:items-center md:justify-center"
+      >
+        <span className="bg-sand px-1.5 text-[0.7rem] leading-none text-gold">◆</span>
+      </span>
     </HeroEntrance>
   );
 }

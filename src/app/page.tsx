@@ -109,7 +109,9 @@ const GUIDE = {
 const PLAN = {
   kicker: "איך זה עובד",
   title: "שלושה צעדים, בשפה שלך",
-  lead: "מה שחסר זה לא עוד תפריט, אלא דרך שנבנית סביב השבוע שלך.",
+  // the "לא X אלא Y" flip is the hero's line and stays THERE alone (it read as a
+  // pasted twin here); the plan states the same thing plainly, in her own voice.
+  lead: "תפריטים כבר יש לך. הדרך צריכה להיבנות סביב השבוע שלך.",
   steps: [
     {
       n: "01",
@@ -119,7 +121,7 @@ const PLAN = {
     {
       n: "02",
       t: "פגישה עמוקה + תוכנית אישית",
-      d: "60 עד 75 דקות שיושבות לעומק: מה את אוהבת לאכול ואיך נראה היום שלך. יוצאות עם תוכנית שנבנית סביב החיים שלך, בלי לוותר על האוכל שאת אוהבת.",
+      d: "60 עד 75 דקות שיושבות לעומק: מה את אוהבת לאכול ואיך נראה היום שלך. יוצאות עם תוכנית שנבנית סביב החיים שלך, והאוכל שאת אוהבת נשאר בפנים.",
     },
     {
       n: "03",
@@ -130,11 +132,23 @@ const PLAN = {
   cta: "רוצה לראות איך זה נראה בפועל? הצצה למטבח שלי ←",
 } as const;
 
+// Rung media (rungs 01–02 only; rung 03 keeps the designed sage panel so the ladder
+// ends on the site's own calm). 01 stays the generated still — decorative, alt="".
+// 02 is now a REAL dish from her kitchen (one pot for the week IS that rung's story),
+// so it earns a real alt: informative, factual, straight off the recipe's own card.
+const PLAN_MEDIA: readonly { src: string; alt: string }[] = [
+  { src: "/media/generated/11-method-two-cups.jpg", alt: "" },
+  {
+    src: "/media/client/recipes/one-pot-bulgur-stew.jpg",
+    alt: "תבשיל בורגול עם ירקות וקטניות בסיר אחד, מהמתכונים של אלונה",
+  },
+];
+
 // COPY: ### סקשן 5 · RecipeCard grid + ResultCard
 const PROOF = {
   kicker: "תראי בעצמך",
   title: "היא באמת מבשלת",
-  body: "לא עוד תמונה יפה. אוכל אמיתי שאני מבשלת, בנוי סביב שבוע אמיתי, בלי לוותר על מה שאת אוהבת.",
+  body: "לא עוד תמונה יפה. אוכל אמיתי שאני מבשלת, מתוך שבוע רגיל ועמוס.",
   countChip: "בערך 30 מתכונים · מתכון חדש כל שבוע",
   darkTestimonial: "המלצות אמיתיות יופיעו כאן ברגע שיהיו. אני לא ממציאה סיפור שלא קרה.",
   darkLogos: "שיתופי פעולה ומדיה יתווספו עם האישור.",
@@ -148,7 +162,7 @@ const STAKES = {
   cue: "הדרך שאני ממליצה עליה",
   quiet: {
     label: "הדרך השקטה",
-    note: "פעם אחת, בליווי, בלי לוותר על האוכל שאת אוהבת",
+    note: "פעם אחת, בליווי, והאוכל שאת אוהבת נשאר על השולחן",
     points: [
       "דרך שנבנית סביב השבוע האמיתי שלך",
       "שקט. לאכול בלי לספור ובלי להתנצל",
@@ -190,7 +204,7 @@ const SETTLED_NOISE = [
 // COPY: ### סקשן 8 · ContactLeadForm (פאנל נייבי #lead)
 const CTA = {
   title: "בואי נדבר.\nהצעד הראשון קטן, וחינם.",
-  body: "שיחת היכרות קצרה, בלי התחייבות. נכיר, ונבין יחד אם אני האדם הנכון ללוות אותך אל השקט הזה, בלי לוותר על האוכל שאת אוהבת.",
+  body: "שיחת היכרות קצרה, בלי התחייבות. נכיר, ונבין יחד אם אני האדם הנכון ללוות אותך אל השקט הזה.",
   packages:
     "הליווי נמכר בחבילות שמתאימות לחיים שלך. על זה בדיוק נדבר בשיחה, בלי הפתעות ובלי מחיר שקופץ מהמסך.",
   promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
@@ -218,75 +232,100 @@ export default function HomePage() {
     <>
       {/* structured identity for the front door (GEO/SEO) — same builder as /contact */}
       <JsonLd data={professionalService(site, services)} />
-      {/* ── 01 · HOOK — full-bleed-hero: the generated kitchen still (plan layer 8,
-             faceless hands preparing produce) under a warm paper veil; text lives on
-             the veiled inline-start side, the scene breathes on the far side.
+      {/* ── 01 · HOOK — a COMPOSITION, not a veiled backdrop. The owner's own note
+             ("כותרות על תמונות") retired the full-bleed veil + blur orbs: the words
+             now sit on OPAQUE warm paper and the photograph is an OBJECT — a gold
+             double-framed panel that bleeds off the inline-end edge of the screen
+             and leans into the text track with real elevation. The boundary between
+             word and image is HARD (the frame), never a gradient.
+             The <img> is ONE swappable slot: a real consultation photo of Alona
+             replaces this still later — same src attribute, same priority hints.
              data-light-hero: the floating header must take its dark-ink treatment
-             here (light wash, not a dark hero). isolate + -z-10 keep the media stack
-             strictly UNDER the static text at every paint. ── */}
-      <section data-light-hero className="relative isolate overflow-hidden">
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/media/generated/01-hero-kitchen.jpg"
-            alt=""
-            fetchPriority="high"
-            loading="eager"
-            decoding="async"
-            className="absolute inset-0 h-full w-full object-cover object-[30%_center]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-l from-bg via-bg/85 to-bg/15" />
-          <div className="absolute -top-24 -start-24 h-[420px] w-[420px] rounded-full bg-gold-soft opacity-50 blur-3xl" />
-          <div className="absolute -bottom-36 -end-28 h-[480px] w-[480px] rounded-full bg-blush opacity-40 blur-3xl" />
-        </div>
+             here (light paper, not a dark hero). ── */}
+      <section data-light-hero className="relative isolate overflow-hidden bg-bg">
         <div aria-hidden className="grain-overlay" />
-        <Container width="wide" className="flex min-h-[72vh] flex-col justify-center py-20 pb-32 md:py-28 md:pb-40">
-          <MOrchestrate className="max-w-[760px]">
-            <MItem as="p" className="flex items-center gap-2.5 text-[13px] font-bold tracking-[0.14em] text-muted">
-              <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-              {HERO.kicker}
-            </MItem>
-            <MItem>
-              <RevealHeading
-                as="h1"
-                text={HERO.title}
-                className="mt-5 font-serif font-black leading-[1.12] text-navy"
-                style={{ fontSize: "clamp(2.6rem, 6vw, 4rem)" }}
-              />
-            </MItem>
-            <MItem as="p" className="mt-7 max-w-[62ch] text-lg leading-[1.7] text-muted">
-              {HERO.lede}
-            </MItem>
-            <MItem className="mt-10">
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
-                <div className="flex flex-col items-center gap-1.5">
+        <Container width="wide" className="py-16 pb-24 md:py-24 md:pb-36">
+          {/* ONE orchestrator for the whole composition: the words step in block-axis,
+              the framed panel settles beside them (scaleSoft — the media variant). */}
+          <MOrchestrate className="grid items-center gap-12 lg:min-h-[64vh] lg:grid-cols-[1fr_0.8fr] lg:gap-6">
+            {/* the words — inline-start (right in RTL), on plain warm paper. z-10 keeps
+                the copy above the panel at every paint; pe-16 holds the reading measure
+                clear of the panel's frame where it crosses into this track. */}
+            <div className="relative z-10 lg:pe-16">
+              <MItem as="p" className="flex items-center gap-2.5 text-[13px] font-bold tracking-[0.14em] text-muted">
+                <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
+                {HERO.kicker}
+              </MItem>
+              <MItem>
+                <RevealHeading
+                  as="h1"
+                  text={HERO.title}
+                  className="mt-5 font-serif font-black leading-[1.12] text-navy"
+                  style={{ fontSize: "clamp(2.6rem, 6vw, 4rem)" }}
+                />
+              </MItem>
+              <MItem as="p" className="mt-7 max-w-[62ch] text-lg leading-[1.7] text-muted">
+                {HERO.lede}
+              </MItem>
+              <MItem className="mt-10">
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
+                  <div className="flex flex-col items-center gap-1.5">
+                    <Link
+                      href="#lead"
+                      data-cta="hero-primary"
+                      className="btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                    >
+                      {HERO.ctaPrimary}
+                    </Link>
+                    <span className="text-xs font-semibold text-muted">{HERO.ctaSub}</span>
+                  </div>
                   <Link
-                    href="#lead"
-                    data-cta="hero-primary"
-                    className="btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                    href="/about"
+                    data-cta="hero-credential"
+                    className="inline-flex items-center rounded-full border border-line bg-sand px-4 py-2.5 text-sm font-semibold text-navy transition hover:border-gold/60"
                   >
-                    {HERO.ctaPrimary}
+                    {HERO.trustToken}
                   </Link>
-                  <span className="text-xs font-semibold text-muted">{HERO.ctaSub}</span>
                 </div>
+              </MItem>
+              <MItem className="mt-7">
                 <Link
-                  href="/about"
-                  data-cta="hero-credential"
-                  className="inline-flex items-center gap-2 rounded-full border border-line bg-sand px-4 py-2.5 text-sm font-semibold text-navy transition hover:border-gold/60"
+                  href="/recipes"
+                  data-cta="hero-recipes"
+                  className="text-[0.95rem] font-medium text-muted underline decoration-rose decoration-2 underline-offset-4 transition hover:text-navy"
                 >
-                  <span className="text-[0.6rem] leading-none text-gold" aria-hidden>◆</span>
-                  {HERO.trustToken}
+                  {HERO.ctaRecipes}
                 </Link>
-              </div>
-            </MItem>
-            <MItem className="mt-7">
-              <Link
-                href="/recipes"
-                data-cta="hero-recipes"
-                className="text-[0.95rem] font-medium text-muted underline decoration-rose decoration-2 underline-offset-4 transition hover:text-navy"
+              </MItem>
+            </div>
+            {/* the photograph as an OBJECT — a framed panel bleeding off the inline-end
+                edge of the SCREEN (the negative inline-end margin resolves the container
+                gutter + the outer margin at every width; the section clips the overspill).
+                Below lg it stacks under the words as a band with the same edge-bleed —
+                never a veil under text. */}
+            <MItem
+              variants={scaleSoft}
+              className="relative z-0 me-[-1rem] sm:me-[calc(-24px-max(0px,(100vw-1240px)/2))] lg:-ms-16"
+            >
+              <div
+                className="frame-double relative rounded-[16px] shadow-[var(--elevation-2)]"
+                style={{ "--frame-gap": "10px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
               >
-                {HERO.ctaRecipes}
-              </Link>
+                <div className="relative aspect-[16/10] overflow-hidden rounded-[inherit] lg:aspect-[5/4]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/media/generated/01-hero-kitchen.jpg"
+                    alt=""
+                    fetchPriority="high"
+                    loading="eager"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover object-[30%_center]"
+                  />
+                  {/* the ONE shared image grade (archive continuity) */}
+                  <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+                  <div aria-hidden className="grain-overlay" />
+                </div>
+              </div>
             </MItem>
           </MOrchestrate>
         </Container>
@@ -390,30 +429,37 @@ export default function HomePage() {
           <StickyScroll
             className="mt-14"
             mediaSide="start"
-            steps={PLAN.steps.map((s, i) => ({
+            steps={PLAN.steps.map((s, i) => {
+              const m = PLAN_MEDIA[i];
+              return {
               media: (
-                <div
-                  className={`relative flex aspect-[3/2] items-center justify-center overflow-hidden rounded-[16px] border border-line ${
-                    i === PLAN.steps.length - 1 ? "bg-gold-soft" : "bg-card"
-                  }`}
-                >
-                  {i < 2 && (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img
-                      src={i === 0 ? "/media/generated/11-method-two-cups.jpg" : "/media/generated/04-plan-week.jpg"}
-                      alt=""
-                      loading="lazy"
-                      className="absolute inset-0 h-full w-full object-cover"
-                    />
-                  )}
-                  {i < 2 && <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-navy/25 to-transparent" />}
-                  <span
-                    aria-hidden
-                    className={`relative font-serif text-[6rem] font-black leading-none md:text-[8rem] ${
-                      i < 2 ? "text-white/50" : "text-gold-ink/40"
+                // The number no longer FLOATS inside the photograph (and no navy veil
+                // grades it into legibility): it lives in the house diamond marker,
+                // pinned to the frame's corner so it meets the image at a HARD EDGE.
+                <div className="relative">
+                  <div
+                    className={`relative flex aspect-[3/2] items-center justify-center overflow-hidden rounded-[16px] border border-line ${
+                      m ? "bg-card" : "bg-gold-soft"
                     }`}
                   >
-                    {s.n}
+                    {m ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src={m.src}
+                        alt={m.alt}
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                    ) : (
+                      /* rung 03 — the site's own calm: a sage field carrying the rose thread */
+                      <span aria-hidden className="h-[3px] w-16 rounded-full bg-rose" />
+                    )}
+                  </div>
+                  <span
+                    aria-hidden
+                    className="absolute -top-4 -start-4 grid h-14 w-14 rotate-45 place-items-center border border-gold/60 bg-bg shadow-[var(--elevation-1)]"
+                  >
+                    <span className="-rotate-45 font-serif text-lg font-bold text-gold-ink">{s.n}</span>
                   </span>
                 </div>
               ),
@@ -432,7 +478,8 @@ export default function HomePage() {
                   </div>
                 </MStagger>
               ),
-            }))}
+              };
+            })}
           />
           <div className="mt-6 text-center">
             <Link
@@ -458,18 +505,27 @@ export default function HomePage() {
           </span>
         </div>
         <MStagger className="mt-12 grid gap-6 md:grid-cols-3">
-          {recipes.map((e) => {
+          {recipes.map((e, i) => {
             const meta = recipeMeta(e);
             const category =
               typeof e.data.category === "string" && e.data.category.length > 0
                 ? e.data.category
                 : undefined;
+            // The newest recipe is the one card that is DIFFERENT at rest: the rose
+            // double frame + a slight lift out of the row. The other two stay plain,
+            // so the grid reads as a hierarchy instead of three identical tiles.
+            const newest = i === 0;
             return (
               <Link
                 key={e.slug}
                 href={`/recipes/${e.slug}`}
                 data-cta={`proof-recipe-${e.slug}`}
-                className="group block h-full overflow-hidden rounded-2xl border border-line bg-card transition duration-300 ease-[var(--ease-out)] hover:-translate-y-1 hover:border-gold/60 hover:shadow-[var(--elevation-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                // House hover philosophy: NO lift here — the photo already scales on
+                // group-hover, so the card answers with a gold frame line instead.
+                className={`group block h-full overflow-hidden rounded-2xl bg-card transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:border-gold motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
+                  newest ? "frame-double md:-translate-y-2" : "border border-line"
+                }`}
+                style={newest ? ({ "--frame-gap": "6px", "--frame-color": "var(--color-rose)" } as React.CSSProperties) : undefined}
               >
                 <div className="relative aspect-[3/2] overflow-hidden">
                   <Image
@@ -477,7 +533,7 @@ export default function HomePage() {
                     alt={e.imageAlt || e.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 380px"
-                    className="object-cover transition duration-700 ease-[var(--ease-out)] group-hover:scale-[1.02]"
+                    className="object-cover transition duration-[calc(var(--dur-reveal)*0.7)] ease-[var(--ease-out)] group-hover:scale-[1.02] motion-reduce:transition-none"
                   />
                   {/* the ONE shared image grade (archive continuity) */}
                   <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
@@ -509,13 +565,12 @@ export default function HomePage() {
         </div>
         {/* the honest dark slots — ONE quiet wash band, structurally dark until real
             proof lands (soft wash + ◆, never card-sized ghosts, never dashed chrome) */}
+        {/* two honest notes, separated by the rose thread — the ◆ is a STRUCTURE mark
+            (kickers + step markers), never sentence punctuation. */}
         <div className="mt-10 rounded-[16px] bg-bg2 px-6 py-4 text-center">
-          <p className="text-sm leading-relaxed text-muted">
-            <span className="text-[0.6rem] leading-none text-gold" aria-hidden>◆ </span>
-            {PROOF.darkTestimonial}
-            <span className="mx-2.5 text-[0.6rem] leading-none text-gold" aria-hidden>◆</span>
-            {PROOF.darkLogos}
-          </p>
+          <p className="text-sm leading-relaxed text-muted">{PROOF.darkTestimonial}</p>
+          <span aria-hidden className="mx-auto my-3 block h-[2px] w-10 rounded-full bg-rose" />
+          <p className="text-sm leading-relaxed text-muted">{PROOF.darkLogos}</p>
         </div>
       </Section>
 
@@ -657,9 +712,8 @@ export default function HomePage() {
               <Link
                 href="/about"
                 data-cta="lead-credential"
-                className="inline-flex items-center gap-2 rounded-full bg-sand px-4 py-2.5 text-sm font-semibold text-navy transition hover:bg-card"
+                className="inline-flex items-center rounded-full bg-sand px-4 py-2.5 text-sm font-semibold text-navy transition hover:bg-card"
               >
-                <span className="text-[0.6rem] leading-none text-gold" aria-hidden>◆</span>
                 {CTA.trustToken}
               </Link>
             </div>
@@ -671,7 +725,6 @@ export default function HomePage() {
               data-cta="lead-magnet"
               className="mt-6 block rounded-[16px] bg-blush p-6 text-navy transition hover:opacity-90"
             >
-              <span className="text-[0.6rem] leading-none text-rose-ink" aria-hidden>◆ </span>
               <span className="text-[0.95rem] font-medium leading-relaxed">{CTA.magnet}</span>
             </Link>
           </div>

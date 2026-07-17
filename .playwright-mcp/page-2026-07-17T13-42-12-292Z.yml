@@ -1,0 +1,187 @@
+- generic [ref=f1e1]:
+  - banner [ref=f1e2]:
+    - generic [ref=f1e4]:
+      - link "אלונה אקרלינג מאז 2023" [ref=f1e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f1e6]: אלונה אקרלינג
+        - generic [ref=f1e7]: מאז 2023
+      - generic [ref=f1e8]:
+        - navigation "ראשי" [ref=f1e9]:
+          - link "בית" [ref=f1e10] [cursor=pointer]:
+            - /url: /
+          - link "מתכונים" [ref=f1e11] [cursor=pointer]:
+            - /url: /recipes
+          - link "איך עובדים איתי" [ref=f1e12] [cursor=pointer]:
+            - /url: /coaching
+          - link "עליי" [ref=f1e13] [cursor=pointer]:
+            - /url: /about
+          - link "המלצות" [ref=f1e14] [cursor=pointer]:
+            - /url: /testimonials
+          - link "הקול השפוי" [ref=f1e15] [cursor=pointer]:
+            - /url: /sane-voice
+          - link "צור קשר" [ref=f1e16] [cursor=pointer]:
+            - /url: /contact
+        - link "בואי נדבר" [active] [ref=f1e17] [cursor=pointer]:
+          - /url: /contact
+  - main [ref=f1e18]:
+    - generic [ref=f1e396]:
+      - navigation "breadcrumb" [ref=f1e397]:
+        - list [ref=f1e398]:
+          - listitem [ref=f1e399]:
+            - link "בית" [ref=f1e400] [cursor=pointer]:
+              - /url: /
+            - generic [ref=f1e401]: ‹
+          - listitem [ref=f1e402]:
+            - generic [ref=f1e403]: צור קשר
+      - generic [ref=f1e404]:
+        - paragraph [ref=f1e405]:
+          - generic [ref=f1e406]: ◆
+          - generic [ref=f1e407]: הדלת פתוחה
+        - heading "בואי נדבר." [level=1] [ref=f1e408]
+        - paragraph [ref=f1e415]: "אם הגעת עד לפה, כנראה משהו כבר מדבר אלייך. אין צורך להחליט על כלום עכשיו: נתחיל בשיחת היכרות קצרה, בלי התחייבות ובלי לחץ. נכיר, אספר לך איך אני עובדת, ונבין יחד אם אני האדם הנכון ללוות אותך אל השקט הזה."
+        - link "בואי נדבר · שיחת היכרות חינם" [ref=f1e417] [cursor=pointer]:
+          - /url: "#lead"
+        - generic [ref=f1e420]:
+          - generic [ref=f1e421]: ◆
+          - paragraph [ref=f1e423]: אני חוזרת אלייך אישית, עד 4 ימי עסקים.
+        - paragraph [ref=f1e424]: ברעננה, ואונליין מכל מקום בארץ.
+        - generic [ref=f1e426]:
+          - generic [ref=f1e427]: ◆
+          - generic [ref=f1e428]: דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות
+    - generic [ref=f1e430]:
+      - generic [ref=f1e431]: ◆
+      - generic [ref=f1e436]:
+        - heading "הצעד הראשון הוא רק שיחה." [level=2] [ref=f1e439]
+        - paragraph [ref=f1e440]: שיחת היכרות קצרה, בלי התחייבות ובלי לחץ. נכיר, ונבין יחד אם אני האדם הנכון ללוות אותך אל השקט הזה, בלי לוותר על האוכל שאת אוהבת.
+        - paragraph [ref=f1e441]: הליווי נמכר בחבילות שמתאימות לחיים שלך. על זה נדבר בשיחה, בלי הפתעות ובלי מחיר שקופץ מהמסך.
+        - generic [ref=f1e443]:
+          - generic [ref=f1e444]:
+            - text: אל תמלאו שדה זה
+            - textbox [ref=f1e445]
+          - generic [ref=f1e446]:
+            - text: שם
+            - textbox "שם" [ref=f1e447]
+          - generic [ref=f1e448]:
+            - text: טלפון / וואטסאפ
+            - textbox "טלפון / וואטסאפ" [ref=f1e449]
+          - generic [ref=f1e450]:
+            - text: מה הכי מעסיק אותך עכשיו? (לא חובה)
+            - textbox "מה הכי מעסיק אותך עכשיו? (לא חובה)" [ref=f1e451]
+          - button "אימייל" [ref=f1e452]:
+            - generic [ref=f1e453]: +
+            - text: אימייל
+          - generic [ref=f1e454]:
+            - checkbox "אני מאשרת שאלונה תחזור אליי בטלפון / וואטסאפ / מייל" [ref=f1e455]
+            - generic [ref=f1e456]: אני מאשרת שאלונה תחזור אליי בטלפון / וואטסאפ / מייל
+          - button "בואי נדבר, שיחת היכרות חינם" [ref=f1e457]
+          - link "מעדיפה לכתוב? דברי איתי ישירות בוואטסאפ" [ref=f1e458] [cursor=pointer]:
+            - /url: https://wa.me/972526359404
+          - generic [ref=f1e462] [cursor=pointer]:
+            - checkbox "עוד לא מוכנה לשיחה? הצטרפי לרשימה השפויה וקבלי ממני מתכונים וטיפים שקטים למייל" [ref=f1e463]
+            - generic [ref=f1e464]:
+              - generic [ref=f1e465]: ◆
+              - text: עוד לא מוכנה לשיחה? הצטרפי לרשימה השפויה וקבלי ממני מתכונים וטיפים שקטים למייל
+        - generic [ref=f1e466]:
+          - generic [ref=f1e467]:
+            - generic [ref=f1e468]: ◆
+            - paragraph [ref=f1e470]: אני חוזרת אלייך אישית, עד 4 ימי עסקים.
+          - paragraph [ref=f1e471]: קליניקה ברעננה · ליווי אונליין בכל הארץ
+          - paragraph [ref=f1e472]:
+            - generic [ref=f1e473]: ◆
+            - text: דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות
+    - generic [ref=f1e475]:
+      - generic [ref=f1e479]:
+        - generic [ref=f1e480]:
+          - generic [ref=f1e481]: ◆
+          - generic [ref=f1e482]: איפה נפגשות
+        - 'heading "איפה שנוח לך: אונליין בכל הארץ, או בקליניקה ברעננה" [level=2] [ref=f1e483]':
+          - generic [ref=f1e484]: "איפה שנוח לך:"
+          - generic [ref=f1e486]: אונליין בכל הארץ, או בקליניקה ברעננה
+        - paragraph [ref=f1e489]: רוב הליווי מתקיים אונליין, מכל מקום בארץ, בלי לצאת מהבית ובלי לאבד זמן על נסיעות. ואם נוח לך פנים-אל-פנים, יש קליניקה ברעננה. נמצא יחד את הדרך שמתאימה לחיים שלך.
+      - generic [ref=f1e502]:
+        - list [ref=f1e503]:
+          - listitem [ref=f1e504]:
+            - generic [ref=f1e505]:
+              - heading "ליווי אונליין בכל הארץ" [level=3] [ref=f1e506]
+              - paragraph [ref=f1e507]: מהסלון שלך, מתי שמתאים. הכול מרחוק.
+          - listitem [ref=f1e508]:
+            - generic [ref=f1e509]:
+              - heading "קליניקה ברעננה" [level=3] [ref=f1e510]
+              - paragraph [ref=f1e511]: מעדיפה פנים-אל-פנים? יש גם מקום לשבת בו.
+          - listitem [ref=f1e512]:
+            - generic [ref=f1e513]:
+              - heading "וואטסאפ בין הפגישות" [level=3] [ref=f1e514]
+              - paragraph [ref=f1e515]: לא נעלמת. ערוץ אמיתי לשאלות קטנות בדרך, בחבילות הליווי.
+        - generic [ref=f1e517]:
+          - generic [ref=f1e518]: ◆
+          - paragraph [ref=f1e520]: אני חוזרת אלייך אישית, עד 4 ימי עסקים.
+  - contentinfo [ref=f1e328]:
+    - generic [ref=f1e329]:
+      - generic [ref=f1e330]:
+        - paragraph [ref=f1e331]: אלונה אקרלינג
+        - paragraph [ref=f1e332]: את כבר יודעת מה לאכול. בואי נעשה שזה סוף סוף יישאר.
+        - paragraph [ref=f1e333]: מאז 2023
+      - generic [ref=f1e334]:
+        - paragraph [ref=f1e335]: ניווט
+        - list [ref=f1e336]:
+          - listitem [ref=f1e337]:
+            - link "בית" [ref=f1e338] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f1e339]:
+            - link "מתכונים" [ref=f1e340] [cursor=pointer]:
+              - /url: /recipes
+          - listitem [ref=f1e341]:
+            - link "איך עובדים איתי" [ref=f1e342] [cursor=pointer]:
+              - /url: /coaching
+          - listitem [ref=f1e343]:
+            - link "עליי" [ref=f1e344] [cursor=pointer]:
+              - /url: /about
+          - listitem [ref=f1e345]:
+            - link "המלצות" [ref=f1e346] [cursor=pointer]:
+              - /url: /testimonials
+          - listitem [ref=f1e347]:
+            - link "הקול השפוי" [ref=f1e348] [cursor=pointer]:
+              - /url: /sane-voice
+          - listitem [ref=f1e349]:
+            - link "צור קשר" [ref=f1e350] [cursor=pointer]:
+              - /url: /contact
+      - generic [ref=f1e351]:
+        - paragraph [ref=f1e352]: שירותים
+        - list [ref=f1e353]:
+          - listitem [ref=f1e354]:
+            - link "ליווי אישי · חבילת בסיס (60 יום)" [ref=f1e355] [cursor=pointer]:
+              - /url: /coaching
+          - listitem [ref=f1e356]:
+            - link "ליווי מורחב (120 יום)" [ref=f1e357] [cursor=pointer]:
+              - /url: /coaching
+          - listitem [ref=f1e358]:
+            - link "פגישה חד פעמית" [ref=f1e359] [cursor=pointer]:
+              - /url: /coaching
+      - generic [ref=f1e360]:
+        - paragraph [ref=f1e361]: יצירת קשר
+        - list [ref=f1e362]:
+          - listitem [ref=f1e363]: רעננה, השרון
+          - listitem [ref=f1e364]:
+            - text: "דוא״ל:"
+            - link "alonaeck1@gmail.com" [ref=f1e365] [cursor=pointer]:
+              - /url: mailto:alonaeck1@gmail.com
+          - listitem [ref=f1e366]:
+            - link "לעמוד יצירת הקשר ›" [ref=f1e367] [cursor=pointer]:
+              - /url: /contact
+    - generic [ref=f1e369]:
+      - navigation "עמודים משפטיים" [ref=f1e370]:
+        - link "מדיניות פרטיות" [ref=f1e371] [cursor=pointer]:
+          - /url: /privacy
+        - link "תקנון ותנאי שימוש" [ref=f1e372] [cursor=pointer]:
+          - /url: /terms
+        - link "הצהרת נגישות" [ref=f1e373] [cursor=pointer]:
+          - /url: /accessibility
+        - button "ניהול הגדרות עוגיות" [ref=f1e374]
+      - paragraph [ref=f1e375]:
+        - text: ©
+        - generic [ref=f1e376]: 2023-2026
+        - text: אלונה אקרלינג · המידע באתר הוא כללי ואינו מהווה ייעוץ רפואי או תזונתי אישי, ואינו תחליף להתייעצות עם גורם מקצועי מוסמך.
+  - link "לכתוב לי בוואטסאפ" [ref=f1e377] [cursor=pointer]:
+    - /url: https://wa.me/972526359404
+  - button "פתיחת תפריט נגישות" [ref=f1e380]
+  - alert [ref=f1e384]: צור קשר | אלונה אקרלינג

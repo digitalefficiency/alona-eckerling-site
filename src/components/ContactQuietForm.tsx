@@ -262,11 +262,16 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
         </p>
       )}
 
+      {/* The most important click on the site wears the SAME silhouette as every
+          other primary CTA: btn-chamfer rounded-[6px] bg-gold. It used to be a
+          pill — the one shape the house language explicitly rejects. Hover is the
+          chamfer's own brightness lift (one gesture), exactly like the /contact
+          hero-primary this button sits below. */}
       <button
         type="submit"
         data-cta="contact-form-submit"
         disabled={status === "submitting"}
-        className="mt-7 w-full rounded-full bg-gold px-8 py-4 text-[1.02rem] font-bold text-white transition hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2 disabled:opacity-60"
+        className="btn-chamfer mt-7 w-full rounded-[6px] bg-gold px-8 py-4 text-[1.02rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2 disabled:opacity-60"
       >
         {status === "submitting" ? copy.submittingLabel : copy.submitLabel}
       </button>
@@ -277,7 +282,7 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
         target="_blank"
         rel="noopener noreferrer"
         data-cta="contact-whatsapp"
-        className="mt-4 flex w-full items-center justify-center gap-2.5 rounded-full border border-navy/20 px-6 py-3.5 font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+        className="btn-chamfer mt-4 flex w-full items-center justify-center gap-2.5 rounded-[6px] border border-navy/20 px-6 py-3.5 font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
       >
         <svg viewBox="0 0 24 24" aria-hidden className="h-5 w-5 shrink-0">
           <path

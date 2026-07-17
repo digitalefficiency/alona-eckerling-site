@@ -26,7 +26,7 @@ export function FeatureAlternating({
       {features.map((f, i) => {
         const flip = i % 2 === 1; // odd rows put media on the inline-start
         return (
-          <Reveal key={i} delay={i * 60}>
+          <Reveal key={i} delay={i * 80}>
             <div className="grid items-center gap-8 md:grid-cols-2 md:gap-14">
               <div className={flip ? "md:order-last" : ""}>
                 {f.media ?? (
@@ -44,7 +44,7 @@ export function FeatureAlternating({
                 {f.eyebrow && (
                   <div className="mb-3 flex items-center gap-2.5">
                     <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-                    <span className="text-xs font-bold tracking-[.18em] text-gold-ink">{f.eyebrow}</span>
+                    <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{f.eyebrow}</span>
                   </div>
                 )}
                 <h3 className="font-serif text-2xl font-black leading-snug text-navy md:text-3xl">{f.title}</h3>

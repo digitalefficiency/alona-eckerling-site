@@ -40,6 +40,14 @@
   --font-serif: var(--font-frank-ruhl), var(--font-body), Georgia, serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
+  /* THE kicker/eyebrow letter-spacing — one voice for the ◆-marked structure
+     label above every section title. The site had drifted to five hand-rolled
+     values (.14em/.18em/.2em/.22em) for the SAME element; this is the single
+     source. Consume as `tracking-eyebrow` — never re-roll tracking-[…] on a
+     kicker row. (A deliberately wider mark — e.g. a cover sub-label — is a
+     different element, not a kicker.) */
+  --tracking-eyebrow: 0.18em;
+
   /* Radius & shadow — warm-craft: soft tactile corners (DESIGN-DIRECTION), not clinical-sharp */
   --radius-btn: 8px; /* inputs, small chips (CTAs go pill via component class) */
   --radius-card: 16px; /* cards, image frames, asides — soft hand-made warmth */
@@ -307,7 +315,15 @@
 
 /* the chamfered CTA pair — shared button silhouettes (swap-in for rounded-full).
    Primary keeps the sage fill (white-on-sage AA); secondary is the quiet ghost.
-   Hover raises a soft offset frame instead of a color jump. */
+   Hover raises a soft offset frame instead of a color jump.
+   --chamfer defaults to 10px; a low-height button (the Header island CTA) passes
+   a smaller cut via an inline `--chamfer` style — inline wins over this rule, the
+   same escape hatch .frame-double gives --frame-gap/--frame-color.
+   NOTE the transition list: this rule is UNLAYERED, so it beats Tailwind's
+   `transition` utility (which lives in @layer utilities) on any element carrying
+   both. It therefore has to cover the color properties too — otherwise a
+   `transition hover:border-gold` ghost button would snap at 0ms while believing
+   it had a transition. Tokens only. */
 .btn-chamfer {
   --chamfer: 10px;
   clip-path: polygon(
@@ -315,7 +331,11 @@
     100% calc(100% - var(--chamfer)), calc(100% - var(--chamfer)) 100%,
     0 100%, 0 var(--chamfer)
   );
-  transition: filter var(--dur-micro) var(--ease-micro), transform var(--dur-micro) var(--ease-micro);
+  transition: filter var(--dur-micro) var(--ease-micro),
+    transform var(--dur-micro) var(--ease-micro),
+    color var(--dur-micro) var(--ease-micro),
+    background-color var(--dur-micro) var(--ease-micro),
+    border-color var(--dur-micro) var(--ease-micro);
 }
 .btn-chamfer:hover { filter: brightness(1.06); }
 .btn-chamfer:active { transform: scale(0.985); }

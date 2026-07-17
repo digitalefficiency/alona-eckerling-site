@@ -32,9 +32,11 @@ const WHATSAPP_HREF = `https://wa.me/${site.whatsapp}`;
 const HERO = {
   kicker: "ליווי אחת-על-אחת",
   title: "ככה נעבוד ביחד",
-  body: "את כבר יודעת מה לאכול. מה שחסר זה לא עוד תפריט, אלא דרך שנבנית סביב השבוע שלך, בלי לוותר על האוכל שאת אוהבת. כדי שסוף-סוף יהיה שקט בראש והתוצאה תישאר.",
+  body: "את כבר יודעת מה לאכול. הדרך צריכה להיבנות סביב השבוע שלך, בלי לוותר על האוכל שאת אוהבת, כדי שסוף-סוף יהיה שקט בראש והתוצאה תישאר.",
   trustToken: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
-  ctaPrimary: "בואי נדבר · שיחת היכרות חינם",
+  // כותרת-כפתור נקייה + שורת-משנה קטנה מתחתיה (תאום ל-hero של הבית) — בלי · בתוך תווית
+  ctaPrimary: "בואי נדבר",
+  ctaSub: "שיחת היכרות חינם",
   ctaWhatsapp: "אפשר גם לכתוב לי בוואטסאפ",
   micro: "בלי התחייבות · מענה עד 4 ימי עסקים · על החבילות נדבר בשיחה",
 } as const;
@@ -68,11 +70,11 @@ const METHOD = {
       body: "אנחנו לא מוחקות מאכלים ולא עושות רשימות אסור. לומדות איך לשלב את מה שאת אוהבת בתוך משהו שעובד, בלי אשמה, כדי שיהיה שקט בראש.",
     },
     {
-      title: "מדע עדכני, לא טרנדים",
+      title: "החלטות על סמך מדע עדכני",
       body: "כל החלטה נשענת על מה שידוע היום על הגוף, לא על הדיאטה הבאה שכולם מדברים עליה. זה ההבדל בין ניחוש לבין שיטה.",
     },
     {
-      title: "ליווי צמוד, לא לבד",
+      title: "ליווי צמוד גם בין הפגישות",
       body: "אני איתך בין הפגישות, לא רק בחדר: כדי שהידע יהפוך להרגל, ושלא תישארי לבד באמצע הדרך.",
     },
   ],
@@ -150,11 +152,11 @@ const packageCards = PACKAGE_ORDER.flatMap((slug) => {
 const PROCESS = {
   kicker: "שלב אחרי שלב",
   title: "מה קורה בכל שלב",
-  lead: "בחרת כיוון? הנה בדיוק מה שקורה בפועל, בלי הפתעות: אותה דרך חמה, אחת-על-אחת, שנבנית סביב השבוע שלך.",
+  lead: "בחרת כיוון? הנה מה שקורה בפועל, בלי הפתעות: אותה דרך חמה, אחת-על-אחת, שנבנית סביב השבוע שלך.",
   steps: [
     {
       t: "שיחת היכרות",
-      d: "בחינם, בלי התחייבות. נכיר, תספרי לי מה עובר עלייך, ונבין ביחד אם אני האדם הנכון ללוות אותך. בלי לחץ, בלי מכירה.",
+      d: "בחינם ובלי התחייבות. נכיר, תספרי לי מה עובר עלייך, ונבין ביחד אם אני האדם הנכון ללוות אותך. שיחה, לא שיחת מכירה.",
     },
     {
       t: "פגישה עמוקה + תוכנית אישית",
@@ -172,10 +174,10 @@ const PROCESS = {
 const PROOF = {
   kicker: "תראי בעצמך",
   title: "מהמטבח של אלונה",
-  lead: "לא פיד ולא הבטחה: אוכל אמיתי שאני מבשלת, בנוי סביב שבוע אמיתי, בלי לוותר על מה שאת אוהבת.",
+  lead: "אוכל שאני באמת מבשלת, בתוך שבוע רגיל, בלי למחוק את מה שאת אוהבת.",
   // סלוט ההמלצות נשאר חשוך מבנית עד שתגיע עדות אמיתית ומיוחסת (YMYL, הוכחה-אמיתית-בלבד)
-  testimonialEmpty: "המלצות אמיתיות יופיעו כאן ברגע שיהיו. אנחנו לא ממציאים סיפור שלא קרה.",
-  cta: "לכל המתכונים ←",
+  testimonialEmpty: "המלצות אמיתיות יופיעו כאן ברגע שיהיו. אני לא ממציאה סיפור שלא קרה.",
+  cta: "הצצה למטבח שלי ←",
   // צילומי אוכל אמיתיים מארכיון המתכונים של אלונה (media/client/recipes);
   // ה-alt = כותרת המתכון מקובץ התוכן (content/recipes/*)
   stills: [
@@ -205,7 +207,7 @@ const FAQ = {
     },
     {
       q: "יש לי כל הזמן רעש ואשמה בראש סביב אוכל. זה יכול להשתנות?",
-      a: 'זה בדיוק הלב של העבודה שלי. המטרה היא לא עוד כללים, אלא שקט: פחות התלבטות, פחות אשמה, יותר ראש נקי. בלי שיפוט ובלי "נפלת".',
+      a: 'זה בדיוק הלב של העבודה שלי. המטרה היא שקט: פחות התלבטות, פחות אשמה, יותר ראש נקי. בלי שיפוט ובלי "נפלת".',
     },
     {
       q: "אני אוכלת הרבה מתוך לחץ או רגש. את מתייחסת גם לזה?",
@@ -245,10 +247,10 @@ const FAQ = {
 const CTA = {
   title: "הגעת עד לפה.\nנשאר רק להכיר. בואי נדבר.",
   body: "שיחת היכרות קצרה, בלי התחייבות. נכיר, ונבין יחד אם אני האדם הנכון ללוות אותך, בלי לוותר על האוכל שאת אוהבת, כדי שסוף-סוף יהיה שקט בראש.",
-  packagesLine: "הליווי נמכר בחבילות שמתאימות לחיים שלך. על זה בדיוק נדבר בשיחה, בלי הפתעות ובלי מחיר שקופץ מהמסך.",
+  packagesLine: "הליווי נמכר בחבילות שמתאימות לחיים שלך. על זה נדבר בשיחה, בלי הפתעות ובלי מחיר שקופץ מהמסך.",
   promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
   trustToken: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
-  aboutPointer: "רוצה קודם להכיר אותי? הכירי אותי ←",
+  aboutPointer: "רוצה קודם להכיר אותי? הסיפור שלי בעמוד עליי ←",
   button: "בואי נדבר, שיחת היכרות חינם",
 } as const;
 
@@ -300,25 +302,31 @@ function ProofStill({ src, alt }: { src: string; alt: string }) {
 export default function CoachingPage() {
   return (
     <main>
-      {/* ── 09 · HOOK — hero סנד חם: still שולחן-הייעוץ המיוצר (layer 8, בלי פנים) נושם
-             בצד הרחוק תחת מסך-סנד; פורטרט אמיתי של אלונה יחליף אותו כשיגיע. ── */}
+      {/* ── 09 · HOOK — hero סנד חם: still שולחן-הייעוץ המיוצר (layer 8, בלי פנים) יושב
+             בפאנל-ממוסגר עם גבול גיאומטרי חד בקצה inline-end (בלי מסך-המסה, בלי אורות);
+             פורטרט אמיתי של אלונה יחליף אותו כשיגיע. ── */}
       <section data-light-hero className="relative isolate overflow-hidden border-b border-line bg-sand">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-          {/* <picture> keeps the hero still EAGER on this page but stops React from
-              emitting a preload hint for it — hints ride the RSC payload and get
-              replayed on every page that prefetches /coaching (stray home preloads) */}
-          <picture className="contents">
-            <img
-              src="/media/generated/09-coaching-table.jpg"
-              alt=""
-              className="absolute inset-y-0 -end-0 hidden h-full w-[42%] object-cover md:block"
-            />
-          </picture>
-          {/* scrim anchors the photo AT the viewport edge and melts toward the text
-              column (the section-14 recipe) — never the other way around */}
-          <div className="absolute inset-y-0 -end-0 hidden h-full w-[46%] bg-gradient-to-l from-sand via-sand/40 to-transparent md:block" />
-          <div className="absolute -top-24 -start-24 h-[26rem] w-[26rem] rounded-full bg-blush/70 blur-3xl" />
-          <div className="absolute -bottom-28 -end-20 h-[24rem] w-[24rem] rounded-full bg-gold-soft/50 blur-3xl" />
+          {/* the still is CROPPED INTO A FRAMED PANEL, not melted into the page: a
+              double-frame plate (the house flagship treatment) anchored to the
+              inline-end screen edge, which crops it. Same frame language as the
+              mobile MediaFrame twin below. The <img> stays a swappable slot;
+              <picture> keeps it EAGER here but stops React emitting a preload hint
+              (hints ride the RSC payload and replay on every page that prefetches
+              /coaching). Grade = the house tint + grain, never a melt-scrim. */}
+          <div className="frame-double absolute inset-y-10 end-0 hidden w-[40%] rounded-[10px] [--frame-color:var(--color-gold)] [--frame-gap:6px] md:block">
+            <div className="absolute inset-0 overflow-hidden rounded-[10px]">
+              <picture className="contents">
+                <img
+                  src="/media/generated/09-coaching-table.jpg"
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </picture>
+              <div className="absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+              <div className="grain-overlay" />
+            </div>
+          </div>
         </div>
         <div className="mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 md:py-24">
           <Breadcrumbs items={[{ label: "איך עובדים איתי", href: "/coaching" }]} />
@@ -348,20 +356,26 @@ export default function CoachingPage() {
                 <span aria-hidden className="block h-[2px] w-16 bg-rose" />
               </span>
             </MItem>
-            <MItem className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                href="#lead"
-                data-cta="coaching-hero-lead"
-                className="btn-chamfer rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
-              >
-                {HERO.ctaPrimary}
-              </Link>
+            <MItem className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-4">
+              {/* primary label + a small sub-line under it (the home hero's answer) —
+                  a button label never carries a · separator */}
+              <div className="flex flex-col items-center gap-1.5">
+                <Link
+                  href="#lead"
+                  data-cta="coaching-hero-lead"
+                  className="btn-chamfer rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
+                >
+                  {HERO.ctaPrimary}
+                </Link>
+                <span className="text-xs font-semibold text-muted">{HERO.ctaSub}</span>
+              </div>
+              {/* the ghost twin carries the SAME chamfered silhouette as the primary */}
               <a
                 href={WHATSAPP_HREF}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cta="coaching-hero-whatsapp"
-                className="rounded-full border border-navy/25 px-7 py-3.5 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                className="btn-chamfer rounded-[6px] border border-navy/25 px-7 py-3.5 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
               >
                 {HERO.ctaWhatsapp}
               </a>
@@ -392,67 +406,77 @@ export default function CoachingPage() {
       {/* ── 10 · TENSION — פרוזה ממורכזת: הפער הוא ה"לבד", לא הידע ── */}
       <Section tone="white" width="prose" border>
         <SectionHeading eyebrow={PROBLEM.kicker} title={PROBLEM.title} lead={PROBLEM.subtitle} />
-        <Reveal delay={120}>
-          <p className="mt-8 text-lg leading-relaxed text-ink">{PROBLEM.body1}</p>
-        </Reveal>
-        <Reveal delay={180}>
-          <PullQuote>
-            {PROBLEM.pullQuoteStart}
-            <span className="underline decoration-rose decoration-4 underline-offset-8">{PROBLEM.pullQuoteMark}</span>
-            {PROBLEM.pullQuoteEnd}
-          </PullQuote>
-        </Reveal>
-        <Reveal delay={220}>
-          <p className="mb-8 text-lg leading-relaxed text-ink">{PROBLEM.body2}</p>
-        </Reveal>
-        <Reveal delay={260}>
-          <Link
-            href="#method"
-            data-cta="coaching-problem-to-method"
-            className="inline-block font-bold text-gold-ink transition hover:text-gold-dark"
-          >
-            {PROBLEM.cta}
-          </Link>
-        </Reveal>
+        {/* ONE orchestrator for the section (token stagger) — and the page's single
+            lean-in: the rose-marked pull-quote arrives from the reading side while
+            everything around it stays quiet. */}
+        <MOrchestrate>
+          <MItem as="p" className="mt-8 text-lg leading-relaxed text-ink">
+            {PROBLEM.body1}
+          </MItem>
+          <MItem variants={slideIn("inline-start")}>
+            <PullQuote>
+              {PROBLEM.pullQuoteStart}
+              <span className="underline decoration-rose decoration-4 underline-offset-8">{PROBLEM.pullQuoteMark}</span>
+              {PROBLEM.pullQuoteEnd}
+            </PullQuote>
+          </MItem>
+          <MItem as="p" className="mb-8 text-lg leading-relaxed text-ink">
+            {PROBLEM.body2}
+          </MItem>
+          <MItem>
+            <Link
+              href="#method"
+              data-cta="coaching-problem-to-method"
+              className="underline-grow inline-block font-bold text-gold-ink"
+            >
+              {PROBLEM.cta}
+            </Link>
+          </MItem>
+        </MOrchestrate>
       </Section>
 
-      {/* ── 11 · GUIDE — ארבעת עמודי המנגנון (זיג-זג עריכתי): עמוד 1 נושא צילום-מנה
-             אמיתי שלה (הוכחת "דיאטנית שמבשלת"), עמוד 2 את still קצב-השבוע; 3–4 נשארים
-             פאנלים מעוצבים לקצב. ── */}
+      {/* ── 11 · GUIDE — ארבעת עמודי המנגנון (זיג-זג עריכתי): עמודים 1, 2 ו-4 נושאים
+             צילומי-מנות אמיתיים מהמטבח שלה (הוכחת "דיאטנית שמבשלת"); עמוד 3 ("מדע
+             עדכני") נשאר פאנל מעוצב בגיאומטריית-הבית, בלי צילום. אין still מיוצר
+             לצד צילום אמיתי — ההשוואה זה מה שחושף אותו. ── */}
       <Section tone="sand" id="method" seam>
         <SectionHeading eyebrow={METHOD.kicker} title={METHOD.title} />
         {(() => {
           // one media builder feeds BOTH renders (the pin track and the vertical fallback)
           const pillarMedia = (i: number) => {
+            // pillar 3 ("מדע עדכני") carries NO photograph — a designed sage panel in
+            // the house geometry (the home PLAN ladder closes on the same move), so a
+            // generated still never sits in the frame chain beside her real dishes.
+            if (i === 2) {
+              return (
+                <div
+                  aria-hidden
+                  className="relative grid place-items-center overflow-hidden rounded-[10px] border border-line bg-gold-soft"
+                  style={{ aspectRatio: "var(--aspect-feature)" }}
+                >
+                  {/* the ◆ kicker glyph grown to panel scale: the house diamond marker */}
+                  <span className="grid h-32 w-32 rotate-45 place-items-center border border-gold/60 md:h-40 md:w-40">
+                    <span className="h-1/3 w-1/3 bg-gold/25" />
+                  </span>
+                  <div className="grain-overlay" />
+                </div>
+              );
+            }
             const pillarImg =
               i === 0
                 ? { src: "/media/client/recipes/cauliflower-fried-rice.jpg", alt: "אורז מוקפץ מכרובית, מנה אמיתית מהמטבח של אלונה" }
                 : i === 1
-                  ? { src: "/media/generated/11-method-week-bowls.jpg", alt: "" }
-                  : i === 2
-                    ? { src: "/media/generated/11-method-science.jpg", alt: "" }
-                    : { src: "/media/generated/11-method-two-cups.jpg", alt: "" };
-            return pillarImg ? (
+                  ? { src: "/media/client/recipes/one-pot-bulgur-stew.jpg", alt: "תבשיל בורגול בסיר אחד, מנה אמיתית מהמטבח של אלונה" }
+                  : { src: "/media/client/recipes/soba-noodle-salad.jpg", alt: "סלט אטריות סובה, מנה אמיתית מהמטבח של אלונה" };
+            return (
               <div
                 className="relative overflow-hidden rounded-[10px] border border-line"
                 style={{ aspectRatio: "var(--aspect-feature)" }}
-                aria-hidden={pillarImg.alt === "" || undefined}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={pillarImg.src} alt={pillarImg.alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
-                <div aria-hidden className="grain-overlay" />
-              </div>
-            ) : (
-              <div
-                aria-hidden
-                className={`relative flex items-center justify-center overflow-hidden rounded-[10px] border border-line ${
-                  i % 2 === 0 ? "bg-gold-soft" : "bg-blush"
-                }`}
-                style={{ aspectRatio: "var(--aspect-feature)" }}
-              >
-                <span className="font-serif text-7xl font-black text-navy/15 md:text-8xl">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
+                {/* the house grade — one tint + one grain across every still on the page */}
+                <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
                 <div aria-hidden className="grain-overlay" />
               </div>
             );
@@ -500,7 +524,7 @@ export default function CoachingPage() {
           <Link
             href="#packages"
             data-cta="coaching-method-to-packages"
-            className="inline-block font-bold text-gold-ink transition hover:text-gold-dark"
+            className="underline-grow inline-block font-bold text-gold-ink"
           >
             {METHOD.cta}
           </Link>
@@ -521,20 +545,21 @@ export default function CoachingPage() {
             ))}
           </ul>
         </Reveal>
+        {/* Tailwind v4 lifts cards via the `translate` property — `transform` is NOT
+            it, so the old transition list left the lift jumping at 0ms while the
+            shadow eased. The flagship card is ALREADY raised: it does not lift again
+            on hover (stillness is the signature) — its frame answers instead,
+            gold → rose, on the same token. */}
         <MStagger className="mt-12 grid gap-6 md:grid-cols-3" itemClassName="h-full">
           {packageCards.map((card) => (
             <article
               key={card.slug}
-              className={`flex h-full flex-col rounded-[16px] p-7 transition-[transform,box-shadow] duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:-translate-y-1 hover:shadow-[var(--elevation-2)] motion-reduce:transition-none ${
+              className={`flex h-full flex-col rounded-[16px] p-7 transition-[translate,box-shadow,border-color] duration-[var(--dur-micro)] ease-[var(--ease-out)] motion-reduce:transition-none ${
                 card.highlight
-                  ? "frame-double bg-gold-soft md:-translate-y-2"
-                  : "border border-line bg-sand"
+                  ? "frame-double bg-gold-soft [--frame-color:var(--color-gold)] [--frame-gap:6px] hover:[--frame-color:var(--color-rose)] md:-translate-y-2"
+                  : "border border-line bg-sand hover:-translate-y-1 hover:shadow-[var(--elevation-2)]"
               }`}
-              style={
-                card.highlight
-                  ? ({ boxShadow: "var(--elevation-2)", "--frame-color": "var(--color-gold)", "--frame-gap": "6px" } as React.CSSProperties)
-                  : undefined
-              }
+              style={card.highlight ? { boxShadow: "var(--elevation-2)" } : undefined}
             >
               {card.highlight && <span aria-hidden className="mb-4 block h-[2px] w-16 bg-rose" />}
               <h3 className="font-serif text-xl font-black leading-snug text-navy">
@@ -578,18 +603,21 @@ export default function CoachingPage() {
       {/* ── 13 · PLAN — ציר תהליך תלת-תחנתי: הסרת אי-ודאות לפני הסגירה ── */}
       <Section tone="sand" seam>
         <SectionHeading eyebrow={PROCESS.kicker} title={PROCESS.title} lead={PROCESS.lead} />
-        <Reveal delay={120} className="mt-12">
-          <ProcessTimeline headingAs="h3" steps={[...PROCESS.steps]} />
-        </Reveal>
-        <Reveal delay={180} className="mt-12">
-          <Link
-            href="#lead"
-            data-cta="coaching-process-lead"
-            className="inline-block font-bold text-gold-ink transition hover:text-gold-dark"
-          >
-            {PROCESS.cta}
-          </Link>
-        </Reveal>
+        {/* ONE orchestrator, token stagger — no hand-rolled delay ladder */}
+        <MOrchestrate>
+          <MItem className="mt-12">
+            <ProcessTimeline headingAs="h3" steps={[...PROCESS.steps]} />
+          </MItem>
+          <MItem className="mt-12">
+            <Link
+              href="#lead"
+              data-cta="coaching-process-lead"
+              className="underline-grow inline-block font-bold text-gold-ink"
+            >
+              {PROCESS.cta}
+            </Link>
+          </MItem>
+        </MOrchestrate>
       </Section>
 
       {/* ── 14 · PROOF — the "half-bg + card" pattern (the approved plan's #1 placement):
@@ -635,7 +663,7 @@ export default function CoachingPage() {
                   <Link
                     href="/recipes"
                     data-cta="coaching-proof-recipes"
-                    className="inline-block font-bold text-gold-ink transition hover:text-gold-dark"
+                    className="underline-grow inline-block font-bold text-gold-ink"
                   >
                     {PROOF.cta}
                   </Link>
@@ -650,26 +678,29 @@ export default function CoachingPage() {
       <Section tone="sand" width="prose" seam>
         <JsonLd data={faqSchema([...FAQ.items])} />
         <SectionHeading eyebrow={FAQ.kicker} title={FAQ.title} lead={FAQ.lead} />
-        <Reveal delay={120} className="mt-10">
-          <FaqAccordion items={[...FAQ.items]} />
-        </Reveal>
-        <Reveal delay={160} className="mt-10">
-          <p className="leading-relaxed text-ink">
-            {FAQ.closeLine}{" "}
-            <Link href="#lead" data-cta="coaching-faq-lead" className="font-bold text-gold-ink transition hover:text-gold-dark">
-              {FAQ.closeCta}
-            </Link>
-          </p>
-          <p className="mt-3 text-sm text-muted">
-            <Link
-              href="/recipes"
-              data-cta="coaching-faq-magnet"
-              className="underline decoration-rose underline-offset-4 transition hover:text-navy"
-            >
-              {FAQ.magnet}
-            </Link>
-          </p>
-        </Reveal>
+        {/* ONE orchestrator, token stagger — no hand-rolled delay ladder */}
+        <MOrchestrate>
+          <MItem className="mt-10">
+            <FaqAccordion items={[...FAQ.items]} />
+          </MItem>
+          <MItem className="mt-10">
+            <p className="leading-relaxed text-ink">
+              {FAQ.closeLine}{" "}
+              <Link href="#lead" data-cta="coaching-faq-lead" className="underline-grow font-bold text-gold-ink">
+                {FAQ.closeCta}
+              </Link>
+            </p>
+            <p className="mt-3 text-sm text-muted">
+              <Link
+                href="/recipes"
+                data-cta="coaching-faq-magnet"
+                className="underline decoration-rose underline-offset-4 transition hover:text-navy"
+              >
+                {FAQ.magnet}
+              </Link>
+            </p>
+          </MItem>
+        </MOrchestrate>
       </Section>
 
       {/* ── 16 · RESOLUTION — פאנל נייבי #lead: הצעד הקטן והבטוח + Service JSON-LD ── */}

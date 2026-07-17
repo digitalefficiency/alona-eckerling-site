@@ -59,6 +59,9 @@ export function CollectionList({
                 {d.draft && (
                   <span className="rounded-full bg-sand px-3 py-1 text-xs font-bold text-gold-ink">{T("list.draftBadge")}</span>
                 )}
+                {collection.fields.some((f) => f.type === "image") && !d.hasImage && (
+                  <span className="rounded-full border border-line bg-bg2 px-3 py-1 text-xs font-bold text-muted">{T("list.noImage")}</span>
+                )}
                 {/* drill-in affordance points toward the inline-end: ‹ in RTL, › in LTR */}
                 <span aria-hidden className="text-gold-ink">{brand.direction === "rtl" ? "‹" : "›"}</span>
               </button>

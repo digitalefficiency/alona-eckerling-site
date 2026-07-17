@@ -33,14 +33,14 @@ export function BentoGrid({
       {items.map((t, i) => {
         const key = t.wide && t.tall ? "both" : t.wide ? "wide" : t.tall ? "tall" : "base";
         return (
-          <Reveal key={i} delay={i * 60}>
+          <Reveal key={i} delay={i * 80}>
             <article
               className={`flex h-full flex-col rounded-[10px] border border-line bg-card p-6 md:p-7 ${SPAN[key]}`}
             >
               {t.eyebrow && (
                 <div className="mb-3 flex items-center gap-2.5">
                   <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-                  <span className="text-xs font-bold tracking-[.18em] text-gold-ink">{t.eyebrow}</span>
+                  <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{t.eyebrow}</span>
                 </div>
               )}
               <h3 className="font-serif text-xl font-black leading-snug text-navy">{t.title}</h3>

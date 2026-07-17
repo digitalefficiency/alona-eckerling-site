@@ -14,6 +14,7 @@ import {
 } from "@/lib/cms/autosave.mjs";
 import { MediaPicker } from "@/components/admin/MediaPicker";
 import { GalleryField } from "@/components/admin/GalleryField";
+import { ChipSelect } from "@/components/admin/ChipSelect";
 import { InlineImageInserter } from "@/components/admin/InlineImageInserter";
 import { ConfirmDelete } from "@/components/admin/ConfirmDelete";
 import { HistoryPanel } from "@/components/admin/HistoryPanel";
@@ -401,6 +402,22 @@ function Field({
         {err(error)}
         {err(altError)}
       </div>
+    );
+  }
+
+  if (spec.options?.length) {
+    const list = Array.isArray(value) ? (value as string[]) : typeof value === "string" && value ? [value] : [];
+    return (
+      <ChipSelect
+        label={spec.label}
+        options={spec.options}
+        value={list}
+        single={spec.type !== "list"}
+        max={spec.type === "list" ? spec.max : undefined}
+        allowCustom
+        onChange={(next) => onChange(spec.key, spec.type === "list" ? next : (next[0] ?? ""))}
+        error={error}
+      />
     );
   }
 

@@ -110,7 +110,11 @@ export function Header() {
             <Link
               href={cta.primary.href}
               data-cta="header-consult"
-              className={`hidden rounded-[6px] px-5 py-2.5 text-sm font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 lg:inline-flex ${
+              // The island CTA wears the house silhouette like every other primary
+              // on the site — on a shorter cut, since a 10px chamfer on a ~40px-high
+              // button eats a third of the edge.
+              style={{ "--chamfer": "8px" } as React.CSSProperties}
+              className={`btn-chamfer hidden rounded-[6px] px-5 py-2.5 text-sm font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 lg:inline-flex ${
                 light
                   ? "bg-gold text-white hover:bg-gold-dark focus-visible:ring-offset-transparent"
                   : "bg-navy text-white hover:bg-navy-700"
@@ -155,7 +159,8 @@ export function Header() {
             <Link
               href={cta.primary.href}
               data-cta="header-consult-mobile"
-              className="mt-3 rounded-[6px] bg-navy px-5 py-3.5 text-center font-bold text-white transition hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+              style={{ "--chamfer": "8px" } as React.CSSProperties}
+              className="btn-chamfer mt-3 rounded-[6px] bg-navy px-5 py-3.5 text-center font-bold text-white hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
             >
               {cta.primary.short}
             </Link>

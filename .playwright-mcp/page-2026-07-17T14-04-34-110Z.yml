@@ -1,0 +1,363 @@
+- generic [active] [ref=f5e1]:
+  - banner [ref=f5e2]:
+    - generic [ref=f5e4]:
+      - link "אלונה אקרלינג מאז 2023" [ref=f5e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f5e6]: אלונה אקרלינג
+        - generic [ref=f5e7]: מאז 2023
+      - generic [ref=f5e8]:
+        - navigation "ראשי" [ref=f5e9]:
+          - link "בית" [ref=f5e10] [cursor=pointer]:
+            - /url: /
+          - link "מתכונים" [ref=f5e11] [cursor=pointer]:
+            - /url: /recipes
+          - link "איך עובדים איתי" [ref=f5e12] [cursor=pointer]:
+            - /url: /coaching
+          - link "עליי" [ref=f5e13] [cursor=pointer]:
+            - /url: /about
+          - link "המלצות" [ref=f5e14] [cursor=pointer]:
+            - /url: /testimonials
+          - link "הקול השפוי" [ref=f5e15] [cursor=pointer]:
+            - /url: /sane-voice
+          - link "צור קשר" [ref=f5e16] [cursor=pointer]:
+            - /url: /contact
+        - link "בואי נדבר" [ref=f5e17] [cursor=pointer]:
+          - /url: /contact
+  - main [ref=f5e18]:
+    - main [ref=f5e19]:
+      - generic [ref=f5e21]:
+        - navigation "breadcrumb" [ref=f5e22]:
+          - list [ref=f5e23]:
+            - listitem [ref=f5e24]:
+              - link "בית" [ref=f5e25] [cursor=pointer]:
+                - /url: /
+              - generic [ref=f5e26]: ‹
+            - listitem [ref=f5e27]:
+              - generic [ref=f5e28]: איך עובדים איתי
+        - generic [ref=f5e29]:
+          - paragraph [ref=f5e30]:
+            - generic [ref=f5e31]: ◆
+            - generic [ref=f5e32]: ליווי אחת-על-אחת
+          - heading "ככה נעבוד ביחד" [level=1] [ref=f5e33]
+          - paragraph [ref=f5e36]: את כבר יודעת מה לאכול. מה שחסר זה לא עוד תפריט, אלא דרך שנבנית סביב השבוע שלך, בלי לוותר על האוכל שאת אוהבת. כדי שסוף-סוף יהיה שקט בראש והתוצאה תישאר.
+          - generic [ref=f5e39]:
+            - generic [ref=f5e40]: ◆
+            - generic [ref=f5e41]: דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11
+          - generic [ref=f5e43]:
+            - link "בואי נדבר · שיחת היכרות חינם" [ref=f5e44] [cursor=pointer]:
+              - /url: "#lead"
+            - link "אפשר גם לכתוב לי בוואטסאפ" [ref=f5e45] [cursor=pointer]:
+              - /url: https://wa.me/972526359404
+          - paragraph [ref=f5e46]: בלי התחייבות · מענה עד 4 ימי עסקים · על החבילות נדבר בשיחה
+      - generic [ref=f5e48]:
+        - generic [ref=f5e49]:
+          - generic [ref=f5e50]:
+            - generic [ref=f5e51]: ◆
+            - generic [ref=f5e52]: למה דווקא ליווי
+          - heading "את כבר יודעת מה לאכול" [level=2] [ref=f5e53]
+          - paragraph [ref=f5e56]: מה שחסר זה לא עוד ידע.
+        - paragraph [ref=f5e58]: שמרת את הפוסטים, קראת את התפריטים, התחלת ביום ראשון. ולבד, שוב, זה לא החזיק, וזה לא כי טעית או לא ניסית מספיק.
+        - figure [ref=f5e60]:
+          - blockquote [ref=f5e61]: הפער הוא לא במה לאכול. הפער הוא לעשות את זה לבד.
+        - paragraph [ref=f5e63]: הידע כבר אצלך; מה שאף מדריך לא נתן לך זה מישהי לצדך, בתוך השבוע האמיתי שלך.
+        - link "אז ככה זה עובד כשלא לבד ←" [ref=f5e65] [cursor=pointer]:
+          - /url: "#method"
+      - generic [ref=f5e67]:
+        - generic [ref=f5e68]: ◆
+        - generic [ref=f5e72]:
+          - generic [ref=f5e73]:
+            - generic [ref=f5e74]: ◆
+            - generic [ref=f5e75]: שיטה, לא קסם
+          - heading "ארבעה דברים שהופכים ידע לתוצאה שנשארת" [level=2] [ref=f5e76]
+        - generic [ref=f5e82]:
+          - generic [ref=f5e84]:
+            - img "אורז מוקפץ מכרובית, מנה אמיתית מהמטבח של אלונה" [ref=f5e86]
+            - generic [ref=f5e87]:
+              - generic [ref=f5e88]: "01"
+              - heading "נבנה סביב השבוע האמיתי שלך" [level=3] [ref=f5e90]
+            - paragraph [ref=f5e91]: "לא תפריט גנרי שנלחם בחיים שלך, אלא דרך שנבנית סביב מה שבאמת קורה אצלך בשבוע: העבודה, הילדים, האירועים, והערב שבו אין כוח לבשל. בגלל זה זה מחזיק."
+          - generic [ref=f5e93]:
+            - generic [ref=f5e95]:
+              - generic [ref=f5e96]: "02"
+              - heading "בלי לוותר על האוכל שאת אוהבת" [level=3] [ref=f5e98]
+            - paragraph [ref=f5e99]: אנחנו לא מוחקות מאכלים ולא עושות רשימות אסור. לומדות איך לשלב את מה שאת אוהבת בתוך משהו שעובד, בלי אשמה, כדי שיהיה שקט בראש.
+          - generic [ref=f5e101]:
+            - generic [ref=f5e103]:
+              - generic [ref=f5e104]: "03"
+              - heading "מדע עדכני, לא טרנדים" [level=3] [ref=f5e106]
+            - paragraph [ref=f5e107]: כל החלטה נשענת על מה שידוע היום על הגוף, לא על הדיאטה הבאה שכולם מדברים עליה. זה ההבדל בין ניחוש לבין שיטה.
+          - generic [ref=f5e109]:
+            - generic [ref=f5e111]:
+              - generic [ref=f5e112]: "04"
+              - heading "ליווי צמוד, לא לבד" [level=3] [ref=f5e114]
+            - paragraph [ref=f5e115]: "אני איתך בין הפגישות, לא רק בחדר: כדי שהידע יהפוך להרגל, ושלא תישארי לבד באמצע הדרך."
+        - link "ככה זה נראה בפועל, הנה החבילות ←" [ref=f5e117] [cursor=pointer]:
+          - /url: "#packages"
+      - generic [ref=f5e119]:
+        - generic [ref=f5e120]:
+          - generic [ref=f5e121]:
+            - generic [ref=f5e122]: ◆
+            - generic [ref=f5e123]: שלוש דרכים להיכנס
+          - heading "בחרי את הליווי שמתאים לך" [level=2] [ref=f5e124]
+          - paragraph [ref=f5e127]: "אותה שיטה, בשלוש רמות של ליווי. בלי מחיר קשיח: נבחר ביחד את מה שמתאים לחיים שלך, בשיחת היכרות בלי התחייבות."
+        - list [ref=f5e129]:
+          - listitem [ref=f5e130]:
+            - generic [ref=f5e131]: 60 עד 75 דקות
+          - listitem [ref=f5e132]:
+            - generic [ref=f5e133]: ליווי בסיס · 60 יום
+          - listitem [ref=f5e134]:
+            - generic [ref=f5e135]: ליווי מורחב · 120 יום
+          - listitem [ref=f5e136]:
+            - generic [ref=f5e137]: מענה עד 4 ימי עסקים
+        - generic [ref=f5e138]:
+          - article [ref=f5e140]:
+            - heading "פגישת עומק · חד-פעמית" [level=3] [ref=f5e141]
+            - paragraph [ref=f5e142]:
+              - generic [ref=f5e143]: 60 עד 75 דקות
+            - paragraph [ref=f5e144]: "למי זה מתאים:"
+            - paragraph [ref=f5e145]: "לרגע שבו את רוצה כיוון מקצועי אחד, נקי: פגישה עמוקה ותוכנית אישית שנשארת איתך."
+            - paragraph [ref=f5e146]: "מה כלול:"
+            - list [ref=f5e147]:
+              - listitem [ref=f5e148]:
+                - generic [ref=f5e149]: ✓
+                - generic [ref=f5e150]: אבחון מעמיק בפגישה של 60 עד 75 דקות
+              - listitem [ref=f5e151]:
+                - generic [ref=f5e152]: ✓
+                - generic [ref=f5e153]: תוכנית אישית שנבנית סביב השבוע שלך
+              - listitem [ref=f5e154]:
+                - generic [ref=f5e155]: ✓
+                - generic [ref=f5e156]: קובץ מפורט עם כלים, טיפים והנחיות להתנהלות עצמאית
+            - link "בואי נדבר" [ref=f5e158] [cursor=pointer]:
+              - /url: "#lead"
+          - article [ref=f5e160]:
+            - heading "ליווי בסיס · 60 יום" [level=3] [ref=f5e161]
+            - paragraph [ref=f5e162]: "למי זה מתאים:"
+            - paragraph [ref=f5e163]: כשאת רוצה לא רק לדעת מה נכון, אלא שמישהי תלווה אותך עד שזה נכנס לשגרה.
+            - paragraph [ref=f5e164]: "מה כלול:"
+            - list [ref=f5e165]:
+              - listitem [ref=f5e166]:
+                - generic [ref=f5e167]: ✓
+                - generic [ref=f5e168]: פגישת אבחון מעמיקה + 4 מפגשי מעקב (אחת לשבועיים)
+              - listitem [ref=f5e169]:
+                - generic [ref=f5e170]: ✓
+                - generic [ref=f5e171]: וואטסאפ ביני לבינך בין המפגשים
+              - listitem [ref=f5e172]:
+                - generic [ref=f5e173]: ✓
+                - generic [ref=f5e174]: פידבק על יומן האכילה
+              - listitem [ref=f5e175]:
+                - generic [ref=f5e176]: ✓
+                - generic [ref=f5e177]: צירוף לקבוצת הוואטסאפ + גישה לאפליקציה ותכנים מקצועיים
+            - link "בואי נדבר" [ref=f5e179] [cursor=pointer]:
+              - /url: "#lead"
+          - article [ref=f5e181]:
+            - heading "ליווי מורחב · 120 יום" [level=3] [ref=f5e183]
+            - paragraph [ref=f5e184]: "למי זה מתאים:"
+            - paragraph [ref=f5e185]: מתאים כשהדפוס ותיק וניסית כבר הכל, וחשוב לך שהפעם זה יישאר.
+            - paragraph [ref=f5e186]: "מה כלול:"
+            - list [ref=f5e187]:
+              - listitem [ref=f5e188]:
+                - generic [ref=f5e189]: ✓
+                - generic [ref=f5e190]: כל מה שבליווי הבסיס
+              - listitem [ref=f5e191]:
+                - generic [ref=f5e192]: ✓
+                - generic [ref=f5e193]: ליווי לאורך כ-120 יום, לעומק ולאורך זמן
+              - listitem [ref=f5e194]:
+                - generic [ref=f5e195]: ✓
+                - generic [ref=f5e196]: 4 מפגשי מעקב + ליווי צמוד בוואטסאפ ובאפליקציה
+            - link "בואי נדבר" [ref=f5e198] [cursor=pointer]:
+              - /url: "#lead"
+        - paragraph [ref=f5e200]: על החבילה והמחיר נדבר בשיחה. נתאים אותם אלייך, בלי התחייבות.
+      - generic [ref=f5e202]:
+        - generic [ref=f5e203]: ◆
+        - generic [ref=f5e207]:
+          - generic [ref=f5e208]:
+            - generic [ref=f5e209]: ◆
+            - generic [ref=f5e210]: שלב אחרי שלב
+          - heading "מה קורה בכל שלב" [level=2] [ref=f5e211]
+          - paragraph [ref=f5e214]: "בחרת כיוון? הנה בדיוק מה שקורה בפועל, בלי הפתעות: אותה דרך חמה, אחת-על-אחת, שנבנית סביב השבוע שלך."
+        - list [ref=f5e216]:
+          - listitem [ref=f5e218]:
+            - generic [ref=f5e219]: "1"
+            - heading "שיחת היכרות" [level=3] [ref=f5e220]
+            - paragraph [ref=f5e221]: בחינם, בלי התחייבות. נכיר, תספרי לי מה עובר עלייך, ונבין ביחד אם אני האדם הנכון ללוות אותך. בלי לחץ, בלי מכירה.
+          - listitem [ref=f5e222]:
+            - generic [ref=f5e223]: "2"
+            - heading "פגישה עמוקה + תוכנית אישית" [level=3] [ref=f5e224]
+            - paragraph [ref=f5e225]: "60 עד 75 דקות שיושבות לעומק: מה את אוהבת לאכול, איך נראה היום שלך, מה כבר ניסית, ובדיקות דם אם רלוונטי. את יוצאת עם תוכנית שנבנית סביב החיים שלך, לא במקומם."
+          - listitem [ref=f5e226]:
+            - generic [ref=f5e227]: "3"
+            - heading "ליווי שנשאר" [level=3] [ref=f5e228]
+            - paragraph [ref=f5e229]: כאן זה לא נגמר. בין המפגשים אני איתך בוואטסאפ, עם פידבק על יומן האכילה, ובחבילות גם אפליקציית ליווי, כדי שהדברים ייכנסו לשגרה ויישארו. לא עוד דיאטה שנגמרת ואת נשארת לבד איתה.
+        - link "מרגישה שזה מדבר אלייך? בואי נדבר ←" [ref=f5e231] [cursor=pointer]:
+          - /url: "#lead"
+      - generic [ref=f5e239]:
+        - generic [ref=f5e240]:
+          - generic [ref=f5e241]:
+            - generic [ref=f5e242]: ◆
+            - generic [ref=f5e243]: תראי בעצמך
+          - heading "מהמטבח של אלונה" [level=2] [ref=f5e244]
+          - paragraph [ref=f5e247]: "לא פיד ולא הבטחה: אוכל אמיתי שאני מבשלת, בנוי סביב שבוע אמיתי, בלי לוותר על מה שאת אוהבת."
+        - generic [ref=f5e248]:
+          - img "תבשיל בורגול בסיר אחד" [ref=f5e250]
+          - img "מרק עגבניות צלויות" [ref=f5e252]
+        - paragraph [ref=f5e254]: ◆ המלצות אמיתיות יופיעו כאן ברגע שיהיו. אנחנו לא ממציאים סיפור שלא קרה.
+        - link "לכל המתכונים ←" [ref=f5e256] [cursor=pointer]:
+          - /url: /recipes
+      - generic [ref=f5e258]:
+        - generic [ref=f5e259]: ◆
+        - generic [ref=f5e263]:
+          - generic [ref=f5e264]:
+            - generic [ref=f5e265]: ◆
+            - generic [ref=f5e266]: לפני שנדבר
+          - heading "כל מה שאת שואלת את עצמך עכשיו" [level=2] [ref=f5e267]
+          - paragraph [ref=f5e270]: ריכזתי כאן את השאלות שחוזרות אליי הכי הרבה, בכנות, בלי מכירה. אם נשאר לך עוד משהו, בדיוק בשביל זה יש שיחת היכרות בלי התחייבות.
+        - generic [ref=f5e272]:
+          - group [ref=f5e273]:
+            - generic "אני כבר יודעת מה לאכול. אז מה ליווי בכלל ייתן לי?" [ref=f5e274] [cursor=pointer]: +
+          - group [ref=f5e277]:
+            - generic "ניסיתי כבר הכל. למה שדווקא זה יעבוד?" [ref=f5e278] [cursor=pointer]: +
+          - group [ref=f5e281]:
+            - generic "אני לא רוצה עוד תפריט נוקשה שאי אפשר לעמוד בו." [ref=f5e282] [cursor=pointer]: +
+          - group [ref=f5e285]:
+            - generic "יש לי כל הזמן רעש ואשמה בראש סביב אוכל. זה יכול להשתנות?" [ref=f5e286] [cursor=pointer]: +
+          - group [ref=f5e289]:
+            - generic "אני אוכלת הרבה מתוך לחץ או רגש. את מתייחסת גם לזה?" [ref=f5e290] [cursor=pointer]: +
+          - group [ref=f5e293]:
+            - generic "איך אני יודעת שהפעם זה יישאר ולא יחזור כמו תמיד?" [ref=f5e294] [cursor=pointer]: +
+          - group [ref=f5e297]:
+            - generic "מה קורה אחרי שהליווי נגמר? אני חוזרת לאותו מקום?" [ref=f5e298] [cursor=pointer]: +
+          - group [ref=f5e301]:
+            - generic "אני מרגישה שאני מתמודדת עם זה לבד. איך הליווי עוזר בזה?" [ref=f5e302] [cursor=pointer]: +
+          - group [ref=f5e305]:
+            - generic "את בת 26. יש לך מספיק ניסיון, או שאת עוד אינפלואנסרית?" [ref=f5e306] [cursor=pointer]: +
+          - group [ref=f5e309]:
+            - generic "אין לי זמן וכוח לעוד פרויקט גדול. איך זה משתלב בחיים?" [ref=f5e310] [cursor=pointer]: +
+          - group [ref=f5e313]:
+            - generic "אינסטגרם מלא בתוכן חינם. למה בכלל לשלם על ליווי?" [ref=f5e314] [cursor=pointer]: +
+        - generic [ref=f5e317]:
+          - paragraph [ref=f5e318]:
+            - text: נשאר לך "כן, אבל" שלא מופיע כאן? בשיחת היכרות בלי עלות ובלי התחייבות נענה עליו יחד.
+            - link "בואי נדבר ←" [ref=f5e319] [cursor=pointer]:
+              - /url: "#lead"
+          - paragraph [ref=f5e320]:
+            - link "עדיין לא בטוחה? הצטרפי לרשימה השפויה." [ref=f5e321] [cursor=pointer]:
+              - /url: /recipes
+      - generic [ref=f5e323]:
+        - generic [ref=f5e324]: ◆
+        - generic [ref=f5e328]:
+          - generic [ref=f5e329]:
+            - heading "הגעת עד לפה. נשאר רק להכיר. בואי נדבר." [level=2] [ref=f5e330]:
+              - generic [ref=f5e331]: הגעת עד לפה.
+              - generic [ref=f5e333]: נשאר רק להכיר. בואי נדבר.
+            - paragraph [ref=f5e335]: שיחת היכרות קצרה, בלי התחייבות. נכיר, ונבין יחד אם אני האדם הנכון ללוות אותך, בלי לוותר על האוכל שאת אוהבת, כדי שסוף-סוף יהיה שקט בראש.
+            - paragraph [ref=f5e336]: הליווי נמכר בחבילות שמתאימות לחיים שלך. על זה בדיוק נדבר בשיחה, בלי הפתעות ובלי מחיר שקופץ מהמסך.
+            - generic [ref=f5e338]:
+              - generic [ref=f5e339]: ◆
+              - paragraph [ref=f5e341]: אני חוזרת אלייך אישית, עד 4 ימי עסקים.
+            - generic [ref=f5e343]:
+              - generic [ref=f5e344]: ◆
+              - generic [ref=f5e345]: דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11
+            - link "רוצה קודם להכיר אותי? הכירי אותי ←" [ref=f5e347] [cursor=pointer]:
+              - /url: /about
+          - generic [ref=f5e349]:
+            - paragraph [ref=f5e351]: בואי נדבר, שיחת היכרות חינם
+            - form "טופס יצירת קשר" [ref=f5e352]:
+              - paragraph [ref=f5e353]: השאירי פרטים
+              - paragraph [ref=f5e354]: אני חוזרת אלייך אישית, עד 4 ימי עסקים.
+              - generic [ref=f5e355]:
+                - text: אל תמלאו שדה זה
+                - textbox [ref=f5e356]
+              - generic [ref=f5e357]:
+                - text: שם מלא *
+                - textbox "שם מלא *" [ref=f5e358]
+              - generic [ref=f5e359]:
+                - text: טלפון / וואטסאפ *
+                - textbox "טלפון / וואטסאפ *" [ref=f5e360]
+              - generic [ref=f5e361]:
+                - text: נושא הפנייה
+                - combobox "נושא הפנייה" [ref=f5e362]:
+                  - option "ליווי אישי, בואי נדבר" [selected]
+                  - option "שאלה על חוברת הקול השפוי"
+                  - option "שיתוף פעולה"
+                  - option "אחר"
+              - generic [ref=f5e363]:
+                - text: מה הכי מעסיק אותך עכשיו? (לא חובה)
+                - textbox "מה הכי מעסיק אותך עכשיו? (לא חובה)" [ref=f5e364]
+              - generic [ref=f5e365]:
+                - checkbox "אני מאשרת שאלונה אקרלינג תיצור איתי קשר בנוגע לפנייתי. הפרטים נשמרים לצורך מענה בלבד ולא יועברו לצד שלישי, בהתאם למדיניות הפרטיות." [ref=f5e366]
+                - generic [ref=f5e367]:
+                  - text: אני מאשרת שאלונה אקרלינג תיצור איתי קשר בנוגע לפנייתי. הפרטים נשמרים לצורך מענה בלבד ולא יועברו לצד שלישי, בהתאם ל
+                  - link "מדיניות הפרטיות" [ref=f5e368] [cursor=pointer]:
+                    - /url: /privacy
+                  - text: .
+              - button "שליחה" [ref=f5e369]
+  - contentinfo [ref=f5e370]:
+    - generic [ref=f5e371]:
+      - generic [ref=f5e372]:
+        - paragraph [ref=f5e373]: אלונה אקרלינג
+        - paragraph [ref=f5e374]: את כבר יודעת מה לאכול. בואי נעשה שזה סוף סוף יישאר.
+        - paragraph [ref=f5e375]: מאז 2023
+      - generic [ref=f5e376]:
+        - paragraph [ref=f5e377]: ניווט
+        - list [ref=f5e378]:
+          - listitem [ref=f5e379]:
+            - link "בית" [ref=f5e380] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f5e381]:
+            - link "מתכונים" [ref=f5e382] [cursor=pointer]:
+              - /url: /recipes
+          - listitem [ref=f5e383]:
+            - link "איך עובדים איתי" [ref=f5e384] [cursor=pointer]:
+              - /url: /coaching
+          - listitem [ref=f5e385]:
+            - link "עליי" [ref=f5e386] [cursor=pointer]:
+              - /url: /about
+          - listitem [ref=f5e387]:
+            - link "המלצות" [ref=f5e388] [cursor=pointer]:
+              - /url: /testimonials
+          - listitem [ref=f5e389]:
+            - link "הקול השפוי" [ref=f5e390] [cursor=pointer]:
+              - /url: /sane-voice
+          - listitem [ref=f5e391]:
+            - link "צור קשר" [ref=f5e392] [cursor=pointer]:
+              - /url: /contact
+      - generic [ref=f5e393]:
+        - paragraph [ref=f5e394]: שירותים
+        - list [ref=f5e395]:
+          - listitem [ref=f5e396]:
+            - link "ליווי אישי · חבילת בסיס (60 יום)" [ref=f5e397] [cursor=pointer]:
+              - /url: /coaching
+          - listitem [ref=f5e398]:
+            - link "ליווי מורחב (120 יום)" [ref=f5e399] [cursor=pointer]:
+              - /url: /coaching
+          - listitem [ref=f5e400]:
+            - link "פגישה חד פעמית" [ref=f5e401] [cursor=pointer]:
+              - /url: /coaching
+      - generic [ref=f5e402]:
+        - paragraph [ref=f5e403]: יצירת קשר
+        - list [ref=f5e404]:
+          - listitem [ref=f5e405]: רעננה, השרון
+          - listitem [ref=f5e406]:
+            - text: "דוא״ל:"
+            - link "alonaeck1@gmail.com" [ref=f5e407] [cursor=pointer]:
+              - /url: mailto:alonaeck1@gmail.com
+          - listitem [ref=f5e408]:
+            - link "לעמוד יצירת הקשר ›" [ref=f5e409] [cursor=pointer]:
+              - /url: /contact
+    - generic [ref=f5e411]:
+      - navigation "עמודים משפטיים" [ref=f5e412]:
+        - link "מדיניות פרטיות" [ref=f5e413] [cursor=pointer]:
+          - /url: /privacy
+        - link "תקנון ותנאי שימוש" [ref=f5e414] [cursor=pointer]:
+          - /url: /terms
+        - link "הצהרת נגישות" [ref=f5e415] [cursor=pointer]:
+          - /url: /accessibility
+        - button "ניהול הגדרות עוגיות" [ref=f5e416]
+      - paragraph [ref=f5e417]:
+        - text: ©
+        - generic [ref=f5e418]: 2023-2026
+        - text: אלונה אקרלינג · המידע באתר הוא כללי ואינו מהווה ייעוץ רפואי או תזונתי אישי, ואינו תחליף להתייעצות עם גורם מקצועי מוסמך.
+  - link "לכתוב לי בוואטסאפ" [ref=f5e419] [cursor=pointer]:
+    - /url: https://wa.me/972526359404
+  - button "פתיחת תפריט נגישות" [ref=f5e422]
+  - alert [ref=f5e426]

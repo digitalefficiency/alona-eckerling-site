@@ -20,9 +20,12 @@ export function SectionHeading({
   const eyebrowColor = tone === "dark" ? "text-gold-soft" : "text-gold-ink";
   return (
     <div className={align === "center" ? "flex flex-col items-center text-center" : ""}>
+      {/* The ◆ stays: on a kicker it is a STRUCTURE mark (it says "a section starts
+          here"), which is the glyph's one legitimate job. Tracking comes from the
+          --tracking-eyebrow token — never re-rolled per kicker. */}
       <div className="flex items-center gap-2.5">
         <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-        <span className={`text-xs font-bold tracking-[.18em] ${eyebrowColor}`}>{eyebrow}</span>
+        <span className={`text-xs font-bold tracking-eyebrow ${eyebrowColor}`}>{eyebrow}</span>
       </div>
       <SplitText
         as="h2"

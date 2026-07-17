@@ -38,11 +38,13 @@ const DOOR = {
   bodyStart:
     "אם הגעת עד לפה, כנראה משהו כבר מדבר אלייך. אין צורך להחליט על כלום עכשיו: נתחיל בשיחת היכרות קצרה, ",
   bodyMark: "בלי התחייבות",
-  bodyEnd: " ובלי לחץ. נכיר, אספר לך איך אני עובדת, ונבין יחד אם אני האדם הנכון ללוות אותך אל השקט הזה.",
+  bodyEnd: " ובלי לחץ. אספר לך איך אני עובדת, את תספרי לי מה קורה אצלך, ומשם נחליט ביחד.",
   promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
   place: "ברעננה, ואונליין מכל מקום בארץ.",
   trustToken: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות",
-  cta: "בואי נדבר · שיחת היכרות חינם",
+  // תווית-הכפתור והשורה-הקטנה שמתחתיה — פיצול משפחת-ההירו של הבית (בלי נקודה-אמצעית בתוך כפתור)
+  cta: "בואי נדבר",
+  ctaSub: "שיחת היכרות חינם",
 } as const;
 
 // COPY: ### סקשן 36 · SpotlightCard + ContactLeadForm(≤5)
@@ -50,9 +52,9 @@ const FORM = {
   // הכותרת מפוצלת סביב סימון-הרוז («רק שיחה.») — השרשור = הכותרת המלאה מ-COPY
   titleStart: "הצעד הראשון הוא ",
   titleMark: "רק שיחה.",
-  body: "שיחת היכרות קצרה, בלי התחייבות ובלי לחץ. נכיר, ונבין יחד אם אני האדם הנכון ללוות אותך אל השקט הזה, בלי לוותר על האוכל שאת אוהבת.",
+  body: "כמו שאמרתי למעלה: שיחה אחת קצרה, בלי התחייבות ובלי לחץ. משם נחליט ביחד, בלי למחוק שום דבר שאת אוהבת לאכול.",
   packages:
-    "הליווי נמכר בחבילות שמתאימות לחיים שלך. על זה נדבר בשיחה, בלי הפתעות ובלי מחיר שקופץ מהמסך.",
+    "הליווי נמכר בחבילות שמתאימות לחיים שלך. איזו חבילה מתאימה לך וכמה היא עולה, אלה דברים שאני אומרת לך בשיחה עצמה, בפשטות.",
   whatsappRow: "מעדיפה לכתוב? דברי איתי ישירות בוואטסאפ",
   place: "קליניקה ברעננה · ליווי אונליין בכל הארץ",
   promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
@@ -128,52 +130,57 @@ export default function ContactPage() {
         <div aria-hidden className="grain-overlay" />
         <Container width="prose" className="relative py-20 md:py-36">
           <Breadcrumbs items={[{ label: DOOR.crumb, href: "/contact" }]} />
-          <MOrchestrate className="mt-14 flex flex-col items-center text-center">
-            <MItem as="p" className="flex items-center justify-center gap-2.5">
-              <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
-              <span className="text-xs font-bold tracking-[.2em] text-gold-ink">{DOOR.kicker}</span>
-            </MItem>
-            <RevealHeading
-              as="h1"
-              text={DOOR.title}
-              baseDelay={120}
-              className="mt-6 font-serif font-black leading-[1.05] text-navy"
-              style={{ fontSize: "var(--text-hero)" }}
-            />
-            <MItem className="mt-8">
-              <SoftArc />
-            </MItem>
-            <MItem as="p" className="mx-auto mt-8 max-w-[62ch] text-lg leading-[1.8] text-muted">
-              {DOOR.bodyStart}
-              <span className="underline decoration-rose decoration-2 underline-offset-4">
-                {DOOR.bodyMark}
-              </span>
-              {DOOR.bodyEnd}
-            </MItem>
-            <MItem className="mt-10">
-              <Link
-                href="#lead"
-                data-cta="contact-door-cta"
-                className="inline-block btn-chamfer rounded-[6px] bg-gold px-9 py-4 text-[1.02rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
-              >
-                {DOOR.cta}
-              </Link>
-            </MItem>
-            <MItem className="mt-8">
-              <div className="inline-flex rounded-full bg-sand/90 px-6 py-3">
-                <ResponsePromise promise={DOOR.promise} />
-              </div>
-            </MItem>
-            <MItem as="p" className="mt-5 text-[0.95rem] text-muted">
-              {DOOR.place}
-            </MItem>
-            <MItem className="mt-7">
-              <span className="inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2">
-                <span className="text-[0.6rem] leading-none text-gold-soft" aria-hidden>◆</span>
-                <span className="text-xs font-bold text-white">{DOOR.trustToken}</span>
-              </span>
-            </MItem>
-          </MOrchestrate>
+          <div className="mt-14 flex flex-col items-center text-center">
+            {/* התור נעצר אחרי ההבטחה: הדלת נכנסת, הקרקע שמתחתיה כבר שם. */}
+            <MOrchestrate className="flex flex-col items-center">
+              <MItem as="p" className="flex items-center justify-center gap-2.5">
+                <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
+                <span className="text-xs font-bold tracking-[.2em] text-gold-ink">{DOOR.kicker}</span>
+              </MItem>
+              <RevealHeading
+                as="h1"
+                text={DOOR.title}
+                baseDelay={120}
+                className="mt-6 font-serif font-black leading-[1.05] text-navy"
+                style={{ fontSize: "var(--text-hero)" }}
+              />
+              <MItem className="mt-8">
+                <SoftArc />
+              </MItem>
+              <MItem as="p" className="mx-auto mt-8 max-w-[62ch] text-lg leading-[1.8] text-muted">
+                {DOOR.bodyStart}
+                <span className="underline decoration-rose decoration-2 underline-offset-4">
+                  {DOOR.bodyMark}
+                </span>
+                {DOOR.bodyEnd}
+              </MItem>
+              <MItem className="mt-10">
+                <div className="flex flex-col items-center gap-1.5">
+                  <Link
+                    href="#lead"
+                    data-cta="contact-door-cta"
+                    className="inline-block btn-chamfer rounded-[6px] bg-gold px-9 py-4 text-[1.02rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
+                  >
+                    {DOOR.cta}
+                  </Link>
+                  <span className="text-xs font-semibold text-muted">{DOOR.ctaSub}</span>
+                </div>
+              </MItem>
+              <MItem className="mt-8">
+                <div className="inline-flex rounded-full bg-sand/90 px-6 py-3">
+                  <ResponsePromise promise={DOOR.promise} />
+                </div>
+              </MItem>
+            </MOrchestrate>
+
+            {/* מחוץ לאורקסטרטור בכוונה — הקרקע שהדלת עומדת עליה: המקום והרישיון פשוט
+                נוכחים, בלי להיכנס לתור. עמוד שכל הרעיון שלו הוא מנוחה. */}
+            <p className="mt-5 text-[0.95rem] text-muted">{DOOR.place}</p>
+            <span className="mt-7 inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2">
+              <span className="text-[0.6rem] leading-none text-gold-soft" aria-hidden>◆</span>
+              <span className="text-xs font-bold text-white">{DOOR.trustToken}</span>
+            </span>
+          </div>
         </Container>
       </section>
 
@@ -184,19 +191,27 @@ export default function ContactPage() {
         <div aria-hidden className="grain-overlay" />
         <Container width="standard" className="relative py-16 md:py-28">
           <SectionSeam className="mb-14" />
+          {/* קו-הזהב אומר «זה הדבר החשוב» — והטופס הוא הדבר החשוב בעמוד. מסגרת-זהב
+              כפולה (frame-double), החזקה מבין מחוות-הזהב בעמוד. ה-overflow-hidden ירד
+              מהכרטיס (הוא היה גוזם את המסגרת החיצונית) ועבר לעטיפת בריכת-האור בלבד. */}
           <div
-            className="relative mx-auto max-w-[720px] overflow-hidden rounded-[16px] border border-line bg-sand p-7 sm:p-10 md:p-12"
-            style={{ boxShadow: "var(--elevation-2)" }}
+            className="frame-double relative mx-auto max-w-[720px] rounded-[16px] bg-sand p-7 sm:p-10 md:p-12"
+            style={{
+              boxShadow: "var(--elevation-2)",
+              "--frame-gap": "8px",
+              "--frame-color": "var(--color-gold)",
+            } as React.CSSProperties}
           >
             {/* בריכת-האור השקטה — זוהר tone-on-tone קבוע, לא תנועה */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-0 top-0 h-44"
-              style={{
-                background:
-                  "radial-gradient(380px circle at 50% 0%, rgba(255,255,255,0.75), transparent 72%)",
-              }}
-            />
+            <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[16px]">
+              <div
+                className="absolute inset-x-0 top-0 h-44"
+                style={{
+                  background:
+                    "radial-gradient(380px circle at 50% 0%, rgba(255,255,255,0.75), transparent 72%)",
+                }}
+              />
+            </div>
             <MOrchestrate className="relative">
               <div className="overflow-hidden">
                 <MItem variants={maskReveal}>
@@ -289,8 +304,9 @@ export default function ContactPage() {
 
             {/* פאנל-הנגישות: שלוש דרכים אמיתיות להיפגש, על כרטיס שנהב */}
             <Reveal delay={90}>
+              {/* גם כאן קו-זהב — ההבטחה «אני חוזרת אלייך עד 4 ימי עסקים» היא לב-האמון בעמוד */}
               <div
-                className="rounded-[16px] border border-line bg-sand p-7 md:p-9"
+                className="rounded-[16px] border border-gold/35 bg-sand p-7 md:p-9"
                 style={{ boxShadow: "var(--elevation-1)" }}
               >
                 <MStagger as="ul" className="flex flex-col gap-8">

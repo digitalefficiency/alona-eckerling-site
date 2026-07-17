@@ -178,11 +178,16 @@ export function ContactLeadForm() {
 
       {serverError && <p className="mt-4 rounded-[4px] bg-bad/10 px-3 py-2 text-sm text-bad" role="alert">{serverError}</p>}
 
+      {/* Same silhouette as every other primary CTA on the site (and as
+          ContactQuietForm's submit): btn-chamfer rounded-[6px] bg-gold. The ring
+          moves gold → navy because the button itself is now gold: a gold ring on a
+          gold button is an invisible focus state. Navy reads against the white card
+          the offset sits on. */}
       <button
         type="submit"
         data-cta="contact-form-submit"
         disabled={status === "submitting"}
-        className="mt-6 w-full rounded-[4px] bg-navy px-7 py-3.5 font-bold text-white transition hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:opacity-60"
+        className="btn-chamfer mt-6 w-full rounded-[6px] bg-gold px-7 py-3.5 font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2 disabled:opacity-60"
       >
         {status === "submitting" ? "שולחת…" : "שליחה"}
       </button>

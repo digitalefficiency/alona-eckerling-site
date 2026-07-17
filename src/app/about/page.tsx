@@ -40,7 +40,9 @@ const HERO = {
   title: "אלונה אקרלינג", // איות מחייב: אקרלינג, לא אקרלינק
   lede: "דיאטנית קלינית מוסמכת שמלווה נשים אל שקט סביב האוכל, בגובה העיניים, בלי דיאטות ובלי אשמה. הנה מי שעומדת מאחורי כל מילה כאן.",
   licenseChip: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
-  ctaPrimary: "בואי נדבר · שיחת היכרות בלי עלות",
+  // תווית-הכפתור והשורה-הקטנה שמתחתיה — פיצול משפחת-ההירו של הבית (בלי נקודה-אמצעית בתוך כפתור)
+  ctaPrimary: "בואי נדבר",
+  ctaPrimarySub: "שיחת היכרות בלי עלות",
   ctaMicro: "תראי בעצמך אם זה מתאים · בלי התחייבות",
   ctaSecondary: "קראי את הסיפור שלי ↓",
   // שורת ה-alt מ-COPY משמשת כתווית מצב-הריק של משבצת הפורטרט (פורטרט אמיתי בלבד, טרם נמסר)
@@ -95,14 +97,14 @@ const CREDENTIALS = {
 
 // COPY: ### סקשן 21 · Marquee (מדיה ושת"פים) · כהה עד אישור
 const PRESS = {
-  reserved: "שיתופי פעולה ומדיה יתווספו כאן עם האישור. אנחנו לא מציגים לוגו שלא אושר.",
+  reserved: "שיתופי פעולה ומדיה יתווספו כאן עם האישור. אני לא מציגה לוגו שלא אושר.",
 } as const;
 
 // COPY: ### סקשן 22 · SpotlightCard + Person JSON-LD
 const CLOSE = {
   kicker: "הצעד שלך",
   title: "עכשיו כשאת מכירה אותי,\nבשיחת היכרות בלי עלות, תראי בעצמך אם זה מתאים.",
-  body: "שיחה קצרה, בלי עלות ובלי התחייבות. נכיר, ונבין יחד, בגובה העיניים, אם אני האדם הנכון ללוות אותך אל השקט הזה, בלי לוותר על האוכל שאת אוהבת.",
+  body: "עכשיו את כבר יודעת מאיפה אני מגיעה ומה הרקע שלי. מה שנשאר זה לשמוע אותך: שיחה קצרה, בלי עלות ובלי התחייבות, בגובה העיניים, ונראה אם הדרך שלי מתאימה לך. האוכל שאת אוהבת נשאר בפנים.",
   recipes: "ורוצה קודם פשוט לראות מה אני מבשלת? המתכונים כאן ←",
   trustToken: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
   promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
@@ -199,14 +201,17 @@ export default function AboutPage() {
               </p>
             </Reveal>
             <Reveal delay={200}>
-              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
-                <Link
-                  href="/contact"
-                  data-cta="about-hero-call"
-                  className="btn-chamfer rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
-                >
-                  {HERO.ctaPrimary}
-                </Link>
+              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-4">
+                <div className="flex flex-col items-center gap-1.5">
+                  <Link
+                    href="/contact"
+                    data-cta="about-hero-call"
+                    className="btn-chamfer rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                  >
+                    {HERO.ctaPrimary}
+                  </Link>
+                  <span className="text-xs font-semibold text-muted">{HERO.ctaPrimarySub}</span>
+                </div>
                 <Link
                   href="#story"
                   data-cta="about-hero-story"
@@ -224,15 +229,15 @@ export default function AboutPage() {
       {/* ===== 18 · GUIDE - centered-prose origin story: a signed personal letter.
            No credential claims here (they live in section 20). COPY: ### סקשן 18 ===== */}
       {/* the "half-bg + card" pattern (#2, mirror of coaching's): her real dish photo
-          bleeds the inline-START half; the origin story arrives as a SIGNED LETTER on
-          a frosted ivory card leaning in from the inline-end. Mobile: photo band on
-          top, letter stacks below, no slide. */}
+          bleeds the inline-START half and stops at a HARD edge; the origin story arrives
+          as a SIGNED LETTER on an OPAQUE ivory card that leans in from the inline-end and
+          overlaps that edge — the overlap IS the boundary, no melt, no frosted glass
+          (paper-and-frames, not glassmorphism). Mobile: photo band on top, letter below. */}
       <section id="story" className="relative overflow-hidden border-y border-line bg-card scroll-mt-24">
         <div aria-hidden className="absolute inset-y-0 start-0 hidden w-[52%] md:block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/media/client/recipes/moroccan-fish.jpg" alt="" loading="lazy" className="h-full w-full object-cover" />
           <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
-          <div className="absolute inset-0 bg-gradient-to-r from-card via-card/35 to-transparent" />
         </div>
         <div className="relative aspect-[3/2] md:hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -242,7 +247,7 @@ export default function AboutPage() {
         <div className="relative mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 md:py-28">
           <div className="md:ms-auto md:w-[52%]">
             <MStagger variants={slideIn("inline-end", 48)}>
-              <div className="rounded-[16px] border border-line bg-card/80 p-7 shadow-[var(--elevation-2)] backdrop-blur-md md:p-10">
+              <div className="rounded-[16px] border border-line bg-card p-7 shadow-[var(--elevation-2)] md:p-10">
                 <div className="flex items-center gap-2.5">
                   <span className="text-[0.65rem] leading-none text-gold" aria-hidden>
                     ◆

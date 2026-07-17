@@ -46,7 +46,8 @@ const HERO = {
 
 // COPY: ### סקשן 27 · Section width=prose (זה נכתב בשבילך)
 const FORYOU = {
-  kicker: "למי זה מתאים",
+  // שבירת-אנטומיה: הקיקר «למי זה מתאים» ירד — צ'יפי-הרעש פותחים את הרצועה במקומו
+  // (ראו סקשן 27 למטה). לסנכרון COPY.md.
   title: "כל שבוע טרנד חדש, ואת לא יודעת מה נכון",
   subtitle: "הנה קול אחד שפוי, נכתב בשבילך.",
   // re-layout בלבד של גוף COPY §27 (ביקורת-עיצוב #33): ארבעת שברי-הטרנד מוצגים
@@ -66,13 +67,13 @@ const INSIDE = {
   rows: [
     {
       title: "מתכונים ליום-יום, לא לתמונה",
-      body: "אוכל אמיתי שבאמת מבשלים בערב עמוס: פשוט, מהיר, ומסודר כך שתמצאי מה להכין בלי לחשוב יותר מדי. לא עוד קובץ יפה שיישב בטלפון.",
+      body: "אוכל אמיתי שבאמת מבשלים בערב עמוס. הכל מסודר כך שתמצאי מה להכין מהר, בלי לחשוב יותר מדי. לא עוד קובץ יפה שיישב בטלפון.",
       img: "/media/client/recipes/one-pot-bulgur-stew.jpg", // צילום אמיתי מארכיון המתכונים של אלונה
       alt: "תבשיל בורגול בסיר אחד",
     },
     {
       title: "חלבון, בלי להפוך את זה לפרויקט",
-      body: "איך להכניס חלבון לארוחות שאת ממילא אוכלת, כדי להרגיש שבעה ומלאת אנרגיה. בלי אבקות, בלי לספור, ובלי לשגע את עצמך.",
+      body: "בלי אבקות ובלי לספור: פשוט חלבון בתוך הארוחות שאת ממילא אוהבת, כדי להרגיש שבעה ומלאת אנרגיה.",
       img: "/media/client/recipes/tofu-shawarma.jpg", // צילום אמיתי מארכיון המתכונים של אלונה
       alt: "שווארמה טופו ביתית",
     },
@@ -83,7 +84,7 @@ const INSIDE = {
       alt: "בראוניז ללא קמח",
     },
   ],
-  ctaBridge: "רוצה את זה אצלך? הנה איך מקבלים ←",
+  ctaBridge: "הנה איך מקבלים את זה ←",
 } as const;
 
 // COPY: ### סקשן 29 · card-grid (החבילה המלאה = שייכות)
@@ -159,10 +160,11 @@ const FAQ = {
 
 // COPY: ### סקשן 31 · SpotlightCard (רכישה → משולם)
 const CHECKOUT = {
-  kicker: "החוברת המלאה",
+  // שבירת-אנטומיה: הקיקר «החוברת המלאה» ירד — הכרטיס המואר הוא המסגור, ה-H2 פותח לבדו
+  // (ראו סקשן 31 למטה). לסנכרון COPY.md.
   title: "רוצה את «הקול השפוי» שלך?",
   body: "כל מה שראית פה מחכה לך במקום אחד: «הקול השפוי», חוברת המתכונים המלאה שלי. אוכל אמיתי, בלי חוקים מיותרים, בדרך שמתאימה לחיים שלך.",
-  community: "עם הרכישה את גם נכנסת לקבוצת הוואטסאפ: מתכונים, טיפים שקטים, וקהילה של בנות שמדברות אותך.",
+  community: "עם הרכישה את גם נכנסת לקבוצת הוואטסאפ, קהילה של בנות שמדברות אותך. שם עוברים מתכונים וטיפים שקטים.",
   ctaPrimary: "אני רוצה את החוברת · 149 ₪",
   // זרימת-ביניים כנה (ביקורת-עיצוב #20): ה-CTA מפנה כרגע לוואטסאפ. להחזיר את
   // מיקרו-הביטחון של COPY §31 כש-CHECKOUT_HREF יקבל את ה-URL האמיתי של משולם.
@@ -328,7 +330,9 @@ export default function SaneVoicePage() {
                   className="absolute inset-0 h-full w-full object-cover opacity-80"
                 />
               </picture>
-              <div className="absolute inset-0 bg-gradient-to-t from-blush/90 via-blush/40 to-blush/20" />
+              {/* הצעיף מורם עד שה-still הוא מרקם-רקע בלבד (עץ ופשתן), לא תמונה חצי-קריאה —
+                  אותו יחס שבו עמוד המתכונים מטפל באותו קובץ. הכריכה הטיפוגרפית הכנה היא הכוכבת. */}
+              <div className="absolute inset-0 bg-gradient-to-t from-blush/90 via-blush/70 to-blush/55" />
             </div>
             <div aria-hidden className="grain-overlay" />
             <Reveal className="relative">
@@ -406,27 +410,9 @@ export default function SaneVoicePage() {
         <Container width="prose" className="py-16 sm:py-20 md:py-28">
           <MChapter className="mb-12" />
           <MOrchestrate>
-            <MItem as="p" className="flex items-center gap-2.5">
-              <span className="text-[0.65rem] leading-none text-rose" aria-hidden>
-                ◆
-              </span>
-              <span className="text-xs font-bold tracking-[.18em] text-rose-ink">
-                {FORYOU.kicker}
-              </span>
-            </MItem>
-            <MItem>
-              <RevealHeading
-                as="h2"
-                text={FORYOU.title}
-                className="mt-4 font-serif font-black leading-[1.12] text-navy"
-                style={{ fontSize: "clamp(1.8rem, 4vw, 2.9rem)" }}
-              />
-            </MItem>
-            <MItem as="p" className="mt-4 font-serif text-xl font-bold text-gold-ink sm:text-2xl">
-              {FORYOU.subtitle}
-            </MItem>
-            {/* צ'יפי-הרעש — סטטיים (SSR, בלי אנימציה), הטיה מתחלפת ±2° במשפחת צ'יפי-הסרט */}
-            <MItem className="mt-8 flex flex-wrap items-center gap-3">
+            {/* שבירת-אנטומיה (א'): הרעש עצמו פותח את הרצועה במקום שורת-קיקר ◆ — הכותרת
+                שמתחתיו היא התשובה לו. צ'יפי-הרעש: הטיה מתחלפת ±2° במשפחת צ'יפי-הסרט */}
+            <MItem className="flex flex-wrap items-center gap-3">
               {FORYOU.noise.map((n, i) => (
                 <span
                   key={n}
@@ -436,6 +422,17 @@ export default function SaneVoicePage() {
                   {n}
                 </span>
               ))}
+            </MItem>
+            <MItem>
+              <RevealHeading
+                as="h2"
+                text={FORYOU.title}
+                className="mt-7 font-serif font-black leading-[1.12] text-navy"
+                style={{ fontSize: "clamp(1.8rem, 4vw, 2.9rem)" }}
+              />
+            </MItem>
+            <MItem as="p" className="mt-4 font-serif text-xl font-bold text-gold-ink sm:text-2xl">
+              {FORYOU.subtitle}
             </MItem>
             <MItem as="p" className="mt-7 text-lg leading-relaxed text-muted">
               {FORYOU.body}
@@ -578,7 +575,7 @@ export default function SaneVoicePage() {
               <a
                 href="#checkout"
                 data-cta="product-faq-to-checkout"
-                className="inline-block rounded-full border border-navy/25 px-7 py-3 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                className="btn-chamfer inline-block rounded-[6px] border border-navy/25 px-7 py-3 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
               >
                 {FAQ.cta}
               </a>
@@ -592,24 +589,18 @@ export default function SaneVoicePage() {
           (משולם) — האתר לא נוגע בפרטי תשלום; בלי דחיפות, בלי מונים מפוברקים. */}
       <section id="checkout" className="scroll-mt-24">
         <Container width="standard" className="pb-20 pt-4 md:pb-32">
-          <div className="relative overflow-hidden rounded-[24px] bg-blush px-4 py-10 sm:px-10 md:px-16 md:py-16">
+          <div className="relative overflow-hidden rounded-[16px] bg-blush px-4 py-10 sm:px-10 md:px-16 md:py-16">
             <div aria-hidden className="grain-overlay" />
             <div className="relative mx-auto max-w-[720px]">
               <SpotlightCard>
                 <MOrchestrate>
-                  <MItem as="p" className="flex items-center gap-2.5">
-                    <span className="text-[0.65rem] leading-none text-gold" aria-hidden>
-                      ◆
-                    </span>
-                    <span className="text-xs font-bold tracking-[.18em] text-gold-soft">
-                      {CHECKOUT.kicker}
-                    </span>
-                  </MItem>
+                  {/* שבירת-אנטומיה (ב'): בלי שורת-קיקר ◆ כאן — הכרטיס המואר הוא כבר
+                      המסגור, וה-H2 פותח לבדו. */}
                   <MItem>
                     <RevealHeading
                       as="h2"
                       text={CHECKOUT.title}
-                      className="mt-4 font-serif font-black leading-[1.15] text-white"
+                      className="font-serif font-black leading-[1.15] text-white"
                       style={{ fontSize: "clamp(1.7rem, 3.6vw, 2.6rem)" }}
                     />
                   </MItem>
@@ -637,7 +628,7 @@ export default function SaneVoicePage() {
                     <Link
                       href={LIST_HREF}
                       data-cta="product-checkout-freelist"
-                      className="rounded-full border border-white/40 px-7 py-3 text-[0.95rem] font-bold text-white transition hover:border-gold-soft hover:text-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                      className="btn-chamfer inline-block rounded-[6px] border border-white/40 px-7 py-3 text-[0.95rem] font-bold text-white transition hover:border-gold-soft hover:text-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                     >
                       {CHECKOUT.ctaSecondary}
                     </Link>
