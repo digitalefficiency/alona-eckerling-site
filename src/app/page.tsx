@@ -522,12 +522,16 @@ export default function HomePage() {
                 data-cta={`proof-recipe-${e.slug}`}
                 // House hover philosophy: NO lift here — the photo already scales on
                 // group-hover, so the card answers with a gold frame line instead.
-                className={`group block h-full overflow-hidden rounded-2xl bg-card transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:border-gold motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
-                  newest ? "frame-double md:-translate-y-2" : "border border-line"
+                // overflow-hidden stays on the NON-frame branch only: on a frame-double
+                // it would clip the ::after outer ring (inset:-6px) and silently kill
+                // the double frame. The image already self-clips via its own wrapper
+                // (rounded-t-2xl below), so the round-corner job is covered either way.
+                className={`group block h-full rounded-2xl bg-card transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:border-gold motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
+                  newest ? "frame-double md:-translate-y-2" : "overflow-hidden border border-line"
                 }`}
                 style={newest ? ({ "--frame-gap": "6px", "--frame-color": "var(--color-rose)" } as React.CSSProperties) : undefined}
               >
-                <div className="relative aspect-[3/2] overflow-hidden">
+                <div className="relative aspect-[3/2] overflow-hidden rounded-t-2xl">
                   <Image
                     src={e.image}
                     alt={e.imageAlt || e.title}

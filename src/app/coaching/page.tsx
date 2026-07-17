@@ -314,17 +314,26 @@ export default function CoachingPage() {
               <picture> keeps it EAGER here but stops React emitting a preload hint
               (hints ride the RSC payload and replay on every page that prefetches
               /coaching). Grade = the house tint + grain, never a melt-scrim. */}
-          <div className="frame-double absolute inset-y-10 end-0 hidden w-[40%] rounded-[10px] [--frame-color:var(--color-gold)] [--frame-gap:6px] md:block">
-            <div className="absolute inset-0 overflow-hidden rounded-[10px]">
-              <picture className="contents">
-                <img
-                  src="/media/generated/09-coaching-table.jpg"
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              </picture>
-              <div className="absolute inset-0" style={{ background: "var(--grade-tint)" }} />
-              <div className="grain-overlay" />
+          {/* the positioning lives on a PLAIN wrapper — .frame-double is unlayered
+              CSS that forces position:relative and defeats an `absolute` utility
+              (the ImageHero note), which would collapse the plate to ~0 height. The
+              frame-double stays relative (as it forces) and fills the absolutely-
+              sized wrapper via h-full; the wrapper's top+bottom give it definite
+              height so h-full resolves. Ring lives on the frame-double, whose
+              overflow-hidden inner clip never hides its ::after. */}
+          <div className="absolute inset-y-10 end-0 hidden w-[40%] md:block">
+            <div className="frame-double relative h-full w-full rounded-[10px] [--frame-color:var(--color-gold)] [--frame-gap:6px]">
+              <div className="absolute inset-0 overflow-hidden rounded-[10px]">
+                <picture className="contents">
+                  <img
+                    src="/media/generated/09-coaching-table.jpg"
+                    alt=""
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </picture>
+                <div className="absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+                <div className="grain-overlay" />
+              </div>
             </div>
           </div>
         </div>

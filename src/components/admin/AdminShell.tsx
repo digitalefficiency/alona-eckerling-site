@@ -9,6 +9,7 @@ import type { SettingsGroup } from "@/lib/cms/settings-schema";
 import { BrandLogo } from "@/components/BrandLogo";
 import { CollectionList } from "@/components/admin/CollectionList";
 import { DocEditor } from "@/components/admin/DocEditor";
+import { RecipeJourney } from "@/components/admin/recipe/RecipeJourney";
 import { SettingsForm } from "@/components/admin/SettingsForm";
 
 // The desk. Views are client state, not routes — one page, one noindex, no router

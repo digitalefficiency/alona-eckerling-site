@@ -25,10 +25,15 @@ const STEP_ITEM = /^(?:\d+[.)]\s*|[-*•▪◦]\s+)/;
 
 // A non-bullet line inside the ingredients section is structural, not an item:
 // a bold sub-label ("**לרוטב:**"), a fully-parenthesized note ("(4-5 מנות)"),
-// a stray heading ("#..."), or a trailing prose note. We keep it VERBATIM so it
-// re-serializes without a spurious "- " prefix (serializeRecipeBody mirrors this).
+// a stray heading ("#..."), or a serving-suggestion note. Real ingredients are
+// always bulleted in the corpus, so an unbulleted line is never an item; these
+// are the shapes such lines take. We keep it VERBATIM so it re-serializes
+// without a spurious "- " prefix (serializeRecipeBody mirrors this).
+// NOTE_OPENER = Hebrew words that begin a serving suggestion, never an
+// ingredient name ("recommended", "serving suggestion", "can also / optionally").
+const NOTE_OPENER = /^(?:מומלץ|הצעת\s+הגשה|ניתן\s+גם|אפשר\s+גם|להגשה\b)/;
 function isIngredientNote(item) {
-  return /^(?:\*\*|\(.*\)\s*$|#)/.test(item);
+  return /^(?:\*\*|\(.*\)\s*$|#)/.test(item) || NOTE_OPENER.test(item);
 }
 
 // The ingredients section interleaves bullets with structural lines; keep the
