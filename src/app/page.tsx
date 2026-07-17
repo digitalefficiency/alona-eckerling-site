@@ -402,6 +402,7 @@ export default function HomePage() {
                     <img
                       src={i === 0 ? "/media/generated/11-method-two-cups.jpg" : "/media/generated/04-plan-week.jpg"}
                       alt=""
+                      loading="lazy"
                       className="absolute inset-0 h-full w-full object-cover"
                     />
                   )}

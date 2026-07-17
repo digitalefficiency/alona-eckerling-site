@@ -304,12 +304,16 @@ export default function CoachingPage() {
              בצד הרחוק תחת מסך-סנד; פורטרט אמיתי של אלונה יחליף אותו כשיגיע. ── */}
       <section data-light-hero className="relative isolate overflow-hidden border-b border-line bg-sand">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/media/generated/09-coaching-table.jpg"
-            alt=""
-            className="absolute inset-y-0 -end-0 hidden h-full w-[42%] object-cover md:block"
-          />
+          {/* <picture> keeps the hero still EAGER on this page but stops React from
+              emitting a preload hint for it — hints ride the RSC payload and get
+              replayed on every page that prefetches /coaching (stray home preloads) */}
+          <picture className="contents">
+            <img
+              src="/media/generated/09-coaching-table.jpg"
+              alt=""
+              className="absolute inset-y-0 -end-0 hidden h-full w-[42%] object-cover md:block"
+            />
+          </picture>
           {/* scrim anchors the photo AT the viewport edge and melts toward the text
               column (the section-14 recipe) — never the other way around */}
           <div className="absolute inset-y-0 -end-0 hidden h-full w-[46%] bg-gradient-to-l from-sand via-sand/40 to-transparent md:block" />
@@ -435,7 +439,7 @@ export default function CoachingPage() {
                 aria-hidden={pillarImg.alt === "" || undefined}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={pillarImg.src} alt={pillarImg.alt} className="absolute inset-0 h-full w-full object-cover" />
+                <img src={pillarImg.src} alt={pillarImg.alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
                 <div aria-hidden className="grain-overlay" />
               </div>
             ) : (
@@ -597,14 +601,14 @@ export default function CoachingPage() {
         {/* the half-bleed photo (desktop) — inline-end half, scrimmed toward the text half */}
         <div aria-hidden className="absolute inset-y-0 end-0 hidden w-[52%] md:block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={PROOF.stills[0].src} alt="" className="h-full w-full object-cover" />
+          <img src={PROOF.stills[0].src} alt="" loading="lazy" className="h-full w-full object-cover" />
           <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
           <div className="absolute inset-0 bg-gradient-to-l from-card via-card/35 to-transparent" />
         </div>
         {/* mobile: the photo as a top band */}
         <div className="relative aspect-[3/2] md:hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={PROOF.stills[0].src} alt={PROOF.stills[0].alt} className="absolute inset-0 h-full w-full object-cover" />
+          <img src={PROOF.stills[0].src} alt={PROOF.stills[0].alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
           <div aria-hidden className="grain-overlay" />
         </div>
         <div className="relative mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 md:py-28">
@@ -616,7 +620,7 @@ export default function CoachingPage() {
                   {PROOF.stills.slice(1).map((s) => (
                     <div key={s.src} className="relative aspect-square overflow-hidden rounded-[10px] border border-line">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={s.src} alt={s.alt} className="absolute inset-0 h-full w-full object-cover" />
+                      <img src={s.src} alt={s.alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
                       <div aria-hidden className="grain-overlay" />
                     </div>
                   ))}

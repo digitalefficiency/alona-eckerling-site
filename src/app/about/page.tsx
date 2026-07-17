@@ -229,13 +229,13 @@ export default function AboutPage() {
       <section id="story" className="relative overflow-hidden border-y border-line bg-card scroll-mt-24">
         <div aria-hidden className="absolute inset-y-0 start-0 hidden w-[52%] md:block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/media/client/recipes/moroccan-fish.jpg" alt="" className="h-full w-full object-cover" />
+          <img src="/media/client/recipes/moroccan-fish.jpg" alt="" loading="lazy" className="h-full w-full object-cover" />
           <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
           <div className="absolute inset-0 bg-gradient-to-r from-card via-card/35 to-transparent" />
         </div>
         <div className="relative aspect-[3/2] md:hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/media/client/recipes/moroccan-fish.jpg" alt="דגים מרוקאים של שישי, מנה אמיתית מהמטבח של אלונה" className="absolute inset-0 h-full w-full object-cover" />
+          <img src="/media/client/recipes/moroccan-fish.jpg" alt="דגים מרוקאים של שישי, מנה אמיתית מהמטבח של אלונה" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
           <div aria-hidden className="grain-overlay" />
         </div>
         <div className="relative mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 md:py-28">

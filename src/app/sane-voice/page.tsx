@@ -319,12 +319,15 @@ export default function SaneVoicePage() {
           {/* isolate + ‎-z-10 — סדר-צביעה בטוח: המדיה הממוקמת לעולם לא נצבעת מעל הכריכה (ביקורת-עיצוב #3/#13) */}
           <div className="relative isolate overflow-hidden rounded-[16px] bg-blush px-6 py-10 sm:px-10 sm:py-14">
             <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/media/generated/26-booklet-object.jpg"
-                alt=""
-                className="absolute inset-0 h-full w-full object-cover opacity-80"
-              />
+              {/* <picture> keeps the still EAGER here but stops React's preload hint —
+                  hints ride the RSC payload and replay on any page prefetching this route */}
+              <picture className="contents">
+                <img
+                  src="/media/generated/26-booklet-object.jpg"
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover opacity-80"
+                />
+              </picture>
               <div className="absolute inset-0 bg-gradient-to-t from-blush/90 via-blush/40 to-blush/20" />
             </div>
             <div aria-hidden className="grain-overlay" />
