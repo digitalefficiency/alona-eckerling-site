@@ -8,7 +8,8 @@ import { SectionSeam } from "@/components/layout/SectionSeam";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
 import { MStagger } from "@/components/motion/MStagger";
-import { slideIn } from "@/lib/motion-variants";
+import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
+import { slideIn, maskReveal } from "@/lib/motion-variants";
 import { SplitText } from "@/components/motion/SplitText";
 import { DrawnRule } from "@/components/motion/DrawnRule";
 import { RevealHeading } from "@/components/motion/RevealHeading";
@@ -61,6 +62,8 @@ const STORY = {
 } as const;
 
 // COPY: ### סקשן 19 · PullQuote ענק + כתב-יד (שאלת הגיל)
+// The pivot word carries the ONE rose hand-underline (plan 19 layer 5).
+const AGE_PIVOT = "בדיוק";
 const AGE = {
   kicker: "על הגיל, בלי להתחמק",
   quote:
@@ -275,39 +278,77 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ===== 19 · GUIDE - giant-quote: the age question answered in her voice.
-           The page's signature moment - typographic scale + her hand, zero raster.
+      {/* ===== 19 · GUIDE - giant-quote, rebuilt as a composed object: four masked
+           serif lines STEP DOWN from "מלמעלה" to eye level (the reframe drawn in
+           layout), landing on her handwritten seal at the letter's closing edge;
+           a giant script א rests behind as a pressed watermark. Typography is
+           still the art - now composed, not floating. Zero raster.
            COPY: ### סקשן 19 ===== */}
-      <section>
-        <Container width="standard" className="py-24 md:py-40">
+      <section className="relative overflow-hidden">
+        <Container width="wide" className="relative py-24 md:py-36">
           <SectionSeam className="mb-14" />
-          <figure className="mx-auto max-w-[46ch]">
-            <div className="flex items-center gap-2.5">
+          {/* pressed watermark - her hand resting beneath the words (decorative) */}
+          <span
+            aria-hidden
+            className={`${signatureScript.className} pointer-events-none absolute top-1/2 hidden -translate-y-1/2 select-none leading-none text-navy/[0.06] md:block`}
+            style={{ insetInlineEnd: "-0.08em", fontSize: "min(30rem, 32vw)" }}
+          >
+            א
+          </span>
+          <MOrchestrate className="relative">
+            <MItem className="flex items-center gap-2.5">
               <span className="text-[0.65rem] leading-none text-gold" aria-hidden>
                 ◆
               </span>
               <span className="text-xs font-bold tracking-[.18em] text-rose-ink">{AGE.kicker}</span>
-            </div>
-            <blockquote className="mt-8">
-              <RevealHeading
-                as="p"
-                text={AGE.quote}
-                className="font-serif font-black leading-[1.18] text-navy"
-                style={{ fontSize: "clamp(2.4rem, 7vw, 5rem)" }}
-              />
-            </blockquote>
-            <Reveal delay={120}>
-              <p className="mt-8 max-w-[52ch] text-lg leading-relaxed text-muted">{AGE.support}</p>
-            </Reveal>
-            <Reveal delay={160}>
-              <figcaption className="mt-10">
-                <span className={`${signatureScript.className} text-5xl text-navy`}>
-                  {AGE.signature}
-                </span>
-                <DrawnRule className="mt-3 h-[3px] w-20 rounded-full bg-rose/70" />
+            </MItem>
+            <figure>
+              <blockquote className="mt-10">
+                <p
+                  className="font-serif font-black leading-[1.3] text-navy"
+                  style={{ fontSize: "clamp(1.9rem, 3.6vw, 3.4rem)" }}
+                >
+                  {AGE.quote.split("\n").map((line, i, all) => (
+                    /* each line in its own mask; the stairs descend to indent 0 -
+                       "לא מלמעלה" lands flush, at eye level */
+                    <span
+                      key={line}
+                      className="block overflow-hidden"
+                      style={{ paddingInlineStart: `${(all.length - 1 - i) * 1.1}em` }}
+                    >
+                      <MItem as="span" className="block pb-[0.12em]" variants={maskReveal}>
+                        {line.includes(AGE_PIVOT) ? (
+                          <>
+                            {line.slice(0, line.indexOf(AGE_PIVOT))}
+                            <span className="underline decoration-rose decoration-[4px] underline-offset-[10px]">
+                              {AGE_PIVOT}
+                            </span>
+                            {line.slice(line.indexOf(AGE_PIVOT) + AGE_PIVOT.length)}
+                          </>
+                        ) : (
+                          line
+                        )}
+                      </MItem>
+                    </span>
+                  ))}
+                </p>
+              </blockquote>
+              {/* the letter closes where Hebrew letters close - the inline-end edge */}
+              <figcaption className="mt-10 flex flex-col items-start gap-4 md:mt-12 md:items-end">
+                <MItem variants={slideIn("inline-end", 32)}>
+                  <p className="max-w-[38ch] text-lg leading-relaxed text-muted md:text-end">
+                    {AGE.support}
+                  </p>
+                </MItem>
+                <MItem className="flex flex-col items-start gap-2 md:items-end">
+                  <span className={`${signatureScript.className} text-5xl text-navy md:text-6xl`}>
+                    {AGE.signature}
+                  </span>
+                  <DrawnRule className="h-[3px] w-24 rounded-full bg-rose/70" />
+                </MItem>
               </figcaption>
-            </Reveal>
-          </figure>
+            </figure>
+          </MOrchestrate>
         </Container>
       </section>
 
