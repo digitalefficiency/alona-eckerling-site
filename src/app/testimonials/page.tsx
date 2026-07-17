@@ -6,6 +6,7 @@ import { RevealHeading } from "@/components/motion/RevealHeading";
 import { SplitText } from "@/components/motion/SplitText";
 import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
+import { slideIn } from "@/lib/motion-variants";
 import { Reveal } from "@/components/Reveal";
 import { ResponsePromise } from "@/components/trust/ResponsePromise";
 
@@ -218,13 +219,13 @@ export default function TestimonialsPage() {
               </MOrchestrate>
             </div>
 
-            {/* פאנל הצעד — שנהב מורם, דלת מרווה אחת, חמה ולא רועשת */}
-            <Reveal className="flex">
+            {/* פאנל הצעד — שנהב מורם, דלת מרווה אחת, נכנסת מהצד (מראה מזלג-הבית) */}
+            <MStagger className="flex" itemClassName="flex w-full" variants={slideIn("inline-end", 40)}>
               <div className="flex w-full flex-col items-center justify-center gap-6 rounded-[16px] border border-line bg-sand px-6 py-12 text-center sm:px-8">
                 <Link
                   href={CTA.button.href}
                   data-cta={CTA.button.cta}
-                  className="inline-block rounded-full bg-gold px-8 py-4 text-lg font-bold text-white transition-colors hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
+                  className="inline-block btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-lg font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
                 >
                   {CTA.button.label}
                 </Link>
@@ -236,7 +237,7 @@ export default function TestimonialsPage() {
                   {CTA.soft.label}
                 </Link>
               </div>
-            </Reveal>
+            </MStagger>
           </div>
         </Container>
       </section>

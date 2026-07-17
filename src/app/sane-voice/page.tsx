@@ -369,7 +369,7 @@ export default function SaneVoicePage() {
                 <a
                   href="#checkout"
                   data-cta="product-hero-buy"
-                  className="rounded-full bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white transition hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                  className="btn-chamfer rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                 >
                   {HERO.ctaPrimary}
                 </a>
@@ -510,11 +510,16 @@ export default function SaneVoicePage() {
             {INCLUDES.cards.map((c) => (
               <div
                 key={c.title}
-                className={`flex h-full flex-col gap-5 rounded-[16px] border p-7 ${
+                className={`flex h-full flex-col gap-5 rounded-[16px] p-7 ${
                   c.motif === "bubbles"
-                    ? "border-rose/30 bg-blush"
-                    : "border-line bg-sand"
+                    ? "frame-double bg-blush"
+                    : "border border-line bg-sand"
                 }`}
+                style={
+                  c.motif === "bubbles"
+                    ? ({ "--frame-color": "var(--color-rose)", "--frame-gap": "6px" } as React.CSSProperties)
+                    : undefined
+                }
               >
                 <div className="text-gold-ink">
                   {c.motif === "booklet" && <BookletGlyph />}
@@ -618,7 +623,7 @@ export default function SaneVoicePage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       data-cta="product-checkout-buy"
-                      className="rounded-full bg-gold px-8 py-4 text-base font-bold text-white transition hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+                      className="btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
                     >
                       {CHECKOUT.ctaPrimary}
                     </a>

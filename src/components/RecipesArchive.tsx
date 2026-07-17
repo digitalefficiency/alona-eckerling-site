@@ -87,13 +87,14 @@ function CategoryChip({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
+      className={`chip-skew inline-flex items-center gap-1.5 rounded-[6px] px-4 py-1.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
         active ? "bg-gold text-white" : "bg-gold-soft text-navy hover:bg-gold/20"
       }`}
     >
-      {/* the section's single dusty-rose accent: the active-chip mark */}
+      {/* the section's single dusty-rose accent: the active-chip mark.
+          children are wrapped in spans so .chip-skew's counter-skew applies. */}
       {active && <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-rose" />}
-      {children}
+      <span>{children}</span>
     </button>
   );
 }

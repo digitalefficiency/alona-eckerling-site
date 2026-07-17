@@ -195,7 +195,7 @@ export default function RecipesPage() {
                   <Link
                     href={MAGNET.primaryHref}
                     data-cta="recipes-magnet-booklet"
-                    className="inline-flex items-center gap-2.5 rounded-full bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white transition hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
+                    className="inline-flex items-center gap-2.5 btn-chamfer rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
                   >
                     {MAGNET.primary}
                     <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-[0.8rem] font-bold">

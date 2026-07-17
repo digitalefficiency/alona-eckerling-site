@@ -7,6 +7,8 @@ import { Section } from "@/components/layout/Section";
 import { SectionSeam } from "@/components/layout/SectionSeam";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
+import { MStagger } from "@/components/motion/MStagger";
+import { slideIn } from "@/lib/motion-variants";
 import { SplitText } from "@/components/motion/SplitText";
 import { DrawnRule } from "@/components/motion/DrawnRule";
 import { RevealHeading } from "@/components/motion/RevealHeading";
@@ -141,9 +143,10 @@ export default function AboutPage() {
               never a stock image, no developer-dashed frame. When the real 4:5
               portrait arrives it mounts here with alt={HERO.portraitLabel}. */}
           <Reveal>
+            {/* flagship double frame — the geometric signature's calling card */}
             <div
-              className="relative mx-auto w-full max-w-[26rem] overflow-hidden rounded-[16px] border border-line bg-gold-soft/70 md:max-w-none"
-              style={{ aspectRatio: "4 / 5" }}
+              className="frame-double relative mx-auto w-full max-w-[26rem] overflow-hidden rounded-[16px] bg-gold-soft/70 md:max-w-none"
+              style={{ aspectRatio: "4 / 5", "--frame-gap": "7px" } as React.CSSProperties}
             >
               <div aria-hidden className="grain-overlay" />
               <div className="relative flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
@@ -196,7 +199,7 @@ export default function AboutPage() {
                 <Link
                   href="/contact"
                   data-cta="about-hero-call"
-                  className="rounded-full bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white transition hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                  className="btn-chamfer rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                 >
                   {HERO.ctaPrimary}
                 </Link>
@@ -216,46 +219,61 @@ export default function AboutPage() {
 
       {/* ===== 18 · GUIDE - centered-prose origin story: a signed personal letter.
            No credential claims here (they live in section 20). COPY: ### סקשן 18 ===== */}
-      <Section tone="white" width="prose" border id="story" className="scroll-mt-24">
-        <div className="flex items-center gap-2.5">
-          <span className="text-[0.65rem] leading-none text-gold" aria-hidden>
-            ◆
-          </span>
-          <span className="text-xs font-bold tracking-[.18em] text-gold-ink">{STORY.kicker}</span>
+      {/* the "half-bg + card" pattern (#2, mirror of coaching's): her real dish photo
+          bleeds the inline-START half; the origin story arrives as a SIGNED LETTER on
+          a frosted ivory card leaning in from the inline-end. Mobile: photo band on
+          top, letter stacks below, no slide. */}
+      <section id="story" className="relative overflow-hidden border-y border-line bg-card scroll-mt-24">
+        <div aria-hidden className="absolute inset-y-0 start-0 hidden w-[52%] md:block">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/media/client/recipes/moroccan-fish.jpg" alt="" className="h-full w-full object-cover" />
+          <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+          <div className="absolute inset-0 bg-gradient-to-r from-card via-card/35 to-transparent" />
         </div>
-        <RevealHeading
-          as="h2"
-          text={STORY.title}
-          className="mt-4 font-serif font-black leading-[1.12] text-navy"
-          style={{ fontSize: "clamp(1.9rem, 4vw, 2.9rem)" }}
-        />
-        <Reveal delay={80}>
-          <p className="mt-8 text-lg leading-[1.7] text-ink">{STORY.p1}</p>
-        </Reveal>
-        <Reveal delay={120}>
-          <p className="mt-5 text-lg leading-[1.7] text-ink">{STORY.p2}</p>
-        </Reveal>
-        <Reveal delay={140}>
-          <div className="my-10 rounded-[16px] bg-blush/40 px-6 py-8 sm:px-9">
-            <p className="font-serif text-xl font-bold leading-snug text-navy sm:text-2xl">
-              {STORY.credo1}
-            </p>
-            <p className="mt-4 font-serif text-xl font-bold leading-snug text-navy sm:text-2xl">
-              {STORY.credo2a}
-              <span className="underline decoration-rose decoration-[3px] underline-offset-[6px]">
-                {STORY.credo2Mark}
-              </span>
-              {STORY.credo2b}
-            </p>
+        <div className="relative aspect-[3/2] md:hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/media/client/recipes/moroccan-fish.jpg" alt="דגים מרוקאים של שישי, מנה אמיתית מהמטבח של אלונה" className="absolute inset-0 h-full w-full object-cover" />
+          <div aria-hidden className="grain-overlay" />
+        </div>
+        <div className="relative mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 md:py-28">
+          <div className="md:ms-auto md:w-[52%]">
+            <MStagger variants={slideIn("inline-end", 48)}>
+              <div className="rounded-[16px] border border-line bg-card/80 p-7 shadow-[var(--elevation-2)] backdrop-blur-md md:p-10">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-[0.65rem] leading-none text-gold" aria-hidden>
+                    ◆
+                  </span>
+                  <span className="text-xs font-bold tracking-[.18em] text-gold-ink">{STORY.kicker}</span>
+                </div>
+                <RevealHeading
+                  as="h2"
+                  text={STORY.title}
+                  className="mt-4 font-serif font-black leading-[1.12] text-navy"
+                  style={{ fontSize: "clamp(1.9rem, 4vw, 2.9rem)" }}
+                />
+                <p className="mt-8 text-lg leading-[1.7] text-ink">{STORY.p1}</p>
+                <p className="mt-5 text-lg leading-[1.7] text-ink">{STORY.p2}</p>
+                <div className="my-10 rounded-[16px] bg-blush/40 px-6 py-8 sm:px-9">
+                  <p className="font-serif text-xl font-bold leading-snug text-navy sm:text-2xl">
+                    {STORY.credo1}
+                  </p>
+                  <p className="mt-4 font-serif text-xl font-bold leading-snug text-navy sm:text-2xl">
+                    {STORY.credo2a}
+                    <span className="underline decoration-rose decoration-[3px] underline-offset-[6px]">
+                      {STORY.credo2Mark}
+                    </span>
+                    {STORY.credo2b}
+                  </p>
+                </div>
+                <p className="text-lg leading-relaxed text-ink">{STORY.signOff}</p>
+                <p className={`${signatureScript.className} mt-2 text-4xl text-navy`}>
+                  {STORY.signature}
+                </p>
+              </div>
+            </MStagger>
           </div>
-        </Reveal>
-        <Reveal delay={160}>
-          <p className="text-lg leading-relaxed text-ink">{STORY.signOff}</p>
-          <p className={`${signatureScript.className} mt-2 text-4xl text-navy`}>
-            {STORY.signature}
-          </p>
-        </Reveal>
-      </Section>
+        </div>
+      </section>
 
       {/* ===== 19 · GUIDE - giant-quote: the age question answered in her voice.
            The page's signature moment - typographic scale + her hand, zero raster.
@@ -422,7 +440,7 @@ export default function AboutPage() {
                   <Link
                     href="/contact"
                     data-cta="about-cta-call"
-                    className="rounded-full bg-gold px-8 py-4 text-[0.95rem] font-bold text-white transition hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+                    className="btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
                   >
                     {CLOSE.button}
                   </Link>

@@ -154,7 +154,7 @@ export default function ContactPage() {
               <Link
                 href="#lead"
                 data-cta="contact-door-cta"
-                className="inline-block rounded-full bg-gold px-9 py-4 text-[1.02rem] font-bold text-white transition hover:bg-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
+                className="inline-block btn-chamfer rounded-[6px] bg-gold px-9 py-4 text-[1.02rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
               >
                 {DOOR.cta}
               </Link>
