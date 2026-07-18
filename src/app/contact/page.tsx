@@ -91,8 +91,12 @@ const WHERE = {
 
 export const metadata: Metadata = {
   title: "צור קשר",
-  description: DOOR.bodyStart + DOOR.bodyMark + DOOR.bodyEnd,
+  // Standalone meta description (≤155) — NOT the reused hero paragraph, which ran
+  // long and duplicated on-page body text.
+  description:
+    "שיחת היכרות חינם עם אלונה אקרלינג, דיאטנית קלינית מוסמכת. נכיר, אספר איך אני עובדת, ונבין יחד אם זו הדרך בשבילך — אונליין או בקליניקה ברעננה.",
   alternates: { canonical: "/contact" },
+  openGraph: { url: "/contact" },
 };
 
 // JSON-LD (סקשן 37 מחזיק אותו): ProfessionalService — עסק אמיתי, מיקום ברמת-עיר

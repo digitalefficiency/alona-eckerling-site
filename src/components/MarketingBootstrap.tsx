@@ -29,6 +29,14 @@ export function MarketingBootstrap() {
     return onConsentChange(setConsented);
   }, []);
 
+  // The last path we fired a page_view for — the fix for the swallowed-first-nav
+  // bug: a boolean "skip first run" ref is set in THIS effect but read in the
+  // per-navigation effect, and at mount that effect returns early (started=false,
+  // consent flips a render later) so the flag was never consumed — the first real
+  // navigation of every session ate it and fired nothing. Comparing paths instead
+  // is immune to the ordering.
+  const trackedPath = useRef<string | null>(null);
+
   // One-time bootstrap — runs only once consent is granted (idempotent via `started`).
   useEffect(() => {
     if (!consented || started.current) return;
@@ -37,6 +45,7 @@ export function MarketingBootstrap() {
     captureAttribution();
     initEngagement(pathname);
     trackPageView({ page: pathname });
+    trackedPath.current = pathname; // record the landing page we just counted
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [consented]);
 
@@ -69,15 +78,13 @@ export function MarketingBootstrap() {
     return () => document.removeEventListener("click", onClick, { capture: true });
   }, []);
 
-  // Per-navigation: reset engagement + fire a fresh page_view (skip first run,
-  // already handled in the bootstrap effect).
-  const first = useRef(true);
+  // Per-navigation: reset engagement + fire a fresh page_view. Skip only when this
+  // path is the one the bootstrap already counted (not a blanket "first run" skip),
+  // so the first genuine SPA navigation of the session fires correctly.
   useEffect(() => {
     if (!started.current) return; // gated until consent bootstrap has run
-    if (first.current) {
-      first.current = false;
-      return;
-    }
+    if (pathname === trackedPath.current) return; // already counted (the landing page)
+    trackedPath.current = pathname;
     resetPage(pathname);
     trackPageView({ page: pathname });
     track("page_change", { page: pathname });

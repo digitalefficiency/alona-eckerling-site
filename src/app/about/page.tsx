@@ -116,6 +116,7 @@ export const metadata: Metadata = {
   title: "עליי",
   description: HERO.lede,
   alternates: { canonical: "/about" },
+  openGraph: { url: "/about" },
 };
 
 // Person JSON-LD (סקשן 22) - real, stated credentials only; no ratings/reviews.
@@ -128,7 +129,9 @@ const personSchema = personFromBio(
       "B.Sc במדעי התזונה · המרכז האקדמי פרס, 2024",
       "התמחות קלינית · בית החולים איכילוב · חצי שנה, 2025",
     ],
-    href: "/about",
+    // Canonical Person node lives at /team/alona — use that href here too so the
+    // /about Person carries the SAME @id, not a competing /about#person entity.
+    href: "/team/alona",
   },
   site,
 );

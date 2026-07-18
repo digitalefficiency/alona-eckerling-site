@@ -176,6 +176,7 @@ export const metadata: Metadata = {
   title: `${HERO.title} · ${HERO.kicker}`,
   description: HERO.body,
   alternates: { canonical: "/sane-voice" },
+  openGraph: { url: "/sane-voice" },
 };
 
 // FAQPage JSON-LD — נגזר מפריטי הקופי שלמעלה (סקשן 30), אפס מחרוזות חדשות.

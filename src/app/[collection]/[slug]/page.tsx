@@ -86,9 +86,12 @@ export default async function CollectionEntryPage({ params }: Params) {
         name: doc.title,
         description: doc.description,
         datePublished: doc.date,
+        dateModified: String(doc.data.last_updated ?? doc.date),
         inLanguage: htmlLang[defaultLocale],
         mainEntityOfPage: `${site.url}/${collection}/${slug}`,
-        author: { "@type": "Person", name: site.name, url: `${site.url}/about` },
+        // Reference the ONE canonical Person node (defined on /team/alona) by @id,
+        // instead of a second lookalike at /about — the entity-resolution fix.
+        author: { "@type": "Person", "@id": `${site.url}/team/alona#person`, name: site.name, url: `${site.url}/team/alona` },
         ...(doc.image ? { image: `${site.url}${doc.image}` } : {}),
         ...(doc.data.category ? { recipeCategory: String(doc.data.category) } : {}),
         ...(Array.isArray(doc.data.tags) && doc.data.tags.length

@@ -31,6 +31,25 @@ const siteBase = {
   },
   areasServed: ["אונליין בכל הארץ", "רעננה והשרון"],
 
+  // Public social profiles — emitted as schema.org `sameAs` on the Person/Org so
+  // answer engines can resolve "אלונה אקרלינג" to one entity (research: sameAs is
+  // the highest-leverage markup for AI citation). Handle @alonaeck_ from the
+  // client's own channels. [לאימות מולה שאלה הכתובות המדויקות/הפעילות לפני עלייה לאוויר]
+  socials: [
+    "https://www.instagram.com/alonaeck_/",
+    "https://www.tiktok.com/@alonaeck_",
+  ] as string[],
+  // The provider's real expertise areas → schema.org `knowsAbout` on the Person,
+  // binding the entity to nutrition/coaching topics for answer engines. Derived
+  // from her actual positioning + services; never invented.
+  knowsAbout: [
+    "תזונה קלינית",
+    "ליווי תזונתי לנשים",
+    "הרזיה בלי דיאטה",
+    "אכילה רגשית",
+    "מתכונים בריאים",
+  ] as string[],
+
   // Legal / compliance — shown on /privacy /terms /accessibility.
   legalUpdated: "16.07.2026",
   accessibilityCoordinator: { name: "", phone: "", email: "" },

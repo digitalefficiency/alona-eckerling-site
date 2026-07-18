@@ -64,6 +64,7 @@ export const metadata: Metadata = {
   title: "המלצות",
   description: HERO.body,
   alternates: { canonical: "/testimonials" },
+  openGraph: { url: "/testimonials" },
   // plan 32 שכבה 7 (thin-content, honesty-preserving): העמוד נשאר noindex עד
   // שיחזיק עדויות אמיתיות ומאושרות — נגיש לכל אדם, לא מוגש למנוע.
   robots: { index: false, follow: true },

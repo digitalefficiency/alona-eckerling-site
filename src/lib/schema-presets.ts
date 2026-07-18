@@ -90,14 +90,23 @@ export function personFromBio(member: BioShape, site?: SiteShape) {
     member.href && site && member.href.startsWith("/")
       ? `${site.url}${member.href}`
       : member.href;
+  // Stable @id so other entities (each Recipe's author) reference THIS Person by
+  // one canonical node instead of a second lookalike — the entity-resolution fix.
+  const id = url ? `${url}#person` : undefined;
+  const sameAs = site?.socials;
   return {
     "@context": "https://schema.org",
     "@type": "Person",
+    ...(id ? { "@id": id } : {}),
     name: member.name,
     jobTitle: member.role,
     ...(member.narrative ? { description: member.narrative } : {}),
     ...(url ? { url } : {}),
     ...(member.photo?.src ? { image: member.photo.src } : {}),
+    ...(sameAs && sameAs.length ? { sameAs } : {}),
+    // knowsAbout — the provider's real expertise areas (site services); helps an
+    // answer engine bind the entity to nutrition/coaching queries. Derived, not invented.
+    ...(site && site.knowsAbout ? { knowsAbout: [...site.knowsAbout] } : {}),
     ...(member.credentials && member.credentials.length
       ? {
           hasCredential: member.credentials.map((c) => ({
