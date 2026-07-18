@@ -223,6 +223,20 @@
   color: color-mix(in srgb, var(--color-gold) 8%, transparent);
   transform: translateZ(-34px);
 }
+
+/* Method-ledger folio numeral (§11 coaching) — the ghosted serif index that sits
+   behind ONLY the title of each method entry. Bottom-anchored in a w-fit title box
+   so it rises behind the title and never washes the body paragraph; the title
+   wrapper is `relative` (later in DOM) so it always paints on top → the claim
+   stays legible. Static, palette-token driven; no translateZ (flat context). */
+.method-folio {
+  font-family: var(--font-serif);
+  font-weight: 900;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 0.72;
+  letter-spacing: -0.03em;
+  color: color-mix(in srgb, var(--color-gold) 15%, transparent);
+}
 .grid-bg {
   transform: translateZ(-50px);
 }

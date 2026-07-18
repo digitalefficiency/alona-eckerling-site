@@ -8,8 +8,6 @@ import { SplitText } from "@/components/motion/SplitText";
 import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
 import { Reveal } from "@/components/Reveal";
-import { FeatureAlternating } from "@/components/section/FeatureAlternating";
-import { HorizontalPin } from "@/components/motion/HorizontalPin";
 import { slideIn } from "@/lib/motion-variants";
 import { ClipReveal } from "@/components/motion/ClipReveal";
 import { ProcessTimeline } from "@/components/media/ProcessTimeline";
@@ -276,6 +274,7 @@ export const metadata: Metadata = {
   title: "איך עובדים איתי",
   description: HERO.body,
   alternates: { canonical: "/coaching" },
+  openGraph: { url: "/coaching" },
 };
 
 // ביקורת-עיצוב #32 — still-הוכחה עם חשיפת ink-wipe: משכפל את גרייד-הבית של
@@ -444,93 +443,64 @@ export default function CoachingPage() {
         </MOrchestrate>
       </Section>
 
-      {/* ── 11 · GUIDE — ארבעת עמודי המנגנון (זיג-זג עריכתי): עמודים 1, 2 ו-4 נושאים
-             צילומי-מנות אמיתיים מהמטבח שלה (הוכחת "דיאטנית שמבשלת"); עמוד 3 ("מדע
-             עדכני") נשאר פאנל מעוצב בגיאומטריית-הבית, בלי צילום. אין still מיוצר
-             לצד צילום אמיתי — ההשוואה זה מה שחושף אותו. ── */}
+      {/* ── 11 · GUIDE — the ledger of method: the four pillars as a numbered
+             editorial manifesto. A continuous rose rail (the page's "thread that
+             stays") threads a diamond node at each entry; a ghosted serif folio sits
+             behind each title. ZERO photography by design — a dish photo cannot
+             illustrate an ABSTRACT method claim ("מדע עדכני", "ליווי בין הפגישות");
+             the food gallery lives in PROOF (§14) and /recipes. Design-panel winner
+             (bespoke 9/10). One responsive layout; SSR/reduced-motion render the
+             finished threaded ledger. ── */}
       <Section tone="sand" id="method" seam>
         <SectionHeading eyebrow={METHOD.kicker} title={METHOD.title} />
-        {(() => {
-          // one media builder feeds BOTH renders (the pin track and the vertical fallback)
-          const pillarMedia = (i: number) => {
-            // pillar 3 ("מדע עדכני") carries NO photograph — a designed sage panel in
-            // the house geometry (the home PLAN ladder closes on the same move), so a
-            // generated still never sits in the frame chain beside her real dishes.
-            if (i === 2) {
+        <div className="relative mx-auto mt-14 max-w-[46rem] md:mt-20">
+          <MOrchestrate className="relative">
+            {METHOD.pillars.map((p, i) => {
+              const isLast = i === METHOD.pillars.length - 1;
               return (
-                <div
-                  aria-hidden
-                  className="relative grid place-items-center overflow-hidden rounded-[10px] border border-line bg-gold-soft"
-                  style={{ aspectRatio: "var(--aspect-feature)" }}
+                <MItem
+                  key={p.title}
+                  as="div"
+                  className={`relative grid grid-cols-[3rem_1fr] gap-x-5 md:grid-cols-[5.5rem_1fr] md:gap-x-10 ${
+                    isLast ? "" : "pb-14 md:pb-24"
+                  }`}
                 >
-                  {/* the ◆ kicker glyph grown to panel scale: the house diamond marker */}
-                  <span className="grid h-32 w-32 rotate-45 place-items-center border border-gold/60 md:h-40 md:w-40">
-                    <span className="h-1/3 w-1/3 bg-gold/25" />
-                  </span>
-                  <div className="grain-overlay" />
-                </div>
-              );
-            }
-            const pillarImg =
-              i === 0
-                ? { src: "/media/client/recipes/cauliflower-fried-rice.jpg", alt: "אורז מוקפץ מכרובית, מנה אמיתית מהמטבח של אלונה" }
-                : i === 1
-                  ? { src: "/media/client/recipes/one-pot-bulgur-stew.jpg", alt: "תבשיל בורגול בסיר אחד, מנה אמיתית מהמטבח של אלונה" }
-                  : { src: "/media/client/recipes/soba-noodle-salad.jpg", alt: "סלט אטריות סובה, מנה אמיתית מהמטבח של אלונה" };
-            return (
-              <div
-                className="relative overflow-hidden rounded-[10px] border border-line"
-                style={{ aspectRatio: "var(--aspect-feature)" }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={pillarImg.src} alt={pillarImg.alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
-                {/* the house grade — one tint + one grain across every still on the page */}
-                <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
-                <div aria-hidden className="grain-overlay" />
-              </div>
-            );
-          };
-          return (
-            <>
-              {/* ── the site's ONE pinned horizontal story (scroll-craft §D budget):
-                     the four pillars walked sideways, rtl; the rose border under every
-                     panel reads as one continuous rail — the thread drawn by the journey.
-                     Mobile + reduced-motion + no-JS: the vertical zig-zag below. ── */}
-              <div className="hidden md:block">
-                <HorizontalPin rtl panels={4} className="mt-8">
-                  {METHOD.pillars.map((p, i) => (
-                    <div key={p.title} className="w-[min(72vw,880px)] shrink-0 px-8">
-                      <div className="border-b-2 border-rose/50 pb-10">
-                        {/* the caption reads ABOVE the image (client's call): diamond
-                            number + title header first, then the dish, then the body */}
-                        <div className="flex items-center gap-4">
-                          <span aria-hidden className="grid h-10 w-10 shrink-0 rotate-45 place-items-center border border-gold/60 bg-card">
-                            <span className="-rotate-45 font-serif text-sm font-bold text-gold-ink">
-                              {String(i + 1).padStart(2, "0")}
-                            </span>
-                          </span>
-                          <h3 className="font-serif text-2xl font-bold text-navy">{p.title}</h3>
-                        </div>
-                        <div className="mt-6">{pillarMedia(i)}</div>
-                        <p className="mt-6 max-w-[52ch] text-lg leading-[1.7] text-muted">{p.body}</p>
-                      </div>
+                  {/* the rose thread — ONE segment per gap, node-center → node-center,
+                      so the rail begins at the first bead and ends at the last (no stub
+                      above, no tail below); the next bead's bg-sand masks its arrival. */}
+                  {!isLast && (
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute top-[1.375rem] -bottom-[1.375rem] start-[1.5rem] w-px -translate-x-1/2 bg-rose/45 md:top-[1.625rem] md:-bottom-[1.625rem] md:start-[2.75rem]"
+                    />
+                  )}
+                  {/* thread column — the diamond node beaded onto the rail */}
+                  <div className="relative flex items-start justify-center">
+                    <span
+                      aria-hidden
+                      className="mt-1.5 grid h-8 w-8 rotate-45 place-items-center border border-gold/60 bg-sand md:h-10 md:w-10"
+                    >
+                      <span className="h-1.5 w-1.5 bg-gold/70 md:h-2 md:w-2" />
+                    </span>
+                  </div>
+                  {/* entry column — the ghosted folio numeral is bottom-anchored to the
+                      TITLE band only (it rises behind the title, never washing the body) */}
+                  <div className="min-w-0">
+                    <div className="relative w-fit">
+                      <span aria-hidden className="method-folio pointer-events-none absolute bottom-0 -start-1 select-none">
+                        {i + 1}
+                      </span>
+                      <h3 className="relative font-serif text-2xl font-bold leading-[1.15] text-navy md:text-[2.05rem]">
+                        {p.title}
+                      </h3>
                     </div>
-                  ))}
-                </HorizontalPin>
-              </div>
-              <div className="md:hidden">
-                <FeatureAlternating
-                  className="mt-14"
-                  features={METHOD.pillars.map((p, i) => ({
-                    title: p.title,
-                    body: <p>{p.body}</p>,
-                    media: pillarMedia(i),
-                  }))}
-                />
-              </div>
-            </>
-          );
-        })()}
+                    <p className="mt-4 max-w-[52ch] text-lg leading-[1.75] text-muted">{p.body}</p>
+                  </div>
+                </MItem>
+              );
+            })}
+          </MOrchestrate>
+        </div>
         <Reveal delay={120} className="mt-12">
           <Link
             href="#packages"
