@@ -71,6 +71,11 @@ const HE = {
   "chip.add": "הוספה",
   "chip.customPlaceholder": "ערך חדש...",
 
+  // row editor controls (icon buttons — descriptive accessible names, not the glyph)
+  "row.moveUp": "הזז מעלה",
+  "row.moveDown": "הזז מטה",
+  "row.remove": "הסרה",
+
   // ── recipe journey: stations + rail ──
   "journey.st.dish": "המנה",
   "journey.st.story": "הסיפור",
@@ -262,6 +267,10 @@ const EN = {
 
   "chip.add": "Add",
   "chip.customPlaceholder": "New value...",
+
+  "row.moveUp": "Move up",
+  "row.moveDown": "Move down",
+  "row.remove": "Remove",
 
   "journey.st.dish": "The dish",
   "journey.st.story": "The story",

@@ -2,6 +2,7 @@
 import { useRef } from "react";
 import { DUR, EASE, cssDur, cssEase } from "@/lib/motion-tokens";
 import { splitPastedLines } from "@/lib/cms/recipe-paste.mjs";
+import { T } from "@/lib/cms/desk-strings";
 
 // One row per ingredient/step. Paste a whole block into any row and it splits
 // into rows (splitPastedLines strips bullets/numbering); Enter inserts a row
@@ -82,9 +83,9 @@ export function LineListEditor({
               className="w-full rounded-[4px] border border-line bg-bg2 px-4 py-2.5 text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             />
             <span className="flex shrink-0 gap-1">
-              <RowBtn onClick={() => move(i, -1)} label="▲" disabled={i === 0} micro={micro} />
-              <RowBtn onClick={() => move(i, 1)} label="▼" disabled={i === rows.length - 1} micro={micro} />
-              <RowBtn onClick={() => remove(i)} label="✕" disabled={rows.length === 1 && !row} micro={micro} />
+              <RowBtn onClick={() => move(i, -1)} glyph="▲" name={T("row.moveUp")} disabled={i === 0} micro={micro} />
+              <RowBtn onClick={() => move(i, 1)} glyph="▼" name={T("row.moveDown")} disabled={i === rows.length - 1} micro={micro} />
+              <RowBtn onClick={() => remove(i)} glyph="✕" name={T("row.remove")} disabled={rows.length === 1 && !row} micro={micro} />
             </span>
           </li>
         ))}
@@ -102,17 +103,18 @@ export function LineListEditor({
   );
 }
 
-function RowBtn({ onClick, label, disabled, micro }: { onClick: () => void; label: string; disabled?: boolean; micro: React.CSSProperties }) {
+function RowBtn({ onClick, glyph, name, disabled, micro }: { onClick: () => void; glyph: string; name: string; disabled?: boolean; micro: React.CSSProperties }) {
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={disabled}
-      aria-label={label}
+      aria-label={name}
+      title={name}
       className="rounded-[4px] border border-line px-2 py-1.5 text-xs text-ink transition-colors hover:border-gold disabled:opacity-30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
       style={micro}
     >
-      {label}
+      <span aria-hidden>{glyph}</span>
     </button>
   );
 }

@@ -13,10 +13,17 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       { userAgent: "*", allow: "/", disallow: "/admin" },
+      // AI answer-engine crawlers, split by role (2026): GPTBot trains, OAI-SearchBot
+      // powers ChatGPT-search CITATIONS — a site is only citable if OAI-SearchBot can
+      // crawl. PerplexityBot + ClaudeBot / Claude-SearchBot named explicitly for
+      // auditability (all also covered by "*", but naming them documents intent).
       { userAgent: "GPTBot", allow: "/", disallow: "/admin" },
+      { userAgent: "OAI-SearchBot", allow: "/", disallow: "/admin" },
+      { userAgent: "ChatGPT-User", allow: "/", disallow: "/admin" },
       { userAgent: "Google-Extended", allow: "/", disallow: "/admin" },
       { userAgent: "PerplexityBot", allow: "/", disallow: "/admin" },
-      { userAgent: "ChatGPT-User", allow: "/", disallow: "/admin" },
+      { userAgent: "ClaudeBot", allow: "/", disallow: "/admin" },
+      { userAgent: "Claude-SearchBot", allow: "/", disallow: "/admin" },
     ],
     sitemap: `${site.url}/sitemap.xml`,
   };

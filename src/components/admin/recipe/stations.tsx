@@ -142,8 +142,8 @@ export function ImageExtrasStation({
         <textarea value={tip} onChange={(e) => onTip(e.target.value)} rows={2} className={inputClass} />
       </label>
       <div>
-        <button type="button" onClick={onToggleAdvanced} className="text-sm font-semibold text-gold-ink hover:underline">
-          {advancedOpen ? "▾" : "▸"} {T("journey.advanced.toggle")}
+        <button type="button" onClick={onToggleAdvanced} aria-expanded={advancedOpen} className="text-sm font-semibold text-gold-ink hover:underline">
+          <span aria-hidden>{advancedOpen ? "▾" : "▸"}</span> {T("journey.advanced.toggle")}
         </button>
         {advancedOpen && (
           <div className="mt-3">

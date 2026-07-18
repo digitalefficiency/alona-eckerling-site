@@ -30,11 +30,16 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!c) return {};
   const title = c.label;
   const description = c.description ?? `${c.label} — ${site.name}`;
+  // A collection index with no published entries (e.g. /blog before its first
+  // article) is thin content on a YMYL domain — noindex it until it has posts,
+  // mirroring its exclusion from sitemap.ts. Self-heals when content lands.
+  const isEmpty = listDocs(c.id).length === 0;
   return {
     title,
     description,
     alternates: pageAlternates(`/${c.id}`, defaultLocale as Locale),
     openGraph: { title, description, url: `/${c.id}` },
+    ...(isEmpty ? { robots: { index: false, follow: true } } : {}),
   };
 }
 

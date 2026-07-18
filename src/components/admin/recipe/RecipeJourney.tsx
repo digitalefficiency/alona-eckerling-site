@@ -49,7 +49,7 @@ const FIELD_STATION: Record<string, StationId> = {
 };
 
 export function RecipeJourney({ collection, file, onDone }: { collection: CollectionConfig; file?: string; onDone: () => void }) {
-  const [values, setValues] = useState<Values>(file ? {} : { date: new Date().toISOString().slice(0, 10) });
+  const [values, setValues] = useState<Values>({});
   const [model, setModel] = useState<RecipeBodyModel>(emptyRecipeBody());
   const [slug, setSlug] = useState("");
   const [baseSha, setBaseSha] = useState<string | null>(null);
@@ -160,8 +160,14 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
   const errorFor = (field: string) =>
     result && !result.ok ? result.errors.find((e) => e.field === field)?.msg : undefined;
 
+  // A NEW recipe shows today in the date picker WITHOUT seeding `values` — seeding
+  // it would make an untouched form read as dirty (autosave counts value keys),
+  // writing a snapshot that nags a false "restore unsaved work" on the next open.
+  // The default is applied only for display/status and injected at save time.
+  const todayISO = useMemo(() => new Date().toISOString().slice(0, 10), []);
+  const effectiveDate = String(values.date ?? "") || (file ? "" : todayISO);
   const slugPlaceholder = suggestSlug(String(values.title ?? ""));
-  const effectiveSlug = slug.trim() || slugPlaceholder || `recipe-${String(values.date ?? "")}`;
+  const effectiveSlug = slug.trim() || slugPlaceholder || `recipe-${effectiveDate}`;
 
   const input: JourneyInput = {
     title: String(values.title ?? ""),
@@ -173,7 +179,7 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
     imageAlt: String(values.imageAlt ?? ""),
     category: String(values.category ?? ""),
     tags: Array.isArray(values.tags) ? (values.tags as string[]) : [],
-    date: String(values.date ?? ""),
+    date: effectiveDate,
     description: String(values.description ?? ""),
     slug: slug.trim() || slugPlaceholder,
     isNew: !file,
@@ -193,7 +199,7 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
         collectionId: collection.id,
         slug: effectiveSlug,
         locale: collection.i18n ? LOCALE : undefined,
-        frontmatter: values,
+        frontmatter: { ...values, date: effectiveDate },
         body,
         draft,
         baseSha,
@@ -327,7 +333,7 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
             collection={collection}
             category={String(values.category ?? "")}
             tags={Array.isArray(values.tags) ? (values.tags as string[]) : []}
-            date={String(values.date ?? "")}
+            date={effectiveDate}
             onSet={set}
             errorFor={errorFor}
           />

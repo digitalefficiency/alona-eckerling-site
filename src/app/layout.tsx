@@ -34,14 +34,20 @@ export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: { default: site.legalName, template: `%s | ${site.name}` },
   description: site.description,
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    types: { "application/rss+xml": `${site.url}/feed.xml` },
+  },
   openGraph: {
     type: "website",
     locale: brand.direction === "rtl" ? "he_IL" : "en_US",
     siteName: site.name,
     title: site.legalName,
     description: site.tagline,
-    url: site.url,
+    // NOTE: no hard-coded `url` here — a page-level openGraph.url would otherwise be
+    // shadowed and every route would emit og:url=home. Each composed page sets its
+    // own openGraph.url (resolved against metadataBase); routes without one simply
+    // omit og:url (scrapers fall back to the fetched URL) rather than misreport it.
   },
   // Gated: NOINDEX until NEXT_PUBLIC_ALLOW_INDEXING="true" at the real public launch.
   robots: allowIndexing ? { index: true, follow: true } : { index: false, follow: false },
