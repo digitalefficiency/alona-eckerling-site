@@ -9,6 +9,7 @@ import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
 import { Reveal } from "@/components/Reveal";
 import { slideIn } from "@/lib/motion-variants";
+import { MCardStack } from "@/components/motion/MCardStack";
 import { ClipReveal } from "@/components/motion/ClipReveal";
 import { ProcessTimeline } from "@/components/media/ProcessTimeline";
 import { MediaFrame } from "@/components/media/MediaFrame";
@@ -443,17 +444,54 @@ export default function CoachingPage() {
         </MOrchestrate>
       </Section>
 
-      {/* ── 11 · GUIDE — the ledger of method: the four pillars as a numbered
-             editorial manifesto. A continuous rose rail (the page's "thread that
-             stays") threads a diamond node at each entry; a ghosted serif folio sits
-             behind each title. ZERO photography by design — a dish photo cannot
-             illustrate an ABSTRACT method claim ("מדע עדכני", "ליווי בין הפגישות");
-             the food gallery lives in PROOF (§14) and /recipes. Design-panel winner
-             (bespoke 9/10). One responsive layout; SSR/reduced-motion render the
-             finished threaded ledger. ── */}
+      {/* ── 11 · GUIDE — the method DECK (the page's ONE pinned moment, client-
+             requested): scroll deals each pillar-card in from the side and lands
+             it OVER the previous one, so only the current claim reads. Card faces
+             carry the ledger DNA (diamond numeral, ghost folio, rose foot). ZERO
+             photography — a dish photo cannot illustrate an abstract method claim;
+             the food gallery lives in PROOF (§14) and /recipes.
+             Static twin (SSR / no-JS / reduced-motion / mobile): the numbered
+             ledger below — every word always readable. ── */}
       <Section tone="sand" id="method" seam>
         <SectionHeading eyebrow={METHOD.kicker} title={METHOD.title} />
-        <div className="relative mx-auto mt-14 max-w-[46rem] md:mt-20">
+        <MCardStack
+          className="mt-6"
+          dir="rtl"
+          ariaLabel={METHOD.title}
+          cards={METHOD.pillars.map((p, i) => (
+            <div
+              key={p.title}
+              className="frame-double relative flex h-full flex-col justify-center rounded-[16px] bg-card p-10 shadow-[var(--elevation-2)] md:p-16"
+              style={{ "--frame-gap": "8px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
+            >
+              <div aria-hidden className="grain-overlay" />
+              {/* index row — the diamond numeral + a gold hairline running to the edge */}
+              <div className="relative flex items-center gap-5">
+                <span aria-hidden className="grid h-11 w-11 shrink-0 rotate-45 place-items-center border border-gold/60 bg-card">
+                  <span className="-rotate-45 font-serif text-sm font-bold text-gold-ink">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </span>
+                <span aria-hidden className="h-px flex-1 bg-gold/35" />
+              </div>
+              {/* ghost folio bottom-anchored to the title band only (ledger DNA) */}
+              <div className="relative mt-8 w-fit">
+                <span aria-hidden className="method-folio pointer-events-none absolute bottom-0 -start-1 select-none">
+                  {i + 1}
+                </span>
+                <h3 className="relative font-serif text-3xl font-bold leading-[1.15] text-navy md:text-4xl">
+                  {p.title}
+                </h3>
+              </div>
+              <p className="relative mt-6 max-w-[52ch] text-lg leading-[1.75] text-muted md:text-xl">
+                {p.body}
+              </p>
+              {/* the rose thread lands at the card's foot */}
+              <span aria-hidden className="absolute inset-x-10 bottom-8 h-[3px] rounded-full bg-rose/50 md:inset-x-16" />
+            </div>
+          ))}
+          staticFallback={
+            <div className="relative mx-auto mt-8 max-w-[46rem] md:mt-14">
           <MOrchestrate className="relative">
             {METHOD.pillars.map((p, i) => {
               const isLast = i === METHOD.pillars.length - 1;
@@ -500,7 +538,9 @@ export default function CoachingPage() {
               );
             })}
           </MOrchestrate>
-        </div>
+            </div>
+          }
+        />
         <Reveal delay={120} className="mt-12">
           <Link
             href="#packages"

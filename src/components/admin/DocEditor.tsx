@@ -165,6 +165,11 @@ export function DocEditor({
       // The work is now a committed file in the client's repo. The browser copy
       // has done its job; keeping it would resurrect a stale ghost on the next open.
       if (r.ok) {
+        // Adopt the file's NEW blob sha so a second in-place save this session doesn't
+        // re-send the sha we opened with and trip a false conflict. docSha is the blob
+        // sha (r.sha is the COMMIT sha, for the liveness poll); it's absent in approval
+        // mode, which opens a PR instead of committing — baseSha then stays as opened.
+        if (r.docSha) setBaseSha(r.docSha);
         loadedRef.current = { values, body, slug, locale };
         localStorage.removeItem(key);
         setRescue(null);

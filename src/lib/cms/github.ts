@@ -131,7 +131,7 @@ export async function commitFiles(opts: {
   deletions?: string[];
   expect?: Record<string, string | null>;
   branch?: string; // approval mode targets a side branch
-}): Promise<{ sha: string; url: string }> {
+}): Promise<{ sha: string; url: string; blobShas: Record<string, string> }> {
   const { repo, branch: defaultBranch } = config();
   const branch = opts.branch ?? defaultBranch;
 
@@ -152,11 +152,16 @@ export async function commitFiles(opts: {
   const headCommit = await gh<{ tree: { sha: string } }>(`/repos/${repo}/git/commits/${headSha}`);
 
   const tree: Record<string, unknown>[] = [];
+  // The new blob sha per written file — the SAME sha kind `expect` compares (a git
+  // blob sha, not the commit sha), so a caller can adopt it as the next concurrency
+  // handle and save again in-place without a stale-sha conflict.
+  const blobShas: Record<string, string> = {};
   for (const f of opts.files) {
     const blob = await gh<{ sha: string }>(`/repos/${repo}/git/blobs`, {
       method: "POST",
       body: JSON.stringify({ content: f.content, encoding: f.encoding ?? "utf-8" }),
     });
+    blobShas[f.path] = blob.sha;
     tree.push({ path: f.path, mode: "100644", type: "blob", sha: blob.sha });
   }
   for (const p of opts.deletions ?? []) tree.push({ path: p, mode: "100644", type: "blob", sha: null });
@@ -173,7 +178,7 @@ export async function commitFiles(opts: {
     method: "PATCH",
     body: JSON.stringify({ sha: commit.sha, force: false }),
   });
-  return { sha: commit.sha, url: commit.html_url };
+  return { sha: commit.sha, url: commit.html_url, blobShas };
 }
 
 // ── approval mode (YMYL verticals): publish opens a PR instead of going live ──

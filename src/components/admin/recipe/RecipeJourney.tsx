@@ -206,6 +206,11 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
       });
       setResult(r);
       if (r.ok) {
+        // Adopt the file's NEW blob sha so a second in-place save this session doesn't
+        // re-send the sha we opened with and trip a false conflict. docSha is the blob
+        // sha (r.sha is the COMMIT sha, for the liveness poll); it's absent in approval
+        // mode, which opens a PR instead of committing — baseSha then stays as opened.
+        if (r.docSha) setBaseSha(r.docSha);
         loadedRef.current = { values, body, slug, locale: LOCALE };
         localStorage.removeItem(key);
         setRescue(null);

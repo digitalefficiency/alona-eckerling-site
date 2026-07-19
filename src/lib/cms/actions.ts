@@ -56,8 +56,13 @@ import { checkRestore } from "@/lib/cms/restore-core.mjs";
 // verification loop exists to prevent.
 export type ActionKind = "publish" | "draft" | "delete" | "settings" | "media";
 
+// `sha` is the git COMMIT sha (what PublishBar's liveness poll verifies is serving).
+// `docSha` is the written file's BLOB sha — a different git object kind, and the one
+// `expect` compares on the next save; the editor adopts it as its refreshed
+// concurrency handle so a second in-place save this session doesn't conflict. Only a
+// direct in-place commit (not approval mode's PR) produces one.
 export type ActionResult =
-  | { ok: true; kind: ActionKind; sha?: string; url?: string; prUrl?: string; message: string }
+  | { ok: true; kind: ActionKind; sha?: string; docSha?: string; url?: string; prUrl?: string; message: string }
   | { ok: false; errors: ContentError[] };
 
 // "general" (ascii) is the field sentinel for a non-field-anchored error; the admin
@@ -164,7 +169,7 @@ export async function saveDoc(input: DocInput): Promise<ActionResult> {
       });
       return { ok: true, kind: "publish", prUrl, message: T("action.pendingApprovalResult") };
     }
-    const { sha, url } = await commitFiles({
+    const { sha, url, blobShas } = await commitFiles({
       message,
       files,
       expect: { [built.path]: input.baseSha },
@@ -173,6 +178,7 @@ export async function saveDoc(input: DocInput): Promise<ActionResult> {
       ok: true,
       kind: input.draft ? "draft" : "publish",
       sha,
+      docSha: blobShas[built.path],
       url,
       message: input.draft ? T("action.draftSaved") : T("action.published"),
     };
