@@ -461,3 +461,19 @@ home 08 CTA · testimonials 34 CTA (חשבון-גליפים שגוי) · recipes
 **תוקן:** CookieConsent (כפתור-אישור לטקסט-לבן, hover/focus ל-gold-soft) · team/[slug] שורת-זהב → gold-soft · StickyContactBar (ring-white, קו-עליון gold-soft) · פס-הפוטר → **rose** (החוט-שנשאר חותם כל עמוד, 5.07:1) · תעודת-הרישיון ב-about (מסגרת+מעוין+כפתור-אימות → gold-soft) · שני CTA על פאנלים כהים (about/sane-voice) → מילוי gold-soft עם תווית-navy ‏(10.36:1) · a11y highlight-links outline → currentColor · prose-rtl דיו → var(--color-ink) · צללים כחולים מקודדים (Header/AccessibilityMenu/BookShelf/RecipesArchive) → color-mix מהטוקן · מיילי-הכניסה של ה-CMS → אורן · 404 hover → gold-soft.
 **התקבל במודע:** קצב-הרצועות לבן↔sand ירד ל-1.123 (עדין אך מורגש; seam/border מפצים) · slate-200/300 על פאנלים כהים עוברות AA (סטייה גוונית קלה בלבד).
 **הסגר (רכיבי-תבנית לא-רכובים עם נייבי/קרמל מקודד — אסור להרכיב בלי ריטוקון):** CtaBand · CinematicTeaser · three/StoryScene · media/StoryPanel · StoryJourney · AngularFrame · StatCounters · HomeLeadSection · LeadWizard (נקודות-התקדמות) · Toast (globals:900) · אפקטי hero-shutter/curtain (globals).
+
+---
+
+## סבב-ביצועים · 2026-07-19 — בית 70→89-90, ליווי 82→90 (מובייל, throttling מלא)
+נקודת-פתיחה: בית 70 / LCP 13.9s · ליווי 82 / CLS 0.778. יעד: ≥90. כל המהלכים נמדדו אחד-אחד (Lighthouse mobile, שרת prod מקומי :3012).
+
+**מה עשה את ההבדל (לפי סדר תגלית):**
+1. **render-delay של כניסות-כותרת = שניות על ה-LCP.** ה-arming של reveal אחרי הידרציה דחה את ציור-הכותרת. נבנה מצב `autoplay` ל-RevealHeading/SplitText: אנימציית-CSS טהורה (`rh-rise` / `is-animating` ב-SSR) שרצה מהצבע-הראשון בלי JS. הוחל על כל H1 של הירו בכל העמודים. שערי reduced-motion נשמרים (`animation: none !important`).
+2. **סופת-הפריימים של הסרט:** 14 פריימים × ~70-190KB = ‏1.4MB נטענו ב-220ms — כי כולם ערומים על ה-sticky stage בגובה viewport אחד מתחת לקפל, ושם native lazy טוען הכל מיד. IO-קרבה לא עוזר (הסרט צמוד להירו). **הפתרון: שער-load** — הקולנוע נחמש רק אחרי `window load + 300ms`; עד אז התאום-הסטטי (SSR) מוצג. אומת ב-Playwright: הקולנוע עולה, פריים 0 נראה, סקראב עד פריים 13.
+3. **תמונה כפולה בליווי:** פאנל-הדסקטופ (plain img, `hidden lg:block`) הוריד 67KB גם במובייל לצד רצועת-המובייל. `loading="lazy"` על תמונה בתוך display:none = אפס-הורדה (אין קופסה → אין intersection). אומת: מובייל מוריד אחת, דסקטופ מקבל את שלו.
+4. **next/image לתמונות התוכן הכבדות** (two-cups ‏171→22KB, פולבק-הסרט 71→24KB, hero דרך ה-optimizer ~38KB) + דחיסת sharp mozjpeg לכל המדיה (client 13.8→6.6MB, generated 4.8→2.3MB; hashes עודכנו ב-assets-manifest).
+5. **CLS 0.097 בבית = ארטיפקט-מדידה, לא באג.** טרייס-LH חשף shift יחיד ב-247ms עם `had_recent_input:true` (רה-לייאאוט של אמולציית-המסך של LH עצמו; כרום לא סופר אותו ב-CLS אמיתי). אומת אפס-shift ב-PerformanceObserver בכרום אמיתי, כולל תחת CPU×4 + רשת-איטית. prove.mjs עבר ל-`--screenEmulation.disabled --window-size=412,823 --form-factor=mobile` — אותו lantern throttling, בלי הארטיפקט.
+
+**רצפת ה-LCP הנוכחית (~3.5s מדומה, FCP 1.2s):** גרף-ה-JS (‏~240KB chunks + ‏92KB פונטים preloaded) תחת 1.6Mbps מדומה. חסימת כל פריימי-הסרט לא שינתה כלום (נוסה) — הפריימים כבר מחוץ לחלון. `priority` על ההירו נתן ~0.2s (בגבול הרעש) ולא הוחזר (מס-הרפליי הצולב של preload-on-RSC). **המנוף הבא אם יידרש 93+:** דיאטת-motion — הוצאת framer-motion מהנתיב-הקריטי (ניתוח כבד, סבב נפרד).
+
+**מלכודות שנלמדו:** ה-optimizer של next/image קר ב-first-hit מקומי (לחמם לפני מדידה; בפרודקשן CDN) · `loading="lazy"` הוא רעש בתוך viewport-margin — מיקום פיזי קובע, לא כוונה · תמונת fallback צריכה width/height מפורשים גם כשהיא ממילא "בגודל נכון".

@@ -14,6 +14,7 @@ export function SplitText({
   style,
   baseDelay = 0,
   lastLineClass = "",
+  autoplay = false,
 }: {
   text: string;
   as?: keyof React.JSX.IntrinsicElements;
@@ -21,14 +22,19 @@ export function SplitText({
   style?: CSSProperties;
   baseDelay?: number; // ms added before the per-line stagger
   lastLineClass?: string; // extra classes for the final line (e.g. accent color)
+  /** LCP-safe hero mode: `is-animating` ships in the SERVER html, so the CSS
+   *  ink-wipe starts at first style application — no hydration/IO wait. Use
+   *  ONLY above the fold: JS re-arming after a visible first paint was
+   *  measured pushing LCP by seconds. Reduced-motion gates still force final. */
+  autoplay?: boolean;
 }) {
-  const ref = useReveal<HTMLElement>({ className: "is-animating" });
+  const ref = useReveal<HTMLElement>(autoplay ? {} : { className: "is-animating" });
   const lines = text.split("\n");
   return createElement(
     as,
     {
       ref,
-      className: `splittext ${className}`,
+      className: `splittext ${autoplay ? "is-animating " : ""}${className}`,
       style: { ["--base" as string]: `${baseDelay}ms`, ...style },
     },
     lines.map((line, i) =>

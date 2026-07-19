@@ -325,9 +325,15 @@ export default function CoachingPage() {
             <div className="frame-double relative h-full w-full rounded-[10px] [--frame-color:var(--color-gold)] [--frame-gap:6px]">
               <div className="absolute inset-0 overflow-hidden rounded-[10px]">
                 <picture className="contents">
+                  {/* lazy is load-bearing: this panel is display:none below lg, and a
+                      lazy image with no box never fetches — without it the phone
+                      downloaded this 67KB desktop still ALONGSIDE the mobile band
+                      (same photo, twice) right in the LCP window */}
                   <img
                     src="/media/generated/09-coaching-table.jpg"
                     alt=""
+                    loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                 </picture>
@@ -347,6 +353,7 @@ export default function CoachingPage() {
             <SplitText
               as="h1"
               text={HERO.title}
+              autoplay
               baseDelay={140}
               className="mt-5 font-serif font-black leading-[1.05] text-navy"
               style={{ fontSize: "var(--text-hero)" }}
@@ -403,6 +410,8 @@ export default function CoachingPage() {
                 alt=""
                 ratio="16/9"
                 sizes="100vw"
+                // this band IS the mobile LCP — lazy discovery was costing seconds
+                eager
               />
               <div
                 aria-hidden

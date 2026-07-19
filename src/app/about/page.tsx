@@ -163,6 +163,7 @@ export default function AboutPage() {
             <SplitText
               as="h1"
               text={HERO.title}
+              autoplay
               baseDelay={120}
               className="mt-4 font-serif font-black leading-[1.05] text-navy"
               style={{ fontSize: "var(--text-hero)" }}

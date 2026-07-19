@@ -31,6 +31,7 @@ export function MediaFrame({
   alt,
   ratio,
   priority = false,
+  eager = false,
   sizes = "(max-width:768px) 100vw, 800px",
   caption,
   className = "",
@@ -39,6 +40,10 @@ export function MediaFrame({
   alt: string;
   ratio: Ratio; // deliberate, fixed crop — no free-form aspect
   priority?: boolean; // only on the LCP image
+  /** eager fetch WITHOUT a preload hint — for an LCP image on a page that other
+   *  routes prefetch (priority's preload rides the RSC payload and replays
+   *  cross-route; eager+fetchPriority gets the same discovery without that) */
+  eager?: boolean;
   sizes?: string;
   caption?: string;
   className?: string;
@@ -48,7 +53,16 @@ export function MediaFrame({
       className={`relative overflow-hidden rounded-[10px] border border-line ${caption ? "" : className}`}
       style={{ aspectRatio: AR[ratio] }}
     >
-      <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes={sizes}
+        priority={priority}
+        loading={eager ? "eager" : undefined}
+        fetchPriority={eager ? "high" : undefined}
+        className="object-cover"
+      />
       {/* the grade: brand tint (--grade-tint, primary @ ~10%) … */}
       <div
         aria-hidden

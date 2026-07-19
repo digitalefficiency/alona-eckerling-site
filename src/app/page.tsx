@@ -262,18 +262,19 @@ export default function HomePage() {
                 <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
                 {HERO.kicker}
               </MItem>
-              <MItem>
-                <RevealHeading
-                  as="h1"
-                  text={HERO.title}
-                  className="mt-5 font-serif font-black leading-[1.12] text-navy"
-                  // sized to the COLUMN, not the screen: at the 3.2rem ceiling both
-                  // designed lines (\n) fit the ~585px lg text track as the 2 lines
-                  // they were broken into; the 2.1rem floor matches --text-display's
-                  // floor so ≤390px screens keep the CTA above the fold
-                  style={{ fontSize: "clamp(2.1rem, 5vw, 3.2rem)" }}
-                />
-              </MItem>
+              {/* autoplay (LCP): the H1's masked rise runs as pure CSS from first
+                  paint — hydration/IO arming was measured pushing LCP by seconds */}
+              <RevealHeading
+                as="h1"
+                text={HERO.title}
+                autoplay
+                className="mt-5 font-serif font-black leading-[1.12] text-navy"
+                // sized to the COLUMN, not the screen: at the 3.2rem ceiling both
+                // designed lines (\n) fit the ~585px lg text track as the 2 lines
+                // they were broken into; the 2.1rem floor matches --text-display's
+                // floor so ≤390px screens keep the CTA above the fold
+                style={{ fontSize: "clamp(2.1rem, 5vw, 3.2rem)" }}
+              />
               <MItem as="p" className="mt-7 max-w-[62ch] text-lg leading-[1.7] text-muted">
                 {HERO.lede}
               </MItem>
@@ -317,8 +318,10 @@ export default function HomePage() {
                 gutter + the outer margin at every width; the section clips the overspill).
                 Below lg it stacks under the words as a band with the same edge-bleed —
                 never a veil under text. */}
-            <MItem
-              variants={scaleSoft}
+            {/* NOT animated (LCP): the framed photo is simply already there when the
+                page paints — the words arrive around it. Opacity-arming this panel
+                was the measured 5.8s LCP (element render-delay after a 70ms load). */}
+            <div
               className="relative z-0 me-[-1rem] sm:me-[calc(-24px-max(0px,(100vw-1240px)/2))] lg:-ms-16"
             >
               <div
@@ -326,21 +329,25 @@ export default function HomePage() {
                 style={{ "--frame-gap": "10px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
               >
                 <div className="relative aspect-[16/10] overflow-hidden rounded-[inherit] lg:aspect-[5/4]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  {/* next/image WITHOUT the priority prop: srcset/AVIF for a
+                      viewport-sized download (the LCP), but no preload hint —
+                      priority's preload rides the RSC payload and replays on
+                      every route that prefetches home */}
+                  <Image
                     src="/media/generated/01-hero-kitchen.jpg"
                     alt=""
+                    fill
+                    sizes="(min-width: 1024px) 44vw, 100vw"
                     fetchPriority="high"
                     loading="eager"
-                    decoding="async"
-                    className="absolute inset-0 h-full w-full object-cover object-[30%_center]"
+                    className="object-cover object-[30%_center]"
                   />
                   {/* the ONE shared image grade (archive continuity) */}
                   <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
                   <div aria-hidden className="grain-overlay" />
                 </div>
               </div>
-            </MItem>
+            </div>
           </MOrchestrate>
         </Container>
       </section>
@@ -458,12 +465,12 @@ export default function HomePage() {
                   }`}
                 >
                   {m ? (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img
+                    <Image
                       src={m.src}
                       alt={m.alt}
-                      loading="lazy"
-                      className="absolute inset-0 h-full w-full object-cover"
+                      fill
+                      sizes="(min-width: 768px) 40vw, 92vw"
+                      className="object-cover"
                     />
                   ) : (
                     /* rung 03 — the site's own calm: a sage field carrying the rose thread */

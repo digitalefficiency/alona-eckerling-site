@@ -138,6 +138,7 @@ export default function RecipesPage() {
           </div>
           <SplitText
             as="h1"
+            autoplay
             text={HERO.title}
             className="mt-5 font-serif font-black leading-[1.05] text-navy"
             style={{ fontSize: "var(--text-hero)" }}

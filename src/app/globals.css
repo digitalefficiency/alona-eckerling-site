@@ -463,11 +463,24 @@
   transition: transform var(--dur-reveal) var(--ease-out);
   transition-delay: calc(var(--rh-base, 0ms) + var(--i, 0) * var(--rh-stagger, var(--dur-stagger)));
 }
+/* AUTOPLAY (LCP-safe heroes): the exact same masked rise, but as a CSS
+   ANIMATION that starts at first style application — no hydration wait, no
+   IntersectionObserver wait. Reserved for above-the-fold headlines whose
+   arming was pushing LCP by seconds (render-delay measured in Lighthouse).
+   `both` keeps the pre-delay state masked; tokens only. */
+@keyframes rh-rise {
+  from { transform: translateY(calc(110% + 0.2em)); }
+  to { transform: translateY(0); }
+}
+.reveal-heading.rh-autoplay .rh-inner {
+  animation: rh-rise var(--dur-reveal) var(--ease-out) both;
+  animation-delay: calc(var(--rh-base, 0ms) + var(--i, 0) * var(--rh-stagger, var(--dur-stagger)));
+}
 /* Motion-sensitive gates force the final state even mid-flight. */
 @media (prefers-reduced-motion: reduce) {
-  .reveal-heading .rh-inner { transform: none !important; transition: none !important; }
+  .reveal-heading .rh-inner { transform: none !important; transition: none !important; animation: none !important; }
 }
-html.a11y-stop-motion .reveal-heading .rh-inner { transform: none !important; transition: none !important; }
+html.a11y-stop-motion .reveal-heading .rh-inner { transform: none !important; transition: none !important; animation: none !important; }
 
 /* ---- Hero entrance timeline (added on mount as data-hero-enter) ---- */
 @keyframes hero-fade-up {

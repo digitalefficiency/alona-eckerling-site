@@ -143,6 +143,7 @@ export default function ContactPage() {
               </MItem>
               <RevealHeading
                 as="h1"
+                autoplay
                 text={DOOR.title}
                 baseDelay={120}
                 className="mt-6 font-serif font-black leading-[1.05] text-navy"

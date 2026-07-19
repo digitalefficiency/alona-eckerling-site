@@ -371,6 +371,7 @@ export default function SaneVoicePage() {
               <MItem>
                 <RevealHeading
                   as="h1"
+                  autoplay
                   text={HERO.title}
                   baseDelay={120}
                   className="mt-4 font-serif font-black leading-[1.05] text-navy"

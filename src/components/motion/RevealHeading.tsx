@@ -34,6 +34,7 @@ export function RevealHeading({
   baseDelay = 0,
   stagger,
   lastLineClass = "",
+  autoplay = false,
 }: {
   text: string; // split on \n — one mask per line
   as?: keyof React.JSX.IntrinsicElements;
@@ -42,6 +43,11 @@ export function RevealHeading({
   baseDelay?: number; // ms before the first line starts
   stagger?: number; // ms between lines; default = --dur-stagger token (80ms). Keep 60–100.
   lastLineClass?: string; // extra classes for the final line (e.g. accent color)
+  /** LCP-safe hero mode: the SAME masked rise as a pure-CSS animation that
+   *  starts at first paint — no hydration/IO wait. Use ONLY on above-the-fold
+   *  headlines: JS arming was measured pushing LCP by seconds (Lighthouse
+   *  element render-delay). Reduced-motion/a11y gates still force final. */
+  autoplay?: boolean;
 }) {
   const ref = useRef<HTMLElement>(null);
   // "rest" = final visible (default). "enter" = masked pre-paint. "shown" = revealing.
@@ -58,6 +64,7 @@ export function RevealHeading({
   }
 
   useIso(() => {
+    if (autoplay) return; // CSS animation drives the reveal — no arming at all
     // Both motion gates render the final state: OS preference + a11y menu toggle.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (document.documentElement.classList.contains("a11y-stop-motion")) return;
@@ -66,11 +73,13 @@ export function RevealHeading({
     setPhase("enter"); // mask before the browser paints — no flash
     // onFirstInView = IO + geometry-poll failsafe (IO delivery can starve).
     return onFirstInView(el, () => setPhase("shown"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const lines = text.split("\n");
-  const phaseClass =
-    phase === "enter" ? "is-masked" : phase === "shown" ? "is-revealing" : "";
+  const phaseClass = autoplay
+    ? "rh-autoplay"
+    : phase === "enter" ? "is-masked" : phase === "shown" ? "is-revealing" : "";
   return createElement(
     as,
     {

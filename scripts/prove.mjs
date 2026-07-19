@@ -103,11 +103,17 @@ if (SKIP_LH) {
     try {
       // F5: argv array, not an interpolated shell string — the --interior value reaches
       // lighthouse as one argument and cannot break out into the shell.
+      // Screen emulation is DISABLED and the window pre-sized to the same 412×823
+      // mobile viewport (lantern mobile throttling unchanged): on a warm localhost
+      // the page paints BEFORE Lighthouse's mid-navigation emulation resize, and
+      // that resize registers as a phantom ~0.097 CLS (had_recent_input=true —
+      // real Chrome doesn't count it; verified zero-shift via PerformanceObserver).
       const out = execFileSync("npx", [
         "--yes", "lighthouse", `${BASE}${p}`,
         "--output=json", "--quiet",
         "--only-categories=performance,accessibility,best-practices,seo",
-        "--chrome-flags=--headless=new --no-sandbox",
+        "--form-factor=mobile", "--screenEmulation.disabled",
+        "--chrome-flags=--headless=new --no-sandbox --window-size=412,823",
       ], { stdio: ["ignore", "pipe", "ignore"], timeout: 180000 }).toString();
       const j = JSON.parse(out);
       const s = (c) => Math.round((j.categories[c]?.score ?? 0) * 100);

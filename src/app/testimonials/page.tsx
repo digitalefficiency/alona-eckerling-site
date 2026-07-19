@@ -101,6 +101,7 @@ export default function TestimonialsPage() {
               <MItem>
                 <RevealHeading
                   as="h1"
+                  autoplay
                   text={HERO.title}
                   className="mt-5 font-serif font-black leading-[1.12] text-navy"
                   style={{ fontSize: "var(--text-hero)" }}

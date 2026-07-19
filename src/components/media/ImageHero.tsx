@@ -100,6 +100,7 @@ export function ImageHero({
             )}
             <SplitText
               as="h1"
+              autoplay
               text={title}
               baseDelay={140}
               className="mt-5 font-serif font-black leading-[1.05] text-navy"

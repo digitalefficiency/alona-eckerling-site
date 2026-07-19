@@ -17,6 +17,7 @@
 // the scroll handler and released entirely when the section leaves the viewport,
 // so 14+ full-viewport composited layers never coexist.
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useScroll, useMotionValueEvent } from "motion/react";
 import { useMotionAllowed } from "@/lib/motion";
@@ -78,11 +79,34 @@ export function SequenceFilm({
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  // Load gate: the cinema arms only AFTER the window load event (+ idle tick).
+  // Mounting at hydration put all N full-bleed frames on top of the sticky
+  // stage just below the fold, where native lazy-loading fetches every one of
+  // them immediately — ~1.4MB competing with the hero LCP on the critical
+  // window (measured: the frames were 75% of all first-load image bytes; a
+  // nearness IO can't help because the film IS within one viewport of the
+  // hero). Post-load the same fetch storm is free: the reader is still in the
+  // hero while the frames trickle in, and the static twin covers until then.
+  const [near, setNear] = useState(false);
+  useEffect(() => {
+    if (!mounted || !motionAllowed || near) return;
+    let timer = 0;
+    const arm = () => {
+      timer = window.setTimeout(() => setNear(true), 300);
+    };
+    if (document.readyState === "complete") arm();
+    else window.addEventListener("load", arm, { once: true });
+    return () => {
+      window.removeEventListener("load", arm);
+      clearTimeout(timer);
+    };
+  }, [mounted, motionAllowed, near]);
+
   // Poster gate: decode the opening frame BEFORE the cinema mounts. Until then
   // the static twin stays visible, so the signature moment never flashes blank.
   const [posterDone, setPosterDone] = useState(false);
   useEffect(() => {
-    if (!mounted || !motionAllowed || frames.length < 2 || posterDone) return;
+    if (!mounted || !motionAllowed || !near || frames.length < 2 || posterDone) return;
     let cancelled = false;
     const arm = () => {
       if (!cancelled) setPosterDone(true);
@@ -97,7 +121,7 @@ export function SequenceFilm({
     return () => {
       cancelled = true;
     };
-  }, [mounted, motionAllowed, frames, posterDone]);
+  }, [mounted, motionAllowed, near, frames, posterDone]);
 
   const cinema = mounted && motionAllowed && frames.length > 1 && posterDone;
 
@@ -310,12 +334,13 @@ export function SequenceFilm({
             {staticHeading}
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-muted">{staticBody}</p>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={lastFrame}
             alt={finalAlt}
-            className="mx-auto mt-9 w-full max-w-[820px] rounded-card"
-            loading="lazy"
+            width={1400}
+            height={781}
+            sizes="(min-width: 880px) 820px, 92vw"
+            className="mx-auto mt-9 h-auto w-full max-w-[820px] rounded-card"
           />
         </div>
       </div>
