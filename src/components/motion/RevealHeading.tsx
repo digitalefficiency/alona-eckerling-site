@@ -9,6 +9,7 @@ import {
   type CSSProperties,
 } from "react";
 import { onFirstInView } from "@/lib/motion";
+import { accentLine } from "@/components/motion/SplitText";
 
 // Masked line reveal — the PREMIUM sibling of Reveal (which stays the generic
 // fade-up). Splits text into LINES on \n only (never per-glyph — preserves
@@ -35,6 +36,7 @@ export function RevealHeading({
   stagger,
   lastLineClass = "",
   autoplay = false,
+  accentText,
 }: {
   text: string; // split on \n — one mask per line
   as?: keyof React.JSX.IntrinsicElements;
@@ -48,6 +50,8 @@ export function RevealHeading({
    *  headlines: JS arming was measured pushing LCP by seconds (Lighthouse
    *  element render-delay). Reduced-motion/a11y gates still force final. */
   autoplay?: boolean;
+  /** the section's pivot word — gets the rose self-drawing rule (move 4) */
+  accentText?: string;
 }) {
   const ref = useRef<HTMLElement>(null);
   // "rest" = final visible (default). "enter" = masked pre-paint. "shown" = revealing.
@@ -102,7 +106,7 @@ export function RevealHeading({
               i === lines.length - 1 && lastLineClass ? ` ${lastLineClass}` : ""
             }`,
           },
-          line,
+          accentLine(line, accentText),
         ),
       ),
     ),

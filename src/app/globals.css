@@ -340,18 +340,32 @@
    it had a transition. Tokens only. */
 .btn-chamfer {
   --chamfer: 10px;
+  position: relative;
+  isolation: isolate; /* keeps the z-index:-1 ink fill above the button's own bg */
   clip-path: polygon(
     var(--chamfer) 0, 100% 0,
     100% calc(100% - var(--chamfer)), calc(100% - var(--chamfer)) 100%,
     0 100%, 0 var(--chamfer)
   );
-  transition: filter var(--dur-micro) var(--ease-micro),
-    transform var(--dur-micro) var(--ease-micro),
+  transition: transform var(--dur-micro) var(--ease-micro),
     color var(--dur-micro) var(--ease-micro),
     background-color var(--dur-micro) var(--ease-micro),
     border-color var(--dur-micro) var(--ease-micro);
 }
-.btn-chamfer:hover { filter: brightness(1.06); }
+/* «חוט ואור» move 6 — ink fill: hover pulls a wash of ink across the button
+   FROM THE READING EDGE (origin 100% = right, where Hebrew starts), replacing
+   the old brightness() blink. Clipped by the chamfer automatically. */
+.btn-chamfer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in srgb, var(--color-ink) 16%, transparent);
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform var(--dur-micro) var(--ease-out);
+}
+.btn-chamfer:hover::after { transform: scaleX(1); }
 .btn-chamfer:active { transform: scale(0.985); }
 
 /* skewed filter chip — the recipes archive's "spice-jar" parallelogram chip. */
@@ -481,6 +495,64 @@
   .reveal-heading .rh-inner { transform: none !important; transition: none !important; animation: none !important; }
 }
 html.a11y-stop-motion .reveal-heading .rh-inner { transform: none !important; transition: none !important; animation: none !important; }
+
+/* ---- «חוט ואור» move 4 — the dual-voice heading -------------------------
+   The question rises from the ink mask; the rose ANSWERS: a hand-drawn rule
+   under the section's pivot word, drawn from the reading edge (origin 100% =
+   right in RTL) AFTER the line itself lands. The accent span is emitted by
+   SplitText/RevealHeading's accentText prop. BASE STATE IS DRAWN — SSR/no-JS/
+   reduced-motion/a11y-stop-motion all show the finished rule (static twin). */
+.u-rose-draw { position: relative; }
+.u-rose-draw::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0.02em;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--color-rose);
+  transform-origin: 100% 50%;
+}
+.splittext.is-animating .u-rose-draw::after {
+  animation: rose-draw var(--dur-rule) var(--ease-signature) both;
+  animation-delay: calc(var(--base, 0ms) + var(--i, 0) * var(--dur-stagger) + var(--dur-reveal));
+}
+.reveal-heading.rh-autoplay .u-rose-draw::after,
+.reveal-heading.is-revealing .u-rose-draw::after {
+  animation: rose-draw var(--dur-rule) var(--ease-signature) both;
+  animation-delay: calc(var(--rh-base, 0ms) + var(--i, 0) * var(--rh-stagger, var(--dur-stagger)) + var(--dur-reveal));
+}
+.reveal-heading.is-masked .u-rose-draw::after { transform: scaleX(0); }
+@keyframes rose-draw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .u-rose-draw::after { transform: none !important; animation: none !important; }
+}
+html.a11y-stop-motion .u-rose-draw::after { transform: none !important; animation: none !important; }
+
+/* ---- «חוט ואור» move 1 phase 1 — «לידת החוט» ----------------------------
+   A rose thread-tip born from the hero CTA's chamfered corner, descending
+   toward the film's sand arc. Pure CSS draw (pathLength=1 normalization),
+   delayed until the headline+CTA choreography settles. Base state is DRAWN —
+   the same static-twin rule as every reveal in the house. */
+.thread-birth path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.thread-birth.thread-animate path {
+  animation: thread-draw calc(var(--dur-rule) * 2.4) var(--ease-signature) both;
+  animation-delay: calc(var(--dur-reveal) * 2);
+}
+@keyframes thread-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .thread-birth path { animation: none !important; }
+}
+html.a11y-stop-motion .thread-birth path { animation: none !important; }
 
 /* ---- Hero entrance timeline (added on mount as data-hero-enter) ---- */
 @keyframes hero-fade-up {

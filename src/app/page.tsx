@@ -281,6 +281,9 @@ export default function HomePage() {
                 as="h1"
                 text={HERO.title}
                 autoplay
+                // the rose ANSWERS the question — a hand-drawn rule under the
+                // promise, after the line lands («חוט ואור» move 4)
+                accentText="לא עוד תפריט"
                 className="mt-5 font-serif font-black leading-[1.12] text-navy"
                 // sized to the COLUMN, not the screen: at the 3.2rem ceiling both
                 // designed lines (\n) fit the ~585px lg text track as the 2 lines
@@ -316,7 +319,26 @@ export default function HomePage() {
                   </Link>
                 </div>
               </MItem>
-              <MItem className="mt-7">
+              {/* «לידת החוט» (move 1, phase 1): a rose thread-tip born from the
+                  chamfered corner of "בואי נדבר", descending toward the film's
+                  sand arc. Absolute (zero layout cost), decorative, CSS-drawn;
+                  the recipes link below steps aside (lg:ps-7) to clear its lane. */}
+              <div aria-hidden className="pointer-events-none relative hidden lg:block">
+                <svg
+                  className="thread-birth thread-animate absolute -top-1 start-1 h-64 w-12 overflow-visible"
+                  viewBox="0 0 48 256"
+                  fill="none"
+                >
+                  <path
+                    d="M42 0C42 64 10 88 22 140C31 178 10 210 16 256"
+                    pathLength={1}
+                    stroke="var(--color-rose)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </div>
+              <MItem className="mt-7 lg:ps-7">
                 <Link
                   href="/recipes"
                   data-cta="hero-recipes"
@@ -341,6 +363,16 @@ export default function HomePage() {
                 className="frame-double relative rounded-[16px] shadow-[var(--elevation-2)]"
                 style={{ "--frame-gap": "10px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
               >
+                {/* the first thought-chip, resting limp on the frame — the noise
+                    the whole page is about to quiet. TEXT FROM FILM_CHIPS ONLY
+                    (YMYL: chips never get new copy); the film picks it up at
+                    full strength, §07 lays it to rest. */}
+                <span
+                  aria-hidden
+                  className="absolute -top-4 start-8 z-10 inline-block rotate-[-2deg] whitespace-nowrap rounded-full border border-line bg-bg/90 px-4 py-1.5 font-serif text-[0.95rem] italic text-muted opacity-70 shadow-sm"
+                >
+                  {FILM_CHIPS[0].text}
+                </span>
                 <div className="relative aspect-[16/10] overflow-hidden rounded-[inherit] lg:aspect-[5/4]">
                   {/* next/image WITHOUT the priority prop: srcset/AVIF for a
                       viewport-sized download (the LCP), but no preload hint —
@@ -395,7 +427,7 @@ export default function HomePage() {
       <section className="relative">
         <Container width="wide" className="py-16 sm:py-20 md:py-32">
           <SectionSeam className="mb-12" />
-          <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} />
+          <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} accent="מכירה" />
           {/* ONE orchestrator for the whole split (choreography rule): the calling
               card settles, her age-line LEANS IN from the inline-start (the page's
               first side-entrance — her voice arriving beside the card), the argument
@@ -459,7 +491,7 @@ export default function HomePage() {
              sage panel so the ladder ends on the site's own calm. ── */}
       <ShapedSection tone="sand" shape="arc" edge="top">
         <Container width="wide" className="py-16 sm:py-20 md:py-32">
-          <SectionHeading eyebrow={PLAN.kicker} title={PLAN.title} lead={PLAN.lead} />
+          <SectionHeading eyebrow={PLAN.kicker} title={PLAN.title} lead={PLAN.lead} accent="בשפה שלך" />
           <StickyScroll
             className="mt-14"
             mediaSide="start"
@@ -526,7 +558,7 @@ export default function HomePage() {
       {/* ── 05 · PROOF — card-grid: a random trio of real CMS recipes per visit;
              testimonial + media-logo slots stay honestly DARK until real. ── */}
       <Section tone="white" border id="proof">
-        <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.body} />
+        <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.body} accent="באמת" />
         <div className="mt-6">
           <span className="inline-block rounded-full bg-gold-soft px-4 py-1.5 text-sm font-semibold text-gold-ink">
             {PROOF.countChip}
@@ -563,7 +595,7 @@ export default function HomePage() {
       <section className="relative">
         <Container width="wide" className="pb-32 pt-4 sm:pb-36 md:pb-44 md:pt-6">
           <div className="relative z-10 -mt-10 rounded-[16px] border border-line bg-bg p-7 shadow-[var(--elevation-2)] md:-mt-14 md:p-10">
-            <SectionHeading eyebrow={STAKES.kicker} title={STAKES.title} />
+            <SectionHeading eyebrow={STAKES.kicker} title={STAKES.title} accent="שקטה" />
             <p className="mt-8 font-serif text-lg italic text-rose-ink">{STAKES.cue}</p>
             <Comparison
               className="mt-5"

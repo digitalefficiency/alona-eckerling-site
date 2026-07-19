@@ -8,12 +8,16 @@ export function SectionHeading({
   lead,
   tone = "light",
   align = "start",
+  accent,
 }: {
   eyebrow: string;
   title: string;
   lead?: string;
   tone?: "light" | "dark";
   align?: "start" | "center";
+  /** «חוט ואור» move 4 — the section's pivot word: the rose rule draws itself
+   *  under it after the title's ink-wipe lands (the "dual-voice" heading) */
+  accent?: string;
 }) {
   const titleColor = tone === "dark" ? "text-white" : "text-navy";
   const leadColor = tone === "dark" ? "text-slate-200" : "text-muted";
@@ -30,6 +34,7 @@ export function SectionHeading({
       <SplitText
         as="h2"
         text={title}
+        accentText={accent}
         className={`mt-4 font-serif font-black leading-[1.08] ${titleColor}`}
         // the scale token, verbatim — the 1.7rem floor was lowered deliberately so
         // section titles don't take over ≤390px screens; never re-roll it inline
