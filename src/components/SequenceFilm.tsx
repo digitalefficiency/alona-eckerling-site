@@ -197,7 +197,7 @@ export function SequenceFilm({
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, rgba(34,48,76,.16) 0%, rgba(34,48,76,0) 30%, rgba(34,48,76,0) 55%, var(--color-bg) 130%)",
+                "linear-gradient(180deg, color-mix(in srgb, var(--color-navy) 16%, transparent) 0%, transparent 30%, transparent 55%, var(--color-bg) 130%)",
             }}
           />
           {/* progress hairline */}

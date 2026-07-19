@@ -25,21 +25,22 @@ export const brand = {
   // emits an empty token map).
   mode: "light" as Mode,
 
-  // Brandable palette — "הקול השקט" (DESIGN-DIRECTION.md, warm-craft still-calm).
-  // Roles read as: navy* = deep soft navy (ink + credential-trust anchor),
-  // gold* = garden sage (the interactive accent: CTA fill, links, eyebrows),
-  // sand = raised ivory panel. Polarity tokens (bg/card/ink/muted/line) shift the
-  // whole canvas to warm paper. rose/blush = the feminine warmth washes.
+  // Brandable palette — "הקול השקט" · «ירוק צלול» (Rom's palette call, 2026-07-19:
+  // "פחות כחול, יותר לבן-ירוק-ורוד"). Roles read as: navy* = deep PINE ink (the
+  // blue is gone — headings, dark panels and trust anchors are warm green-black),
+  // gold* = deep garden sage (the interactive accent: CTA fill, links, eyebrows),
+  // sand = sage-white panel. Polarity tokens keep a near-white warm canvas with a
+  // green breath. rose/blush = the feminine warmth thread, unchanged.
   colors: {
-    "navy": "#22304C",
-    "navy-800": "#293A5C",
-    "navy-700": "#32466E",
-    "navy-600": "#3C537F",
-    "gold": "#3E7B5C",            // garden sage — primary CTA fill (white text AA ~4.8:1)
-    "gold-dark": "#356B50",
-    "gold-soft": "#D9E8DB",       // sage-wash (calm section bands)
-    "gold-ink": "#2F5F47",        // AA-safe sage text on warm paper
-    "sand": "#F4EDE4",            // raised ivory panel
+    "navy": "#17382C",
+    "navy-800": "#1E4536",
+    "navy-700": "#265441",
+    "navy-600": "#30654F",
+    "gold": "#2F6B4F",            // garden sage — primary CTA fill (white text AA ~4.8:1)
+    "gold-dark": "#275C43",
+    "gold-soft": "#DCEBDD",       // sage-wash (calm section bands)
+    "gold-ink": "#2A5C44",        // AA-safe sage text on warm paper
+    "sand": "#EFF3EC",            // raised ivory panel
   },
 
   // Extra brand tokens beyond the 9 semantic roles (kept OUT of brand.colors so
@@ -47,13 +48,13 @@ export const brand = {
   // polarity overrides (bg/card/ink/muted/line — globals var(--brand-*, default))
   // + Alona's warmth roles (rose/blush — consumed via --color-rose / --color-blush).
   extra: {
-    "bg": "#FBF6F1",              // warm paper — "החדר השקט"
-    "bg2": "#FDFAF6",
+    "bg": "#FBFCF9",              // warm paper — "החדר השקט"
+    "bg2": "#FDFEFB",
     "card": "#FFFFFF",
-    "ink": "#22304C",
-    "muted": "#586074",
-    "line": "#E8DFD4",
-    "line2": "#F0E9E0",
+    "ink": "#1B2921",
+    "muted": "#58685E",
+    "line": "#DFE5DB",
+    "line2": "#ECF0E8",
     "rose": "#DE8E85",            // dusty rose — underlines, ticks, soft marks
     "rose-ink": "#A34E46",        // AA-safe rose text on light (emphasis only)
     "blush": "#F7DED9",           // light pink wash — warmth/success bands + magnet card
