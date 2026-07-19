@@ -386,7 +386,7 @@ export default function AboutPage() {
            dish from her kitchen. Checkable facts only, no logos, no metrics,
            no testimonials. COPY: ### סקשן 20 ===== */}
       <Section tone="sand" seam>
-        <SectionHeading eyebrow={CREDENTIALS.kicker} title={CREDENTIALS.title} />
+        <SectionHeading eyebrow={CREDENTIALS.kicker} title={CREDENTIALS.title} accent="אמיתי" />
         <div className="mt-12 grid items-stretch gap-10 md:grid-cols-[1.12fr_0.88fr] md:gap-12">
           {/* ── the official ledger: certificate + stamped rows ── */}
           <MStagger variants={slideIn("inline-start", 40)} className="flex flex-col">

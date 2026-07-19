@@ -485,7 +485,7 @@ export default function SaneVoicePage() {
           (הוכחת-מלאכה — לעולם לא עמודי-חוברת מפוברקים). */}
       <section id="inside" className="scroll-mt-24 border-y border-line bg-card">
         <Container className="py-16 sm:py-20 md:py-28">
-          <SectionHeading eyebrow={INSIDE.kicker} title={INSIDE.title} />
+          <SectionHeading eyebrow={INSIDE.kicker} title={INSIDE.title} accent="בדיוק" />
           <FeatureAlternating
             className="mt-14"
             features={INSIDE.rows.map((r) => ({

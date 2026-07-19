@@ -424,7 +424,7 @@ export default function CoachingPage() {
 
       {/* ── 10 · TENSION — פרוזה ממורכזת: הפער הוא ה"לבד", לא הידע ── */}
       <Section tone="white" width="prose" border>
-        <SectionHeading eyebrow={PROBLEM.kicker} title={PROBLEM.title} lead={PROBLEM.subtitle} />
+        <SectionHeading eyebrow={PROBLEM.kicker} title={PROBLEM.title} lead={PROBLEM.subtitle} accent="יודעת" />
         {/* ONE orchestrator for the section (token stagger) — and the page's single
             lean-in: the rose-marked pull-quote arrives from the reading side while
             everything around it stays quiet. */}
@@ -463,7 +463,7 @@ export default function CoachingPage() {
              Static twin (SSR / no-JS / reduced-motion / mobile): the numbered
              ledger below — every word always readable. ── */}
       <Section tone="sand" id="method" seam>
-        <SectionHeading eyebrow={METHOD.kicker} title={METHOD.title} />
+        <SectionHeading eyebrow={METHOD.kicker} title={METHOD.title} accent="שנשארת" />
         <MCardStack
           className="mt-6"
           dir="rtl"
@@ -564,7 +564,7 @@ export default function CoachingPage() {
 
       {/* ── 12 · PLAN — שלוש חבילות מ-site.ts, מועשרות מ-COPY; בלי מחיר, בלי דחיפה ── */}
       <Section tone="white" id="packages" border>
-        <SectionHeading eyebrow={PACKAGES.kicker} title={PACKAGES.title} lead={PACKAGES.lead} />
+        <SectionHeading eyebrow={PACKAGES.kicker} title={PACKAGES.title} lead={PACKAGES.lead} accent="שמתאים לך" />
         <Reveal delay={100} className="mt-8">
           <ul className="flex flex-wrap items-center gap-2.5">
             {PACKAGE_FACTS.map((fact) => (
@@ -677,7 +677,7 @@ export default function CoachingPage() {
           <div className="md:w-[52%]">
             <MStagger variants={slideIn("inline-start", 48)}>
               <div className="rounded-[16px] border border-line bg-card/80 p-7 shadow-[var(--elevation-2)] backdrop-blur-md md:p-9">
-                <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.lead} />
+                <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.lead} accent="אלונה" />
                 <div className="mt-8 grid grid-cols-2 gap-4">
                   {PROOF.stills.slice(1).map((s) => (
                     <div key={s.src} className="relative aspect-square overflow-hidden rounded-[10px] border border-line">
