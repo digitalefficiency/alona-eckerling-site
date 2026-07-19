@@ -182,7 +182,7 @@ export default async function TeamMemberPage({ params }: Params) {
             <SplitText
               as="h2"
               text={"רוצים להתייעץ?\nדברו איתנו."}
-              lastLineClass="text-gold"
+              lastLineClass="text-gold-soft"
               baseDelay={140}
               className="mt-4 font-serif font-black leading-[1.12] text-white"
               style={{ fontSize: "clamp(1.6rem, 3.2vw, 2.5rem)" }}

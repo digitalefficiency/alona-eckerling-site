@@ -46,7 +46,7 @@ export default function NotFound() {
           <Link
             href={cta.primary.href}
             data-cta="404-contact"
-            className="rounded-[4px] border border-white/30 px-7 py-3.5 text-[0.95rem] font-bold text-white transition hover:border-gold hover:text-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="rounded-[4px] border border-white/30 px-7 py-3.5 text-[0.95rem] font-bold text-white transition hover:border-gold-soft hover:text-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             {cta.primary.short}
           </Link>

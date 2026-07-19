@@ -98,7 +98,12 @@ function readCollection(c: CollectionConfig): CollectionEntry[] {
   for (const e of entries) {
     e.hasAlternate = entries.some((q) => q.slug === e.slug && q.locale !== e.locale);
   }
-  return entries.sort((a, b) => (a.date < b.date ? 1 : -1));
+  // Stable order: newest first, equal dates tie-broken by slug — the old
+  // comparator returned -1 for equal dates (inconsistent), so same-day entries
+  // (e.g. a whole migrated archive) could reorder between builds/engines.
+  return entries.sort((a, b) =>
+    a.date < b.date ? 1 : a.date > b.date ? -1 : a.slug.localeCompare(b.slug),
+  );
 }
 
 // Published entries of one collection in one locale, newest first.

@@ -682,7 +682,7 @@ html.a11y-stop-motion .reveal-heading .rh-inner { transform: none !important; tr
 
 /* Typographic styling for rendered markdown (RTL Hebrew long-form). */
 .prose-rtl {
-  color: #33405a;
+  color: var(--color-ink);
   font-size: 1.06rem;
   line-height: 1.85;
 }
@@ -783,7 +783,7 @@ html.a11y-links a {
 }
 html.a11y-links a:hover,
 html.a11y-links a:focus-visible {
-  outline: 2px solid var(--color-gold);
+  outline: 2px solid currentColor;
   outline-offset: 2px;
 }
 

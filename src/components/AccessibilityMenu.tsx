@@ -137,7 +137,7 @@ export function AccessibilityMenu() {
           ref={panelRef}
           role="dialog"
           aria-label="הגדרות נגישות"
-          className="fixed bottom-20 left-4 z-[56] max-h-[75vh] w-[min(20rem,calc(100vw-2rem))] overflow-auto rounded-2xl border border-line bg-card p-4 text-right text-navy shadow-[0_24px_70px_-30px_rgba(10,30,63,.6)]"
+          className="fixed bottom-20 left-4 z-[56] max-h-[75vh] w-[min(20rem,calc(100vw-2rem))] overflow-auto rounded-2xl border border-line bg-card p-4 text-right text-navy shadow-[0_24px_70px_-30px_color-mix(in_srgb,var(--color-navy)_60%,transparent)]"
         >
           <div className="flex items-center justify-between">
             <button

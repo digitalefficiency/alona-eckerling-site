@@ -80,7 +80,7 @@ export function Header() {
           } ${
             light
               ? "border border-white/15 bg-white/[0.04] backdrop-blur-[2px]"
-              : "border border-line bg-card/85 shadow-[0_14px_44px_-22px_rgba(10,30,63,.55)] backdrop-blur-md"
+              : "border border-line bg-card/85 shadow-[0_14px_44px_-22px_color-mix(in_srgb,var(--color-navy)_55%,transparent)] backdrop-blur-md"
           }`}
         >
           <Link href="/" className="flex flex-col items-end gap-1 leading-none">

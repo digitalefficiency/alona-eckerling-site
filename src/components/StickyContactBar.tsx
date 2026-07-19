@@ -30,7 +30,7 @@ export function StickyContactBar({
       <div aria-hidden className="h-[calc(3.5rem+env(safe-area-inset-bottom))] md:hidden" />
       <nav
         aria-label="יצירת קשר מהירה"
-        className="fixed inset-x-0 bottom-0 z-50 border-t border-gold/40 bg-navy pb-[env(safe-area-inset-bottom)] md:hidden"
+        className="fixed inset-x-0 bottom-0 z-50 border-t border-gold-soft/40 bg-navy pb-[env(safe-area-inset-bottom)] md:hidden"
       >
         <div className="flex items-stretch">
           {whatsapp && (
@@ -48,7 +48,7 @@ export function StickyContactBar({
           <Link
             href={bookHref}
             data-cta="sticky-bar-book"
-            className="flex min-h-14 flex-1 items-center justify-center px-4 text-[0.95rem] font-bold text-white transition-colors hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-inset"
+            className="flex min-h-14 flex-1 items-center justify-center px-4 text-[0.95rem] font-bold text-white transition-colors hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-inset"
           >
             {bookLabel}
           </Link>

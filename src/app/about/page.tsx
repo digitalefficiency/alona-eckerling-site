@@ -247,6 +247,13 @@ export default function AboutPage() {
           <img src="/media/client/recipes/moroccan-fish.jpg" alt="" loading="lazy" className="h-full w-full object-cover" />
           <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
         </div>
+        {/* wide-viewport bookend (audit D1): past the container on the letter's side
+            the bare paper margin read dead next to the busy photo — a quiet sand
+            band with a hairline turns it into a designed margin. xl+ only. */}
+        <div
+          aria-hidden
+          className="absolute inset-y-0 end-0 hidden w-[calc((100vw-var(--container-wide))/2)] border-s border-line bg-sand/70 xl:block"
+        />
         <div className="relative aspect-[3/2] md:hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/media/client/recipes/moroccan-fish.jpg" alt="דגים מרוקאים של שישי, מנה אמיתית מהמטבח של אלונה" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
@@ -385,7 +392,7 @@ export default function AboutPage() {
             {/* the license certificate - the one navy cell, double-framed in gold */}
             <article
               className="frame-double relative rounded-[16px] bg-navy p-7 text-white md:p-9"
-              style={{ "--frame-gap": "8px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
+              style={{ "--frame-gap": "8px", "--frame-color": "var(--color-gold-soft)" } as React.CSSProperties}
             >
               <div className="flex items-start justify-between gap-5">
                 <div>
@@ -397,8 +404,8 @@ export default function AboutPage() {
                     {CREDENTIALS.anchor.line}
                   </p>
                 </div>
-                <span aria-hidden className="grid h-11 w-11 shrink-0 rotate-45 place-items-center border border-gold/60">
-                  <span className="-rotate-45 text-[0.7rem] leading-none text-gold">◆</span>
+                <span aria-hidden className="grid h-11 w-11 shrink-0 rotate-45 place-items-center border border-gold-soft/60">
+                  <span className="-rotate-45 text-[0.7rem] leading-none text-gold-soft">◆</span>
                 </span>
               </div>
               {/* the checkability promise is a REAL link: the MOH practitioners registry */}
@@ -407,7 +414,7 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cta="about-credentials-verify"
-                className="btn-chamfer mt-7 inline-flex items-center gap-2.5 rounded-[6px] border border-gold/50 px-5 py-3 text-sm font-bold text-gold-soft transition hover:border-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+                className="btn-chamfer mt-7 inline-flex items-center gap-2.5 rounded-[6px] border border-gold-soft/50 px-5 py-3 text-sm font-bold text-gold-soft transition hover:border-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
               >
                 <span className="text-[0.6rem] leading-none" aria-hidden>◆</span>
                 {CREDENTIALS.anchor.verify}
@@ -527,7 +534,7 @@ export default function AboutPage() {
                   <Link
                     href="/contact"
                     data-cta="about-cta-call"
-                    className="btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+                    className="btn-chamfer rounded-[6px] bg-gold-soft px-8 py-4 text-[0.95rem] font-bold text-navy transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
                   >
                     {CLOSE.button}
                   </Link>

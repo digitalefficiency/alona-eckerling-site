@@ -176,7 +176,7 @@ function ImageTile({ t, feature }: { t: RecipeTile; feature: boolean }) {
       {/* the title rides ON the photo (client-requested magazine cover) */}
       <div className={`relative ${feature ? "p-6" : "p-5"}`}>
         <h3
-          className={`font-serif font-bold leading-snug text-white [text-shadow:0_1px_10px_rgba(10,30,63,0.45)] ${
+          className={`font-serif font-bold leading-snug text-white [text-shadow:0_1px_10px_color-mix(in_srgb,var(--color-navy)_45%,transparent)] ${
             feature ? "text-2xl md:text-3xl" : "text-lg"
           }`}
         >

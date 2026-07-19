@@ -4,7 +4,7 @@ import { CookiePrefsButton } from "@/components/CookiePrefsButton";
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t-4 border-gold bg-navy text-slate-300">
+    <footer className="mt-auto border-t-4 border-rose bg-navy text-slate-300">
       <div className="mx-auto grid max-w-[1120px] grid-cols-1 gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
         <div>
           <p className="font-serif text-lg font-black text-white">{site.name}</p>

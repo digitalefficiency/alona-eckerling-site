@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
           html:
             `<div dir="${DIR}" style="font-family:system-ui,sans-serif;line-height:1.7">` +
             `<p>${t(LOCALE, "auth.emailIntro", { name: site.name })}</p>` +
-            `<p><a href="${link}" style="background:#0A1E3F;color:#fff;padding:12px 22px;border-radius:4px;text-decoration:none;display:inline-block">${t(LOCALE, "auth.emailButton")}</a></p>` +
+            `<p><a href="${link}" style="background:#17382C;color:#fff;padding:12px 22px;border-radius:4px;text-decoration:none;display:inline-block">${t(LOCALE, "auth.emailButton")}</a></p>` +
             `<p style="color:#666;font-size:14px">${t(LOCALE, "auth.emailFootnote")}</p>` +
             `</div>`,
         }),

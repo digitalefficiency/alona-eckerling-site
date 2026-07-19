@@ -20,7 +20,7 @@ export function BookShelf({ items }: { items: Book[] }) {
             // that opens at the foot of the cover. The card itself only warms its
             // gold (color state, token-timed) — it no longer levitates-and-swells,
             // which was the same wallpaper lift every other card was doing.
-            className="group relative block aspect-[3/4] overflow-hidden rounded-[12px] border border-line bg-navy shadow-[0_18px_40px_-26px_rgba(10,30,63,.7)] transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:border-gold/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+            className="group relative block aspect-[3/4] overflow-hidden rounded-[12px] border border-line bg-navy shadow-[0_18px_40px_-26px_color-mix(in_srgb,var(--color-navy)_70%,transparent)] transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:border-gold/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
           >
             {/* cover art — fills the whole frame */}
             <Image

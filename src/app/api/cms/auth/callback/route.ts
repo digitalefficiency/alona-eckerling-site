@@ -42,10 +42,10 @@ function page(body: string): Response {
     `<!doctype html><html lang="${esc(HTML_LANG)}" dir="${esc(DIR)}"><head><meta charset="utf-8">` +
       `<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">` +
       `<title>${esc(t(LOCALE, "auth.confirmTitle", { name: site.name }))}</title>` +
-      `<style>body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#F7F5F0;color:#0A1E3F;` +
+      `<style>body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#F7F5F0;color:#17382C;` +
       `display:grid;place-items:center;min-height:100vh;margin:0}main{background:#fff;border:1px solid #E5E0D6;` +
       `border-radius:10px;padding:40px;max-width:420px;text-align:center}h1{font-size:1.4rem;margin:0 0 10px}` +
-      `p{color:#5B6472;line-height:1.7;margin:0 0 24px}button{background:#0A1E3F;color:#fff;border:0;` +
+      `p{color:#5B6472;line-height:1.7;margin:0 0 24px}button{background:#17382C;color:#fff;border:0;` +
       `border-radius:4px;padding:14px 28px;font-size:1rem;font-weight:700;cursor:pointer}` +
       `a{color:#8A6D2F}</style></head><body><main>${body}</main></body></html>`,
     { status: 200, headers: HEADERS },

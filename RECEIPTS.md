@@ -1,4 +1,4 @@
-# RECEIPTS — 2026-07-17 13:04
+# RECEIPTS — 2026-07-19 08:56
 
 ## שערים (gates)
 - lint-copy (אפס placeholder/ביטויים אסורים): ✅ PASS
@@ -19,9 +19,13 @@
 - validate-configs (סרט): — (הסקריפט לא קיים בפרויקט זה)
 
 ## סכימות (JSON-LD)
-- `/`: — (השרת לא זמין על :3000 — הריצו `pnpm build && pnpm start -p 3000` והריצו שוב)
+- ℹ שער-ה-noindex דולק (טרום-השקה) — ציון ה-SEO של Lighthouse נענש על כך בעשרות נקודות; לציון האמיתי הריצו על staging עם NEXT_PUBLIC_ALLOW_INDEXING=true.
+- `/`: ✅ — 1 בלוק(ים): ProfessionalService _(ולידציה מלאה: validator.schema.org)_
+- SSR בית: ✅ ללא <canvas> · 117,782 בתים
+- `/coaching`: ✅ — 3 בלוק(ים): BreadcrumbList, FAQPage, Service _(ולידציה מלאה: validator.schema.org)_
 
 ## Lighthouse (הרף: ≥90 בביצועים/SEO/נגישות)
-- דולג — השרת לא רץ על :3000. להרצה אמיתית: `pnpm build && pnpm start -p 3000` ואז `node scripts/prove.mjs`.
+- `/`: ❌ ביצועים **70** · נגישות **97** · SEO **69** · best-practices 100 · LCP 13.9 s · CLS 0.097
+- `/coaching`: ❌ ביצועים **0** · נגישות **97** · SEO **69** · best-practices 88 · LCP 10.2 s · CLS 0.778
 
 _הקבלות האלו מצורפות ל-HANDOFF.md — מספרים אמיתיים מהריצה, לעולם לא הערכות._

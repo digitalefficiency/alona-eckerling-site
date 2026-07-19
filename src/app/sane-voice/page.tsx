@@ -633,7 +633,7 @@ export default function SaneVoicePage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       data-cta="product-checkout-buy"
-                      className="btn-chamfer block w-full rounded-[6px] bg-gold px-8 py-4 text-center text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-navy sm:inline-block sm:w-auto"
+                      className="btn-chamfer block w-full rounded-[6px] bg-gold-soft px-8 py-4 text-center text-base font-bold text-navy transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-navy sm:inline-block sm:w-auto"
                     >
                       {CHECKOUT.ctaPrimary}
                     </a>

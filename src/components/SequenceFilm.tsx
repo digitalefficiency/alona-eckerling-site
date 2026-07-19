@@ -191,7 +191,11 @@ export function SequenceFilm({
               alt=""
               className="absolute inset-0 h-full w-full object-cover"
               style={{ opacity: k === 0 ? 1 : 0 }}
-              loading="eager"
+              // frame 0 is the poster (eager — the section opens on it); the other
+              // 13 full-viewport JPEGs ride native lazy-loading so they stop
+              // competing with the hero LCP on first load (they fetch as the
+              // reader approaches the film)
+              loading={k === 0 ? "eager" : "lazy"}
               decoding="async"
             />
           ))}
