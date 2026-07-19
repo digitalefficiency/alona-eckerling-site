@@ -7,6 +7,7 @@ import { ShapedSection } from "@/components/layout/ShapedSection";
 import { SectionHeading } from "@/components/SectionHeading";
 import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
+import { ProofRecipes } from "@/components/ProofRecipes";
 import { MChapter } from "@/components/motion/MChapter";
 import { RevealHeading } from "@/components/motion/RevealHeading";
 import { slideIn, scaleSoft } from "@/lib/motion-variants";
@@ -229,10 +230,22 @@ function recipeMeta(e: CollectionEntry): string | undefined {
 }
 
 export default function HomePage() {
-  // 3 real recipe cards from the CMS (proof-of-craft) — real client photography only.
-  const recipes = listDocs("recipes")
+  // Real recipe cards from the CMS (proof-of-craft) — real client photography
+  // only. The FULL pool goes to the client grid, which shows a random trio per
+  // visit (Rom's call 2026-07-19: no "newest" highlight, fresh three each time).
+  const recipesPool = listDocs("recipes")
     .filter((e): e is CollectionEntry & { image: string } => typeof e.image === "string" && e.image.length > 0)
-    .slice(0, 3);
+    .map((e) => ({
+      slug: e.slug,
+      title: e.title,
+      image: e.image,
+      imageAlt: e.imageAlt || e.title,
+      meta: recipeMeta(e),
+      category:
+        typeof e.data.category === "string" && e.data.category.length > 0
+          ? e.data.category
+          : undefined,
+    }));
 
   return (
     <>
@@ -510,7 +523,7 @@ export default function HomePage() {
         </Container>
       </ShapedSection>
 
-      {/* ── 05 · PROOF — card-grid: 3 real recipes from the CMS as proof-of-craft;
+      {/* ── 05 · PROOF — card-grid: a random trio of real CMS recipes per visit;
              testimonial + media-logo slots stay honestly DARK until real. ── */}
       <Section tone="white" border id="proof">
         <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.body} />
@@ -519,60 +532,8 @@ export default function HomePage() {
             {PROOF.countChip}
           </span>
         </div>
-        <MStagger className="mt-12 grid gap-6 md:grid-cols-3">
-          {recipes.map((e, i) => {
-            const meta = recipeMeta(e);
-            const category =
-              typeof e.data.category === "string" && e.data.category.length > 0
-                ? e.data.category
-                : undefined;
-            // The newest recipe is the one card that is DIFFERENT at rest: the rose
-            // double frame + a slight lift out of the row. The other two stay plain,
-            // so the grid reads as a hierarchy instead of three identical tiles.
-            const newest = i === 0;
-            return (
-              <Link
-                key={e.slug}
-                href={`/recipes/${e.slug}`}
-                data-cta={`proof-recipe-${e.slug}`}
-                // House hover philosophy: NO lift here — the photo already scales on
-                // group-hover, so the card answers with a gold frame line instead.
-                // overflow-hidden stays on the NON-frame branch only: on a frame-double
-                // it would clip the ::after outer ring (inset:-6px) and silently kill
-                // the double frame. The image already self-clips via its own wrapper
-                // (rounded-t-2xl below), so the round-corner job is covered either way.
-                className={`group block h-full rounded-2xl bg-card transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:border-gold motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
-                  newest ? "frame-double md:-translate-y-2" : "overflow-hidden border border-line"
-                }`}
-                style={newest ? ({ "--frame-gap": "6px", "--frame-color": "var(--color-rose)" } as React.CSSProperties) : undefined}
-              >
-                <div className="relative aspect-[3/2] overflow-hidden rounded-t-2xl">
-                  <Image
-                    src={e.image}
-                    alt={e.imageAlt || e.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 380px"
-                    className="object-cover transition duration-[calc(var(--dur-reveal)*0.7)] ease-[var(--ease-out)] group-hover:scale-[1.02] motion-reduce:transition-none"
-                  />
-                  {/* the ONE shared image grade (archive continuity) */}
-                  <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
-                  <div aria-hidden className="grain-overlay" />
-                  {category && (
-                    <span className="absolute top-3 start-3 rounded-full border border-line bg-bg/90 px-3 py-1 text-xs font-semibold text-gold-ink">
-                      {category}
-                    </span>
-                  )}
-                </div>
-                <div className="p-5">
-                  <h3 className="font-serif text-lg font-bold leading-snug text-navy transition-colors group-hover:text-gold-ink">
-                    {e.title}
-                  </h3>
-                  {meta && <p className="mt-1.5 text-[0.8rem] font-medium text-muted">{meta}</p>}
-                </div>
-              </Link>
-            );
-          })}
-        </MStagger>
+        {/* random trio per visit — pool from the CMS, pick client-side (ProofRecipes) */}
+        <ProofRecipes pool={recipesPool} />
         <div className="mt-12 text-center">
           <Link
             href="/recipes"
