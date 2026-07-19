@@ -389,7 +389,8 @@ export default function HomePage() {
                   />
                   {/* the ONE shared image grade (archive continuity) */}
                   <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
-                  <div aria-hidden className="grain-overlay" />
+                  {/* material diet: mid-page grain thins (0.05 → 0.035 → §07 clean) */}
+                  <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
                 </div>
               </div>
             </div>
@@ -441,7 +442,7 @@ export default function HomePage() {
                   className="frame-double relative flex aspect-[4/5] flex-col items-center justify-center gap-3 rounded-[16px] bg-gold-soft p-8 text-center"
                   style={{ "--frame-gap": "7px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
                 >
-                  <div aria-hidden className="grain-overlay" />
+                  <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
                   <span className="relative text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
                   <div className="relative font-serif text-3xl font-bold text-navy">{GUIDE.name}</div>
                   <span aria-hidden className="relative h-[3px] w-10 rounded-full bg-rose" />
@@ -592,7 +593,12 @@ export default function HomePage() {
              fork mode); the block overlaps up out of the proof band ("the choice rises
              out of the proof"); the sage wash at the bottom flows seamlessly into the
              Success field — no drawn seam before the emotional peak. ── */}
-      <section className="relative">
+      <section
+        className="relative"
+        // «חוט ואור» move 3 (material diet): the paper warms INTO §07's golden
+        // hour — token-only gradient, no drawn seam before the emotional peak
+        style={{ background: "linear-gradient(180deg, var(--color-bg) 0%, var(--color-gold-soft) 100%)" }}
+      >
         <Container width="wide" className="pb-32 pt-4 sm:pb-36 md:pb-44 md:pt-6">
           <div className="relative z-10 -mt-10 rounded-[16px] border border-line bg-bg p-7 shadow-[var(--elevation-2)] md:-mt-14 md:p-10">
             <SectionHeading eyebrow={STAKES.kicker} title={STAKES.title} accent="שקטה" />
@@ -601,7 +607,7 @@ export default function HomePage() {
               className="mt-5"
               fork
               left={{ label: STAKES.quiet.label, note: STAKES.quiet.note, points: [...STAKES.quiet.points], highlight: true }}
-              right={{ label: STAKES.noisy.label, note: STAKES.noisy.note, points: [...STAKES.noisy.points], noisy: true }}
+              right={{ label: STAKES.noisy.label, note: STAKES.noisy.note, points: [...STAKES.noisy.points], noisy: true, echo: FILM_CHIPS[3].text }}
             />
           </div>
           <div className="mt-8 flex flex-col items-center justify-between gap-6 rounded-[16px] bg-blush p-7 md:flex-row md:p-9">

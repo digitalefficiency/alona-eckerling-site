@@ -55,7 +55,8 @@ export function ProofRecipes({ pool }: { pool: ProofRecipe[] }) {
             />
             {/* the ONE shared image grade (archive continuity) */}
             <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
-            <div aria-hidden className="grain-overlay" />
+            {/* material diet: §05 grain nearly gone (0.02) — the page is quieting */}
+            <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.02" } as React.CSSProperties} />
             {e.category && (
               <span className="absolute top-3 start-3 rounded-full border border-line bg-bg/90 px-3 py-1 text-xs font-semibold text-gold-ink">
                 {e.category}

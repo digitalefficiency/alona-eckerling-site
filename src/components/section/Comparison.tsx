@@ -19,6 +19,9 @@ type Column = {
   highlight?: boolean; // the recommended / "our way" column
   note?: string; // small caption under the label (e.g. a caveat)
   noisy?: boolean; // serif-italic points — the thought-chip echo
+  echo?: string; // «חוט ואור» move 2: ONE faint film-chip resting on the card's
+  // edge — the noise's last appearance before §07 lays it down. Callers must
+  // pass FILM_CHIPS text only (YMYL: the chips never get new copy).
 };
 
 export function Comparison({
@@ -38,10 +41,18 @@ export function Comparison({
       {cols.map((c, i) => {
         const card = (
           <div
-            className={`flex h-full flex-col rounded-[10px] p-6 md:p-8 ${
+            className={`relative flex h-full flex-col rounded-[10px] p-6 md:p-8 ${
               c.highlight ? "border-2 border-gold bg-card" : "border border-line bg-card/60"
             }`}
           >
+            {c.echo && (
+              <span
+                aria-hidden
+                className="absolute -top-3.5 end-6 inline-block rotate-[2deg] whitespace-nowrap rounded-full border border-line bg-bg/80 px-3.5 py-1 font-serif text-[0.85rem] italic text-muted opacity-45 shadow-sm"
+              >
+                {c.echo}
+              </span>
+            )}
             {/* No ◆ badge here: the ◆ is a STRUCTURE mark (kickers, seams, step
                 markers), and this is a label. The recommended column is already
                 announced three times over — the 2px gold border, the gold bullets
