@@ -30,6 +30,7 @@ export function ImageHero({
   lead,
   crumbs,
   ctas,
+  ctaNote,
   minH = "page",
   imagePosition = "center",
 }: {
@@ -40,6 +41,10 @@ export function ImageHero({
   lead?: string;
   crumbs?: { label: string; href: string }[];
   ctas?: Cta[];
+  /** optional micro line just above the CTA row (e.g. a question whose answer
+      is the button) — keeps the button single-action instead of a framed
+      paragraph; rides inside the .hero-cta block so it animates with it. */
+  ctaNote?: string;
   minH?: "page" | "full";
   imagePosition?: string;
 }) {
@@ -102,21 +107,24 @@ export function ImageHero({
             />
             {lead && <p className="hero-lead mt-6 text-lg leading-relaxed text-muted">{lead}</p>}
             {ctas && ctas.length > 0 && (
-              <div className="hero-cta mt-8 flex flex-wrap gap-3">
-                {ctas.map((c) => (
-                  <Link
-                    key={c.href}
-                    href={c.href}
-                    data-cta={c.dataCta ?? "hero-cta"}
-                    className={
-                      c.variant === "ghost"
-                        ? "btn-chamfer inline-flex items-center rounded-[6px] border border-navy/20 px-7 py-3.5 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
-                        : "btn-chamfer inline-flex items-center rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
-                    }
-                  >
-                    {c.label}
-                  </Link>
-                ))}
+              <div className="hero-cta mt-8">
+                {ctaNote && <p className="mb-3 text-sm text-muted">{ctaNote}</p>}
+                <div className="flex flex-wrap gap-3">
+                  {ctas.map((c) => (
+                    <Link
+                      key={c.href}
+                      href={c.href}
+                      data-cta={c.dataCta ?? "hero-cta"}
+                      className={
+                        c.variant === "ghost"
+                          ? "btn-chamfer inline-flex items-center rounded-[6px] border border-navy/20 px-7 py-3.5 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
+                          : "btn-chamfer inline-flex items-center rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
+                      }
+                    >
+                      {c.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
             )}
           </div>

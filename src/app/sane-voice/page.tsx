@@ -24,7 +24,11 @@ import { JsonLd } from "@/components/JsonLd";
 // ── יעדי-ביניים (שער-בנייה) ─────────────────────────────────────────────────
 // קישור עמוד הסליקה של משולם טרם חובר — עד שיתקבל ה-URL מהלקוחה, כפתור הרכישה
 // מפנה לוואטסאפ העסקי (ערוץ הפניות הקיים, site.whatsapp). להחליף כאן בלבד.
-const CHECKOUT_HREF = `https://wa.me/${site.whatsapp}`;
+// ‎?text= מוכן מראש — הלוחצת נוחתת בצ'אט עם הודעת-רכישה מנוסחת (ואלונה מזהה
+// כוונת-רכישה מול פנייה כללית); WHATSAPP_HREF של ה-FAQ נשאר חשוף בכוונה.
+const CHECKOUT_HREF = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
+  "היי אלונה, אני רוצה לרכוש את חוברת «הקול השפוי» (149 ₪)"
+)}`;
 // עמוד ההצטרפות לרשימה (Smoove) טרם חובר — בינתיים ההצטרפות דרך עמוד יצירת הקשר,
 // ישירות אל עוגן הטופס (#lead). הפרמטר ?list=1 מיועד לסימון-מראש של צ'קבוקס הרשימה
 // ב-ContactQuietForm — החיווט שם בבעלות אחרת (ביקורת-עיצוב #51).
@@ -155,7 +159,9 @@ const FAQ = {
   deRiskBefore: "עדיין מתלבטת? ",
   deRiskLink: "הצטרפי קודם לרשימה השפויה",
   deRiskAfter: ", חינם, ותבואי לחוברת כשתהיי מוכנה.",
-  cta: "לרכישת החוברת ←",
+  // כפתור-העוגן «לרכישת החוברת ←» ירד (ביקורת UX · sane-voice #4): ‎#checkout נמצא
+  // 64–112px מתחת בלבד, הקליק כמעט לא הזיז את המסך והכפתור הרגיש מקולקל; כרטיס
+  // הרכישה הוא ממילא הביט הבא, וכך נשארת ערימת-CTA נקייה: שני מילוטים + רכישה אחת.
 } as const;
 
 // COPY: ### סקשן 31 · SpotlightCard (רכישה → משולם)
@@ -165,7 +171,10 @@ const CHECKOUT = {
   title: "רוצה את «הקול השפוי» שלך?",
   body: "כל מה שראית פה מחכה לך במקום אחד: «הקול השפוי», חוברת המתכונים המלאה שלי. אוכל אמיתי, בלי חוקים מיותרים, בדרך שמתאימה לחיים שלך.",
   community: "עם הרכישה את גם נכנסת לקבוצת הוואטסאפ, קהילה של בנות שמדברות אותך. שם עוברים מתכונים וטיפים שקטים.",
-  ctaPrimary: "אני רוצה את החוברת · 149 ₪",
+  // זרימת-ביניים כנה: תווית-הפעולה מבדלת את הקליק השני מהעוגן שבהירו (שם נשאר
+  // «אני רוצה את החוברת · 149 ₪») — כשיחובר URL של משולם, שתי התוויות מתאחדות
+  // חזרה ל-COPY §31. (ביקורת UX · sane-voice #5)
+  ctaPrimary: "כתבי לי בוואטסאפ ונשלים את הרכישה",
   // זרימת-ביניים כנה (ביקורת-עיצוב #20): ה-CTA מפנה כרגע לוואטסאפ. להחזיר את
   // מיקרו-הביטחון של COPY §31 כש-CHECKOUT_HREF יקבל את ה-URL האמיתי של משולם.
   secure: "כרגע קונים דרך וואטסאפ: כותבים לי ומקבלים קישור תשלום מאובטח של משולם. פרטי התשלום שלך לא נשמרים אצלנו.",
@@ -320,7 +329,11 @@ export default function SaneVoicePage() {
           {/* פנל הכריכה — ראשון ב-DOM = צד ימין ב-RTL; ה-still המיוצר (חוברת על שולחן
               חם, layer 8) הוא הרקע האווירתי, הכריכה הטיפוגרפית הכנה צפה מעליו */}
           {/* isolate + ‎-z-10 — סדר-צביעה בטוח: המדיה הממוקמת לעולם לא נצבעת מעל הכריכה (ביקורת-עיצוב #3/#13) */}
-          <div className="relative isolate overflow-hidden rounded-[16px] bg-blush px-6 py-10 sm:px-10 sm:py-14">
+          {/* max-md:order-last — במובייל (grid-cols-1) עמודת הטקסט החי (H1 → מחיר → CTA)
+              עולה ראשונה והכריכה הדקורטיבית הופכת לביט שני; ב-md+ סדר ה-DOM נשמר
+              (כריכה = inline-start = ימין ב-RTL). הבלוק כולו aria-hidden — אין פער
+              סדר-קריאה. (ביקורת UX · sane-voice #1) */}
+          <div className="relative isolate overflow-hidden rounded-[16px] bg-blush px-6 py-10 max-md:order-last sm:px-10 sm:py-14">
             <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
               {/* <picture> keeps the still EAGER here but stops React's preload hint —
                   hints ride the RSC payload and replay on any page prefetching this route */}
@@ -351,7 +364,7 @@ export default function SaneVoicePage() {
                 <span className="text-[0.7rem] leading-none text-rose" aria-hidden>
                   ◆
                 </span>
-                <span className="text-xs font-bold tracking-[.2em] text-rose-ink">
+                <span className="text-xs font-bold tracking-eyebrow text-rose-ink">
                   {HERO.kicker}
                 </span>
               </MItem>
@@ -386,10 +399,12 @@ export default function SaneVoicePage() {
                 {HERO.community}
               </MItem>
               <MItem as="p" className="mt-3">
+                {/* py-2.5 -my-2 — שטח-מגע ‎~40px בלי לשנות את הריתמוס הנראה (WCAG 2.5.8,
+                    ביקורת UX · sane-voice #6); אותו טיפול בשני קישורי-הגשר של §27–28 */}
                 <Link
                   href={LIST_HREF}
                   data-cta="product-hero-freelist"
-                  className="text-sm font-semibold text-gold-ink underline-offset-4 transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                  className="-my-2 inline-block py-2.5 text-sm font-semibold text-gold-ink underline-offset-4 transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                 >
                   {HERO.ctaSecondary}
                 </Link>
@@ -425,11 +440,13 @@ export default function SaneVoicePage() {
               ))}
             </MItem>
             <MItem>
+              {/* --text-section — אותו טוקן-H2 כמו §28–30 הסמוכים; ה-clamp הידני שהיה כאן
+                  יצר קפיצת-גדלים בין סקשנים שכנים ב-1512px (ביקורת UX · sane-voice #7) */}
               <RevealHeading
                 as="h2"
                 text={FORYOU.title}
                 className="mt-7 font-serif font-black leading-[1.12] text-navy"
-                style={{ fontSize: "clamp(1.8rem, 4vw, 2.9rem)" }}
+                style={{ fontSize: "var(--text-section)" }}
               />
             </MItem>
             <MItem as="p" className="mt-4 font-serif text-xl font-bold text-gold-ink sm:text-2xl">
@@ -453,7 +470,7 @@ export default function SaneVoicePage() {
               <a
                 href="#inside"
                 data-cta="product-foryou-to-inside"
-                className="font-bold text-gold-ink underline-offset-4 transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                className="-my-2 inline-block py-2.5 font-bold text-gold-ink underline-offset-4 transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
               >
                 {FORYOU.ctaBridge}
               </a>
@@ -487,7 +504,7 @@ export default function SaneVoicePage() {
             <a
               href="#checkout"
               data-cta="product-inside-to-checkout"
-              className="font-bold text-gold-ink underline-offset-4 transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+              className="-my-2 inline-block py-2.5 font-bold text-gold-ink underline-offset-4 transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
             >
               {INSIDE.ctaBridge}
             </a>
@@ -572,15 +589,6 @@ export default function SaneVoicePage() {
               </Link>
               {FAQ.deRiskAfter}
             </p>
-            <p className="pt-4">
-              <a
-                href="#checkout"
-                data-cta="product-faq-to-checkout"
-                className="btn-chamfer inline-block rounded-[6px] border border-navy/25 px-7 py-3 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-              >
-                {FAQ.cta}
-              </a>
-            </p>
           </div>
         </Container>
       </section>
@@ -590,7 +598,9 @@ export default function SaneVoicePage() {
           (משולם) — האתר לא נוגע בפרטי תשלום; בלי דחיפות, בלי מונים מפוברקים. */}
       <section id="checkout" className="scroll-mt-24">
         <Container width="standard" className="pb-20 pt-4 md:pb-32">
-          <div className="relative overflow-hidden rounded-[16px] bg-blush px-4 py-10 sm:px-10 md:px-16 md:py-16">
+          {/* px-3 במובייל — משחרר רובד מערימת ה-padding (Container px-4 + עטיפה + כרטיס)
+              כדי שדלפק-הרכישה לא ייחנק ב-375px (ביקורת UX · sane-voice #3) */}
+          <div className="relative overflow-hidden rounded-[16px] bg-blush px-3 py-10 sm:px-10 md:px-16 md:py-16">
             <div aria-hidden className="grain-overlay" />
             <div className="relative mx-auto max-w-[720px]">
               <SpotlightCard>
@@ -598,6 +608,9 @@ export default function SaneVoicePage() {
                   {/* שבירת-אנטומיה (ב'): בלי שורת-קיקר ◆ כאן — הכרטיס המואר הוא כבר
                       המסגור, וה-H2 פותח לבדו. */}
                   <MItem>
+                    {/* H2 מוקטן בכוונה בתוך הכרטיס המואר (לא כותרת-סקשן פתוחה); ביקורת UX
+                        · sane-voice #7 מציעה לטבוע לזה טוקן משותף --text-card-heading
+                        ב-globals — חיווט בבעלות ליין ה-globals, לא כאן. */}
                     <RevealHeading
                       as="h2"
                       text={CHECKOUT.title}
@@ -613,23 +626,29 @@ export default function SaneVoicePage() {
                   </MItem>
                   <MItem className="mt-9 flex flex-col items-start gap-4">
                     {/* יעד סופי: עמוד הסליקה של משולם — טרם חובר; בינתיים וואטסאפ עסקי (CHECKOUT_HREF) */}
+                    {/* w-full sm:w-auto — במובייל שני ה-CTA ברוחב מלא וממורכזים, כדי
+                        שהתווית לא תישבר בתוך ה-chamfer ב-375/360px (ביקורת UX · sane-voice #3) */}
                     <a
                       href={CHECKOUT_HREF}
                       target="_blank"
                       rel="noopener noreferrer"
                       data-cta="product-checkout-buy"
-                      className="btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+                      className="btn-chamfer block w-full rounded-[6px] bg-gold px-8 py-4 text-center text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-navy sm:inline-block sm:w-auto"
                     >
                       {CHECKOUT.ctaPrimary}
                     </a>
-                    <p className="flex items-center gap-2 text-sm text-white/70">
-                      <LockGlyph />
+                    {/* items-start + mt-0.5 — המנעול נצמד לשורה הראשונה כשהטקסט נשבר
+                        למספר שורות במובייל, במקום לרחף ממורכז (ביקורת UX · sane-voice #3) */}
+                    <p className="flex items-start gap-2 text-sm text-white/70">
+                      <span aria-hidden className="mt-0.5 shrink-0">
+                        <LockGlyph />
+                      </span>
                       {CHECKOUT.secure}
                     </p>
                     <Link
                       href={LIST_HREF}
                       data-cta="product-checkout-freelist"
-                      className="btn-chamfer inline-block rounded-[6px] border border-white/40 px-7 py-3 text-[0.95rem] font-bold text-white transition hover:border-gold-soft hover:text-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                      className="btn-chamfer block w-full rounded-[6px] border border-white/40 px-7 py-3 text-center text-[0.95rem] font-bold text-white transition hover:border-gold-soft hover:text-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:inline-block sm:w-auto"
                     >
                       {CHECKOUT.ctaSecondary}
                     </Link>

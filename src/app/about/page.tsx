@@ -145,36 +145,11 @@ export default function AboutPage() {
            (designed empty-state, face never generated) bleeding to the reading edge,
            name + license chip + free-call CTA. COPY: ### סקשן 17 ===== */}
       <section data-light-hero className="border-b border-line">
-        <Container className="grid grid-cols-1 items-center gap-10 py-14 md:grid-cols-2 md:gap-14 md:py-24">
-          {/* Portrait slot - REAL Alona portraits only (YMYL). Until the photo
-              lands this renders a DESIGNED calling-card empty-state: sage wash,
-              her hand-script signature, name + role. Never a generated face,
-              never a stock image, no developer-dashed frame. When the real 4:5
-              portrait arrives it mounts here with alt={HERO.portraitLabel}. */}
-          <Reveal>
-            {/* flagship double frame — the geometric signature's calling card */}
-            <div
-              className="frame-double relative mx-auto w-full max-w-[26rem] rounded-[16px] bg-gold-soft/70 md:max-w-none"
-              style={{ aspectRatio: "4 / 5", "--frame-gap": "7px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
-            >
-              <div aria-hidden className="grain-overlay" />
-              <div className="relative flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
-                <span className={`${signatureScript.className} text-6xl text-navy`}>
-                  {STORY.signature}
-                </span>
-                <span aria-hidden className="flex items-center gap-3">
-                  <span className="h-px w-12 bg-gold/60" />
-                  <span className="text-[0.55rem] leading-none text-gold">◆</span>
-                  <span className="h-px w-12 bg-gold/60" />
-                </span>
-                <p className="font-serif text-xl font-black leading-snug text-navy">
-                  {HERO.title}
-                </p>
-                <p className="text-sm font-semibold text-muted">{CREDENTIALS.anchor.title}</p>
-              </div>
-            </div>
-          </Reveal>
-
+        <Container className="grid grid-cols-1 items-center gap-10 pt-28 pb-14 md:grid-cols-2 md:gap-14 md:py-24">
+          {/* Text column FIRST in DOM: on mobile the h1 + license + CTA open the
+              page instead of the portrait empty-state card; on md+ the portrait
+              Reveal below carries md:order-first, so the desktop layout is
+              unchanged (portrait at inline-start). */}
           <div>
             <div className="mb-6">
               <Breadcrumbs items={[{ label: HERO.crumbLabel, href: "/about" }]} />
@@ -183,7 +158,7 @@ export default function AboutPage() {
               <span className="text-[0.7rem] leading-none text-gold" aria-hidden>
                 ◆
               </span>
-              <span className="text-xs font-bold tracking-[.2em] text-gold-ink">{HERO.kicker}</span>
+              <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{HERO.kicker}</span>
             </Reveal>
             <SplitText
               as="h1"
@@ -205,27 +180,57 @@ export default function AboutPage() {
             </Reveal>
             <Reveal delay={200}>
               <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-4">
-                <div className="flex flex-col items-center gap-1.5">
-                  <Link
-                    href="/contact"
-                    data-cta="about-hero-call"
-                    className="btn-chamfer rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
-                  >
-                    {HERO.ctaPrimary}
-                  </Link>
-                  <span className="text-xs font-semibold text-muted">{HERO.ctaPrimarySub}</span>
-                </div>
+                <Link
+                  href="/contact"
+                  data-cta="about-hero-call"
+                  className="btn-chamfer rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                >
+                  {HERO.ctaPrimary}
+                </Link>
                 <Link
                   href="#story"
                   data-cta="about-hero-story"
-                  className="text-[0.95rem] font-bold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:decoration-gold"
+                  className="py-3.5 text-[0.95rem] font-bold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:decoration-gold"
                 >
                   {HERO.ctaSecondary}
                 </Link>
               </div>
-              <p className="mt-3 text-sm text-muted">{HERO.ctaMicro}</p>
+              {/* ONE micro line: ctaPrimarySub + ctaMicro joined verbatim (·),
+                  instead of two near-identical whisper lines crowding the button */}
+              <p className="mt-3 text-sm text-muted">
+                {HERO.ctaPrimarySub} · {HERO.ctaMicro}
+              </p>
             </Reveal>
           </div>
+
+          {/* Portrait slot - REAL Alona portraits only (YMYL). Until the photo
+              lands this renders a DESIGNED calling-card empty-state: sage wash,
+              her hand-script signature, name + role. Never a generated face,
+              never a stock image, no developer-dashed frame. When the real 4:5
+              portrait arrives it mounts here with alt={HERO.portraitLabel}. */}
+          <Reveal className="md:order-first">
+            {/* flagship double frame — the geometric signature's calling card */}
+            <div
+              className="frame-double relative mx-auto w-full max-w-[20rem] rounded-[16px] bg-gold-soft/70 md:max-w-none"
+              style={{ aspectRatio: "4 / 5", "--frame-gap": "7px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
+            >
+              <div aria-hidden className="grain-overlay" />
+              <div className="relative flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
+                <span className={`${signatureScript.className} text-6xl text-navy`}>
+                  {STORY.signature}
+                </span>
+                <span aria-hidden className="flex items-center gap-3">
+                  <span className="h-px w-12 bg-gold/60" />
+                  <span className="text-[0.55rem] leading-none text-gold">◆</span>
+                  <span className="h-px w-12 bg-gold/60" />
+                </span>
+                <p className="font-serif text-xl font-black leading-snug text-navy">
+                  {HERO.title}
+                </p>
+                <p className="text-sm font-semibold text-muted">{CREDENTIALS.anchor.title}</p>
+              </div>
+            </div>
+          </Reveal>
         </Container>
       </section>
 
@@ -248,14 +253,16 @@ export default function AboutPage() {
           <div aria-hidden className="grain-overlay" />
         </div>
         <div className="relative mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 md:py-28">
-          <div className="md:ms-auto md:w-[52%]">
+          {/* md tablets get 58% (readable ~46ch measure; the overlap over the photo
+              edge IS the pattern, it just grows a little) — back to 52% from lg */}
+          <div className="md:ms-auto md:w-[58%] lg:w-[52%]">
             <MStagger variants={slideIn("inline-end", 48)}>
-              <div className="rounded-[16px] border border-line bg-card p-7 shadow-[var(--elevation-2)] md:p-10">
+              <div className="rounded-[16px] border border-line bg-card p-7 shadow-[var(--elevation-2)] lg:p-10">
                 <div className="flex items-center gap-2.5">
                   <span className="text-[0.65rem] leading-none text-gold" aria-hidden>
                     ◆
                   </span>
-                  <span className="text-xs font-bold tracking-[.18em] text-gold-ink">{STORY.kicker}</span>
+                  <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{STORY.kicker}</span>
                 </div>
                 <RevealHeading
                   as="h2"
@@ -294,8 +301,8 @@ export default function AboutPage() {
            still the art - now composed, not floating. Zero raster.
            COPY: ### סקשן 19 ===== */}
       <section className="relative overflow-hidden">
-        <Container width="wide" className="relative py-24 md:py-36">
-          <SectionSeam className="mb-14" />
+        <Container width="wide" className="relative py-16 sm:py-20 md:py-32">
+          <SectionSeam className="mb-10 md:mb-14" />
           {/* pressed watermark - her hand resting beneath the words (decorative) */}
           <span
             aria-hidden
@@ -309,7 +316,7 @@ export default function AboutPage() {
               <span className="text-[0.65rem] leading-none text-gold" aria-hidden>
                 ◆
               </span>
-              <span className="text-xs font-bold tracking-[.18em] text-rose-ink">{AGE.kicker}</span>
+              <span className="text-xs font-bold tracking-eyebrow text-rose-ink">{AGE.kicker}</span>
             </MItem>
             <figure>
               <blockquote className="mt-10">
@@ -319,11 +326,13 @@ export default function AboutPage() {
                 >
                   {AGE.quote.split("\n").map((line, i, all) => (
                     /* each line in its own mask; the stairs descend to indent 0 -
-                       "לא מלמעלה" lands flush, at eye level */
+                       "לא מלמעלה" lands flush, at eye level. The stair indent is
+                       md+ only: at 375px it would eat ~30% of the measure and
+                       shred the composition, so mobile reads flush-start. */
                     <span
                       key={line}
-                      className="block overflow-hidden"
-                      style={{ paddingInlineStart: `${(all.length - 1 - i) * 1.1}em` }}
+                      className="block overflow-hidden md:[padding-inline-start:var(--stair)]"
+                      style={{ "--stair": `${(all.length - 1 - i) * 1.1}em` } as React.CSSProperties}
                     >
                       <MItem as="span" className="block pb-[0.12em]" variants={maskReveal}>
                         {line.includes(AGE_PIVOT) ? (
@@ -398,7 +407,7 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cta="about-credentials-verify"
-                className="btn-chamfer mt-7 inline-flex items-center gap-2.5 rounded-[6px] border border-gold/50 px-5 py-2.5 text-sm font-bold text-gold-soft transition hover:border-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+                className="btn-chamfer mt-7 inline-flex items-center gap-2.5 rounded-[6px] border border-gold/50 px-5 py-3 text-sm font-bold text-gold-soft transition hover:border-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
               >
                 <span className="text-[0.6rem] leading-none" aria-hidden>◆</span>
                 {CREDENTIALS.anchor.verify}
@@ -450,7 +459,7 @@ export default function AboutPage() {
                   <Link
                     href="/recipes"
                     data-cta="about-credentials-recipes"
-                    className="font-bold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:decoration-gold"
+                    className="inline-block py-1.5 font-bold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:decoration-gold"
                   >
                     {CREDENTIALS.craft.link}
                   </Link>
@@ -464,46 +473,41 @@ export default function AboutPage() {
           <p className="mt-10 max-w-[62ch] text-base leading-relaxed text-muted">
             {CREDENTIALS.bridge}
           </p>
-          {/* the full credentials page (/team/alona) gets its one quiet inbound door */}
-          <p className="mt-4">
+          {/* the full credentials page (/team/alona) gets its one quiet inbound door
+              (mt-2.5 + py-1.5 keeps the same visual gap while padding the tap area) */}
+          <p className="mt-2.5">
             <Link
               href="/team/alona"
               data-cta="about-credentials-team"
-              className="text-sm font-bold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:decoration-gold"
+              className="inline-block py-1.5 text-sm font-bold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:decoration-gold"
             >
               לעמוד ההסמכות המלא ←
             </Link>
           </p>
         </Reveal>
-      </Section>
-
-      {/* ===== 21 · PROOF - media/collab strip, structurally DARK until approval:
-           the honest reserved line only, no logos, no fake marks. The live Marquee
-           mounts here only after the names+logos are approved. COPY: ### סקשן 21 ===== */}
-      <Section tone="white" pad="tight" border>
-        <Reveal>
-          <div className="flex flex-col items-center gap-3 text-center">
-            <span className="text-[0.6rem] leading-none text-gold" aria-hidden>
-              ◆
-            </span>
-            <p className="max-w-[52ch] text-sm leading-relaxed text-muted">{PRESS.reserved}</p>
-          </div>
-        </Reveal>
+        {/* ===== 21 · PROOF - media/collab line, structurally DARK until approval:
+             folded in as a footnote of the ledger (a full standalone band read as
+             an unbuilt section at 1512 and cut the momentum before the close).
+             When the names+logos are approved, the live Marquee returns as its
+             own Section here. COPY: ### סקשן 21 ===== */}
+        <p className="mx-auto mt-14 max-w-[52ch] text-center text-sm text-muted">
+          {PRESS.reserved}
+        </p>
       </Section>
 
       {/* ===== 22 · RESOLUTION - one elevated spotlight-card: the no-pressure
            invitation to see for herself + recipes side-door + Person JSON-LD.
            COPY: ### סקשן 22 ===== */}
       <section className="overflow-hidden">
-        <Container width="standard" className="py-20 md:py-32">
-          <SectionSeam className="mb-14" />
+        <Container width="standard" className="py-16 sm:py-20 md:py-32">
+          <SectionSeam className="mb-10 md:mb-14" />
           <div className="mx-auto max-w-[880px]">
             <SpotlightCard>
               <div className="flex items-center gap-2.5">
                 <span className="text-[0.65rem] leading-none text-gold" aria-hidden>
                   ◆
                 </span>
-                <span className="text-xs font-bold tracking-[.18em] text-gold-soft">
+                <span className="text-xs font-bold tracking-eyebrow text-gold-soft">
                   {CLOSE.kicker}
                 </span>
               </div>

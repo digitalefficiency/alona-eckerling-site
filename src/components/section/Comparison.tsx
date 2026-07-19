@@ -50,7 +50,7 @@ export function Comparison({
             <h3 className={`mb-4 font-serif text-lg font-black ${c.highlight ? "text-navy" : "text-muted"}`}>
               {c.label}
             </h3>
-            {c.note && <p className="mb-4 text-xs leading-relaxed text-muted/80">{c.note}</p>}
+            {c.note && <p className="mb-4 text-[13px] leading-relaxed text-muted">{c.note}</p>}
             <ul className="flex flex-col gap-3">
               {c.points.map((p, j) => (
                 <li

@@ -31,7 +31,9 @@ export function SectionHeading({
         as="h2"
         text={title}
         className={`mt-4 font-serif font-black leading-[1.08] ${titleColor}`}
-        style={{ fontSize: "clamp(2rem, 4.4vw, 3.25rem)" }}
+        // the scale token, verbatim — the 1.7rem floor was lowered deliberately so
+        // section titles don't take over ≤390px screens; never re-roll it inline
+        style={{ fontSize: "var(--text-section)" }}
       />
       {lead && (
         <p className={`mt-4 max-w-[60ch] text-[1.08rem] leading-relaxed ${leadColor}`}>{lead}</p>

@@ -321,7 +321,7 @@ export default function CoachingPage() {
               sized wrapper via h-full; the wrapper's top+bottom give it definite
               height so h-full resolves. Ring lives on the frame-double, whose
               overflow-hidden inner clip never hides its ::after. */}
-          <div className="absolute inset-y-10 end-0 hidden w-[40%] md:block">
+          <div className="absolute inset-y-10 end-0 hidden w-[40%] lg:block">
             <div className="frame-double relative h-full w-full rounded-[10px] [--frame-color:var(--color-gold)] [--frame-gap:6px]">
               <div className="absolute inset-0 overflow-hidden rounded-[10px]">
                 <picture className="contents">
@@ -358,14 +358,14 @@ export default function CoachingPage() {
               {/* the rose thread is born here — a hairline under the trust chip that
                   travels the whole page (pin rail → package rule → form rule) */}
               <span className="inline-flex flex-col items-start gap-1.5">
-                <span className="inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2">
+                <span className="inline-flex items-center gap-2 rounded-[14px] bg-navy px-4 py-2 sm:rounded-full">
                   <span className="text-[0.6rem] leading-none text-gold-soft" aria-hidden>◆</span>
-                  <span className="text-xs font-bold text-white">{HERO.trustToken}</span>
+                  <span className="text-center text-xs font-bold text-white">{HERO.trustToken}</span>
                 </span>
                 <span aria-hidden className="block h-[2px] w-16 bg-rose" />
               </span>
             </MItem>
-            <MItem className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-4">
+            <MItem className="mt-8 flex flex-wrap items-start gap-x-5 gap-y-4">
               {/* primary label + a small sub-line under it (the home hero's answer) —
                   a button label never carries a · separator */}
               <div className="flex flex-col items-center gap-1.5">
@@ -393,9 +393,10 @@ export default function CoachingPage() {
               {HERO.micro}
             </MItem>
           </MOrchestrate>
-          {/* ביקורת-עיצוב #31 — במובייל ה-still חבוי (hidden md:block ברקע); רצועת 16/9
-              שקטה עם אותו צילום, תחת מסך-סנד עדין, כדי שגם מבקרות אינסטגרם יפגשו קליניקה. */}
-          <Reveal className="mt-10 md:hidden">
+          {/* ביקורת-עיצוב #31 — עד lg ה-still חבוי (hidden lg:block ברקע, כי ב-768–1024
+              הפאנל מתנגש בטקסט הפתיחה); רצועת 16/9 שקטה עם אותו צילום, תחת מסך-סנד
+              עדין, כדי שגם מבקרות אינסטגרם (וטאבלטים) יפגשו קליניקה. */}
+          <Reveal className="mt-10 lg:hidden">
             <div className="relative">
               <MediaFrame
                 src="/media/generated/09-coaching-table.jpg"
@@ -436,7 +437,7 @@ export default function CoachingPage() {
             <Link
               href="#method"
               data-cta="coaching-problem-to-method"
-              className="underline-grow inline-block font-bold text-gold-ink"
+              className="underline-grow inline-block font-bold text-gold-ink pointer-coarse:-my-2.5 pointer-coarse:py-2.5"
             >
               {PROBLEM.cta}
             </Link>
@@ -461,7 +462,7 @@ export default function CoachingPage() {
           cards={METHOD.pillars.map((p, i) => (
             <div
               key={p.title}
-              className="frame-double relative flex h-full flex-col justify-center rounded-[16px] bg-card p-10 shadow-[var(--elevation-2)] md:p-16"
+              className="frame-double relative flex h-full flex-col justify-center rounded-[16px] bg-card p-10 shadow-[var(--elevation-2)] md:p-12 xl:p-16"
               style={{ "--frame-gap": "8px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
             >
               <div aria-hidden className="grain-overlay" />
@@ -487,7 +488,7 @@ export default function CoachingPage() {
                 {p.body}
               </p>
               {/* the rose thread lands at the card's foot */}
-              <span aria-hidden className="absolute inset-x-10 bottom-8 h-[3px] rounded-full bg-rose/50 md:inset-x-16" />
+              <span aria-hidden className="absolute inset-x-10 bottom-8 h-[3px] rounded-full bg-rose/50 md:inset-x-12 xl:inset-x-16" />
             </div>
           ))}
           staticFallback={
@@ -545,7 +546,7 @@ export default function CoachingPage() {
           <Link
             href="#packages"
             data-cta="coaching-method-to-packages"
-            className="underline-grow inline-block font-bold text-gold-ink"
+            className="underline-grow inline-block font-bold text-gold-ink pointer-coarse:-my-2.5 pointer-coarse:py-2.5"
           >
             {METHOD.cta}
           </Link>
@@ -571,13 +572,16 @@ export default function CoachingPage() {
             shadow eased. The flagship card is ALREADY raised: it does not lift again
             on hover (stillness is the signature) — its frame answers instead,
             gold → rose, on the same token. */}
-        <MStagger className="mt-12 grid gap-6 md:grid-cols-3" itemClassName="h-full">
+        <MStagger
+          className="mt-12 grid gap-6 md:mx-auto md:max-w-[34rem] lg:max-w-none lg:grid-cols-3"
+          itemClassName="h-full"
+        >
           {packageCards.map((card) => (
             <article
               key={card.slug}
               className={`flex h-full flex-col rounded-[16px] p-7 transition-[translate,box-shadow,border-color] duration-[var(--dur-micro)] ease-[var(--ease-out)] motion-reduce:transition-none ${
                 card.highlight
-                  ? "frame-double bg-gold-soft [--frame-color:var(--color-gold)] [--frame-gap:6px] hover:[--frame-color:var(--color-rose)] md:-translate-y-2"
+                  ? "frame-double bg-gold-soft [--frame-color:var(--color-gold)] [--frame-gap:6px] hover:[--frame-color:var(--color-rose)] lg:-translate-y-2"
                   : "border border-line bg-sand hover:-translate-y-1 hover:shadow-[var(--elevation-2)]"
               }`}
               style={card.highlight ? { boxShadow: "var(--elevation-2)" } : undefined}
@@ -633,7 +637,7 @@ export default function CoachingPage() {
             <Link
               href="#lead"
               data-cta="coaching-process-lead"
-              className="underline-grow inline-block font-bold text-gold-ink"
+              className="underline-grow inline-block font-bold text-gold-ink pointer-coarse:-my-2.5 pointer-coarse:py-2.5"
             >
               {PROCESS.cta}
             </Link>
@@ -684,7 +688,7 @@ export default function CoachingPage() {
                   <Link
                     href="/recipes"
                     data-cta="coaching-proof-recipes"
-                    className="underline-grow inline-block font-bold text-gold-ink"
+                    className="underline-grow inline-block font-bold text-gold-ink pointer-coarse:-my-2.5 pointer-coarse:py-2.5"
                   >
                     {PROOF.cta}
                   </Link>
@@ -727,16 +731,19 @@ export default function CoachingPage() {
       {/* ── 16 · RESOLUTION — פאנל נייבי #lead: הצעד הקטן והבטוח + Service JSON-LD ── */}
       <Section tone="navy" id="lead" seam>
         <JsonLd data={serviceSchema} />
-        <div className="grid items-start gap-12 md:grid-cols-[1.1fr_0.9fr]">
+        {/* ביקורת-UX: הכותרת יוצאת מעל הגריד (רוחב מלא) ועמודת הטופס עולה ראשונה
+            במובייל — מי שהקליקה "בואי נדבר" נוחתת על דלת, לא על עוד מסך וחצי פיץ'.
+            בדסקטופ הסדר הוויזואלי נשאר: קופי ב-inline-start, טופס ב-inline-end. */}
+        <SplitText
+          as="h2"
+          text={CTA.title}
+          baseDelay={120}
+          className="font-serif font-black leading-[1.12] text-white"
+          style={{ fontSize: "var(--text-hero)" }}
+        />
+        <div className="mt-10 grid items-start gap-12 md:grid-cols-[1.1fr_0.9fr]">
           <MOrchestrate>
-            <SplitText
-              as="h2"
-              text={CTA.title}
-              baseDelay={120}
-              className="font-serif font-black leading-[1.12] text-white"
-              style={{ fontSize: "clamp(2rem, 4.6vw, 3.4rem)" }}
-            />
-            <MItem as="p" className="mt-6 max-w-[52ch] text-lg leading-relaxed text-slate-200">
+            <MItem as="p" className="max-w-[52ch] text-lg leading-relaxed text-slate-200">
               {CTA.body}
             </MItem>
             <MItem as="p" className="mt-4 max-w-[52ch] leading-relaxed text-slate-300">
@@ -746,9 +753,9 @@ export default function CoachingPage() {
               <ResponsePromise tone="dark" promise={CTA.promise} />
             </MItem>
             <MItem className="mt-6">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-2">
+              <span className="inline-flex items-center gap-2 rounded-[14px] border border-white/25 px-4 py-2 sm:rounded-full">
                 <span className="text-[0.6rem] leading-none text-gold-soft" aria-hidden>◆</span>
-                <span className="text-xs font-bold text-white/90">{CTA.trustToken}</span>
+                <span className="text-center text-xs font-bold text-white/90">{CTA.trustToken}</span>
               </span>
             </MItem>
             <MItem className="mt-8">
@@ -761,7 +768,7 @@ export default function CoachingPage() {
               </Link>
             </MItem>
           </MOrchestrate>
-          <Reveal delay={140}>
+          <Reveal delay={140} className="order-first md:order-none">
             <div>
               {/* the rose thread ends at the door */}
               <span aria-hidden className="mb-3 block h-[2px] w-16 bg-rose" />

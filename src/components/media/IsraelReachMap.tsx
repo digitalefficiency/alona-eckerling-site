@@ -18,7 +18,8 @@ export function IsraelReachMap({ className = "" }: { className?: string }) {
     <svg
       viewBox="0 0 240 460"
       aria-hidden
-      className={`mx-auto h-auto w-full max-w-[400px] ${className}`}
+      // מרוסן במובייל (240px → ~460px גובה) — איור דקורטיבי לא גוזל מסך שלם בטור-יחיד
+      className={`mx-auto h-auto w-full max-w-[240px] md:max-w-[400px] ${className}`}
       fill="none"
     >
       <defs>

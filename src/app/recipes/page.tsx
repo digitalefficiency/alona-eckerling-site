@@ -31,7 +31,11 @@ const HERO = {
   eyebrow: "בלי חוקים מיותרים",
   title: "המטבח של אלונה",
   lead: "מתכונים פשוטים שאני באמת מבשלת: אוכל אמיתי, בלי דיאטה ובלי לוותר על מה שאת אוהבת. מתכון חדש כל שבוע.",
-  cta: "רוצה להתחיל בבית? הכירי את חוברת «הקול השפוי» ←",
+  // one pasted COPY sentence, split STRUCTURALLY (no rewording): the question
+  // is a micro line above the button, the button carries only the action —
+  // a 46-char sentence-button wraps to a framed paragraph at 375px.
+  ctaLead: "רוצה להתחיל בבית?",
+  cta: "הכירי את חוברת «הקול השפוי» ←",
   ctaHref: "/sane-voice",
 };
 
@@ -120,6 +124,7 @@ export default function RecipesPage() {
           title={HERO.title}
           lead={HERO.lead}
           ctas={[{ label: HERO.cta, href: HERO.ctaHref, variant: "ghost", dataCta: "recipes-hero-booklet" }]}
+          ctaNote={HERO.ctaLead}
         />
       ) : (
         // honest no-raster twin: the warm sand cover, no broken src ever
@@ -138,10 +143,11 @@ export default function RecipesPage() {
             style={{ fontSize: "var(--text-hero)" }}
           />
           <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-muted">{HERO.lead}</p>
+          <p className="mt-8 text-sm text-muted">{HERO.ctaLead}</p>
           <Link
             href={HERO.ctaHref}
             data-cta="recipes-hero-booklet"
-            className="btn-chamfer mt-8 inline-flex items-center rounded-[6px] border border-navy/20 px-7 py-3.5 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
+            className="btn-chamfer mt-3 inline-flex items-center rounded-[6px] border border-navy/20 px-7 py-3.5 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
           >
             {HERO.cta}
           </Link>
@@ -150,7 +156,7 @@ export default function RecipesPage() {
 
       {/* ── סקשן 24 · PROOF — bento-grid (the CMS archive + sage filter chips) ──
           Warm-paper band, minimum chrome: the food carries the section. */}
-      <section id="archive" className="bg-bg">
+      <section id="archive" className="scroll-mt-28 bg-bg">
         <Container width="wide" className="py-14 sm:py-16 md:py-24">
           <RecipesArchive
             entries={entries}

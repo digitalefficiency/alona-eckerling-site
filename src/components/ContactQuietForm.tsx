@@ -44,6 +44,8 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
   const ref = useRef<HTMLFormElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const thanksRef = useRef<HTMLDivElement>(null);
   const started = useRef(false);
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -67,10 +69,42 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
     return () => io.disconnect();
   }, []);
 
+  // מסך-התודה מקבל מיקוד תכנותי — קורא-מסך שומע את השחזור של ההבטחה, לא שקט.
+  useEffect(() => {
+    if (status === "success") thanksRef.current?.focus();
+  }, [status]);
+
   const onFirstInteract = () => {
     if (started.current) return;
     started.current = true;
     trackFormStart(FORM_ID, window.location.pathname);
+  };
+
+  // אחרי כשל ולידציה (מקומי או 422 מהשרת) — הקשב עובר לשדה השגוי הראשון.
+  const focusFirstInvalid = () => {
+    requestAnimationFrame(() => {
+      ref.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+    });
+  };
+
+  // הצטרפות לרשימה פותחת את שדה האימייל (נשאר פתוח גם אם מבטלים — לא מוחקים
+  // מה שהוקלד) וממקדת אותו, כדי שההבטחה «למייל» תפגוש כתובת בפועל.
+  const onNewsletterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    setNewsletter(checked);
+    if (!checked) return;
+    setEmailOpen(true);
+    requestAnimationFrame(() => {
+      const el = emailRef.current;
+      if (!el) return;
+      el.focus({ preventScroll: true });
+      el.scrollIntoView({
+        block: "center",
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+      });
+    });
   };
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -102,13 +136,17 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
       engagement,
     };
 
-    // Client-side pre-validation — the exact strings /api/lead returns on 422.
+    // Client-side pre-validation — the exact strings /api/lead returns on 422,
+    // plus the newsletter gate: a mailing-list promise needs a mailbox.
     const next: Record<string, string> = {};
     if (payload.name.trim().length < 2) next.name = "נא להזין שם מלא";
     if (payload.phone.replace(/\D/g, "").length < 7) next.phone = "נא להזין מספר טלפון תקין";
+    if (newsletter && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email))
+      next.email = "נא להזין כתובת אימייל תקינה";
     if (!payload.consent) next.consent = "נדרשת הסכמה ליצירת קשר";
     if (Object.keys(next).length) {
       setErrors(next);
+      focusFirstInvalid();
       return;
     }
 
@@ -121,8 +159,10 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) {
-        if (data.errors) setErrors(data.errors);
-        else setServerError("אירעה תקלה בשליחה. נסו שוב מאוחר יותר.");
+        if (data.errors) {
+          setErrors(data.errors);
+          focusFirstInvalid();
+        } else setServerError("אירעה תקלה בשליחה. נסי שוב מאוחר יותר.");
         setStatus("error");
         return;
       }
@@ -137,7 +177,7 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
       });
       setStatus("success");
     } catch {
-      setServerError("אירעה תקלה בשליחה. נסו שוב מאוחר יותר.");
+      setServerError("אירעה תקלה בשליחה. נסי שוב מאוחר יותר.");
       setStatus("error");
     }
   }
@@ -150,7 +190,12 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
   if (status === "success") {
     return (
       <Reveal>
-        <div className="rounded-[16px] bg-gold-soft/45 px-6 py-10 text-center sm:px-10" role="status">
+        <div
+          ref={thanksRef}
+          tabIndex={-1}
+          className="rounded-[16px] bg-gold-soft/45 px-6 py-10 text-center outline-none sm:px-10"
+          role="status"
+        >
           {/* לוואי עלה-וי רך, sage/rose, SSR-drawn — קבלה שקטה, לא קונפטי */}
           <svg viewBox="0 0 48 48" aria-hidden className="mx-auto h-14 w-14">
             <circle cx="24" cy="24" r="22" className="fill-gold-soft" />
@@ -201,10 +246,15 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
           required
           autoComplete="name"
           aria-invalid={!!errors.name}
+          aria-describedby={errors.name ? "contact-error-name" : undefined}
           className={fieldClass}
         />
       </label>
-      {errors.name && <p className="mt-1 text-sm text-bad">{errors.name}</p>}
+      {errors.name && (
+        <p id="contact-error-name" className="mt-1 text-sm text-bad">
+          {errors.name}
+        </p>
+      )}
 
       <label className="mt-4 block text-sm font-semibold text-navy-700">
         {copy.phoneLabel}
@@ -215,34 +265,78 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
           required
           autoComplete="tel"
           aria-invalid={!!errors.phone}
+          aria-describedby={errors.phone ? "contact-error-phone" : undefined}
           dir="ltr"
           className={fieldClass}
         />
       </label>
-      {errors.phone && <p className="mt-1 text-sm text-bad">{errors.phone}</p>}
+      {errors.phone && (
+        <p id="contact-error-phone" className="mt-1 text-sm text-bad">
+          {errors.phone}
+        </p>
+      )}
 
       <label className="mt-4 block text-sm font-semibold text-navy-700">
         {copy.messageLabel}
         <textarea name="message" rows={3} className={`${fieldClass} resize-y`} />
       </label>
 
-      {/* אימייל — שדה מכווץ (COPY: «אימייל» (מכווץ)); נפתח בלחיצה או עם הצטרפות לרשימה */}
+      {/* אימייל — שדה מכווץ (COPY: «אימייל» (מכווץ)); נפתח בלחיצה או עם הצטרפות לרשימה.
+          כפתור-הפתיחה נראה כקישור שקט אך נושא שטח-מגע ‎44px+‎ (ריפוד שקוף,
+          שוליים שליליים מקזזים כדי שהלייאאוט לא יזוז). */}
       {emailOpen || newsletter ? (
-        <label className="mt-4 block text-sm font-semibold text-navy-700">
-          {copy.emailLabel}
-          <input type="email" name="email" autoComplete="email" dir="ltr" className={fieldClass} />
-        </label>
+        <>
+          <label className="mt-4 block text-sm font-semibold text-navy-700">
+            {copy.emailLabel}
+            <input
+              ref={emailRef}
+              type="email"
+              name="email"
+              autoComplete="email"
+              required={newsletter}
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? "contact-error-email" : undefined}
+              dir="ltr"
+              className={fieldClass}
+            />
+          </label>
+          {errors.email && (
+            <p id="contact-error-email" className="mt-1 text-sm text-bad">
+              {errors.email}
+            </p>
+          )}
+        </>
       ) : (
         <button
           type="button"
           onClick={() => setEmailOpen(true)}
           aria-expanded={false}
-          className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:text-gold-dark"
+          className="mt-2 -mb-2 inline-flex min-h-11 items-center gap-1.5 px-2 -mx-2 py-2 text-sm font-semibold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:text-gold-dark"
         >
           <span aria-hidden>+</span>
           {copy.emailLabel}
         </button>
       )}
+
+      {/* המגנט הרך — יושב צמוד לשדה-האימייל שהוא פותח (לא בקצה הטופס): סימון
+          הצ'קבוקס פותח וממקד את השדה ממש מעליו, וההסכמה הראשית נשארת התחנה
+          שלפני הכפתור. הסכמת-ניוזלטר נפרדת שרוכבת על אותה שליחה (Smoove טרם
+          חובר; הצטרפות דרך שולחן הלידים). */}
+      <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-[16px] bg-blush p-5 transition hover:opacity-95">
+        <input
+          type="checkbox"
+          name="newsletter"
+          checked={newsletter}
+          onChange={onNewsletterChange}
+          className="mt-0.5 h-5 w-5 shrink-0 rounded-[4px] accent-[var(--color-gold-dark)]"
+        />
+        <span className="text-[0.95rem] font-medium leading-relaxed text-navy">
+          <span className="text-[0.6rem] leading-none text-rose-ink" aria-hidden>
+            ◆{" "}
+          </span>
+          {copy.magnetLabel}
+        </span>
+      </label>
 
       <label className="mt-6 flex items-start gap-3 text-sm leading-relaxed text-muted">
         <input
@@ -250,11 +344,16 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
           name="consent"
           required
           aria-invalid={!!errors.consent}
+          aria-describedby={errors.consent ? "contact-error-consent" : undefined}
           className="mt-0.5 h-5 w-5 shrink-0 rounded-[4px] accent-[var(--color-gold-dark)]"
         />
         <span>{copy.consentLabel}</span>
       </label>
-      {errors.consent && <p className="mt-1 text-sm text-bad">{errors.consent}</p>}
+      {errors.consent && (
+        <p id="contact-error-consent" className="mt-1 text-sm text-bad">
+          {errors.consent}
+        </p>
+      )}
 
       {serverError && (
         <p className="mt-4 rounded-[8px] bg-bad/10 px-3 py-2 text-sm text-bad" role="alert">
@@ -299,24 +398,6 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
         </svg>
         {copy.whatsappLabel}
       </a>
-
-      {/* המגנט הרך — חלון קטן ופתוח לצד הדלת המוארת: הסכמת-ניוזלטר נפרדת שרוכבת
-          על אותה שליחה (Smoove טרם חובר; הצטרפות דרך שולחן הלידים) */}
-      <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-[16px] bg-blush p-5 transition hover:opacity-95">
-        <input
-          type="checkbox"
-          name="newsletter"
-          checked={newsletter}
-          onChange={(e) => setNewsletter(e.target.checked)}
-          className="mt-0.5 h-5 w-5 shrink-0 rounded-[4px] accent-[var(--color-gold-dark)]"
-        />
-        <span className="text-[0.95rem] font-medium leading-relaxed text-navy">
-          <span className="text-[0.6rem] leading-none text-rose-ink" aria-hidden>
-            ◆{" "}
-          </span>
-          {copy.magnetLabel}
-        </span>
-      </label>
     </form>
   );
 }

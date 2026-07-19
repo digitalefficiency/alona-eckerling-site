@@ -5,15 +5,19 @@ import { site, cta } from "@/lib/site";
 // mobile contact bar, booking ≤2 taps from any page). Fixed to the viewport
 // bottom below md, ALWAYS present — no dismiss. Two actions from lib/site.ts:
 // WhatsApp (the site's referral channel — sage, white text) + the primary booking
-// link (navy). No tel: action — the phone number is deliberately unpublished
-// (brief Q4); the bar never invents a number. When no WhatsApp is configured the
-// booking action takes the full width. Server component: zero JS, zero animation
-// → reduced-motion-safe by construction. Safe-area padding for notched devices;
-// a same-height spacer keeps the page end (footer) reachable above the fixed bar.
+// link (navy). The booking default lands on the FORM anchor (#lead), not the bare
+// page: on any page it's booking ≤2 taps straight to the fields, and on /contact
+// itself it anchors DOWN to the card instead of self-linking back to the top of
+// the page a visitor may be mid-form on. No tel: action — the phone number is
+// deliberately unpublished (brief Q4); the bar never invents a number. When no
+// WhatsApp is configured the booking action takes the full width. Server
+// component: zero JS, zero animation → reduced-motion-safe by construction.
+// Safe-area padding for notched devices; a same-height spacer keeps the page end
+// (footer) reachable above the fixed bar.
 export function StickyContactBar({
   whatsappLabel = "וואטסאפ",
   bookLabel = cta.primary.short,
-  bookHref = cta.primary.href,
+  bookHref = `${cta.primary.href}#lead`,
 }: {
   whatsappLabel?: string;
   bookLabel?: string;

@@ -138,15 +138,33 @@ export function ContactLeadForm() {
 
       <label className="mt-5 block text-sm font-semibold text-navy-700">
         שם מלא *
-        <input type="text" name="name" required autoComplete="name" aria-invalid={!!errors.name} className={fieldClass} />
+        <input
+          type="text"
+          name="name"
+          required
+          autoComplete="name"
+          aria-invalid={!!errors.name}
+          aria-describedby={errors.name ? "lead-name-err" : undefined}
+          className={fieldClass}
+        />
       </label>
-      {errors.name && <p className="mt-1 text-sm text-bad">{errors.name}</p>}
+      {errors.name && <p id="lead-name-err" className="mt-1 text-sm text-bad">{errors.name}</p>}
 
       <label className="mt-4 block text-sm font-semibold text-navy-700">
         טלפון / וואטסאפ *
-        <input type="tel" name="phone" inputMode="tel" required autoComplete="tel" aria-invalid={!!errors.phone} dir="ltr" className={fieldClass} />
+        <input
+          type="tel"
+          name="phone"
+          inputMode="tel"
+          required
+          autoComplete="tel"
+          aria-invalid={!!errors.phone}
+          aria-describedby={errors.phone ? "lead-phone-err" : undefined}
+          dir="ltr"
+          className={fieldClass}
+        />
       </label>
-      {errors.phone && <p className="mt-1 text-sm text-bad">{errors.phone}</p>}
+      {errors.phone && <p id="lead-phone-err" className="mt-1 text-sm text-bad">{errors.phone}</p>}
 
       <label className="mt-4 block text-sm font-semibold text-navy-700">
         נושא הפנייה
@@ -158,13 +176,22 @@ export function ContactLeadForm() {
       </label>
 
       {/* COPY §8/§16 — שדה חופשי «מה הכי מעסיק אותך עכשיו?» (אין שירות חזרה-בשעה; ההבטחה היחידה היא responsePromise) */}
+      {/* a textarea, not an input: the ONE open question in the form should look
+          like an invitation to write, not a one-line "keep it short" slot */}
       <label className="mt-4 block text-sm font-semibold text-navy-700">
         מה הכי מעסיק אותך עכשיו? (לא חובה)
-        <input type="text" name="message" className={fieldClass} />
+        <textarea name="message" rows={3} className={fieldClass + " resize-none"} />
       </label>
 
       <label className="mt-5 flex items-start gap-3 text-sm leading-relaxed text-muted">
-        <input type="checkbox" name="consent" required aria-invalid={!!errors.consent} className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--color-gold-dark)]" />
+        <input
+          type="checkbox"
+          name="consent"
+          required
+          aria-invalid={!!errors.consent}
+          aria-describedby={errors.consent ? "lead-consent-err" : undefined}
+          className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--color-gold-dark)]"
+        />
         <span>
           אני מאשרת ש{contactForm.consentBrandName} תיצור איתי קשר בנוגע לפנייתי. הפרטים נשמרים לצורך מענה בלבד ולא
           יועברו לצד שלישי, בהתאם ל
@@ -174,7 +201,7 @@ export function ContactLeadForm() {
           .
         </span>
       </label>
-      {errors.consent && <p className="mt-1 text-sm text-bad">{errors.consent}</p>}
+      {errors.consent && <p id="lead-consent-err" className="mt-1 text-sm text-bad">{errors.consent}</p>}
 
       {serverError && <p className="mt-4 rounded-[4px] bg-bad/10 px-3 py-2 text-sm text-bad" role="alert">{serverError}</p>}
 

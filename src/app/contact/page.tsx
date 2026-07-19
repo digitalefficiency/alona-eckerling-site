@@ -167,23 +167,26 @@ export default function ContactPage() {
                   >
                     {DOOR.cta}
                   </Link>
-                  <span className="text-xs font-semibold text-muted">{DOOR.ctaSub}</span>
+                  <span className="text-sm font-semibold text-muted">{DOOR.ctaSub}</span>
                 </div>
               </MItem>
+              {/* זנב דחוס לשתי שכבות — גלולה אחת (הבטחה · מקום) ושורת-רישיון שקטה:
+                  העין מסיימת על ה-CTA, לא על טוטם של ארבעה פריטי-אמון. */}
               <MItem className="mt-8">
-                <div className="inline-flex rounded-full bg-sand/90 px-6 py-3">
+                <div className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-2.5 gap-y-1 rounded-full bg-sand/90 px-6 py-3">
                   <ResponsePromise promise={DOOR.promise} />
+                  <span className="text-sm text-muted" aria-hidden>·</span>
+                  <span className="text-sm font-semibold text-navy">{DOOR.place}</span>
                 </div>
               </MItem>
             </MOrchestrate>
 
-            {/* מחוץ לאורקסטרטור בכוונה — הקרקע שהדלת עומדת עליה: המקום והרישיון פשוט
-                נוכחים, בלי להיכנס לתור. עמוד שכל הרעיון שלו הוא מנוחה. */}
-            <p className="mt-5 text-[0.95rem] text-muted">{DOOR.place}</p>
-            <span className="mt-7 inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2">
-              <span className="text-[0.6rem] leading-none text-gold-soft" aria-hidden>◆</span>
-              <span className="text-xs font-bold text-white">{DOOR.trustToken}</span>
-            </span>
+            {/* מחוץ לאורקסטרטור בכוונה — הרישיון פשוט נוכח, בלי להיכנס לתור:
+                שורת-טקסט שקטה, לא גלולה מתחרה. עמוד שכל הרעיון שלו הוא מנוחה. */}
+            <p className="mt-6 inline-flex items-center gap-2 text-[0.8rem] font-semibold text-muted">
+              <span className="text-[0.6rem] leading-none text-gold" aria-hidden>◆</span>
+              {DOOR.trustToken}
+            </p>
           </div>
         </Container>
       </section>
@@ -191,10 +194,12 @@ export default function ContactPage() {
       {/* ===== 36 · RESOLUTION — רצפת-החיכוך: כרטיס שנהב אחד מואר על שדה blush;
            טופס ≤5 שדות + וואטסאפ + מגנט רך; מסך-תודה שמשחזר את ההבטחה.
            COPY: ### סקשן 36 ===== */}
-      <section id="lead" className="relative scroll-mt-24 overflow-hidden bg-blush">
+      {/* בלי scroll-mt — ה-scroll-padding-top הגלובלי (6rem) כבר מפנה את ההדר;
+          אופסט כפול הנחית את «בואי נדבר» על ~330px של blush ריק לפני הכותרת. */}
+      <section id="lead" className="relative overflow-hidden bg-blush">
         <div aria-hidden className="grain-overlay" />
         <Container width="standard" className="relative py-16 md:py-28">
-          <SectionSeam className="mb-14" />
+          <SectionSeam className="mb-8" />
           {/* קו-הזהב אומר «זה הדבר החשוב» — והטופס הוא הדבר החשוב בעמוד. מסגרת-זהב
               כפולה (frame-double), החזקה מבין מחוות-הזהב בעמוד. ה-overflow-hidden ירד
               מהכרטיס (הוא היה גוזם את המסגרת החיצונית) ועבר לעטיפת בריכת-האור בלבד. */}
@@ -261,7 +266,7 @@ export default function ContactPage() {
               <MItem className="mt-10 flex flex-col gap-4 border-t border-line pt-6">
                 <ResponsePromise promise={FORM.promise} />
                 <p className="text-sm font-semibold text-navy-700">{FORM.place}</p>
-                <p className="flex items-center gap-2.5 text-xs font-bold text-navy-700">
+                <p className="flex items-center gap-2.5 text-[0.8rem] font-bold text-navy-700">
                   <span className="text-[0.6rem] leading-none text-gold" aria-hidden>◆</span>
                   {FORM.trustToken}
                 </p>
@@ -301,8 +306,10 @@ export default function ContactPage() {
           </div>
 
           <div className="mt-16 grid items-center gap-12 md:grid-cols-[1.1fr_0.9fr]">
-            {/* פאנל-המפה (inline-start, קריאה-ראשונה): עוגן אמיתי אחד שמקרין לכל הארץ */}
-            <Reveal>
+            {/* פאנל-המפה (inline-start, קריאה-ראשונה ב-md+): עוגן אמיתי אחד שמקרין
+                לכל הארץ. בטור-יחיד האיור הדקורטיבי יורד אחרי שלוש הדרכים האמיתיות
+                (max-md:order-2) — חותם את הסקשן במקום לחצוץ באמצע התוכן. */}
+            <Reveal className="max-md:order-2">
               <IsraelReachMap />
             </Reveal>
 

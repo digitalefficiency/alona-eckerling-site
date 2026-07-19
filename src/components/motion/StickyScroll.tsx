@@ -81,7 +81,9 @@ export function StickyScroll({
             ref={(el) => {
               refs.current[i] = el;
             }}
-            className="flex min-h-[70vh] flex-col justify-center"
+            // 70vh is DESKTOP scaffolding (it paces the sticky media swap); below md
+            // the media is inline, so rhythm comes from margins, not dead air
+            className="mb-16 flex flex-col justify-center last:mb-0 md:mb-0 md:min-h-[70vh]"
           >
             <div className="mb-6 md:hidden">{s.media}</div>
             {s.content}

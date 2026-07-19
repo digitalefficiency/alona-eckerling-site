@@ -64,7 +64,10 @@ const CATEGORY_ORDER = ["בוקר", "צהריים", "ערב", "סלטים", "מ�
 // case the mosaic opens flat rather than featuring an empty card).
 function spanFor(i: number, featureIndex: number, hasImage: boolean): string {
   if (!hasImage) return "";
-  if (i === featureIndex) return "row-span-2 sm:col-span-2";
+  // the 2×2 feature exists only where the mosaic has columns (sm+): in the
+  // one-column phone grid a doubled-height first card reads as a glitch, not
+  // a feature, and pushes recipe #2 under the fold.
+  if (i === featureIndex) return "sm:col-span-2 sm:row-span-2";
   if (i % 9 === 4) return "lg:col-span-2";
   if (i % 7 === 3) return "lg:row-span-2";
   return "";
@@ -94,7 +97,7 @@ function CategoryChip({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`chip-skew inline-flex items-center gap-1.5 rounded-[6px] px-4 py-1.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
+      className={`chip-skew inline-flex min-h-10 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-[6px] px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 md:min-h-0 md:py-1.5 ${
         active ? "bg-gold text-white" : "bg-gold-soft text-navy hover:bg-gold/20"
       }`}
     >
@@ -120,7 +123,7 @@ function TagChip({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`chip-skew inline-flex items-center rounded-[6px] border px-3 py-1 text-[0.8rem] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-1 ${
+      className={`chip-skew inline-flex min-h-10 shrink-0 items-center whitespace-nowrap rounded-[6px] border px-3.5 py-2 text-[0.85rem] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-1 md:min-h-0 md:py-1 ${
         active
           ? "border-gold bg-gold-soft/70 text-gold-ink"
           : "border-line bg-transparent text-muted hover:border-gold/60 hover:text-navy"
@@ -265,11 +268,49 @@ export function RecipesArchive({ entries, labels }: { entries: RecipeTile[]; lab
   // timeout (unlike rAF / a fresh IO) also survives throttled tabs, so the
   // grid can never be left stuck hidden.
   const gridRef = useRef<HTMLUListElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const [phase, setPhase] = useState<"rest" | "armed" | "in">("rest");
   const prevKey = useRef<string | null>(null);
+  const didUrlRestore = useRef(false);
+  // distinguishes a chip-tap re-entry from the first scroll-in: a filter is a
+  // utility, so a swap gets a quick near-simultaneous fade (--dur-micro, no
+  // stagger theatre); the full staggered entrance stays for the first view.
+  const isSwapRef = useRef(false);
   useIso(() => {
+    // once, pre-paint: restore filters reflected in the URL. Back from a
+    // recipe remounts this client component, so state alone forgets every
+    // filter — the URL (?cat=…&tags=…) is the memory, and it makes a filtered
+    // view shareable. Values are validated against the real CMS-derived sets.
+    if (!didUrlRestore.current) {
+      didUrlRestore.current = true;
+      const params = new URLSearchParams(window.location.search);
+      const cat = params.get("cat");
+      const tagParam = params.get("tags");
+      const nextCat = cat && categories.includes(cat) ? cat : null;
+      const nextTags = tagParam ? tagParam.split(",").filter((t) => dietTags.includes(t)) : [];
+      if (nextCat !== null || nextTags.length > 0) {
+        setCategory(nextCat);
+        setTags(nextTags);
+        return; // re-runs synchronously with the restored key; arms then
+      }
+    }
     const isSwap = prevKey.current !== null && prevKey.current !== listKey;
     prevKey.current = listKey;
+    isSwapRef.current = isSwap;
+    // swap scroll-clamp: tapping a small category deep inside the (very tall)
+    // one-column mobile grid collapses the page height by thousands of px and
+    // the browser dumps the user at the footer. Pre-paint, pull the viewport
+    // back so the sticky bar + the first result row stay on screen. Anchored
+    // on the wrapper (not the ul — the empty state has no ul) and runs even
+    // under reduced motion: this is correctness, not animation.
+    if (isSwap && wrapRef.current) {
+      // = the sticky bar's top-20 / md:top-24 offsets
+      const stickyOffset = window.matchMedia("(min-width: 768px)").matches ? 96 : 80;
+      const wrapTop = wrapRef.current.getBoundingClientRect().top + window.scrollY;
+      if (window.scrollY > wrapTop - stickyOffset) {
+        window.scrollTo({ top: Math.max(wrapTop - stickyOffset, 0), behavior: "auto" });
+      }
+    }
     if (!motionAllowed()) {
       setPhase("rest");
       return;
@@ -281,7 +322,7 @@ export function RecipesArchive({ entries, labels }: { entries: RecipeTile[]; lab
     }
     setPhase("armed");
     if (isSwap) {
-      // one painted frame of the armed state, then the staggered re-entry
+      // one painted frame of the armed state, then the quick re-entry
       const t = setTimeout(() => setPhase("in"), 50);
       return () => clearTimeout(t);
     }
@@ -298,33 +339,57 @@ export function RecipesArchive({ entries, labels }: { entries: RecipeTile[]; lab
     return () => io.disconnect();
   }, [listKey]);
 
+  // single write-path for every chip: set state, then REFLECT to the URL —
+  // history.replaceState (not router.replace) keeps this SSG-safe with no
+  // Suspense boundary, adds no history entries and never touches scroll.
+  const applyFilters = (nextCategory: string | null, nextTags: string[]) => {
+    setCategory(nextCategory);
+    setTags(nextTags);
+    const params = new URLSearchParams(window.location.search);
+    if (nextCategory) params.set("cat", nextCategory);
+    else params.delete("cat");
+    if (nextTags.length > 0) params.set("tags", nextTags.join(","));
+    else params.delete("tags");
+    const qs = params.toString();
+    window.history.replaceState(window.history.state, "", qs ? `?${qs}` : window.location.pathname);
+  };
+
   const toggleTag = (t: string) =>
-    setTags((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]));
+    applyFilters(category, tags.includes(t) ? tags.filter((x) => x !== t) : [...tags, t]);
 
   return (
-    <div>
+    <div ref={wrapRef}>
       <h2 className="sr-only">{labels.list}</h2>
 
-      {/* sticky sage filter bar — the honest-count chip rides beside the chips */}
+      {/* sticky sage filter bar. Phones get ONE scrollable line per chip row
+          (the wrapped bar ate half an iPhone screen); sm+ wraps as before.
+          The -m/p pairs give the clipped focus ring breathing room inside the
+          scroll containers without shifting layout. */}
       <div className="sticky top-20 z-30 md:top-24">
         <div className="rounded-2xl border border-line bg-bg/90 px-4 py-3 shadow-[var(--elevation-1)] backdrop-blur-md">
-          <div role="group" aria-label={labels.categoryGroup} className="flex flex-wrap items-center gap-2">
-            <CategoryChip active={category === null} onClick={() => setCategory(null)}>
+          <div
+            role="group"
+            aria-label={labels.categoryGroup}
+            className="-mx-1 -my-1 flex flex-nowrap items-center gap-2.5 overflow-x-auto px-1 py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-x-visible"
+          >
+            <CategoryChip active={category === null} onClick={() => applyFilters(null, tags)}>
               {labels.all}
             </CategoryChip>
             {categories.map((c) => (
-              <CategoryChip key={c} active={category === c} onClick={() => setCategory((p) => (p === c ? null : c))}>
+              <CategoryChip key={c} active={category === c} onClick={() => applyFilters(category === c ? null : c, tags)}>
                 {c}
               </CategoryChip>
             ))}
-            <span className="ms-auto rounded-[4px] bg-gold-soft px-3.5 py-1.5 text-[0.8rem] font-bold text-gold-ink">
+            {/* the honest-count chip rides the bar only where there is room —
+                on phones it moves to the static line above the grid */}
+            <span className="ms-auto hidden shrink-0 rounded-[4px] bg-gold-soft px-3.5 py-1.5 text-[0.8rem] font-bold text-gold-ink md:inline-flex">
               {labels.countChip}
             </span>
           </div>
           <div
             role="group"
             aria-label={labels.tagGroup}
-            className="mt-2.5 flex flex-wrap items-center gap-2 border-t border-line2 pt-2.5"
+            className="-mx-1 -mb-1 mt-2.5 flex flex-nowrap items-center gap-2.5 overflow-x-auto border-t border-line2 px-1 pb-1 pt-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:overflow-x-visible"
           >
             {dietTags.map((t) => (
               <TagChip key={t} active={tags.includes(t)} onClick={() => toggleTag(t)}>
@@ -335,6 +400,10 @@ export function RecipesArchive({ entries, labels }: { entries: RecipeTile[]; lab
         </div>
       </div>
 
+      {/* the honest count line, phones/tablets — same pasted COPY string the
+          md+ bar chip shows */}
+      <p className="mt-6 text-[0.85rem] font-bold text-gold-ink md:hidden">{labels.countChip}</p>
+
       <p aria-live="polite" className="sr-only">
         {filtered.length} · {labels.list}
       </p>
@@ -342,19 +411,34 @@ export function RecipesArchive({ entries, labels }: { entries: RecipeTile[]; lab
       {filtered.length === 0 ? (
         <div className="mt-8 rounded-2xl border border-line bg-sand px-6 py-16 text-center">
           <p className="mx-auto max-w-[40ch] font-serif text-xl font-bold leading-relaxed text-navy">{labels.empty}</p>
+          {/* one-tap way back — reuses the pasted «הכול» chip instead of
+              sending her up to dismantle the bar selection chip by chip */}
+          <div className="mt-6 flex justify-center">
+            <CategoryChip active={false} onClick={() => applyFilters(null, [])}>
+              {labels.all}
+            </CategoryChip>
+          </div>
         </div>
       ) : (
         <ul
           ref={gridRef}
-          className="mt-8 grid grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 [grid-auto-rows:13rem]"
+          className="mt-8 grid grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3 [grid-auto-rows:12rem] sm:[grid-auto-rows:13rem]"
         >
           {filtered.map((t, i) => (
             <li
               key={t.slug}
-              style={phase === "in" ? { transitionDelay: `calc(var(--dur-stagger) * ${Math.min(i, 8)})` } : undefined}
-              className={`${spanFor(i, featureIndex, !!t.image)} transition-all duration-[calc(var(--dur-reveal)*0.7)] ease-[var(--ease-out)] ${
-                phase === "armed" ? "translate-y-3 opacity-0" : "translate-y-0 opacity-100"
-              }`}
+              style={
+                phase === "in"
+                  ? {
+                      // swap = utility: near-simultaneous; first view keeps the stagger
+                      // swap: no delay property at all (browser default = immediate)
+                      transitionDelay: isSwapRef.current ? undefined : `calc(var(--dur-stagger) * ${Math.min(i, 8)})`,
+                    }
+                  : undefined
+              }
+              className={`${spanFor(i, featureIndex, !!t.image)} transition-all ease-[var(--ease-out)] ${
+                isSwapRef.current ? "duration-[var(--dur-micro)]" : "duration-[calc(var(--dur-reveal)*0.7)]"
+              } ${phase === "armed" ? "translate-y-3 opacity-0" : "translate-y-0 opacity-100"}`}
             >
               {t.image ? (
                 <ImageTile t={t} feature={i === featureIndex} />

@@ -176,7 +176,10 @@ export function SequenceFilm({
     >
       {/* ── Layer B — the cinema (mounts only when motion is allowed) ── */}
       {cinema && (
-        <div className="sticky top-0 h-screen overflow-hidden" aria-hidden="true">
+        // h-[100svh] (not h-screen): the stage lives inside the SMALL viewport that
+        // iOS guarantees even with the URL bar open — svh is stable (no dvh jump),
+        // so captions never dive below the visible line mid-scrub
+        <div className="sticky top-0 h-[100svh] overflow-hidden" aria-hidden="true">
           {frames.map((src, k) => (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
@@ -200,8 +203,10 @@ export function SequenceFilm({
                 "linear-gradient(180deg, color-mix(in srgb, var(--color-navy) 16%, transparent) 0%, transparent 30%, transparent 55%, var(--color-bg) 130%)",
             }}
           />
-          {/* progress hairline */}
-          <div className="absolute top-0 inset-x-0 h-[3px] bg-line/60">
+          {/* progress hairline — pinned to the stage's BOTTOM edge: the top of the
+              viewport belongs to the fixed header (which draws its own gold progress
+              bar), so two gold hairlines never stack and tell different numbers */}
+          <div className="absolute bottom-0 inset-x-0 h-[3px] bg-line/60">
             <div ref={barRef} className="h-full w-0 bg-gold" />
           </div>
           {kicker && (
@@ -209,7 +214,7 @@ export function SequenceFilm({
               ref={setOverlayRef}
               data-from="0"
               data-to="0.97"
-              className="pointer-events-none absolute top-8 inset-x-0 text-center"
+              className="pointer-events-none absolute top-20 md:top-24 inset-x-0 text-center"
               style={{
                 opacity: 0,
                 transform: "translateY(12px)",
@@ -255,7 +260,7 @@ export function SequenceFilm({
               ref={setOverlayRef}
               data-from={cap.from}
               data-to={cap.to}
-              className="absolute bottom-[9vh] inset-x-0 px-6 text-center pointer-events-none"
+              className="absolute bottom-[calc(9vh+3.5rem+env(safe-area-inset-bottom))] md:bottom-[9vh] inset-x-0 px-6 text-center pointer-events-none"
               style={{
                 opacity: 0,
                 transform: "translateY(14px)",

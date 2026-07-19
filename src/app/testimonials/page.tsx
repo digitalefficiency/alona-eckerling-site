@@ -24,11 +24,10 @@ const HERO = {
   bridge:
     "עד אז, מה שכן אפשר לראות באמת: המתכונים שאני מבשלת, הרישיון והלימודים שלי, ושיחת היכרות שבה תתרשמי בעצמך.",
   invite: "ואם בא לך, את מוזמנת להיות אחת הראשונות שמספרות.",
-  links: [
-    { label: "למתכונים ←", href: "/recipes", cta: "testimonials-hero-recipes" },
-    { label: "עליי והרישיון ←", href: "/about", cta: "testimonials-hero-about" },
-    { label: "בואי נדבר ←", href: "/contact", cta: "testimonials-hero-contact" },
-  ],
+  // חלוקת-בעלות על נתיבי היציאה (ביקורת UX): פסקת-הגשר כבר מספרת על המתכונים
+  // והרישיון במילים; ההירו שומר קישור אחד בלבד. צ'יפי recipes/about בבעלות
+  // סקשן 33, והאזכור הרך של המתכונים בבעלות סקשן 34.
+  links: [{ label: "בואי נדבר ←", href: "/contact", cta: "testimonials-hero-contact" }],
 } as const;
 
 // COPY: ### סקשן 33 · TestimonialCard grid (מצב-ריק כן)
@@ -44,7 +43,7 @@ const GRID = {
     { label: "המתכונים שאני באמת מבשלת ←", href: "/recipes", cta: "testimonials-redirect-recipes" },
     { label: "הרישיון והלימודים שלי ←", href: "/about", cta: "testimonials-redirect-about" },
   ],
-  reciprocity: "עבדנו יחד? אשמח אם תשתפי, רק באישורך המלא.",
+  reciprocity: "עבדנו יחד? אשמח אם תשתפי, רק באישורך המלא ←",
 } as const;
 
 // COPY: ### סקשן 34 · CtaBand → #lead (מצב-ריק)
@@ -81,7 +80,7 @@ export default function TestimonialsPage() {
         className="relative"
         style={{ background: "linear-gradient(180deg, var(--color-blush) 0%, color-mix(in srgb, var(--color-blush) 35%, var(--color-bg)) 62%, transparent 100%)" }}
       >
-        <Container width="prose" className="pt-16 sm:pt-20 md:pt-28">
+        <Container width="prose" className="pt-24 sm:pt-28">
           {/* חוט-הרוז מקבל מסגרת: frame-double ורוד — אותה מחווה של תעודת-הרישיון
               בעמוד «עליי», כאן בצבע השרשור של העדות. שובר את מונו-התרבות של rounded-[16px]. */}
           <div
@@ -122,7 +121,7 @@ export default function TestimonialsPage() {
                     key={l.href}
                     href={l.href}
                     data-cta={l.cta}
-                    className="font-semibold text-gold-ink underline-offset-4 transition-colors hover:text-gold-dark hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                    className="inline-flex min-h-11 items-center font-semibold text-gold-ink underline-offset-4 transition-colors hover:text-gold-dark hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                   >
                     {l.label}
                   </Link>
@@ -147,14 +146,15 @@ export default function TestimonialsPage() {
               className="frame-double relative mx-auto max-w-[42rem] rounded-[16px] bg-gold-soft/60 px-6 py-10 text-center sm:px-10"
               style={{ "--frame-gap": "8px", "--frame-color": "var(--color-rose)" } as React.CSSProperties}
             >
-              <span className="block font-serif text-5xl leading-none text-rose/70" aria-hidden>
+              {/* מדרגה מתחת להירו (ביקורת UX): גרשיים קטנים יותר וכותרת בגודל
+                  כותרת-כרטיס — המוטיב נשאר, אך רק ההירו נשאר הירו. */}
+              <span className="block font-serif text-4xl leading-none text-rose/70" aria-hidden>
                 ״
               </span>
               <SplitText
                 as="h2"
                 text={GRID.title}
-                className="mt-4 font-serif font-black leading-[1.08] text-navy"
-                style={{ fontSize: "var(--text-section)" }}
+                className="mt-4 font-serif text-2xl font-black leading-[1.15] text-navy sm:text-[1.75rem]"
               />
               <p className="mt-6 text-lg font-bold text-navy">{GRID.emptyLead}</p>
               <p className="mt-3 leading-relaxed text-ink">{GRID.emptyBody}</p>
@@ -172,7 +172,7 @@ export default function TestimonialsPage() {
                     key={l.href}
                     href={l.href}
                     data-cta={l.cta}
-                    className="btn-chamfer inline-block rounded-[6px] border border-gold/45 bg-card px-5 py-2.5 text-sm font-semibold text-gold-ink transition-colors hover:border-gold hover:text-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                    className="btn-chamfer inline-block rounded-[6px] border border-gold/45 bg-card px-5 py-3 text-sm font-semibold text-gold-ink transition-colors hover:border-gold hover:text-gold-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                   >
                     {l.label}
                   </Link>
@@ -181,8 +181,17 @@ export default function TestimonialsPage() {
             </div>
           </MStagger>
 
-          {/* שורת-הדדיות — ללקוחות-עבר אמיתיות בלבד */}
-          <p className="mt-8 text-center text-sm leading-relaxed text-muted">{GRID.reciprocity}</p>
+          {/* שורת-הדדיות — ללקוחות-עבר אמיתיות בלבד. עכשיו עם דלת (ביקורת UX):
+              אותן מילים, כקישור אמיתי אל טופס ההיכרות. */}
+          <p className="mt-8 text-center text-sm leading-relaxed">
+            <Link
+              href="/contact#lead"
+              data-cta="testimonials-reciprocity"
+              className="inline-flex min-h-11 items-center justify-center font-semibold text-gold-ink underline-offset-4 transition-colors hover:text-gold-dark hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+            >
+              {GRID.reciprocity}
+            </Link>
+          </p>
         </Container>
       </section>
 
@@ -190,7 +199,9 @@ export default function TestimonialsPage() {
       <section>
         <Container width="standard" className="pb-20 pt-4 sm:pb-24 md:pb-32">
           <SectionSeam className="mb-12" />
-          <div className="grid gap-6 md:grid-cols-[3fr_2fr] md:items-stretch">
+          {/* הפיצול נדחה ל-lg (ביקורת UX): בטאבלט 768–1023 שני הפאנלים נערמים
+              ברוחב מלא, כך שפאנל הפעולה לא נמחץ לעמודה של ~212px. */}
+          <div className="grid gap-6 lg:grid-cols-[3fr_2fr] lg:items-stretch">
             {/* פאנל ההזמנה — נייבי שקט, שום הוכחה שאולה על הקירות */}
             <div className="relative overflow-hidden rounded-[16px] bg-navy p-8 text-white sm:p-10 md:p-12">
               <div aria-hidden className="grain-overlay" />
@@ -223,7 +234,7 @@ export default function TestimonialsPage() {
                 </MItem>
                 <MItem as="div" className="mt-8 space-y-3">
                   <ResponsePromise promise={CTA.promise} tone="dark" />
-                  <p className="text-xs tracking-wide text-white/60">{CTA.trustToken}</p>
+                  <p className="text-[13px] tracking-wide text-white/60">{CTA.trustToken}</p>
                 </MItem>
               </MOrchestrate>
             </div>
@@ -234,7 +245,7 @@ export default function TestimonialsPage() {
                 <Link
                   href={CTA.button.href}
                   data-cta={CTA.button.cta}
-                  className="inline-block btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-lg font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
+                  className="inline-block btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand lg:text-lg"
                 >
                   {CTA.button.label}
                 </Link>

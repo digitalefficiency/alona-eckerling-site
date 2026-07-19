@@ -138,7 +138,7 @@ export function MCardStack({
         {/* overflow-hidden on the sticky viewport: an entering card lives
             off-screen without ever minting a horizontal scrollbar */}
         <div className="sticky top-0 flex h-screen flex-col items-center justify-center overflow-hidden">
-          <div className="relative h-[min(62vh,560px)] w-full max-w-[880px] px-6">
+          <div className="relative h-[min(66vh,560px)] w-full max-w-[880px] px-6">
             {cards.map((card, i) => (
               <DeckCard key={i} i={i} n={n} progress={scrollYProgress} enterSign={enterSign}>
                 {card}

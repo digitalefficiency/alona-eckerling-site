@@ -35,7 +35,11 @@ const HERO = {
   lede: "אלא דרך שנבנית סביב השבוע האמיתי שלך, בלי לוותר על האוכל שאת אוהבת. כדי שסוף-סוף יהיה שקט בראש, והתוצאה תישאר.",
   ctaPrimary: "בואי נדבר",
   ctaSub: "שיחת היכרות חינם",
-  trustToken: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות",
+  // ONE trust line, split for the pill's sake: on <sm the license clause hides so
+  // the pill stays a single-line pill (the full license lives in GUIDE.credentials
+  // and /about); nothing is added or reworded — only shown by width.
+  trustToken: "דיאטנית קלינית מוסמכת · R.D.",
+  trustTokenLicense: " · רישיון משרד הבריאות",
   ctaRecipes: "עוד לא מוכנה לשיחה? המתכונים שלי כאן",
 } as const;
 
@@ -208,7 +212,9 @@ const CTA = {
   packages:
     "הליווי נמכר בחבילות שמתאימות לחיים שלך. על זה בדיוק נדבר בשיחה, בלי הפתעות ובלי מחיר שקופץ מהמסך.",
   promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
-  trustToken: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות",
+  // split like HERO.trustToken: the license clause hides below sm (pill stays one line)
+  trustToken: "דיאטנית קלינית מוסמכת · R.D.",
+  trustTokenLicense: " · רישיון משרד הבריאות",
   magnet: "עוד לא מוכנה לשיחה? הצטרפי לרשימה השפויה וקבלי ממני מתכון וטיפ שקט למייל",
 } as const;
 
@@ -261,7 +267,11 @@ export default function HomePage() {
                   as="h1"
                   text={HERO.title}
                   className="mt-5 font-serif font-black leading-[1.12] text-navy"
-                  style={{ fontSize: "clamp(2.6rem, 6vw, 4rem)" }}
+                  // sized to the COLUMN, not the screen: at the 3.2rem ceiling both
+                  // designed lines (\n) fit the ~585px lg text track as the 2 lines
+                  // they were broken into; the 2.1rem floor matches --text-display's
+                  // floor so ≤390px screens keep the CTA above the fold
+                  style={{ fontSize: "clamp(2.1rem, 5vw, 3.2rem)" }}
                 />
               </MItem>
               <MItem as="p" className="mt-7 max-w-[62ch] text-lg leading-[1.7] text-muted">
@@ -277,14 +287,18 @@ export default function HomePage() {
                     >
                       {HERO.ctaPrimary}
                     </Link>
-                    <span className="text-xs font-semibold text-muted">{HERO.ctaSub}</span>
+                    <span className="text-[13px] font-semibold text-muted">{HERO.ctaSub}</span>
                   </div>
                   <Link
                     href="/about"
                     data-cta="hero-credential"
                     className="inline-flex items-center rounded-full border border-line bg-sand px-4 py-2.5 text-sm font-semibold text-navy transition hover:border-gold/60"
                   >
-                    {HERO.trustToken}
+                    {/* one span = one flex item, so the inline separator keeps its space */}
+                    <span>
+                      {HERO.trustToken}
+                      <span className="hidden sm:inline">{HERO.trustTokenLicense}</span>
+                    </span>
                   </Link>
                 </div>
               </MItem>
@@ -433,34 +447,28 @@ export default function HomePage() {
               const m = PLAN_MEDIA[i];
               return {
               media: (
-                // The number no longer FLOATS inside the photograph (and no navy veil
-                // grades it into legibility): it lives in the house diamond marker,
-                // pinned to the frame's corner so it meets the image at a HARD EDGE.
-                <div className="relative">
-                  <div
-                    className={`relative flex aspect-[3/2] items-center justify-center overflow-hidden rounded-[16px] border border-line ${
-                      m ? "bg-card" : "bg-gold-soft"
-                    }`}
-                  >
-                    {m ? (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
-                        src={m.src}
-                        alt={m.alt}
-                        loading="lazy"
-                        className="absolute inset-0 h-full w-full object-cover"
-                      />
-                    ) : (
-                      /* rung 03 — the site's own calm: a sage field carrying the rose thread */
-                      <span aria-hidden className="h-[3px] w-16 rounded-full bg-rose" />
-                    )}
-                  </div>
-                  <span
-                    aria-hidden
-                    className="absolute -top-4 -start-4 grid h-14 w-14 rotate-45 place-items-center border border-gold/60 bg-bg shadow-[var(--elevation-1)]"
-                  >
-                    <span className="-rotate-45 font-serif text-lg font-bold text-gold-ink">{s.n}</span>
-                  </span>
+                // The step number lives ONCE, in the card's diamond marker — the media
+                // stays a clean framed still (no corner diamond doubling the count or
+                // overhanging the screen edge on small viewports). Rung 03's designed
+                // sage panel is a note for the DESKTOP ladder only: shown inline on
+                // mobile it reads as an image that failed to load, so it sits out there.
+                <div
+                  className={`relative flex aspect-[3/2] items-center justify-center overflow-hidden rounded-[16px] border border-line ${
+                    m ? "bg-card" : "bg-gold-soft max-md:hidden"
+                  }`}
+                >
+                  {m ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={m.src}
+                      alt={m.alt}
+                      loading="lazy"
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  ) : (
+                    /* rung 03 — the site's own calm: a sage field carrying the rose thread */
+                    <span aria-hidden className="h-[3px] w-16 rounded-full bg-rose" />
+                  )}
                 </div>
               ),
               content: (
@@ -718,7 +726,10 @@ export default function HomePage() {
                 data-cta="lead-credential"
                 className="inline-flex items-center rounded-full bg-sand px-4 py-2.5 text-sm font-semibold text-navy transition hover:bg-card"
               >
-                {CTA.trustToken}
+                <span>
+                  {CTA.trustToken}
+                  <span className="hidden sm:inline">{CTA.trustTokenLicense}</span>
+                </span>
               </Link>
             </div>
           </div>
