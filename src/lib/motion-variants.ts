@@ -176,3 +176,22 @@ export const pageCurtainStatic: Variants = {
   out: { scaleY: 0, transition: SNAP }, // never cover the page without motion
   in: { scaleY: 0, transition: SNAP },
 };
+
+/**
+ * irisDiamond — «חוט ואור» move 5: the brand glyph AS the reveal mechanic.
+ * Media uncovers through a ◆ that grows from the center until it clears the
+ * box; the resting polygon overshoots the corners so nothing stays clipped
+ * (frame-double outer rings and overhanging chips survive). Point-matched
+ * 4-corner polygons → pure compositor interpolation. NEVER on an LCP image
+ * (the home-hero-panel law) — below-the-fold media only.
+ */
+export const irisDiamond: Variants = {
+  hidden: {
+    clipPath: "polygon(50% 38%, 62% 50%, 50% 62%, 38% 50%)",
+    transition: SNAP,
+  },
+  show: {
+    clipPath: "polygon(50% -85%, 185% 50%, 50% 185%, -85% 50%)",
+    transition: revealTransition,
+  },
+};

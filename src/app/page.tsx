@@ -10,7 +10,8 @@ import { MStagger } from "@/components/motion/MStagger";
 import { ProofRecipes } from "@/components/ProofRecipes";
 import { MChapter } from "@/components/motion/MChapter";
 import { RevealHeading } from "@/components/motion/RevealHeading";
-import { slideIn, scaleSoft } from "@/lib/motion-variants";
+import { irisDiamond, slideIn, scaleSoft } from "@/lib/motion-variants";
+import { MMagnetic } from "@/components/motion/MMagnetic";
 import { SplitText } from "@/components/motion/SplitText";
 import { StickyScroll } from "@/components/motion/StickyScroll";
 import { SequenceFilm, type FilmChip, type FilmCaption } from "@/components/SequenceFilm";
@@ -297,6 +298,8 @@ export default function HomePage() {
               <MItem className="mt-10">
                 <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
                   <div className="flex flex-col items-center gap-1.5">
+                    {/* magnet 1 of the page's pair («חוט ואור» move 6; ≤2 budget enforced by MMagnetic) */}
+                    <MMagnetic>
                     <Link
                       href="#lead"
                       data-cta="hero-primary"
@@ -304,6 +307,7 @@ export default function HomePage() {
                     >
                       {HERO.ctaPrimary}
                     </Link>
+                    </MMagnetic>
                     <span className="text-[13px] font-semibold text-muted">{HERO.ctaSub}</span>
                   </div>
                   <Link
@@ -613,6 +617,8 @@ export default function HomePage() {
           <div className="mt-8 flex flex-col items-center justify-between gap-6 rounded-[16px] bg-blush p-7 md:flex-row md:p-9">
             <p className="max-w-[52ch] text-lg font-medium leading-relaxed text-navy">{STAKES.band}</p>
             <div className="flex shrink-0 flex-col items-center gap-3 sm:flex-row sm:gap-5">
+              {/* magnet 2 of 2 — the fork's exit; no third magnet, ever */}
+              <MMagnetic>
               <Link
                 href="#lead"
                 data-cta="stakes-to-cta"
@@ -620,6 +626,7 @@ export default function HomePage() {
               >
                 {STAKES.bandCta}
               </Link>
+              </MMagnetic>
               <Link
                 href="/recipes"
                 data-cta="stakes-recipes"
@@ -676,9 +683,10 @@ export default function HomePage() {
                 </Link>
               </MItem>
             </div>
-            {/* the evening it points to — double-framed still entering from the far
-                side; the settled noise rests over its edge, set down for good */}
-            <MItem variants={slideIn("inline-end", 48)} className="mx-auto w-full max-w-[420px] md:max-w-[480px]">
+            {/* the evening it points to — revealed through the growing ◆ (irisDiamond,
+                «חוט ואור» move 5: the glyph is the shutter); the settled noise rests
+                over its edge, set down for good */}
+            <MItem variants={irisDiamond} className="mx-auto w-full max-w-[420px] md:max-w-[480px]">
               <div
                 className="frame-double relative rounded-[16px]"
                 style={{ "--frame-gap": "10px", "--frame-color": "var(--color-rose)" } as React.CSSProperties}
