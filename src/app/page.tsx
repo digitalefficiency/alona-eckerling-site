@@ -9,6 +9,7 @@ import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
 import { MScrollScene } from "@/components/motion/MScrollScene";
 import { DiagramReveal } from "@/components/motion/DiagramReveal";
+import { DrawnRule } from "@/components/motion/DrawnRule";
 import { ProofRecipes } from "@/components/ProofRecipes";
 import { MChapter } from "@/components/motion/MChapter";
 import { RevealHeading } from "@/components/motion/RevealHeading";
@@ -563,7 +564,30 @@ export default function HomePage() {
              conversation · the weekly plan, plan layer 8); rung 03 keeps the designed
              sage panel so the ladder ends on the site's own calm. ── */}
       <ShapedSection tone="sand" shape="arc" edge="top">
+        {/* «חדר התכנון»: the weekly-plan still becomes the room behind the ladder
+            (desktop only — mobile keeps clean sand, saving decode where we measure).
+            A heavy sand scrim keeps the room a whisper; the arc above stays solid,
+            blended by the top strip. */}
+        <MScrollScene
+          amplitude={5}
+          mediaClassName="hidden md:block"
+          media={
+            <>
+              <Image src="/media/generated/04-plan-week.jpg" alt="" fill sizes="100vw" className="object-cover" />
+              <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+              <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
+              <div aria-hidden className="absolute inset-0 bg-sand/82" />
+              <div aria-hidden className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-sand to-transparent" />
+            </>
+          }
+        >
         <Container width="wide" className="py-16 sm:py-20 md:py-32">
+          {/* the thread arrives from the dossier — one stitch entering the room */}
+          <DiagramReveal className="mx-auto mb-8 hidden h-6 w-28 text-rose md:block">
+            <svg viewBox="0 0 112 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" aria-hidden className="h-full w-full">
+              <path d="M 6 12 Q 20 5 34 12 T 62 12 T 90 12 L 106 12" vectorEffect="non-scaling-stroke" />
+            </svg>
+          </DiagramReveal>
           <SectionHeading eyebrow={PLAN.kicker} title={PLAN.title} lead={PLAN.lead} accent="בשפה שלך" />
           <StickyScroll
             className="mt-14"
@@ -601,12 +625,13 @@ export default function HomePage() {
                 // LEANS IN from the inline-end toward the sticky media — "המחשבה
                 // מגיעה לצד התמונה". Diamond step-marker = the ◆ signature grown up.
                 <MStagger variants={slideIn("inline-end", 48)} itemClassName="h-full">
-                  <div className="rounded-[16px] border border-line bg-card p-7 shadow-[var(--elevation-1)]">
+                  <div className="rounded-[16px] border border-line bg-card p-7 shadow-[var(--elevation-1)] md:bg-card/85 md:backdrop-blur-md">
                     <span aria-hidden className="grid h-11 w-11 rotate-45 place-items-center border border-gold/60 bg-gold-soft">
                       <span className="-rotate-45 font-serif text-base font-bold text-gold-ink">{s.n}</span>
                     </span>
                     <h3 className="mt-5 font-serif text-2xl font-bold text-navy">{s.t}</h3>
-                    <span aria-hidden className="mt-2.5 block h-[2px] w-12 bg-rose" />
+                    {/* the thread's stitch at each rung — draws itself (DrawnRule) */}
+                    <DrawnRule className="mt-2.5 h-[2px] w-12 bg-rose" />
                     <p className="mt-3 max-w-[52ch] text-lg leading-[1.7] text-muted">{s.d}</p>
                   </div>
                 </MStagger>
@@ -626,6 +651,7 @@ export default function HomePage() {
           {/* chapter seam out of the plan — ◆ hairlines hand the story to the proof */}
           <MChapter />
         </Container>
+        </MScrollScene>
       </ShapedSection>
 
       {/* ── 05 · PROOF — card-grid: a random trio of real CMS recipes per visit;

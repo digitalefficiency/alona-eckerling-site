@@ -1,4 +1,4 @@
-# RECEIPTS — 2026-07-19 09:53
+# RECEIPTS — 2026-07-20 13:06
 
 ## שערים (gates)
 - lint-copy (אפס placeholder/ביטויים אסורים): ✅ PASS
@@ -21,11 +21,11 @@
 ## סכימות (JSON-LD)
 - ℹ שער-ה-noindex דולק (טרום-השקה) — ציון ה-SEO של Lighthouse נענש על כך בעשרות נקודות; לציון האמיתי הריצו על staging עם NEXT_PUBLIC_ALLOW_INDEXING=true.
 - `/`: ✅ — 1 בלוק(ים): ProfessionalService _(ולידציה מלאה: validator.schema.org)_
-- SSR בית: ✅ ללא <canvas> · 123,180 בתים
+- SSR בית: ✅ ללא <canvas> · 143,396 בתים
 - `/coaching`: ✅ — 3 בלוק(ים): BreadcrumbList, FAQPage, Service _(ולידציה מלאה: validator.schema.org)_
 
 ## Lighthouse (הרף: ≥90 בביצועים/SEO/נגישות)
 - `/`: ❌ ביצועים **89** · נגישות **100** · SEO **69** · best-practices 100 · LCP 3.7 s · CLS 0
-- `/coaching`: ❌ ביצועים **90** · נגישות **100** · SEO **69** · best-practices 100 · LCP 3.6 s · CLS 0
+- `/coaching`: ❌ ביצועים **91** · נגישות **100** · SEO **69** · best-practices 100 · LCP 3.5 s · CLS 0
 
 _הקבלות האלו מצורפות ל-HANDOFF.md — מספרים אמיתיים מהריצה, לעולם לא הערכות._
