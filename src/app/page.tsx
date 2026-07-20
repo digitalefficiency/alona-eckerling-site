@@ -452,8 +452,8 @@ export default function HomePage() {
             <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
             <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-bg via-bg/25 to-transparent" />
           </div>
-          <Container width="wide" className="py-16 sm:py-20 md:py-32">
-            <SectionSeam className="mb-12" />
+          <Container width="wide" className="py-14 sm:py-16 md:py-24">
+            <SectionSeam className="mb-10" />
             {/* the heading rides its own paper strip — never bare over the photo */}
             <div className="inline-block rounded-[10px] bg-bg/90 md:px-7 md:py-5 md:backdrop-blur-sm">
               <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} accent="מכירה" />
@@ -488,7 +488,10 @@ export default function HomePage() {
                       className="absolute -top-2 start-1/2 z-10 h-4 w-4 translate-x-1/2 rotate-45 border border-gold/60 bg-gold-soft"
                     />
                     <div
-                      className="frame-double relative flex aspect-[4/5] flex-col items-center justify-center gap-3 rounded-[16px] bg-gold-soft p-8 text-center"
+                      // a calling card is LANDSCAPE — the portrait ratio was inflating
+                      // this column ~190px past the pieces column and opening dead desk
+                      // below the file (Rom: "מה שיש מתחת לתמונה אפשר להסיר")
+                      className="frame-double relative flex aspect-[7/5] flex-col items-center justify-center gap-2.5 rounded-[16px] bg-gold-soft p-7 text-center"
                       style={{ "--frame-gap": "7px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
                     >
                       <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />

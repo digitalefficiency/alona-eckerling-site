@@ -16,7 +16,10 @@ export function ProcessTimeline({
       <span className="absolute right-5 left-5 top-5 hidden h-px bg-gold/25 md:block" aria-hidden />
       {steps.map((s, i) => (
         <li key={i} className="relative flex-1 md:px-3 md:first:ps-0 md:last:pe-0">
-          <span className="relative z-10 grid h-10 w-10 place-items-center rounded-full border border-gold/60 bg-sand font-serif text-base font-bold text-gold-ink">
+          {/* the house pen-loop medallion — numerals are circled by hand across
+              the site (home ladder, coaching pillars); the ◆ stays structure-only */}
+          <span className="relative z-10 grid h-10 w-10 place-items-center rounded-full border border-rose/70 bg-sand font-serif text-base font-bold text-gold-ink">
+            <span aria-hidden className="pointer-events-none absolute -inset-[3px] -translate-y-px rounded-full border border-rose/30" />
             {i + 1}
           </span>
           <Heading className="mt-4 font-serif text-base font-bold leading-snug text-navy">{s.t}</Heading>
