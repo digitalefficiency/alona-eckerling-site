@@ -161,17 +161,17 @@ const PLAN = {
     {
       n: "01",
       t: "שיחת היכרות",
-      d: "בחינם, בלי התחייבות. נכיר, ונבין ביחד אם אני האדם הנכון ללוות אותך.",
+      d: "שיחה קצרה, בחינם ובלי שום התחייבות. את מספרת לי מה עובר עלייך עכשיו, מה כבר ניסית, ומה הכי מעייף אותך סביב האוכל, ואני בעיקר מקשיבה. בסוף השיחה נבין ביחד אם אני האדם הנכון ללוות אותך, ואם התשובה היא לא, אגיד לך את זה בכנות. זו שיחה, לא שיחת מכירה, ואת לא צריכה להגיע אליה מוכנה.",
     },
     {
       n: "02",
       t: "פגישה עמוקה + תוכנית אישית",
-      d: "60 עד 75 דקות שיושבות לעומק: מה את אוהבת לאכול ואיך נראה היום שלך. יוצאות עם תוכנית שנבנית סביב החיים שלך, והאוכל שאת אוהבת נשאר בפנים.",
+      d: "פגישה של 60 עד 75 דקות שיושבת לעומק: מה את אוהבת לאכול, איך נראה היום שלך באמת, מה כבר ניסית ומה נשבר בדרך, ובדיקות דם אם רלוונטי. אין כאן שיפוט ואין רשימת איסורים, יש הקשבה למה שבאמת קורה אצלך בשבוע. מהפגישה את יוצאת עם תוכנית אישית שנבנית סביב החיים שלך ולא במקומם, והאוכל שאת אוהבת נשאר בפנים. התוכנית נשארת אצלך, ולא נעלמת ברגע שיצאת מהחדר.",
     },
     {
       n: "03",
       t: "ליווי שנשאר",
-      d: "אני לא נעלמת אחרי הפגישה. בין המפגשים אני איתך בוואטסאפ, עם פידבק על יומן האכילה, כדי שהדברים ייכנסו לשגרה ויישארו. לא עוד דיאטה שנגמרת.",
+      d: "אני לא נעלמת אחרי הפגישה, וזה בדיוק החלק שרוב הדיאטות מפספסות. בחבילות הליווי אני איתך בוואטסאפ בין המפגשים, לשאלות הקטנות שצצות באמצע היום ולרגעים שבהם מתחשק לוותר, ויש גם פידבק על יומן האכילה ומפגשי מעקב לאורך הדרך. ככה הדברים מפסיקים להיות רעיון יפה ונכנסים לשגרה, גם בשבועות העמוסים. המטרה שלי היא שלא תישארי לבד מול האתגרים של היום יום, ושבסוף הדרך יישאר לך משהו שהוא כבר שלך. לא עוד דיאטה שנגמרת.",
     },
   ],
   cta: "רוצה לראות איך זה נראה בפועל? הצצה למטבח שלי ←",
@@ -182,11 +182,12 @@ const PLAN = {
 // 02 is now a REAL dish from her kitchen (one pot for the week IS that rung's story),
 // so it earns a real alt: informative, factual, straight off the recipe's own card.
 const PLAN_MEDIA: readonly { src: string; alt: string }[] = [
-  { src: "/media/generated/11-method-two-cups.jpg", alt: "" },
-  {
-    src: "/media/client/recipes/one-pot-bulgur-stew.jpg",
-    alt: "תבשיל בורגול עם ירקות וקטניות בסיר אחד, מהמתכונים של אלונה",
-  },
+  // one still per rung, each showing that rung's own moment (Rom 2026-07-20:
+  // "תמונות אחרות שמתאימות לכרטיסיות"): the first conversation · the page the
+  // plan gets written on · the message away, beside a real weeknight dinner.
+  { src: "/media/generated/04-rung-01-first-call.jpg", alt: "" },
+  { src: "/media/generated/04-rung-02-plan-page.jpg", alt: "" },
+  { src: "/media/generated/04-rung-03-message-away.jpg", alt: "" },
 ];
 
 // COPY: ### סקשן 5 · RecipeCard grid + ResultCard
@@ -615,8 +616,19 @@ export default function HomePage() {
                 // מגיעה לצד התמונה". Diamond step-marker = the ◆ signature grown up.
                 <MStagger variants={slideIn("inline-end", 48)} itemClassName="h-full">
                   <div className="rounded-[16px] border border-line bg-card p-7 shadow-[var(--elevation-1)] md:bg-card/85 md:backdrop-blur-md">
-                    <span aria-hidden className="grid h-11 w-11 rotate-45 place-items-center border border-gold/60 bg-gold-soft">
-                      <span className="-rotate-45 font-serif text-base font-bold text-gold-ink">{s.n}</span>
+                    {/* pen-loop medallion (Rom 2026-07-20: "משהו עדין ונעים יותר"):
+                        the rotated diamond sent four hard corners into the card's
+                        calm. A ring has none — and the second, fainter loop sitting
+                        a pixel high is the gesture of a hand circling a number twice
+                        in pen. Rose, so the ladder's markers belong to the thread.
+                        The ◆ stays what it always was: a STRUCTURE mark (kickers,
+                        seams, the dossier pin), never a numeral. */}
+                    <span
+                      aria-hidden
+                      className="relative grid h-11 w-11 place-items-center rounded-full border border-rose/70 bg-gold-soft/50"
+                    >
+                      <span className="pointer-events-none absolute -inset-[3px] -translate-y-px rounded-full border border-rose/30" />
+                      <span className="font-serif text-base font-bold leading-none text-gold-ink">{s.n}</span>
                     </span>
                     <h3 className="mt-5 font-serif text-2xl font-bold text-navy">{s.t}</h3>
                     {/* the thread's stitch at each rung — draws itself (DrawnRule) */}

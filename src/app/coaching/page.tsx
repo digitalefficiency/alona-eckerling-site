@@ -477,8 +477,14 @@ export default function CoachingPage() {
               <div aria-hidden className="grain-overlay" />
               {/* index row — the diamond numeral + a gold hairline running to the edge */}
               <div className="relative flex items-center gap-5">
-                <span aria-hidden className="grid h-11 w-11 shrink-0 rotate-45 place-items-center border border-gold/60 bg-card">
-                  <span className="-rotate-45 font-serif text-sm font-bold text-gold-ink">
+                {/* same pen-loop medallion as the home ladder — numerals are circled
+                    by hand across the site; the ◆ stays a structure mark */}
+                <span
+                  aria-hidden
+                  className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full border border-rose/70 bg-card"
+                >
+                  <span className="pointer-events-none absolute -inset-[3px] -translate-y-px rounded-full border border-rose/30" />
+                  <span className="font-serif text-sm font-bold leading-none text-gold-ink">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </span>
@@ -526,9 +532,10 @@ export default function CoachingPage() {
                   <div className="relative flex items-start justify-center">
                     <span
                       aria-hidden
-                      className="mt-1.5 grid h-8 w-8 rotate-45 place-items-center border border-gold/60 bg-sand md:h-10 md:w-10"
+                      className="relative mt-1.5 grid h-8 w-8 place-items-center rounded-full border border-rose/70 bg-sand md:h-10 md:w-10"
                     >
-                      <span className="h-1.5 w-1.5 bg-gold/70 md:h-2 md:w-2" />
+                      <span className="pointer-events-none absolute -inset-[3px] -translate-y-px rounded-full border border-rose/30" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-gold/70 md:h-2 md:w-2" />
                     </span>
                   </div>
                   {/* entry column — the ghosted folio numeral is bottom-anchored to the
