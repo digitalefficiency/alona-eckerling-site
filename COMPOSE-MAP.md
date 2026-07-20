@@ -5,7 +5,7 @@
 |---|---|---|---|---|---|---|
 | 1 | home | 01-home-hero.md | full-bleed-hero | HOOK | page-local hero band: MOrchestrate + MItem + RevealHeading(h1) + sage/blush wash + grain-overlay (generated kitchen stil | ### סקשן 1 · ImageHero + MOrchestrate |
 | 2 | home | 02-home-problem.md | background-art | TENSION | SequenceFilm (14 frames /media/generated/02-problem-s01..14.jpg, 5 thought-chips accumulate → turn → gold-frame quiet; s | ### סקשן 2 · סרט-גלילה «בניית המנה» (צ'יפים + כיתובי-תחנה) |
-| 3 | home | 03-home-guide.md | asymmetric-split | GUIDE | SectionSeam + SectionHeading + honest dashed portrait empty-state (real Alona photo pending, name+role only) + rose-rule | ### סקשן 3 · FeatureRow + BioCard + CredentialStrip |
+| 3 | home | 03-home-guide.md | overlap-layered | GUIDE | «הדוסייה על השולחן»: MScrollScene desk-room bg (03-guide-desk) + paper pieces assembling (calling-card tilted+pinned, empathy note slideIn-start, license record slideIn-end, age note, mechanism index-tabs) + DiagramReveal rose stitches; portrait slot honest-empty | ### סקשן 3 · FeatureRow + BioCard + CredentialStrip |
 | 4 | home | 04-home-plan.md | sticky-scroll | PLAN | ShapedSection(arc, sand) + SectionHeading + StickyScroll 3-rung ladder (SSR-drawn numeral panels, rung 03 lands in sage- | ### סקשן 4 · ProcessTimeline (3 שלבים) |
 | 5 | home | 05-home-proof.md | card-grid | PROOF | Section(white, id=proof) + SectionHeading + honest-count chip + MStagger grid of 3 real recipe cards via listDocs("recip | ### סקשן 5 · RecipeCard grid + ResultCard |
 | 6 | home | 06-home-stakes.md | comparison | STAKES | SectionHeading + her-voice cue (italic rose) + Comparison (recommended «הדרך השקטה» first child = RTL right, highlight)  | ### סקשן 6 · Comparison + צעד חינם צמוד |

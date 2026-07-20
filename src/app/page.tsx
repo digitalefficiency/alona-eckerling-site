@@ -7,10 +7,12 @@ import { ShapedSection } from "@/components/layout/ShapedSection";
 import { SectionHeading } from "@/components/SectionHeading";
 import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
+import { MScrollScene } from "@/components/motion/MScrollScene";
+import { DiagramReveal } from "@/components/motion/DiagramReveal";
 import { ProofRecipes } from "@/components/ProofRecipes";
 import { MChapter } from "@/components/motion/MChapter";
 import { RevealHeading } from "@/components/motion/RevealHeading";
-import { irisDiamond, slideIn, scaleSoft } from "@/lib/motion-variants";
+import { fadeUp, irisDiamond, slideIn, scaleSoft } from "@/lib/motion-variants";
 import { MMagnetic } from "@/components/motion/MMagnetic";
 import { SplitText } from "@/components/motion/SplitText";
 import { StickyScroll } from "@/components/motion/StickyScroll";
@@ -92,6 +94,10 @@ const FILM_CAPTIONS: readonly FilmCaption[] = [
 ];
 
 // COPY: ### סקשן 3 · FeatureRow + BioCard + CredentialStrip
+// §03 room background — the desk the dossier spreads on (generated per plan
+// layer 8: top-down desk, blank notebook, palette-locked linens, faceless).
+const GUIDE_BG = "/media/generated/03-guide-desk.jpg";
+
 const GUIDE = {
   kicker: "נעים להכיר",
   title: "אני מכירה את הבלבול הזה",
@@ -425,69 +431,131 @@ export default function HomePage() {
         </ShapedSection>
       </ShapedSection>
 
-      {/* ── 03 · GUIDE — asymmetric-split: empathy → checkable credentials → the age
-             answer in her voice → the mechanism. Portrait slot = honest empty-state
-             (real Alona photo pending — never a generated face), styled as a designed
-             calling card (sage wash + ◆ + serif name), never a dashed wireframe. ── */}
+      {/* ── 03 · GUIDE — «הדוסייה על השולחן» (overlap-layered): the camera looks down at
+             her work desk (a photo ROOM via MScrollScene, never a framed object) and
+             the section assembles like a professional file spreading open — paper
+             pieces arriving from meaningful sides, sewn together by drawn rose
+             stitches (the "spec that connects while scrolling"). Portrait slot stays
+             the honest empty-state (real Alona photo pending — never a generated
+             face), now a waiting frame pinned to the file. Text NEVER sits on the
+             bare photo — every piece is an opaque/milky paper card (AA). ── */}
       <section className="relative">
-        <Container width="wide" className="py-16 sm:py-20 md:py-32">
-          <SectionSeam className="mb-12" />
-          <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} accent="מכירה" />
-          {/* ONE orchestrator for the whole split (choreography rule): the calling
-              card settles, her age-line LEANS IN from the inline-start (the page's
-              first side-entrance — her voice arriving beside the card), the argument
-              column staggers block-axis. */}
-          <MOrchestrate className="mt-12 grid items-start gap-12 md:grid-cols-[0.85fr_1.15fr]">
-            {/* portrait column — RTL inline-start (right): the real-photo slot, kept honest */}
-            <div className="mx-auto w-full max-w-[420px]">
-              <MItem variants={scaleSoft}>
-                {/* flagship card — the geometric signature's double frame */}
-                <div
-                  className="frame-double relative flex aspect-[4/5] flex-col items-center justify-center gap-3 rounded-[16px] bg-gold-soft p-8 text-center"
-                  style={{ "--frame-gap": "7px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
-                >
-                  <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
-                  <span className="relative text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-                  <div className="relative font-serif text-3xl font-bold text-navy">{GUIDE.name}</div>
-                  <span aria-hidden className="relative h-[3px] w-10 rounded-full bg-rose" />
-                  <div className="relative font-serif text-base font-semibold text-navy-700">{GUIDE.role}</div>
-                </div>
-              </MItem>
-              <MItem variants={slideIn("inline-start", 32)} className="mt-7">
-                <figure className="border-s-4 border-rose ps-5">
-                  <blockquote className="font-serif text-lg italic leading-relaxed text-navy">
-                    {GUIDE.ageLine}
-                  </blockquote>
-                </figure>
-              </MItem>
+        <MScrollScene
+          amplitude={4}
+          mediaClassName="hidden md:block"
+          media={
+            <>
+              <Image src={GUIDE_BG} alt="" fill sizes="100vw" className="object-cover" />
+              <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+              {/* mid-page material diet */}
+              <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
+              {/* paper wash — the room stays present but never fights the pieces */}
+              <div aria-hidden className="absolute inset-0 bg-bg/72" />
+            </>
+          }
+        >
+          {/* mobile: the room becomes a quiet top band (the coaching §14 pattern) —
+              the full-bleed backdrop is desktop-only, saving decode where we measure */}
+          <div className="relative aspect-[3/2] overflow-hidden border-b border-line md:hidden">
+            <Image src={GUIDE_BG} alt="" fill sizes="100vw" className="object-cover" />
+            <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-bg via-bg/25 to-transparent" />
+          </div>
+          <Container width="wide" className="py-16 sm:py-20 md:py-32">
+            <SectionSeam className="mb-12" />
+            {/* the heading rides its own paper strip — never bare over the photo */}
+            <div className="inline-block rounded-[10px] bg-bg/90 md:px-7 md:py-5 md:backdrop-blur-sm">
+              <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} accent="מכירה" />
             </div>
-            {/* argument column — empathy strictly before authority */}
-            <div>
-              <MItem as="p" className="max-w-[62ch] text-lg leading-[1.7] text-muted">{GUIDE.empathy}</MItem>
-              <MItem className="mt-8">
-                <RecognitionBadges badges={[...GUIDE.credentials]} />
-              </MItem>
-              <ul className="mt-9 grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
-                {GUIDE.mechanism.map((m) => (
-                  <MItem as="li" key={m} className="self-start">
-                    <span className="inline-block border-b-2 border-rose pb-1.5 font-serif text-lg font-bold text-navy">
-                      {m}
-                    </span>
-                  </MItem>
-                ))}
-              </ul>
-              <MItem className="mt-10">
-                <Link
-                  href="/coaching"
-                  data-cta="guide-to-coaching"
-                  className="font-bold text-gold-ink underline-offset-4 transition hover:underline"
+            <MOrchestrate className="relative mt-12 grid items-start gap-x-12 gap-y-9 md:grid-cols-[0.85fr_1.15fr]">
+              {/* the drawn stitches — three short rose seams sewing the file together
+                  as it opens (decorative; drawn on the DiagramReveal token timing) */}
+              <DiagramReveal className="pointer-events-none absolute inset-0 z-10 hidden text-rose md:block">
+                <svg
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="none"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                  strokeLinecap="round"
+                  aria-hidden
+                  className="h-full w-full"
                 >
-                  {GUIDE.cta}
-                </Link>
-              </MItem>
-            </div>
-          </MOrchestrate>
-        </Container>
+                  <path d="M 42 24 Q 48 20 54 24 T 66 24" vectorEffect="non-scaling-stroke" />
+                  <path d="M 44 54 Q 50 58 56 54 T 68 54" vectorEffect="non-scaling-stroke" />
+                  <path d="M 26 78 Q 32 82 38 78 T 50 78" vectorEffect="non-scaling-stroke" />
+                </svg>
+              </DiagramReveal>
+              {/* file anchor column — RTL inline-start (right): the calling card,
+                  dropped on the desk at a hand-placed tilt, pinned like a photo */}
+              <div className="mx-auto w-full max-w-[420px]">
+                <MItem variants={scaleSoft}>
+                  <div className="relative rotate-[-1.5deg]">
+                    {/* the pin — the ◆ glyph holding the card to the file */}
+                    <span
+                      aria-hidden
+                      className="absolute -top-2 start-1/2 z-10 h-4 w-4 translate-x-1/2 rotate-45 border border-gold/60 bg-gold-soft"
+                    />
+                    <div
+                      className="frame-double relative flex aspect-[4/5] flex-col items-center justify-center gap-3 rounded-[16px] bg-gold-soft p-8 text-center"
+                      style={{ "--frame-gap": "7px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
+                    >
+                      <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
+                      <span className="relative text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
+                      <div className="relative font-serif text-3xl font-bold text-navy">{GUIDE.name}</div>
+                      <span aria-hidden className="relative h-[3px] w-10 rounded-full bg-rose" />
+                      <div className="relative font-serif text-base font-semibold text-navy-700">{GUIDE.role}</div>
+                    </div>
+                  </div>
+                </MItem>
+                {/* the age answer — a small note tilted the OTHER way, her voice
+                    answering the card in place */}
+                <MItem variants={fadeUp} className="mt-8">
+                  <figure className="rotate-[1.2deg] rounded-[12px] border border-line border-s-4 border-s-rose bg-card p-5 shadow-[var(--elevation-1)] md:bg-card/90 md:backdrop-blur-md">
+                    <blockquote className="font-serif text-lg italic leading-relaxed text-navy">
+                      {GUIDE.ageLine}
+                    </blockquote>
+                  </figure>
+                </MItem>
+              </div>
+              {/* the file's pieces — empathy strictly before authority */}
+              <div className="flex flex-col gap-7">
+                {/* her voice arrives from the reading edge (inline-start = right) */}
+                <MItem variants={slideIn("inline-start", 48)}>
+                  <div className="rounded-[12px] border border-line bg-card p-6 shadow-[var(--elevation-1)] md:bg-card/90 md:backdrop-blur-md">
+                    <p className="max-w-[62ch] text-lg leading-[1.7] text-ink">{GUIDE.empathy}</p>
+                  </div>
+                </MItem>
+                {/* the official record arrives from the OTHER side — a stamp is not
+                    a voice, it comes from the world */}
+                <MItem variants={slideIn("inline-end", 48)}>
+                  <div className="rounded-[12px] border border-line bg-card p-6 shadow-[var(--elevation-1)] md:bg-card/90 md:backdrop-blur-md">
+                    <RecognitionBadges badges={[...GUIDE.credentials]} />
+                  </div>
+                </MItem>
+                {/* index tabs at the file's bottom edge — the mechanism */}
+                <ul className="flex flex-wrap gap-2.5">
+                  {GUIDE.mechanism.map((m) => (
+                    <MItem as="li" key={m}>
+                      <span className="inline-block rounded-t-[10px] border border-b-2 border-line border-b-rose bg-card px-4 py-2.5 font-serif text-base font-bold text-navy md:bg-card/90 md:backdrop-blur-md">
+                        {m}
+                      </span>
+                    </MItem>
+                  ))}
+                </ul>
+                <MItem className="mt-2">
+                  <Link
+                    href="/coaching"
+                    data-cta="guide-to-coaching"
+                    className="font-bold text-gold-ink underline-offset-4 transition hover:underline"
+                  >
+                    {GUIDE.cta}
+                  </Link>
+                </MItem>
+              </div>
+            </MOrchestrate>
+          </Container>
+        </MScrollScene>
       </section>
 
       {/* ── 04 · PLAN — sticky-scroll ladder: three named rungs climb from a free call
