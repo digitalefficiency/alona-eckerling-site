@@ -10,6 +10,7 @@ import { MStagger } from "@/components/motion/MStagger";
 import { MScrollScene } from "@/components/motion/MScrollScene";
 import { DiagramReveal } from "@/components/motion/DiagramReveal";
 import { DrawnRule } from "@/components/motion/DrawnRule";
+import { HeroFilm } from "@/components/media/HeroFilm";
 import { ProofRecipes } from "@/components/ProofRecipes";
 import { MChapter } from "@/components/motion/MChapter";
 import { RevealHeading } from "@/components/motion/RevealHeading";
@@ -34,6 +35,11 @@ import { listDocs, type CollectionEntry } from "@/lib/collections";
 // ============================================================================
 
 // COPY: ### סקשן 1 · ImageHero + MOrchestrate
+// The hero room's poster — first frame of the ring-loop film (K1 overhead:
+// empty plate surrounded by abundance). ALSO the LCP. When production lands,
+// HeroFilm gains webm/mp4 props pointing at 01-hero-film.{webm,mp4}.
+const HERO_POSTER = "/media/generated/01-hero-film-poster.jpg";
+
 const HERO = {
   kicker: "תזונת נשים · ליווי אישי",
   title: "את כבר יודעת מה לאכול.\nמה שחסר זה לא עוד תפריט.",
@@ -259,152 +265,101 @@ export default function HomePage() {
     <>
       {/* structured identity for the front door (GEO/SEO) — same builder as /contact */}
       <JsonLd data={professionalService(site, services)} />
-      {/* ── 01 · HOOK — a COMPOSITION, not a veiled backdrop. The owner's own note
-             ("כותרות על תמונות") retired the full-bleed veil + blur orbs: the words
-             now sit on OPAQUE warm paper and the photograph is an OBJECT — a gold
-             double-framed panel that bleeds off the inline-end edge of the screen
-             and leans into the text track with real elevation. The boundary between
-             word and image is HARD (the frame), never a gradient.
-             The <img> is ONE swappable slot: a real consultation photo of Alona
-             replaces this still later — same src attribute, same priority hints.
-             data-light-hero: the floating header must take its dark-ink treatment
-             here (light paper, not a dark hero). ── */}
-      <section data-light-hero className="relative isolate overflow-hidden bg-bg">
-        <div aria-hidden className="grain-overlay" />
-        <Container width="wide" className="py-16 pb-24 md:py-24 md:pb-36">
-          {/* ONE orchestrator for the whole composition: the words step in block-axis,
-              the framed panel settles beside them (scaleSoft — the media variant). */}
-          <MOrchestrate className="grid items-center gap-12 lg:min-h-[64vh] lg:grid-cols-[1fr_0.8fr] lg:gap-6">
-            {/* the words — inline-start (right in RTL), on plain warm paper. z-10 keeps
-                the copy above the panel at every paint; pe-16 holds the reading measure
-                clear of the panel's frame where it crosses into this track. */}
-            <div className="relative z-10 lg:pe-16">
-              <MItem as="p" className="flex items-center gap-2.5 text-[13px] font-bold tracking-[0.14em] text-muted">
-                <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-                {HERO.kicker}
-              </MItem>
-              {/* autoplay (LCP): the H1's masked rise runs as pure CSS from first
-                  paint — hydration/IO arming was measured pushing LCP by seconds */}
-              <RevealHeading
-                as="h1"
-                text={HERO.title}
-                autoplay
-                // the rose ANSWERS the question — a hand-drawn rule under the
-                // promise, after the line lands («חוט ואור» move 4)
-                accentText="לא עוד תפריט"
-                className="mt-5 font-serif font-black leading-[1.12] text-navy"
-                // sized to the COLUMN, not the screen: at the 3.2rem ceiling both
-                // designed lines (\n) fit the ~585px lg text track as the 2 lines
-                // they were broken into; the 2.1rem floor matches --text-display's
-                // floor so ≤390px screens keep the CTA above the fold
-                style={{ fontSize: "clamp(2.1rem, 5vw, 3.2rem)" }}
-              />
-              <MItem as="p" className="mt-7 max-w-[62ch] text-lg leading-[1.7] text-muted">
-                {HERO.lede}
-              </MItem>
-              <MItem className="mt-10">
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
-                  <div className="flex flex-col items-center gap-1.5">
-                    {/* magnet 1 of the page's pair («חוט ואור» move 6; ≤2 budget enforced by MMagnetic) */}
-                    <MMagnetic>
-                    <Link
-                      href="#lead"
-                      data-cta="hero-primary"
-                      className="btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
-                    >
-                      {HERO.ctaPrimary}
-                    </Link>
-                    </MMagnetic>
-                    <span className="text-[13px] font-semibold text-muted">{HERO.ctaSub}</span>
-                  </div>
+      {/* ── 01 · HOOK — «חדר הבוקר» (full-bleed film hero, Rom's call 2026-07-20):
+             the kitchen morning IS the room now. HeroFilm mounts the poster as the
+             LCP (static, eager, painted on the first frame) and swaps in the
+             ring-loop film strictly after window.load — different camera angles
+             setting one plate, produced via the scroll-cinema pipeline (webm/mp4
+             props land when production does; until then this is a full-bleed
+             poster hero). The words keep their exact choreography on a logical
+             side scrim (paper solid under the text column, opening into the room);
+             the thread is still born from the CTA's chamfered corner. The old
+             gold-framed panel retires — its vocabulary lives on in §03/§07.
+             The limp hero chip is GONE (Rom's call): the chip arc now opens in
+             the film itself (→ §06 echo → §07 rest).
+             data-light-hero: the floating header keeps its dark-ink treatment
+             (the scrim keeps the top-start corner paper-bright). ── */}
+      <section data-light-hero className="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-bg lg:items-center">
+        <HeroFilm poster={HERO_POSTER} objectPosition="70% center" />
+        <div aria-hidden className="hero-scrim" />
+        <Container width="wide" className="relative z-10 w-full pb-16 pt-44 sm:pt-56 md:pb-24 lg:py-24 lg:pb-32">
+          {/* ONE orchestrator, same word choreography as ever — block-axis steps */}
+          <MOrchestrate className="max-w-[620px]">
+            <MItem as="p" className="flex items-center gap-2.5 text-[13px] font-bold tracking-[0.14em] text-muted">
+              <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
+              {HERO.kicker}
+            </MItem>
+            {/* autoplay (LCP): the H1's masked rise runs as pure CSS from first
+                paint — hydration/IO arming was measured pushing LCP by seconds */}
+            <RevealHeading
+              as="h1"
+              text={HERO.title}
+              autoplay
+              // the rose ANSWERS the question — a hand-drawn rule under the
+              // promise, after the line lands («חוט ואור» move 4)
+              accentText="לא עוד תפריט"
+              className="mt-5 font-serif font-black leading-[1.12] text-navy"
+              style={{ fontSize: "clamp(2.1rem, 5vw, 3.3rem)" }}
+            />
+            <MItem as="p" className="mt-7 max-w-[54ch] text-lg leading-[1.7] text-ink">
+              {HERO.lede}
+            </MItem>
+            <MItem className="mt-10">
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
+                <div className="flex flex-col items-center gap-1.5">
+                  {/* magnet 1 of the page's pair («חוט ואור» move 6; ≤2 budget enforced by MMagnetic) */}
+                  <MMagnetic>
                   <Link
-                    href="/about"
-                    data-cta="hero-credential"
-                    className="inline-flex items-center rounded-full border border-line bg-sand px-4 py-2.5 text-sm font-semibold text-navy transition hover:border-gold/60"
+                    href="#lead"
+                    data-cta="hero-primary"
+                    className="btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                   >
-                    {/* one span = one flex item, so the inline separator keeps its space */}
-                    <span>
-                      {HERO.trustToken}
-                      <span className="hidden sm:inline">{HERO.trustTokenLicense}</span>
-                    </span>
+                    {HERO.ctaPrimary}
                   </Link>
+                  </MMagnetic>
+                  <span className="text-[13px] font-semibold text-muted">{HERO.ctaSub}</span>
                 </div>
-              </MItem>
-              {/* «לידת החוט» (move 1, phase 1): a rose thread-tip born from the
-                  chamfered corner of "בואי נדבר", descending toward the film's
-                  sand arc. Absolute (zero layout cost), decorative, CSS-drawn;
-                  the recipes link below steps aside (lg:ps-7) to clear its lane. */}
-              <div aria-hidden className="pointer-events-none relative hidden lg:block">
-                <svg
-                  className="thread-birth thread-animate absolute -top-1 start-1 h-64 w-12 overflow-visible"
-                  viewBox="0 0 48 256"
-                  fill="none"
-                >
-                  <path
-                    d="M42 0C42 64 10 88 22 140C31 178 10 210 16 256"
-                    pathLength={1}
-                    stroke="var(--color-rose)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
-              <MItem className="mt-7 lg:ps-7">
                 <Link
-                  href="/recipes"
-                  data-cta="hero-recipes"
-                  className="text-[0.95rem] font-medium text-muted underline decoration-rose decoration-2 underline-offset-4 transition hover:text-navy"
+                  href="/about"
+                  data-cta="hero-credential"
+                  className="inline-flex items-center rounded-full border border-line bg-sand px-4 py-2.5 text-sm font-semibold text-navy transition hover:border-gold/60"
                 >
-                  {HERO.ctaRecipes}
+                  {/* one span = one flex item, so the inline separator keeps its space */}
+                  <span>
+                    {HERO.trustToken}
+                    <span className="hidden sm:inline">{HERO.trustTokenLicense}</span>
+                  </span>
                 </Link>
-              </MItem>
-            </div>
-            {/* the photograph as an OBJECT — a framed panel bleeding off the inline-end
-                edge of the SCREEN (the negative inline-end margin resolves the container
-                gutter + the outer margin at every width; the section clips the overspill).
-                Below lg it stacks under the words as a band with the same edge-bleed —
-                never a veil under text. */}
-            {/* NOT animated (LCP): the framed photo is simply already there when the
-                page paints — the words arrive around it. Opacity-arming this panel
-                was the measured 5.8s LCP (element render-delay after a 70ms load). */}
-            <div
-              className="relative z-0 me-[-1rem] sm:me-[calc(-24px-max(0px,(100vw-1240px)/2))] lg:-ms-16"
-            >
-              <div
-                className="frame-double relative rounded-[16px] shadow-[var(--elevation-2)]"
-                style={{ "--frame-gap": "10px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
-              >
-                {/* the first thought-chip, resting limp on the frame — the noise
-                    the whole page is about to quiet. TEXT FROM FILM_CHIPS ONLY
-                    (YMYL: chips never get new copy); the film picks it up at
-                    full strength, §07 lays it to rest. */}
-                <span
-                  aria-hidden
-                  className="absolute -top-4 start-8 z-10 inline-block rotate-[-2deg] whitespace-nowrap rounded-full border border-line bg-bg/90 px-4 py-1.5 font-serif text-[0.95rem] italic text-muted opacity-70 shadow-sm"
-                >
-                  {FILM_CHIPS[0].text}
-                </span>
-                <div className="relative aspect-[16/10] overflow-hidden rounded-[inherit] lg:aspect-[5/4]">
-                  {/* next/image WITHOUT the priority prop: srcset/AVIF for a
-                      viewport-sized download (the LCP), but no preload hint —
-                      priority's preload rides the RSC payload and replays on
-                      every route that prefetches home */}
-                  <Image
-                    src="/media/generated/01-hero-kitchen.jpg"
-                    alt=""
-                    fill
-                    sizes="(min-width: 1024px) 44vw, 100vw"
-                    fetchPriority="high"
-                    loading="eager"
-                    className="object-cover object-[30%_center]"
-                  />
-                  {/* the ONE shared image grade (archive continuity) */}
-                  <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
-                  {/* material diet: mid-page grain thins (0.05 → 0.035 → §07 clean) */}
-                  <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
-                </div>
               </div>
+            </MItem>
+            {/* «לידת החוט» (move 1, phase 1): a rose thread-tip born from the
+                chamfered corner of "בואי נדבר", descending toward the film's
+                sand arc. Absolute (zero layout cost), decorative, CSS-drawn;
+                the recipes link below steps aside (lg:ps-7) to clear its lane. */}
+            <div aria-hidden className="pointer-events-none relative hidden lg:block">
+              <svg
+                className="thread-birth thread-animate absolute -top-1 start-1 h-64 w-12 overflow-visible"
+                viewBox="0 0 48 256"
+                fill="none"
+              >
+                <path
+                  d="M42 0C42 64 10 88 22 140C31 178 10 210 16 256"
+                  pathLength={1}
+                  stroke="var(--color-rose)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
             </div>
+            <MItem className="mt-7 lg:ps-7">
+              <Link
+                href="/recipes"
+                data-cta="hero-recipes"
+                className="text-[0.95rem] font-medium text-muted underline decoration-rose decoration-2 underline-offset-4 transition hover:text-navy"
+              >
+                {HERO.ctaRecipes}
+              </Link>
+            </MItem>
           </MOrchestrate>
         </Container>
       </section>

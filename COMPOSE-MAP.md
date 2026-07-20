@@ -3,7 +3,7 @@
 
 | # | עמוד | section | archetype | beat | component | COPY block |
 |---|---|---|---|---|---|---|
-| 1 | home | 01-home-hero.md | full-bleed-hero | HOOK | page-local hero band: MOrchestrate + MItem + RevealHeading(h1) + sage/blush wash + grain-overlay (generated kitchen stil | ### סקשן 1 · ImageHero + MOrchestrate |
+| 1 | home | 01-home-hero.md | full-bleed-hero | HOOK | «חדר הבוקר»: HeroFilm full-bleed (poster 01-hero-film-poster = LCP; ring-loop webm/mp4 arm post-load when production lands) + hero-scrim logical side panel + MOrchestrate words + RevealHeading(h1, autoplay) + thread-birth; the old gold-framed panel retired; hero chip GONE (chip arc opens in the film | ### סקשן 1 · ImageHero + MOrchestrate |
 | 2 | home | 02-home-problem.md | background-art | TENSION | SequenceFilm (14 frames /media/generated/02-problem-s01..14.jpg, 5 thought-chips accumulate → turn → gold-frame quiet; s | ### סקשן 2 · סרט-גלילה «בניית המנה» (צ'יפים + כיתובי-תחנה) |
 | 3 | home | 03-home-guide.md | overlap-layered | GUIDE | «הדוסייה על השולחן»: MScrollScene desk-room bg (03-guide-desk) + paper pieces assembling (calling-card tilted+pinned, empathy note slideIn-start, license record slideIn-end, age note, mechanism index-tabs) + DiagramReveal rose stitches; portrait slot honest-empty | ### סקשן 3 · FeatureRow + BioCard + CredentialStrip |
 | 4 | home | 04-home-plan.md | sticky-scroll | PLAN | «חדר התכנון»: ShapedSection(arc, sand) + MScrollScene room bg (04-plan-week, desktop-only, heavy sand scrim) + entry stitch (DiagramReveal) + StickyScroll 3-rung ladder — milky rung cards, DrawnRule stitch per rung (rung 03 lands in sage- | ### סקשן 4 · ProcessTimeline (3 שלבים) |

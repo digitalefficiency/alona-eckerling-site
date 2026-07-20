@@ -128,3 +128,25 @@ export function useReveal<T extends HTMLElement>(opts: RevealOpts = {}) {
   }, []);
   return ref;
 }
+
+// Arms heavy media strictly AFTER the window load event (+ a settle delay) —
+// the SequenceFilm load-gate as a reusable hook: whatever it guards never
+// competes with the LCP window (the measured ~1.4MB frame-storm lesson).
+// SequenceFilm keeps its own inline copy — that code is measured in blood;
+// new consumers (HeroFilm) take this hook.
+export function useAfterWindowLoad(delayMs = 300): boolean {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let timer = 0;
+    const arm = () => {
+      timer = window.setTimeout(() => setReady(true), delayMs);
+    };
+    if (document.readyState === "complete") arm();
+    else window.addEventListener("load", arm, { once: true });
+    return () => {
+      window.removeEventListener("load", arm);
+      clearTimeout(timer);
+    };
+  }, [delayMs]);
+  return ready;
+}

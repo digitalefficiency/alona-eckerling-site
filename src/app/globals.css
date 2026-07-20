@@ -989,3 +989,32 @@ html.a11y-big-cursor * {
   .ff-label { transition: none; }
   .toast { animation: toast-fade var(--dur-micro) both; }
 }
+
+/* ── hero-film scrims («חדרים מצולמים») — navy text stays AA over bright footage.
+   lg+: a logical side panel — paper solid under the text column (inline-start =
+   right in this RTL site) fading along the inline axis into the open room.
+   Below lg: a block-axis bottom anchor; the text sits on the solid base.
+   Both are STATIC token gradients — reduced-motion-safe by construction. */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    var(--color-bg) 46%,
+    color-mix(in srgb, var(--color-bg) 86%, transparent) 62%,
+    color-mix(in srgb, var(--color-bg) 35%, transparent) 78%,
+    transparent 92%
+  );
+}
+@media (min-width: 1024px) {
+  .hero-scrim {
+    background: linear-gradient(
+      to left,
+      var(--color-bg) 30%,
+      color-mix(in srgb, var(--color-bg) 88%, transparent) 46%,
+      color-mix(in srgb, var(--color-bg) 30%, transparent) 66%,
+      transparent 84%
+    );
+  }
+}
