@@ -1018,3 +1018,50 @@ html.a11y-big-cursor * {
     );
   }
 }
+
+/* ── «קו-השולחן» — the one continuity system (2026-07-20, Rom: "תמונה שהולכת
+   לאורך ומחוברת, יוצרת חיבור בין תמונה לתמונה").
+   The eye reads a sequence when ONE horizontal line never moves. Every room
+   still in the page is composed so its dominant surface edge (table, counter,
+   desk) lands on --surface-y. Scrolling then reads as one long photograph:
+   the table stays, what sits on it changes. A drifted still is corrected with
+   one number (object-position), never by regenerating the image. */
+:root {
+  --surface-y: 62%;
+  /* the thread's lane at the reading edge — visible on phones too (the old
+     hidden-md:block thread meant the connection vanished exactly where most
+     of the scrolling happens) */
+  --thread-lane: clamp(10px, 4vw, 64px);
+  /* the hour ramp — 4 stations, one token per section, inherited by every
+     layer of that room. Zero JS, zero bytes; the only guard against monotony. */
+  --hour-morning: color-mix(in srgb, var(--color-navy) 10%, transparent);
+  --hour-noon: color-mix(in srgb, var(--color-navy) 6%, transparent);
+  --hour-golden: color-mix(in srgb, var(--color-gold) 15%, transparent);
+  --hour-night: color-mix(in srgb, var(--color-navy) 34%, transparent);
+}
+
+/* the room scrim — the hero's scrim generalized to every section (same body,
+   the hero keeps its own name as an alias so nothing breaks) */
+.room-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    var(--color-bg) 46%,
+    color-mix(in srgb, var(--color-bg) 86%, transparent) 62%,
+    color-mix(in srgb, var(--color-bg) 35%, transparent) 78%,
+    transparent 92%
+  );
+}
+@media (min-width: 1024px) {
+  .room-scrim {
+    background: linear-gradient(
+      to left,
+      var(--color-bg) 30%,
+      color-mix(in srgb, var(--color-bg) 88%, transparent) 46%,
+      color-mix(in srgb, var(--color-bg) 30%, transparent) 66%,
+      transparent 84%
+    );
+  }
+}

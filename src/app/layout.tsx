@@ -78,7 +78,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <ChromeGate>
             <Header />
           </ChromeGate>
-          <main className="flex-1">{children}</main>
+          <main className="relative flex-1 overflow-x-clip">{children}</main>
           <ChromeGate>
             <Footer />
             <StickyContactBar />

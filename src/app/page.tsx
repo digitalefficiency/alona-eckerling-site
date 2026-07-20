@@ -2,20 +2,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { SectionSeam } from "@/components/layout/SectionSeam";
-import { ShapedSection } from "@/components/layout/ShapedSection";
 import { SectionHeading } from "@/components/SectionHeading";
 import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
 import { MScrollScene } from "@/components/motion/MScrollScene";
-import { DiagramReveal } from "@/components/motion/DiagramReveal";
 import { DrawnRule } from "@/components/motion/DrawnRule";
 import { HeroFilm } from "@/components/media/HeroFilm";
-import { StoryBridge } from "@/components/section/StoryBridge";
+import { ThreadRail, ThreadKnots } from "@/components/motion/ThreadRail";
 import { ProofRecipes } from "@/components/ProofRecipes";
-import { MChapter } from "@/components/motion/MChapter";
 import { RevealHeading } from "@/components/motion/RevealHeading";
-import { fadeUp, irisDiamond, slideIn, scaleSoft } from "@/lib/motion-variants";
+import { irisDiamond, slideIn } from "@/lib/motion-variants";
 import { MMagnetic } from "@/components/motion/MMagnetic";
 import { SplitText } from "@/components/motion/SplitText";
 import { StickyScroll } from "@/components/motion/StickyScroll";
@@ -54,31 +50,6 @@ const HERO = {
   trustTokenLicense: " · רישיון משרד הבריאות",
   ctaRecipes: "עוד לא מוכנה לשיחה? המתכונים שלי כאן",
 } as const;
-
-// COPY: ### סקשן 1ב · StoryBridge (גשר-סיפור, 3 ביטים)
-const BRIDGE_BEATS = [
-  {
-    src: "/media/generated/01b-bridge-s01.jpg",
-    alt: "מטבח ביתי בשעת ערב, דלת מקרר פתוחה שופכת אור רך",
-    side: "inline-start",
-    big: "שבע בערב. היום הסתיים, והמקרר פתוח.",
-    small: "עכשיו מגיע הרגע שכולן מכירות.",
-  },
-  {
-    src: "/media/generated/01b-bridge-s02.jpg",
-    alt: "משטח עץ עם רכיבים טריים שעוד לא הפכו לארוחה",
-    side: "inline-end",
-    big: "יש בבית הכל. ועדיין אין ארוחה.",
-    small: "הפער הזה, בין לדעת לבין לעשות, הוא כל הסיפור.",
-  },
-  {
-    src: "/media/generated/01b-bridge-s03.jpg",
-    alt: "צלחת ריקה על שולחן מטבח מואר, מפית ומזלג לצידה",
-    side: "center",
-    big: "אז בואי נתחיל מצלחת אחת.",
-    small: "ערב אחד. רק את והצלחת.",
-  },
-] as const;
 
 // COPY: ### סקשן 2 · סרט-גלילה «בניית המנה» (צ'יפים + כיתובי-תחנה)
 const FILM = {
@@ -292,6 +263,10 @@ export default function HomePage() {
     <>
       {/* structured identity for the front door (GEO/SEO) — same builder as /contact */}
       <JsonLd data={professionalService(site, services)} />
+      {/* THE seam of the site: one rose thread, born at the hero's CTA, descending
+          through every room to the form. Static, server-rendered, zero JS. */}
+      <ThreadRail />
+      <ThreadKnots />
       {/* ── 01 · HOOK — «חדר הבוקר» (full-bleed film hero, Rom's call 2026-07-20):
              the kitchen morning IS the room now. HeroFilm mounts the poster as the
              LCP (static, eager, painted on the first frame) and swaps in the
@@ -306,7 +281,7 @@ export default function HomePage() {
              the film itself (→ §06 echo → §07 rest).
              data-light-hero: the floating header keeps its dark-ink treatment
              (the scrim keeps the top-start corner paper-bright). ── */}
-      <section data-light-hero className="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-bg lg:items-center">
+      <section data-light-hero className="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-bg lg:items-center" style={{ "--grade-tint": "var(--hour-morning)" } as React.CSSProperties}>
         <HeroFilm poster={HERO_POSTER} objectPosition="70% center" />
         <div aria-hidden className="hero-scrim" />
         <Container width="wide" className="relative z-10 w-full pb-16 pt-44 sm:pt-56 md:pb-24 lg:py-24 lg:pb-32">
@@ -391,24 +366,14 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* ── 01ב · STORY BRIDGE — the story-short between the morning room and the
-             film («חדרים מצולמים»): three photo beats walk her from the promise's
-             morning to the problem's seven-pm; beat 3 is generated against the
-             film's opening frame, so the next scroll IS the film — a match-cut,
-             not a jump. Non-pinned (MScrollScene) — the page's single pin stays
-             the film. Copy from COPY.md « סקשן 1ב ». ── */}
-      <StoryBridge beats={BRIDGE_BEATS} />
-
       {/* ── 02 · TENSION — the site's ONE signature moment: the pinned «בניית המנה»
              scroll-film (14 frames), noise-chips pile up → the turn → quiet on the
              gold frame. Static twin (reduced-motion / no-JS): final frame + PAS prose.
-             The ShapedSection arc (sand — the film's own stage tone) is the soft-arc
-             seam the direction mandates between the psychological beats: the hero
-             exhales into the film instead of a hard photographic cut. ── */}
-      {/* outer curve (edge=bottom): the film's sand stage EXHALES into the paper of
-          the guide instead of a hard cut — the plan's soft-transitions program. */}
-      <ShapedSection tone="sand" shape="curve" edge="bottom">
-        <ShapedSection tone="sand" shape="arc" edge="top">
+             No arcs, no curves: the ONE seam of this site is the thread, which
+             simply keeps descending behind the stage (2026-07-20 — seven seam
+             mechanisms collapsed into one). The film is not an island; it is a
+             room the thread passes through. ── */}
+      <div className="bg-sand">
           <SequenceFilm
             frames={FILM_FRAMES}
             kicker={FILM.kicker}
@@ -419,8 +384,7 @@ export default function HomePage() {
             staticBody={FILM.staticBody}
             finalAlt={FILM.finalAlt}
           />
-        </ShapedSection>
-      </ShapedSection>
+      </div>
 
       {/* ── 03 · GUIDE — «הדוסייה על השולחן» (overlap-layered): the camera looks down at
              her work desk (a photo ROOM via MScrollScene, never a framed object) and
@@ -453,34 +417,15 @@ export default function HomePage() {
             <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-bg via-bg/25 to-transparent" />
           </div>
           <Container width="wide" className="py-14 sm:py-16 md:py-24">
-            <SectionSeam className="mb-10" />
             {/* the heading rides its own paper strip — never bare over the photo */}
             <div className="inline-block rounded-[10px] bg-bg/90 md:px-7 md:py-5 md:backdrop-blur-sm">
               <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} accent="מכירה" />
             </div>
             <MOrchestrate className="relative mt-12 grid items-start gap-x-12 gap-y-9 md:grid-cols-[0.85fr_1.15fr]">
-              {/* the drawn stitches — three short rose seams sewing the file together
-                  as it opens (decorative; drawn on the DiagramReveal token timing) */}
-              <DiagramReveal className="pointer-events-none absolute inset-0 z-10 hidden text-rose md:block">
-                <svg
-                  viewBox="0 0 100 100"
-                  preserveAspectRatio="none"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                  strokeLinecap="round"
-                  aria-hidden
-                  className="h-full w-full"
-                >
-                  <path d="M 42 24 Q 48 20 54 24 T 66 24" vectorEffect="non-scaling-stroke" />
-                  <path d="M 44 54 Q 50 58 56 54 T 68 54" vectorEffect="non-scaling-stroke" />
-                  <path d="M 26 78 Q 32 82 38 78 T 50 78" vectorEffect="non-scaling-stroke" />
-                </svg>
-              </DiagramReveal>
               {/* file anchor column — RTL inline-start (right): the calling card,
                   dropped on the desk at a hand-placed tilt, pinned like a photo */}
               <div className="mx-auto w-full max-w-[420px]">
-                <MItem variants={scaleSoft}>
+                <MItem>
                   <div className="relative rotate-[-1.5deg]">
                     {/* the pin — the ◆ glyph holding the card to the file */}
                     <span
@@ -504,7 +449,7 @@ export default function HomePage() {
                 </MItem>
                 {/* the age answer — a small note tilted the OTHER way, her voice
                     answering the card in place */}
-                <MItem variants={fadeUp} className="mt-8">
+                <MItem className="mt-8">
                   <figure className="rotate-[1.2deg] rounded-[12px] border border-line border-s-4 border-s-rose bg-card p-5 shadow-[var(--elevation-1)] md:bg-card/90 md:backdrop-blur-md">
                     <blockquote className="font-serif text-lg italic leading-relaxed text-navy">
                       {GUIDE.ageLine}
@@ -514,15 +459,16 @@ export default function HomePage() {
               </div>
               {/* the file's pieces — empathy strictly before authority */}
               <div className="flex flex-col gap-7">
-                {/* her voice arrives from the reading edge (inline-start = right) */}
-                <MItem variants={slideIn("inline-start", 48)}>
+                {/* one entrance verb for the whole room (constitution rule 4):
+                    the file's pieces settle in reading order on the block axis.
+                    The old four-grammar mix here was the biggest violation in the
+                    code, and its horizontal travel also overflowed 390px phones. */}
+                <MItem>
                   <div className="rounded-[12px] border border-line bg-card p-6 shadow-[var(--elevation-1)] md:bg-card/90 md:backdrop-blur-md">
                     <p className="max-w-[62ch] text-lg leading-[1.7] text-ink">{GUIDE.empathy}</p>
                   </div>
                 </MItem>
-                {/* the official record arrives from the OTHER side — a stamp is not
-                    a voice, it comes from the world */}
-                <MItem variants={slideIn("inline-end", 48)}>
+                <MItem>
                   <div className="rounded-[12px] border border-line bg-card p-6 shadow-[var(--elevation-1)] md:bg-card/90 md:backdrop-blur-md">
                     <RecognitionBadges badges={[...GUIDE.credentials]} />
                   </div>
@@ -556,7 +502,7 @@ export default function HomePage() {
              to the support that stays. Rungs 01–02 carry the generated stills (the
              conversation · the weekly plan, plan layer 8); rung 03 keeps the designed
              sage panel so the ladder ends on the site's own calm. ── */}
-      <ShapedSection tone="sand" shape="arc" edge="top">
+      <div className="bg-sand">
         {/* «חדר התכנון»: the weekly-plan still becomes the room behind the ladder
             (desktop only — mobile keeps clean sand, saving decode where we measure).
             A heavy sand scrim keeps the room a whisper; the arc above stays solid,
@@ -575,12 +521,6 @@ export default function HomePage() {
           }
         >
         <Container width="wide" className="py-16 sm:py-20 md:py-32">
-          {/* the thread arrives from the dossier — one stitch entering the room */}
-          <DiagramReveal className="mx-auto mb-8 hidden h-6 w-28 text-rose md:block">
-            <svg viewBox="0 0 112 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" aria-hidden className="h-full w-full">
-              <path d="M 6 12 Q 20 5 34 12 T 62 12 T 90 12 L 106 12" vectorEffect="non-scaling-stroke" />
-            </svg>
-          </DiagramReveal>
           <SectionHeading eyebrow={PLAN.kicker} title={PLAN.title} lead={PLAN.lead} accent="בשפה שלך" />
           <StickyScroll
             className="mt-14"
@@ -652,11 +592,9 @@ export default function HomePage() {
               {PLAN.cta}
             </Link>
           </div>
-          {/* chapter seam out of the plan — ◆ hairlines hand the story to the proof */}
-          <MChapter />
         </Container>
         </MScrollScene>
-      </ShapedSection>
+      </div>
 
       {/* ── 05 · PROOF — card-grid: a random trio of real CMS recipes per visit;
              testimonial + media-logo slots stay honestly DARK until real. ── */}
@@ -695,14 +633,9 @@ export default function HomePage() {
              fork mode); the block overlaps up out of the proof band ("the choice rises
              out of the proof"); the sage wash at the bottom flows seamlessly into the
              Success field — no drawn seam before the emotional peak. ── */}
-      <section
-        className="relative"
-        // «חוט ואור» move 3 (material diet): the paper warms INTO §07's golden
-        // hour — token-only gradient, no drawn seam before the emotional peak
-        style={{ background: "linear-gradient(180deg, var(--color-bg) 0%, var(--color-gold-soft) 100%)" }}
-      >
+      <section className="relative" style={{ "--grade-tint": "var(--hour-golden)" } as React.CSSProperties}>
         <Container width="wide" className="pb-32 pt-4 sm:pb-36 md:pb-44 md:pt-6">
-          <div className="relative z-10 -mt-10 rounded-[16px] border border-line bg-bg p-7 shadow-[var(--elevation-2)] md:-mt-14 md:p-10">
+          <div className="relative z-10 rounded-[16px] border border-line bg-bg p-7 shadow-[var(--elevation-2)] md:p-10">
             <SectionHeading eyebrow={STAKES.kicker} title={STAKES.title} accent="שקטה" />
             <p className="mt-8 font-serif text-lg italic text-rose-ink">{STAKES.cue}</p>
             <Comparison
@@ -738,13 +671,6 @@ export default function HomePage() {
             </div>
           </div>
         </Container>
-        {/* the shared sage wash: begins inside the stakes' bottom padding and flows
-            into the Success gradient field — the seamless breath before the peak */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-28 md:h-36"
-          style={{ background: "linear-gradient(180deg, transparent 0%, var(--color-gold-soft) 100%)" }}
-        />
       </section>
 
       {/* ── 07 · SUCCESS — «חדר שעת הזהב» (background-art): the peak goes full-bleed.
@@ -778,7 +704,7 @@ export default function HomePage() {
           <Container width="wide" className="py-24 md:py-40">
             <MOrchestrate className="md:max-w-[660px]">
               {/* her own voice arrives from the reading edge, on ivory paper */}
-              <MItem variants={slideIn("inline-start", 32)}>
+              <MItem variants={slideIn("inline-start", 48)}>
                 <div className="relative rounded-[16px] border border-line bg-bg/95 p-8 shadow-[var(--elevation-2)] md:bg-bg/85 md:p-10 md:backdrop-blur-md">
                   <div className="flex items-center gap-2.5">
                     <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
@@ -791,7 +717,7 @@ export default function HomePage() {
                     style={{ fontSize: "clamp(1.5rem, 2.9vw, 2.3rem)" }}
                     lastLineClass="relative w-fit after:absolute after:inset-x-0 after:bottom-[0.02em] after:h-[3px] after:rounded-full after:bg-rose after:origin-[100%_50%] after:transition-transform after:duration-[var(--dur-rule)] after:ease-[var(--ease-signature)] after:delay-[calc(var(--dur-reveal)_+_2*var(--dur-stagger))] motion-reduce:after:transition-none [.is-masked_&]:after:scale-x-0"
                   />
-                  <MItem variants={slideIn("inline-start", 32)} className="mt-9">
+                  <MItem className="mt-9">
                     <Link
                       href="#lead"
                       data-cta="success-to-lead"
