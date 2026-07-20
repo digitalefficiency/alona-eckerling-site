@@ -678,8 +678,11 @@ export default function HomePage() {
             <Comparison
               className="mt-5"
               fork
-              left={{ label: STAKES.quiet.label, note: STAKES.quiet.note, points: [...STAKES.quiet.points], highlight: true }}
-              right={{ label: STAKES.noisy.label, note: STAKES.noisy.note, points: [...STAKES.noisy.points], noisy: true, echo: FILM_CHIPS[3].text }}
+              // the film hands each future its own frame: the noisy year gets the
+              // chaos peak (s07), the quiet way gets the finished plate (s14) —
+              // both already in cache from the film, zero new bytes
+              left={{ label: STAKES.quiet.label, note: STAKES.quiet.note, points: [...STAKES.quiet.points], highlight: true, ghost: FILM_FRAMES[13] }}
+              right={{ label: STAKES.noisy.label, note: STAKES.noisy.note, points: [...STAKES.noisy.points], noisy: true, echo: FILM_CHIPS[3].text, ghost: FILM_FRAMES[6] }}
             />
           </div>
           <div className="mt-8 flex flex-col items-center justify-between gap-6 rounded-[16px] bg-blush p-7 md:flex-row md:p-9">
@@ -714,76 +717,80 @@ export default function HomePage() {
         />
       </section>
 
-      {/* ── 07 · SUCCESS — the quiet made tangible: a golden-hour "ate out and
-             enjoyed it" still inside the signature double frame, the felt-lines
-             reading beside it, and the film's noise-chips finally AT REST over
-             the frame's edge (the motif resolves in plain sight). First-person
-             felt-lines framed as the possible future — never a testimonial. ── */}
-      <section
-        className="relative"
-        style={{ background: "linear-gradient(180deg, var(--color-gold-soft) 0%, var(--color-blush) 100%)" }}
-      >
-        <Container width="wide" className="py-24 md:py-36">
-          <MOrchestrate className="grid items-center gap-16 md:grid-cols-[1.05fr_0.95fr] md:gap-12 lg:gap-20">
-            {/* the felt-lines — read first (inline-start), leaning toward the evening */}
-            <div className="text-center md:text-start">
-              <MItem
-                variants={slideIn("inline-start", 32)}
-                className="flex items-center justify-center gap-2.5 md:justify-start"
-              >
-                <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-                <p className="font-serif text-[1.2rem] font-medium leading-snug text-navy">{SUCCESS.kicker}:</p>
-              </MItem>
-              <RevealHeading
-                as="h2"
-                text={SUCCESS.lines}
-                className="mt-7 font-serif font-bold leading-[1.5] text-navy"
-                style={{ fontSize: "clamp(1.55rem, 3.1vw, 2.45rem)" }}
-                lastLineClass="relative mx-auto w-fit md:mx-0 after:absolute after:inset-x-0 after:bottom-[0.02em] after:h-[3px] after:rounded-full after:bg-rose after:origin-[100%_50%] after:transition-transform after:duration-[var(--dur-rule)] after:ease-[var(--ease-signature)] after:delay-[calc(var(--dur-reveal)_+_2*var(--dur-stagger))] motion-reduce:after:transition-none [.is-masked_&]:after:scale-x-0"
-              />
-              <MItem variants={slideIn("inline-start", 32)} className="mt-11">
-                <Link
-                  href="#lead"
-                  data-cta="success-to-lead"
-                  className="btn-chamfer inline-block rounded-[6px] border-2 border-navy/30 bg-bg/70 px-7 py-3.5 text-lg font-semibold text-navy transition hover:border-navy/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
-                >
-                  {SUCCESS.bridge}
-                </Link>
-              </MItem>
-            </div>
-            {/* the evening it points to — revealed through the growing ◆ (irisDiamond,
-                «חוט ואור» move 5: the glyph is the shutter); the settled noise rests
-                over its edge, set down for good */}
-            <MItem variants={irisDiamond} className="mx-auto w-full max-w-[420px] md:max-w-[480px]">
-              <div
-                className="frame-double relative rounded-[16px]"
-                style={{ "--frame-gap": "10px", "--frame-color": "var(--color-rose)" } as React.CSSProperties}
-              >
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[inherit]">
-                  <Image
-                    src="/media/generated/07-success-evening.jpg"
-                    alt="שולחן במסעדה בשעת ערב: צלחת כמעט ריקה אחרי ארוחה שנהנו ממנה, ויד נחה רגועה על השולחן"
-                    fill
-                    sizes="(min-width: 768px) 40vw, 92vw"
-                    className="object-cover"
-                  />
-                </div>
-                {/* the settled noise — the film's thought-chips, laid down */}
-                <div aria-hidden className="absolute -bottom-6 start-[-10px] flex flex-col items-start gap-2 sm:start-[-22px]">
-                  {SETTLED_NOISE.map((w) => (
-                    <span
-                      key={w.text}
-                      className="inline-block whitespace-nowrap rounded-full border border-line bg-bg/90 px-4 py-1.5 font-serif text-[0.95rem] italic text-muted shadow-sm"
-                      style={{ transform: `rotate(${w.tilt}deg)`, marginInlineStart: w.offset }}
-                    >
-                      {w.text}
-                    </span>
-                  ))}
-                </div>
+      {/* ── 07 · SUCCESS — «חדר שעת הזהב» (background-art): the peak goes full-bleed.
+             The golden-hour restaurant IS the room now (wide still via MScrollScene);
+             the whole scene uncovers through the growing ◆ (irisDiamond on the media
+             layer — the glyph that was a picture's shutter becomes the evening's).
+             One milky ivory card carries the felt-lines; the film's noise-chips rest
+             on ITS edge, set down for good. Zero grain — the material diet's clean
+             end. A dusk gradient hands the evening to §08's navy night, where the
+             gold ◆ of the form is the light that stays. ── */}
+      <section className="relative">
+        <MScrollScene
+          amplitude={5}
+          media={
+            <MStagger variants={irisDiamond} className="h-full" itemClassName="h-full">
+              <div className="relative h-full w-full">
+                <Image
+                  src="/media/generated/07-success-evening-wide.jpg"
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
+                />
+                <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+                {/* a soft warm wash keeps the card floating, never fighting the room */}
+                <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-blush/35 via-transparent to-gold-soft/25" />
               </div>
-            </MItem>
-          </MOrchestrate>
-        </Container>
+            </MStagger>
+          }
+        >
+          <Container width="wide" className="py-24 md:py-40">
+            <MOrchestrate className="md:max-w-[660px]">
+              {/* her own voice arrives from the reading edge, on ivory paper */}
+              <MItem variants={slideIn("inline-start", 32)}>
+                <div className="relative rounded-[16px] border border-line bg-bg/95 p-8 shadow-[var(--elevation-2)] md:bg-bg/85 md:p-10 md:backdrop-blur-md">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
+                    <p className="font-serif text-[1.2rem] font-medium leading-snug text-navy">{SUCCESS.kicker}:</p>
+                  </div>
+                  <RevealHeading
+                    as="h2"
+                    text={SUCCESS.lines}
+                    className="mt-6 font-serif font-bold leading-[1.5] text-navy"
+                    style={{ fontSize: "clamp(1.5rem, 2.9vw, 2.3rem)" }}
+                    lastLineClass="relative w-fit after:absolute after:inset-x-0 after:bottom-[0.02em] after:h-[3px] after:rounded-full after:bg-rose after:origin-[100%_50%] after:transition-transform after:duration-[var(--dur-rule)] after:ease-[var(--ease-signature)] after:delay-[calc(var(--dur-reveal)_+_2*var(--dur-stagger))] motion-reduce:after:transition-none [.is-masked_&]:after:scale-x-0"
+                  />
+                  <MItem variants={slideIn("inline-start", 32)} className="mt-9">
+                    <Link
+                      href="#lead"
+                      data-cta="success-to-lead"
+                      className="btn-chamfer inline-block rounded-[6px] border-2 border-navy/30 bg-bg/70 px-7 py-3.5 text-lg font-semibold text-navy transition hover:border-navy/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
+                    >
+                      {SUCCESS.bridge}
+                    </Link>
+                  </MItem>
+                  {/* the settled noise — the film's thought-chips, laid down over the
+                      card's END edge (the motif resolves in plain sight; the bridge
+                      button owns the start side, so the two never collide) */}
+                  <div aria-hidden className="absolute -bottom-7 end-6 flex flex-col items-end gap-2 md:end-9">
+                    {SETTLED_NOISE.map((w) => (
+                      <span
+                        key={w.text}
+                        className="inline-block whitespace-nowrap rounded-full border border-line bg-bg/90 px-4 py-1.5 font-serif text-[0.95rem] italic text-muted shadow-sm"
+                        style={{ transform: `rotate(${w.tilt}deg)`, marginInlineEnd: w.offset }}
+                      >
+                        {w.text}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </MItem>
+            </MOrchestrate>
+          </Container>
+          {/* dusk — the golden hour darkens into the navy night of §08 */}
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-navy md:h-36" />
+        </MScrollScene>
       </section>
 
       {/* ── 08 · RESOLUTION — the navy #lead: calm asymmetric split, the small free

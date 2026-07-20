@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Reveal } from "@/components/Reveal";
 import { MStagger } from "@/components/motion/MStagger";
 import { slideIn } from "@/lib/motion-variants";
@@ -22,6 +23,9 @@ type Column = {
   echo?: string; // «חוט ואור» move 2: ONE faint film-chip resting on the card's
   // edge — the noise's last appearance before §07 lays it down. Callers must
   // pass FILM_CHIPS text only (YMYL: the chips never get new copy).
+  ghost?: string; // «חדרים מצולמים»: a faint film-frame haunting the card's
+  // background (~0.14 opacity under the content) — the film handing each
+  // future its own frame. Pass frames the page already loaded (zero new bytes).
 };
 
 export function Comparison({
@@ -45,6 +49,11 @@ export function Comparison({
               c.highlight ? "border-2 border-gold bg-card" : "border border-line bg-card/60"
             }`}
           >
+            {c.ghost && (
+              <div aria-hidden className="absolute inset-0 overflow-hidden rounded-[inherit]">
+                <Image src={c.ghost} alt="" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover opacity-[0.14]" />
+              </div>
+            )}
             {c.echo && (
               <span
                 aria-hidden
@@ -58,11 +67,11 @@ export function Comparison({
                 announced three times over — the 2px gold border, the gold bullets
                 and the ink-dark label against the muted one. A fourth signal is
                 wallpaper. */}
-            <h3 className={`mb-4 font-serif text-lg font-black ${c.highlight ? "text-navy" : "text-muted"}`}>
+            <h3 className={`relative mb-4 font-serif text-lg font-black ${c.highlight ? "text-navy" : "text-muted"}`}>
               {c.label}
             </h3>
-            {c.note && <p className="mb-4 text-[13px] leading-relaxed text-muted">{c.note}</p>}
-            <ul className="flex flex-col gap-3">
+            {c.note && <p className="relative mb-4 text-[13px] leading-relaxed text-muted">{c.note}</p>}
+            <ul className="relative flex flex-col gap-3">
               {c.points.map((p, j) => (
                 <li
                   key={j}
