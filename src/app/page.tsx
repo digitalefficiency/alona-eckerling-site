@@ -11,6 +11,7 @@ import { MScrollScene } from "@/components/motion/MScrollScene";
 import { DiagramReveal } from "@/components/motion/DiagramReveal";
 import { DrawnRule } from "@/components/motion/DrawnRule";
 import { HeroFilm } from "@/components/media/HeroFilm";
+import { StoryBridge } from "@/components/section/StoryBridge";
 import { ProofRecipes } from "@/components/ProofRecipes";
 import { MChapter } from "@/components/motion/MChapter";
 import { RevealHeading } from "@/components/motion/RevealHeading";
@@ -53,6 +54,31 @@ const HERO = {
   trustTokenLicense: " · רישיון משרד הבריאות",
   ctaRecipes: "עוד לא מוכנה לשיחה? המתכונים שלי כאן",
 } as const;
+
+// COPY: ### סקשן 1ב · StoryBridge (גשר-סיפור, 3 ביטים)
+const BRIDGE_BEATS = [
+  {
+    src: "/media/generated/01b-bridge-s01.jpg",
+    alt: "מטבח ביתי בשעת ערב, דלת מקרר פתוחה שופכת אור רך",
+    side: "inline-start",
+    big: "שבע בערב. היום הסתיים, והמקרר פתוח.",
+    small: "עכשיו מגיע הרגע שכולן מכירות.",
+  },
+  {
+    src: "/media/generated/01b-bridge-s02.jpg",
+    alt: "משטח עץ עם רכיבים טריים שעוד לא הפכו לארוחה",
+    side: "inline-end",
+    big: "יש בבית הכל. ועדיין אין ארוחה.",
+    small: "הפער הזה, בין לדעת לבין לעשות, הוא כל הסיפור.",
+  },
+  {
+    src: "/media/generated/01b-bridge-s03.jpg",
+    alt: "צלחת ריקה על שולחן מטבח מואר, מפית ומזלג לצידה",
+    side: "center",
+    big: "אז בואי נתחיל מצלחת אחת.",
+    small: "ערב אחד. רק את והצלחת.",
+  },
+] as const;
 
 // COPY: ### סקשן 2 · סרט-גלילה «בניית המנה» (צ'יפים + כיתובי-תחנה)
 const FILM = {
@@ -363,6 +389,14 @@ export default function HomePage() {
           </MOrchestrate>
         </Container>
       </section>
+
+      {/* ── 01ב · STORY BRIDGE — the story-short between the morning room and the
+             film («חדרים מצולמים»): three photo beats walk her from the promise's
+             morning to the problem's seven-pm; beat 3 is generated against the
+             film's opening frame, so the next scroll IS the film — a match-cut,
+             not a jump. Non-pinned (MScrollScene) — the page's single pin stays
+             the film. Copy from COPY.md « סקשן 1ב ». ── */}
+      <StoryBridge beats={BRIDGE_BEATS} />
 
       {/* ── 02 · TENSION — the site's ONE signature moment: the pinned «בניית המנה»
              scroll-film (14 frames), noise-chips pile up → the turn → quiet on the
