@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
+import { SeamShape } from "@/components/layout/SeamShape";
 import { SectionHeading } from "@/components/SectionHeading";
 import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
@@ -279,9 +280,9 @@ export default function HomePage() {
       <section data-light-hero className="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-bg lg:items-center" style={{ "--grade-tint": "var(--hour-morning)" } as React.CSSProperties}>
         <HeroFilm poster={HERO_POSTER} objectPosition="70% center" />
         <div aria-hidden className="hero-scrim" />
-        {/* the morning room dissolves to cream at its foot — a soft hand-off into
-            the film instead of a hard photographic cut */}
-        <div aria-hidden className="room-edges-bottom" />
+        {/* soft-curve seam (Rom 2026-07-20): the cream ground crests up into the
+            morning room — a shaped hand-off into the film, not a hard photo cut */}
+        <SeamShape variant="curve-up" />
         <Container width="wide" className="relative z-10 w-full pb-16 pt-44 sm:pt-56 md:pb-24 lg:py-24 lg:pb-32">
           {/* ONE orchestrator, same word choreography as ever — block-axis steps */}
           <MOrchestrate className="max-w-[620px]">
@@ -355,7 +356,9 @@ export default function HomePage() {
              simply keeps descending behind the stage (2026-07-20 — seven seam
              mechanisms collapsed into one). The film is not an island; it is a
              room the thread passes through. ── */}
-      <div className="relative bg-sand">
+      <div className="relative bg-bg">
+          {/* fade the film's hard top edge so it dissolves in from the hero's seam */}
+          <div aria-hidden className="room-edges-top z-10" />
           <SequenceFilm
             frames={FILM_FRAMES}
             kicker={FILM.kicker}
@@ -366,9 +369,8 @@ export default function HomePage() {
             staticBody={FILM.staticBody}
             finalAlt={FILM.finalAlt}
           />
-          {/* soft hand-off: the film's foot dissolves to cream so the dossier
-              below meets it through a paper breath, not a hard photo cut */}
-          <div aria-hidden className="room-edges-bottom z-10" />
+          {/* mirror-curve seam into the dossier — opposite direction to the hero's */}
+          <SeamShape variant="curve-down" />
       </div>
 
       {/* ── 03 · GUIDE — «הדוסייה על השולחן» (overlap-layered): the camera looks down at
@@ -391,9 +393,8 @@ export default function HomePage() {
               <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
               {/* paper wash — the room stays present but never fights the pieces */}
               <div aria-hidden className="absolute inset-0 bg-bg/72" />
-              {/* soft transition: the desk dissolves to cream at both edges so the
-                  film above and the plan below meet it through a paper breath */}
-              <div aria-hidden className="room-edges" />
+              {/* top fade only — the seam shape carries the bottom hand-off */}
+              <div aria-hidden className="room-edges-top" />
             </>
           }
         >
@@ -404,7 +405,7 @@ export default function HomePage() {
             <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
             <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-bg via-bg/25 to-transparent" />
           </div>
-          <Container width="wide" className="py-14 sm:py-16 md:py-24">
+          <Container width="wide" className="py-16 sm:py-20 md:py-32">
             {/* the heading rides its own paper strip — never bare over the photo */}
             <div className="inline-block rounded-[10px] bg-bg/90 md:px-7 md:py-5 md:backdrop-blur-sm">
               <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} accent="מכירה" />
@@ -476,13 +477,15 @@ export default function HomePage() {
             </MOrchestrate>
           </Container>
         </MScrollScene>
+        {/* soft-curve seam into the plan (crest — opposite the film's trough) */}
+        <SeamShape variant="curve-up" />
       </section>
 
       {/* ── 04 · PLAN — sticky-scroll ladder: three named rungs climb from a free call
              to the support that stays. Rungs 01–02 carry the generated stills (the
              conversation · the weekly plan, plan layer 8); rung 03 keeps the designed
              sage panel so the ladder ends on the site's own calm. ── */}
-      <div className="bg-sand">
+      <div className="relative bg-bg">
         {/* «חדר התכנון»: the weekly-plan still becomes the room behind the ladder
             (desktop only — mobile keeps clean sand, saving decode where we measure).
             A heavy sand scrim keeps the room a whisper; the arc above stays solid,
@@ -495,8 +498,8 @@ export default function HomePage() {
               <Image src="/media/generated/04-plan-week.jpg" alt="" fill sizes="100vw" quality={60} className="object-cover" />
               <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
               <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
-              <div aria-hidden className="absolute inset-0 bg-sand/82" />
-              <div aria-hidden className="room-edges" />
+              <div aria-hidden className="absolute inset-0 bg-bg/82" />
+              <div aria-hidden className="room-edges-top" />
             </>
           }
         >
@@ -574,6 +577,8 @@ export default function HomePage() {
           </div>
         </Container>
         </MScrollScene>
+        {/* mirror-curve seam into the proof — trough, opposite the dossier's crest */}
+        <SeamShape variant="curve-down" />
       </div>
 
       {/* ── 05 · PROOF — card-grid: a random trio of real CMS recipes per visit;
@@ -683,7 +688,7 @@ export default function HomePage() {
             </MStagger>
           }
         >
-          <Container width="wide" className="py-24 md:py-40">
+          <Container width="wide" className="py-16 sm:py-20 md:py-32">
             <MOrchestrate className="md:max-w-[660px]">
               {/* her own voice arrives from the reading edge, on ivory paper */}
               <MItem variants={slideIn("inline-start", 48)}>
@@ -726,8 +731,12 @@ export default function HomePage() {
               </MItem>
             </MOrchestrate>
           </Container>
-          {/* dusk — the golden hour darkens into the navy night of §08 */}
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-b from-transparent to-navy md:h-36" />
+          {/* dusk wash — the golden hour darkens toward night… */}
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-navy md:h-28" />
+          {/* …and THE accent seam (Rom's pick): a clean half-circle where the navy
+              night rises into the evening, right before the form. One arch on the
+              whole page — the shaped moment that earns its keep. */}
+          <SeamShape variant="arch" fill="var(--color-navy)" height={88} />
         </MScrollScene>
       </section>
 
