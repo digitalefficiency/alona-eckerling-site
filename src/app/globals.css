@@ -1065,3 +1065,34 @@ html.a11y-big-cursor * {
     );
   }
 }
+
+/* ── soft section transitions (2026-07-20, Rom: "המעבר יהיה חלק ונעים בין סקשן
+   לסקשן... לא שינוי בצבעי תמונה חד מדי"). Every photo room dissolves at its top
+   AND bottom edge into the page's cream ground over a generous band, so the cut
+   between two images from different places is never hard — it is always a calm
+   paper breath. ONE consistent band everywhere = the connective tissue Rom asked
+   for, replacing the thread. Static, token-only, reduced-motion-safe. */
+.room-edges {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, var(--color-bg) 0%, transparent 22%),
+    linear-gradient(to top, var(--color-bg) 0%, transparent 22%);
+}
+.room-edges-bottom {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 22%;
+  pointer-events: none;
+  background: linear-gradient(to top, var(--color-bg) 0%, transparent 100%);
+}
+.room-edges-top {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 20%;
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--color-bg) 0%, transparent 100%);
+}

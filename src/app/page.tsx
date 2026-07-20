@@ -8,7 +8,6 @@ import { MStagger } from "@/components/motion/MStagger";
 import { MScrollScene } from "@/components/motion/MScrollScene";
 import { DrawnRule } from "@/components/motion/DrawnRule";
 import { HeroFilm } from "@/components/media/HeroFilm";
-import { ThreadRail, ThreadKnots } from "@/components/motion/ThreadRail";
 import { ProofRecipes } from "@/components/ProofRecipes";
 import { RevealHeading } from "@/components/motion/RevealHeading";
 import { irisDiamond, slideIn } from "@/lib/motion-variants";
@@ -263,10 +262,6 @@ export default function HomePage() {
     <>
       {/* structured identity for the front door (GEO/SEO) — same builder as /contact */}
       <JsonLd data={professionalService(site, services)} />
-      {/* THE seam of the site: one rose thread, born at the hero's CTA, descending
-          through every room to the form. Static, server-rendered, zero JS. */}
-      <ThreadRail />
-      <ThreadKnots />
       {/* ── 01 · HOOK — «חדר הבוקר» (full-bleed film hero, Rom's call 2026-07-20):
              the kitchen morning IS the room now. HeroFilm mounts the poster as the
              LCP (static, eager, painted on the first frame) and swaps in the
@@ -284,6 +279,9 @@ export default function HomePage() {
       <section data-light-hero className="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-bg lg:items-center" style={{ "--grade-tint": "var(--hour-morning)" } as React.CSSProperties}>
         <HeroFilm poster={HERO_POSTER} objectPosition="70% center" />
         <div aria-hidden className="hero-scrim" />
+        {/* the morning room dissolves to cream at its foot — a soft hand-off into
+            the film instead of a hard photographic cut */}
+        <div aria-hidden className="room-edges-bottom" />
         <Container width="wide" className="relative z-10 w-full pb-16 pt-44 sm:pt-56 md:pb-24 lg:py-24 lg:pb-32">
           {/* ONE orchestrator, same word choreography as ever — block-axis steps */}
           <MOrchestrate className="max-w-[620px]">
@@ -334,26 +332,10 @@ export default function HomePage() {
                 </Link>
               </div>
             </MItem>
-            {/* «לידת החוט» (move 1, phase 1): a rose thread-tip born from the
-                chamfered corner of "בואי נדבר", descending toward the film's
-                sand arc. Absolute (zero layout cost), decorative, CSS-drawn;
-                the recipes link below steps aside (lg:ps-7) to clear its lane. */}
-            <div aria-hidden className="pointer-events-none relative hidden lg:block">
-              <svg
-                className="thread-birth thread-animate absolute -top-1 start-1 h-64 w-12 overflow-visible"
-                viewBox="0 0 48 256"
-                fill="none"
-              >
-                <path
-                  d="M42 0C42 64 10 88 22 140C31 178 10 210 16 256"
-                  pathLength={1}
-                  stroke="var(--color-rose)"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </div>
-            <MItem className="mt-7 lg:ps-7">
+            {/* the hero thread-birth was removed with the site-wide thread
+                (Rom 2026-07-20: "החוט לא קשור לכלום") — the connective tissue is
+                now the soft photo dissolves between rooms, not a drawn line. */}
+            <MItem className="mt-7">
               <Link
                 href="/recipes"
                 data-cta="hero-recipes"
@@ -373,7 +355,7 @@ export default function HomePage() {
              simply keeps descending behind the stage (2026-07-20 — seven seam
              mechanisms collapsed into one). The film is not an island; it is a
              room the thread passes through. ── */}
-      <div className="bg-sand">
+      <div className="relative bg-sand">
           <SequenceFilm
             frames={FILM_FRAMES}
             kicker={FILM.kicker}
@@ -384,6 +366,9 @@ export default function HomePage() {
             staticBody={FILM.staticBody}
             finalAlt={FILM.finalAlt}
           />
+          {/* soft hand-off: the film's foot dissolves to cream so the dossier
+              below meets it through a paper breath, not a hard photo cut */}
+          <div aria-hidden className="room-edges-bottom z-10" />
       </div>
 
       {/* ── 03 · GUIDE — «הדוסייה על השולחן» (overlap-layered): the camera looks down at
@@ -406,6 +391,9 @@ export default function HomePage() {
               <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
               {/* paper wash — the room stays present but never fights the pieces */}
               <div aria-hidden className="absolute inset-0 bg-bg/72" />
+              {/* soft transition: the desk dissolves to cream at both edges so the
+                  film above and the plan below meet it through a paper breath */}
+              <div aria-hidden className="room-edges" />
             </>
           }
         >
@@ -423,8 +411,12 @@ export default function HomePage() {
             </div>
             <MOrchestrate className="relative mt-12 grid items-start gap-x-12 gap-y-9 md:grid-cols-[0.85fr_1.15fr]">
               {/* file anchor column — RTL inline-start (right): the calling card,
-                  dropped on the desk at a hand-placed tilt, pinned like a photo */}
-              <div className="mx-auto w-full max-w-[420px]">
+                  dropped on the desk at a hand-placed tilt, pinned like a photo.
+                  Rom 2026-07-20: the age-quote note below it is removed and the
+                  card enlarged back to portrait — nothing sits under it now, so
+                  the taller ratio balances the pieces column instead of opening
+                  dead desk. */}
+              <div className="mx-auto w-full max-w-[440px] md:self-center">
                 <MItem>
                   <div className="relative rotate-[-1.5deg]">
                     {/* the pin — the ◆ glyph holding the card to the file */}
@@ -433,10 +425,7 @@ export default function HomePage() {
                       className="absolute -top-2 start-1/2 z-10 h-4 w-4 translate-x-1/2 rotate-45 border border-gold/60 bg-gold-soft"
                     />
                     <div
-                      // a calling card is LANDSCAPE — the portrait ratio was inflating
-                      // this column ~190px past the pieces column and opening dead desk
-                      // below the file (Rom: "מה שיש מתחת לתמונה אפשר להסיר")
-                      className="frame-double relative flex aspect-[7/5] flex-col items-center justify-center gap-2.5 rounded-[16px] bg-gold-soft p-7 text-center"
+                      className="frame-double relative flex aspect-[4/5] flex-col items-center justify-center gap-3 rounded-[16px] bg-gold-soft p-8 text-center"
                       style={{ "--frame-gap": "7px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
                     >
                       <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
@@ -446,15 +435,6 @@ export default function HomePage() {
                       <div className="relative font-serif text-base font-semibold text-navy-700">{GUIDE.role}</div>
                     </div>
                   </div>
-                </MItem>
-                {/* the age answer — a small note tilted the OTHER way, her voice
-                    answering the card in place */}
-                <MItem className="mt-8">
-                  <figure className="rotate-[1.2deg] rounded-[12px] border border-line border-s-4 border-s-rose bg-card p-5 shadow-[var(--elevation-1)] md:bg-card/90 md:backdrop-blur-md">
-                    <blockquote className="font-serif text-lg italic leading-relaxed text-navy">
-                      {GUIDE.ageLine}
-                    </blockquote>
-                  </figure>
                 </MItem>
               </div>
               {/* the file's pieces — empathy strictly before authority */}
@@ -516,7 +496,7 @@ export default function HomePage() {
               <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
               <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
               <div aria-hidden className="absolute inset-0 bg-sand/82" />
-              <div aria-hidden className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-sand to-transparent" />
+              <div aria-hidden className="room-edges" />
             </>
           }
         >
@@ -697,6 +677,8 @@ export default function HomePage() {
                 <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
                 {/* a soft warm wash keeps the card floating, never fighting the room */}
                 <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-blush/35 via-transparent to-gold-soft/25" />
+                {/* the evening dissolves in from the golden stakes above */}
+                <div aria-hidden className="room-edges-top" />
               </div>
             </MStagger>
           }
