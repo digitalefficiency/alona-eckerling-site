@@ -32,7 +32,7 @@ export function StoryBridge({ beats }: { beats: readonly BridgeBeat[] }) {
           className="flex min-h-[72svh] items-center"
           media={
             <>
-              <Image src={b.src} alt="" fill sizes="100vw" className="object-cover" />
+              <Image src={b.src} alt="" fill sizes="100vw" quality={60} className="object-cover" />
               <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
               {/* mid-page material diet */}
               <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />

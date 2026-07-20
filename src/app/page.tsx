@@ -435,7 +435,7 @@ export default function HomePage() {
           mediaClassName="hidden md:block"
           media={
             <>
-              <Image src={GUIDE_BG} alt="" fill sizes="100vw" className="object-cover" />
+              <Image src={GUIDE_BG} alt="" fill sizes="100vw" quality={60} className="object-cover" />
               <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
               {/* mid-page material diet */}
               <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
@@ -447,7 +447,7 @@ export default function HomePage() {
           {/* mobile: the room becomes a quiet top band (the coaching §14 pattern) —
               the full-bleed backdrop is desktop-only, saving decode where we measure */}
           <div className="relative aspect-[3/2] overflow-hidden border-b border-line md:hidden">
-            <Image src={GUIDE_BG} alt="" fill sizes="100vw" className="object-cover" />
+            <Image src={GUIDE_BG} alt="" fill sizes="100vw" quality={60} className="object-cover" />
             <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
             <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-bg via-bg/25 to-transparent" />
           </div>
@@ -562,7 +562,7 @@ export default function HomePage() {
           mediaClassName="hidden md:block"
           media={
             <>
-              <Image src="/media/generated/04-plan-week.jpg" alt="" fill sizes="100vw" className="object-cover" />
+              <Image src="/media/generated/04-plan-week.jpg" alt="" fill sizes="100vw" quality={60} className="object-cover" />
               <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
               <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
               <div aria-hidden className="absolute inset-0 bg-sand/82" />
