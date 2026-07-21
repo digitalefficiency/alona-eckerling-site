@@ -20,9 +20,11 @@ type Column = {
   highlight?: boolean; // the recommended / "our way" column
   note?: string; // small caption under the label (e.g. a caveat)
   noisy?: boolean; // serif-italic points — the thought-chip echo
-  ghost?: string; // «חדרים מצולמים»: a faint film-frame haunting the card's
-  // background (~0.14 opacity under the content) — the film handing each
-  // future its own frame. Pass frames the page already loaded (zero new bytes).
+  ghost?: string; // «חדרים מצולמים»: a faint still haunting the card's
+  // background (~0.16 opacity under the content) — EACH column carries its OWN
+  // photograph (Rom 2026-07-21: both used to share one film frame, which read as
+  // a repeat): the crowded counter for the noisy year, the one settled place for
+  // the quiet way. Lazy by default — it sits well below the fold.
 };
 
 export function Comparison({
@@ -48,7 +50,7 @@ export function Comparison({
           >
             {c.ghost && (
               <div aria-hidden className="absolute inset-0 overflow-hidden rounded-[inherit]">
-                <Image src={c.ghost} alt="" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover opacity-[0.14]" />
+                <Image src={c.ghost} alt="" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover opacity-[0.16]" />
               </div>
             )}
             {/* No ◆ badge here: the ◆ is a STRUCTURE mark (kickers, seams, step
