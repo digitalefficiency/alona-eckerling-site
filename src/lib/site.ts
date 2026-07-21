@@ -89,7 +89,6 @@ export const nav = [
   { href: "/coaching", label: "איך עובדים איתי" },
   { href: "/about", label: "עליי" },
   { href: "/testimonials", label: "המלצות" },
-  { href: "/sane-voice", label: "הקול השפוי" },
   { href: "/contact", label: "צור קשר" },
 ] as const;
 
@@ -195,7 +194,6 @@ export const responsePromise: { promise: string; sub?: string } = {
 export const contactForm: { subjects: readonly string[]; consentBrandName: string } = {
   subjects: [
     "ליווי אישי, בואי נדבר",
-    "שאלה על חוברת הקול השפוי",
     "שיתוף פעולה",
     "אחר",
   ],

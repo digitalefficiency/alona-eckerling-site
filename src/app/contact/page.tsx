@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
 import { SectionSeam } from "@/components/layout/SectionSeam";
+import { SeamShape } from "@/components/layout/SeamShape";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
 import { RevealHeading } from "@/components/motion/RevealHeading";
@@ -60,7 +61,6 @@ const FORM = {
   promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
   trustToken: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות",
   button: "בואי נדבר, שיחת היכרות חינם",
-  magnet: "עוד לא מוכנה לשיחה? הצטרפי לרשימה השפויה וקבלי ממני מתכונים וטיפים שקטים למייל",
   fields: {
     name: "שם",
     phone: "טלפון / וואטסאפ",
@@ -110,20 +110,9 @@ orgSchema.address = {
   addressCountry: site.address.country,
 };
 
-// מפריד-נשימה soft-arc (SSR, tone-on-tone, תאום-סטטי מבנייה) — סימן-הקשת של העמוד
-function SoftArc({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 160 18" aria-hidden className={`mx-auto h-4 w-36 ${className}`} fill="none">
-      <path
-        d="M4 15 Q80 -8 156 15"
-        className="stroke-gold/50"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-      <circle cx="80" cy="7" r="2" className="fill-rose" opacity="0.7" />
-    </svg>
-  );
-}
+// מפריד-הנשימה המקומי (SoftArc) ירד: הקשת של האתר היא SeamShape, רכיב-התפר האחד
+// (2026-07-21, יישור שפת-עיצוב). הוא לא קישוט בתוך הזרימה אלא צורה שנעוצה לתחתית
+// החדר, והכיוון מתחלף בין תפרים עוקבים — בדיוק כמו בעמוד הבית.
 
 export default function ContactPage() {
   return (
@@ -132,14 +121,14 @@ export default function ContactPage() {
            COPY: ### סקשן 35 ===== */}
       <section data-light-hero className="relative overflow-hidden bg-blush/60">
         <div aria-hidden className="grain-overlay" />
-        <Container width="prose" className="relative py-20 md:py-36">
+        <Container width="prose" className="relative py-16 sm:py-20 md:py-32">
           <Breadcrumbs items={[{ label: DOOR.crumb, href: "/contact" }]} />
           <div className="mt-14 flex flex-col items-center text-center">
             {/* התור נעצר אחרי ההבטחה: הדלת נכנסת, הקרקע שמתחתיה כבר שם. */}
             <MOrchestrate className="flex flex-col items-center">
               <MItem as="p" className="flex items-center justify-center gap-2.5">
                 <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
-                <span className="text-xs font-bold tracking-[.2em] text-gold-ink">{DOOR.kicker}</span>
+                <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{DOOR.kicker}</span>
               </MItem>
               <RevealHeading
                 as="h1"
@@ -149,9 +138,8 @@ export default function ContactPage() {
                 className="mt-6 font-serif font-black leading-[1.05] text-navy"
                 style={{ fontSize: "var(--text-hero)" }}
               />
-              <MItem className="mt-8">
-                <SoftArc />
-              </MItem>
+              {/* הקשת הקטנה שישבה כאן ירדה עם SoftArc — בבית הכותרת נושמת ישר אל
+                  הפסקה, וזאת הנשימה שהעמוד הזה יורש. */}
               <MItem as="p" className="mx-auto mt-8 max-w-[62ch] text-lg leading-[1.8] text-muted">
                 {DOOR.bodyStart}
                 <span className="underline decoration-rose decoration-2 underline-offset-4">
@@ -190,6 +178,9 @@ export default function ContactPage() {
             </p>
           </div>
         </Container>
+        {/* תפר 1 — שדה ה-blush המלא של סקשן 36 מתרומם אל הדלת הבהירה שמעליו
+            (crest). מסירה מעוצבת בין חדרים, לא חתך צבע שטוח. */}
+        <SeamShape variant="curve-up" fill="var(--color-blush)" />
       </section>
 
       {/* ===== 36 · RESOLUTION — רצפת-החיכוך: כרטיס שנהב אחד מואר על שדה blush;
@@ -199,7 +190,7 @@ export default function ContactPage() {
           אופסט כפול הנחית את «בואי נדבר» על ~330px של blush ריק לפני הכותרת. */}
       <section id="lead" className="relative overflow-hidden bg-blush">
         <div aria-hidden className="grain-overlay" />
-        <Container width="standard" className="relative py-16 md:py-28">
+        <Container width="standard" className="relative py-16 sm:py-20 md:py-32">
           <SectionSeam className="mb-8" />
           {/* קו-הזהב אומר «זה הדבר החשוב» — והטופס הוא הדבר החשוב בעמוד. מסגרת-זהב
               כפולה (frame-double), החזקה מבין מחוות-הזהב בעמוד. ה-overflow-hidden ירד
@@ -254,7 +245,6 @@ export default function ContactPage() {
                     submittingLabel: FORM.submitting,
                     whatsappLabel: FORM.whatsappRow,
                     whatsappHref: WHATSAPP_HREF,
-                    magnetLabel: FORM.magnet,
                     thanks: {
                       start: FORM.thanksStart,
                       linkLabel: FORM.thanksLink,
@@ -275,23 +265,23 @@ export default function ContactPage() {
             </MOrchestrate>
           </div>
         </Container>
+        {/* תפר 2 — הקרקע השמנת של סקשן 37 עולה אל שדה ה-blush (trough, הפוך לתפר 1).
+            הצורה הזאת מחליפה גם את ה-SoftArc שפתח את הסקשן וגם את הגרדיאנט השטוח
+            blush→bg שהיה בו: מסירה אחת מעוצבת במקום שני מנגנוני-מעבר. */}
+        <SeamShape variant="curve-down" />
       </section>
 
       {/* ===== 37 · GUIDE — איפה נפגשות: פיצול א-סימטרי יחיד בעמוד — מפה מסוגננת
            (SSR, בלי צד-שלישי, רמת-עיר בלבד) מול רשימת-נגישות על שנהב; אמון-Fogg,
            בלי CTA. מחזיק את ה-JSON-LD העסקי. COPY: ### סקשן 37 ===== */}
-      <section
-        className="relative overflow-hidden"
-        style={{ background: "linear-gradient(180deg, var(--color-blush) 0%, var(--color-bg) 100%)" }}
-      >
+      <section className="relative overflow-hidden bg-bg">
         <JsonLd data={orgSchema} />
         <div aria-hidden className="grain-overlay" />
-        <Container width="wide" className="relative py-20 md:py-32">
-          <SoftArc className="mb-14" />
+        <Container width="wide" className="relative py-16 sm:py-20 md:py-32">
           <div className="flex flex-col items-center text-center">
             <div className="flex items-center gap-2.5">
               <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-              <span className="text-xs font-bold tracking-[.18em] text-gold-ink">{WHERE.kicker}</span>
+              <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{WHERE.kicker}</span>
             </div>
             <RevealHeading
               as="h2"

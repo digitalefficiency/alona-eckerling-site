@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { site, team } from "@/lib/site";
 import { listDocs } from "@/lib/collections";
 
-// Sitemap: the site's REAL routes — the two money pages (/coaching, /sane-voice),
+// Sitemap: the site's REAL routes — the money page (/coaching),
 // the trust pages, the bio routes (team/[slug]) + every published recipe, each
 // carrying its dish photo as an image entry (Google Images + Discover surfacing).
 //
@@ -17,7 +17,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "",
     "/coaching",
-    "/sane-voice",
     "/testimonials",
     "/about",
     ...team.map((m) => `/team/${m.slug}`),
@@ -32,7 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${base}${route}`,
     lastModified: now,
     changeFrequency: "monthly" as const,
-    priority: route === "" ? 1 : route === "/coaching" || route === "/sane-voice" ? 0.9 : 0.6,
+    priority: route === "" ? 1 : route === "/coaching" ? 0.9 : 0.6,
   }));
 
   // One row per published recipe, with its photo declared for image search / Discover.

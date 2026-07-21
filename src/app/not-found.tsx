@@ -7,7 +7,7 @@ import { ResponsePromise } from "@/components/trust/ResponsePromise";
 // derived from site.ts nav (never hardcoded), and an uncertainty-reducing row with the
 // site's response promise. Every link carries data-cta ("404-*") so recovery-from-404
 // shows up in the funnel. Server component, SSR-final-state, no JS.
-const QUICK_LINK_ROUTES = ["/coaching", "/recipes", "/sane-voice"] as const;
+const QUICK_LINK_ROUTES = ["/coaching", "/recipes", "/about"] as const;
 
 export default function NotFound() {
   const quickLinks = nav.filter((n) =>

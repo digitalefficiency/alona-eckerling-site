@@ -96,7 +96,7 @@ export default function TestimonialsPage() {
               </MItem>
               <MItem as="p" className="mt-4 flex items-center justify-center gap-2.5">
                 <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-                <span className="text-xs font-bold tracking-[.18em] text-gold-ink">{HERO.kicker}</span>
+                <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{HERO.kicker}</span>
               </MItem>
               <MItem>
                 <RevealHeading
@@ -135,7 +135,7 @@ export default function TestimonialsPage() {
 
       {/* ===== 33 · grid — card-grid במצב-ריק כן (סלוטים שמורים, אפס מילים מזויפות) ===== */}
       <section>
-        <Container width="standard" className="py-16 sm:py-20 md:py-28">
+        <Container width="standard" className="py-16 sm:py-20 md:py-32">
           <SectionSeam className="mb-12" />
           <MStagger className="space-y-8">
             {/* מצב-הריק הכן היחיד בעמוד — רצועה מעוצבת אחת (wash רך + ◆ + מוטיב
@@ -198,7 +198,7 @@ export default function TestimonialsPage() {
 
       {/* ===== 34 · cta — asymmetric-split · שדה-נייבי + דלת-מרווה אחת → #lead ===== */}
       <section>
-        <Container width="standard" className="pb-20 pt-4 sm:pb-24 md:pb-32">
+        <Container width="standard" className="py-16 sm:py-20 md:py-32">
           <SectionSeam className="mb-12" />
           {/* הפיצול נדחה ל-lg (ביקורת UX): בטאבלט 768–1023 שני הפאנלים נערמים
               ברוחב מלא, כך שפאנל הפעולה לא נמחץ לעמודה של ~212px. */}

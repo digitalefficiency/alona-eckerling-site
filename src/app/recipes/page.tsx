@@ -8,7 +8,6 @@ import { scaleSoft } from "@/lib/motion-variants";
 import { ImageHero } from "@/components/media/ImageHero";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { SpotlightCard } from "@/components/section/SpotlightCard";
 import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { RevealHeading } from "@/components/motion/RevealHeading";
 import { SplitText } from "@/components/motion/SplitText";
@@ -34,9 +33,6 @@ const HERO = {
   // one pasted COPY sentence, split STRUCTURALLY (no rewording): the question
   // is a micro line above the button, the button carries only the action —
   // a 46-char sentence-button wraps to a framed paragraph at 375px.
-  ctaLead: "רוצה להתחיל בבית?",
-  cta: "הכירי את חוברת «הקול השפוי» ←",
-  ctaHref: "/sane-voice",
 };
 
 // COPY: ### סקשן 24 · BentoGrid masonry (CMS) + צ'יפי-סינון
@@ -48,22 +44,18 @@ const ARCHIVE = {
   empty: "עוד מתכונים בקטגוריה הזו בדרך. מתכון חדש כל שבוע.",
 };
 
-// COPY: ### סקשן 25 · SpotlightCard (מגנט → החוברת)
-const MAGNET = {
-  eyebrow: "החוברת",
-  title: "קחי את המטבח הזה הביתה",
-  body: "כל מה שגללת פה הוא רק טעימה. «הקול השפוי» היא חוברת המתכונים המלאה שלי: אוכל אמיתי, בלי חוקים מיותרים, בדרך שמתאימה לחיים שלך.",
-  community: "ועם הרשימה השפויה את בפנים: מתכון חדש, טיפ שקט, וקהילה של בנות שמדברות אותך.",
-  primary: "קבלי את חוברת המתכונים",
-  price: "149 ₪",
-  primaryHref: "/sane-voice",
-  secondary: "הצטרפי לרשימה השפויה, חינם",
-  secondaryHref: "/contact",
-  // the booklet's real name + its role line, reused for the typographic cover
-  // (the REAL printed cover is a pending client asset — until it arrives the
-  // card shows this honest typographic edition, never a fabricated photo)
-  coverName: "הקול השפוי",
-  coverSub: "חוברת המתכונים",
+// COPY: ### סקשן 25 · CTA סוגר → ליווי אישי
+// The booklet product was retired from the site (Rom 2026-07-21), and with
+// it the branded mailing list. The archive now closes on the honest next step:
+// the free intro call. Every claim here already exists and is verified —
+// free, no commitment, built around her week, keeps the food she loves.
+const CLOSING = {
+  eyebrow: "הצעד הבא",
+  title: "אהבת את המטבח הזה?",
+  body: "המתכונים כאן הם איך שאני מבשלת. הליווי האישי הוא איך שבונים סביב זה דרך שמתאימה לשבוע שלך, בלי לוותר על האוכל שאת אוהבת.",
+  primary: "בואי נדבר",
+  primaryHref: "/coaching",
+  note: "שיחת היכרות חינם, בלי התחייבות.",
 };
 
 export const metadata: Metadata = {
@@ -123,8 +115,6 @@ export default function RecipesPage() {
           eyebrow={HERO.eyebrow}
           title={HERO.title}
           lead={HERO.lead}
-          ctas={[{ label: HERO.cta, href: HERO.ctaHref, variant: "ghost", dataCta: "recipes-hero-booklet" }]}
-          ctaNote={HERO.ctaLead}
         />
       ) : (
         // honest no-raster twin: the warm sand cover, no broken src ever
@@ -144,21 +134,13 @@ export default function RecipesPage() {
             style={{ fontSize: "var(--text-hero)" }}
           />
           <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-muted">{HERO.lead}</p>
-          <p className="mt-8 text-sm text-muted">{HERO.ctaLead}</p>
-          <Link
-            href={HERO.ctaHref}
-            data-cta="recipes-hero-booklet"
-            className="btn-chamfer mt-3 inline-flex items-center rounded-[6px] border border-navy/20 px-7 py-3.5 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
-          >
-            {HERO.cta}
-          </Link>
         </Section>
       )}
 
       {/* ── סקשן 24 · PROOF — bento-grid (the CMS archive + sage filter chips) ──
           Warm-paper band, minimum chrome: the food carries the section. */}
       <section id="archive" className="scroll-mt-28 bg-bg">
-        <Container width="wide" className="py-14 sm:py-16 md:py-24">
+        <Container width="wide" className="py-16 sm:py-20 md:py-32">
           <RecipesArchive
             entries={entries}
             labels={{
@@ -173,81 +155,39 @@ export default function RecipesPage() {
         </Container>
       </section>
 
-      {/* ── סקשן 25 · RESOLUTION — spotlight-card (the blush booklet magnet) ── */}
+      {/* ── סקשן 25 · RESOLUTION — the archive closes on the free intro call ── */}
       <section className="relative overflow-hidden bg-blush">
         <div aria-hidden className="grain-overlay" />
-        <Container width="standard" className="relative py-16 sm:py-20 md:py-28">
-          <SpotlightCard className="!border-line !bg-sand !text-ink shadow-[var(--elevation-2)]">
-            <MOrchestrate className="grid items-center gap-10 md:grid-cols-[1fr_minmax(0,280px)]">
-              <div>
-                <MItem as="p" className="flex items-center gap-2.5">
-                  <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-                  <span className="text-xs font-bold tracking-[.18em] text-gold-ink">{MAGNET.eyebrow}</span>
-                </MItem>
-                <MItem>
-                  <RevealHeading
-                    as="h2"
-                    text={MAGNET.title}
-                    className="mt-4 font-serif font-black leading-[1.1] text-navy"
-                    style={{ fontSize: "clamp(1.9rem, 4vw, 2.9rem)" }}
-                  />
-                </MItem>
-                <MItem as="p" className="mt-4 max-w-[62ch] text-[1.05rem] leading-relaxed text-muted">
-                  {MAGNET.body}
-                </MItem>
-                <MItem as="p" className="mt-3 max-w-[62ch] text-[0.95rem] leading-relaxed text-muted">
-                  {MAGNET.community}
-                </MItem>
-                <MItem className="mt-7 flex flex-wrap items-center gap-3">
-                  <Link
-                    href={MAGNET.primaryHref}
-                    data-cta="recipes-magnet-booklet"
-                    className="inline-flex items-center gap-2.5 btn-chamfer rounded-[6px] bg-gold px-7 py-3.5 text-[0.95rem] font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
-                  >
-                    {MAGNET.primary}
-                    {/* the price as a chip-skew, not a pill — one geometry per button */}
-                    <span className="chip-skew inline-block rounded-[4px] bg-white/20 px-2.5 py-0.5 text-[0.8rem] font-bold">
-                      <span>{MAGNET.price}</span>
-                    </span>
-                  </Link>
-                  <Link
-                    href={MAGNET.secondaryHref}
-                    data-cta="recipes-magnet-list"
-                    className="btn-chamfer inline-flex items-center rounded-[6px] border border-navy/20 px-6 py-3.5 text-[0.95rem] font-bold text-navy-700 transition hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
-                  >
-                    {MAGNET.secondary}
-                  </Link>
-                </MItem>
+        <Container width="standard" className="relative py-16 sm:py-20 md:py-32">
+          <MOrchestrate className="mx-auto max-w-[680px] text-center">
+            <MItem>
+              <div className="flex items-center justify-center gap-2.5">
+                <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
+                <span className="tracking-eyebrow text-xs font-bold text-gold-ink">{CLOSING.eyebrow}</span>
               </div>
-
-              {/* the honest typographic booklet cover (real printed cover =
-                  pending client asset; a cover photo is never fabricated) —
-                  the generated booklet-OBJECT still sits behind it as a quiet
-                  aria-hidden backdrop under a blush veil, never as the cover */}
-              <MItem variants={scaleSoft} className="mx-auto w-full max-w-[260px]">
-                <div
-                  className="-rotate-2 rounded-[14px] border border-line bg-card p-5 shadow-[var(--elevation-2)]"
-                  style={{ aspectRatio: "var(--aspect-portrait)" }}
-                >
-                  <div className="relative flex h-full flex-col items-center justify-center gap-3 overflow-hidden rounded-[10px] px-4 text-center">
-                    <div aria-hidden className="absolute inset-0">
-                      <Image
-                        src="/media/generated/26-booklet-object.jpg"
-                        alt=""
-                        fill
-                        sizes="260px"
-                        className="object-cover"
-                      />
-                      <div className="absolute inset-0 bg-blush/85" />
-                    </div>
-                    <span className="relative text-[0.7rem] font-bold tracking-[.22em] text-muted">{MAGNET.coverSub}</span>
-                    <span className="relative font-serif text-3xl font-black leading-tight text-navy">{MAGNET.coverName}</span>
-                    <span aria-hidden className="relative h-[3px] w-12 rounded-full bg-rose" />
-                  </div>
-                </div>
-              </MItem>
-            </MOrchestrate>
-          </SpotlightCard>
+            </MItem>
+            <MItem>
+              <SplitText
+                as="h2"
+                text={CLOSING.title}
+                className="mt-5 font-serif font-black leading-[1.1] text-navy"
+                style={{ fontSize: "var(--text-section)" }}
+              />
+            </MItem>
+            <MItem as="p" className="mx-auto mt-6 max-w-[54ch] text-lg leading-relaxed text-muted">
+              {CLOSING.body}
+            </MItem>
+            <MItem className="mt-9">
+              <Link
+                href={CLOSING.primaryHref}
+                data-cta="recipes-to-coaching"
+                className="btn-chamfer inline-flex items-center rounded-[6px] bg-gold px-8 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
+              >
+                {CLOSING.primary}
+              </Link>
+              <p className="mt-3 text-sm font-semibold text-muted">{CLOSING.note}</p>
+            </MItem>
+          </MOrchestrate>
         </Container>
       </section>
     </>

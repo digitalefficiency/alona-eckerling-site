@@ -219,7 +219,6 @@ const CTA = {
   // split like HERO.trustToken: the license clause hides below sm (pill stays one line)
   trustToken: "דיאטנית קלינית מוסמכת · R.D.",
   trustTokenLicense: " · רישיון משרד הבריאות",
-  magnet: "עוד לא מוכנה לשיחה? הצטרפי לרשימה השפויה וקבלי ממני מתכון וטיפ שקט למייל",
 } as const;
 
 // One neutral meta line at most (mirrors the archive's tileMeta): a real prep
@@ -750,15 +749,10 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+          {/* the mailing-list magnet card was removed with the «שפוי» brand
+              (Rom 2026-07-21) — the form is the page's single, honest ask */}
           <div>
             <ContactLeadForm />
-            <Link
-              href="/contact"
-              data-cta="lead-magnet"
-              className="mt-6 block rounded-[16px] bg-blush p-6 text-navy transition hover:opacity-90"
-            >
-              <span className="text-[0.95rem] font-medium leading-relaxed">{CTA.magnet}</span>
-            </Link>
           </div>
         </div>
       </Section>

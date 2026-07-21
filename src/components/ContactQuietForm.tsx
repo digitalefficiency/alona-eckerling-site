@@ -13,9 +13,10 @@ const FORM_ID = "contact";
 // ContactQuietForm — the contact page's bespoke friction-floor form (plan
 // section 36). Page-local by necessity: the COPY.md block dictates its own
 // field set (שם · טלפון/וואטסאפ · הודעה לא-חובה · אימייל מכווץ · הסכמת-ערוץ),
-// a WhatsApp direct row (never a printed phone number), a subordinate
-// newsletter magnet with its OWN separate opt-in, and a thank-you state that
-// RESTORES THE PROMISE — none of which the generic ContactLeadForm renders.
+// a WhatsApp direct row (never a printed phone number), and a thank-you state
+// that RESTORES THE PROMISE — none of which the generic ContactLeadForm
+// renders. (The mailing-list opt-in was removed with the «שפוי» brand,
+// 2026-07-21 — re-add a neutrally named one here if a list ever returns.)
 //
 // ZERO copy ships in this component: every visible string arrives as a prop
 // from the page's COPY constants. Plumbing is byte-compatible with
@@ -36,7 +37,6 @@ export type ContactQuietFormCopy = {
   submittingLabel: string;
   whatsappLabel: string;
   whatsappHref: string;
-  magnetLabel: string;
   thanks: { start: string; linkLabel: string; linkHref: string; end: string };
 };
 
@@ -51,7 +51,6 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState("");
   const [emailOpen, setEmailOpen] = useState(false);
-  const [newsletter, setNewsletter] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -87,26 +86,6 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
     });
   };
 
-  // הצטרפות לרשימה פותחת את שדה האימייל (נשאר פתוח גם אם מבטלים — לא מוחקים
-  // מה שהוקלד) וממקדת אותו, כדי שההבטחה «למייל» תפגוש כתובת בפועל.
-  const onNewsletterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = e.target.checked;
-    setNewsletter(checked);
-    if (!checked) return;
-    setEmailOpen(true);
-    requestAnimationFrame(() => {
-      const el = emailRef.current;
-      if (!el) return;
-      el.focus({ preventScroll: true });
-      el.scrollIntoView({
-        block: "center",
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "auto"
-          : "smooth",
-      });
-    });
-  };
-
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (status === "submitting") return;
@@ -116,13 +95,7 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
     const fd = new FormData(e.currentTarget);
     const message = String(fd.get("message") || "").trim();
     const engagement = getEngagement();
-    // The newsletter opt-in rides the same lead to the CRM desk (Smoove is not
-    // wired yet — the office adds her to the list by hand). CRM-side note only,
-    // never rendered on-page.
-    const messageParts = [
-      message,
-      newsletter ? "ביקשה להצטרף לרשימה השפויה (דיוור בהסכמה נפרדת)" : "",
-    ].filter(Boolean);
+    const messageParts = [message].filter(Boolean);
     const payload = {
       name: String(fd.get("name") || ""),
       phone: String(fd.get("phone") || ""),
@@ -136,13 +109,10 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
       engagement,
     };
 
-    // Client-side pre-validation — the exact strings /api/lead returns on 422,
-    // plus the newsletter gate: a mailing-list promise needs a mailbox.
+    // Client-side pre-validation — the exact strings /api/lead returns on 422.
     const next: Record<string, string> = {};
     if (payload.name.trim().length < 2) next.name = "נא להזין שם מלא";
     if (payload.phone.replace(/\D/g, "").length < 7) next.phone = "נא להזין מספר טלפון תקין";
-    if (newsletter && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email))
-      next.email = "נא להזין כתובת אימייל תקינה";
     if (!payload.consent) next.consent = "נדרשת הסכמה ליצירת קשר";
     if (Object.keys(next).length) {
       setErrors(next);
@@ -170,7 +140,6 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
         form_id: FORM_ID,
         page: window.location.pathname,
         lead_id: data.id,
-        newsletter_opt_in: newsletter, // non-PII boolean dimension
         time_on_page_seconds: engagement.time_on_page_seconds,
         max_scroll_depth: engagement.max_scroll_depth,
         ...getCampaignDimensions(),
@@ -281,10 +250,10 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
         <textarea name="message" rows={3} className={`${fieldClass} resize-y`} />
       </label>
 
-      {/* אימייל — שדה מכווץ (COPY: «אימייל» (מכווץ)); נפתח בלחיצה או עם הצטרפות לרשימה.
+      {/* אימייל — שדה מכווץ (COPY: «אימייל» (מכווץ)); נפתח בלחיצה.
           כפתור-הפתיחה נראה כקישור שקט אך נושא שטח-מגע ‎44px+‎ (ריפוד שקוף,
           שוליים שליליים מקזזים כדי שהלייאאוט לא יזוז). */}
-      {emailOpen || newsletter ? (
+      {emailOpen ? (
         <>
           <label className="mt-4 block text-sm font-semibold text-navy-700">
             {copy.emailLabel}
@@ -293,7 +262,6 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
               type="email"
               name="email"
               autoComplete="email"
-              required={newsletter}
               aria-invalid={!!errors.email}
               aria-describedby={errors.email ? "contact-error-email" : undefined}
               dir="ltr"
@@ -318,25 +286,6 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
         </button>
       )}
 
-      {/* המגנט הרך — יושב צמוד לשדה-האימייל שהוא פותח (לא בקצה הטופס): סימון
-          הצ'קבוקס פותח וממקד את השדה ממש מעליו, וההסכמה הראשית נשארת התחנה
-          שלפני הכפתור. הסכמת-ניוזלטר נפרדת שרוכבת על אותה שליחה (Smoove טרם
-          חובר; הצטרפות דרך שולחן הלידים). */}
-      <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-[16px] bg-blush p-5 transition hover:opacity-95">
-        <input
-          type="checkbox"
-          name="newsletter"
-          checked={newsletter}
-          onChange={onNewsletterChange}
-          className="mt-0.5 h-5 w-5 shrink-0 rounded-[4px] accent-[var(--color-gold-dark)]"
-        />
-        <span className="text-[0.95rem] font-medium leading-relaxed text-navy">
-          <span className="text-[0.6rem] leading-none text-rose-ink" aria-hidden>
-            ◆{" "}
-          </span>
-          {copy.magnetLabel}
-        </span>
-      </label>
 
       <label className="mt-6 flex items-start gap-3 text-sm leading-relaxed text-muted">
         <input

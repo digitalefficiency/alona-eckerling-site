@@ -5,6 +5,7 @@ import { Solitreo } from "next/font/google";
 import { site } from "@/lib/site";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
+import { SeamShape } from "@/components/layout/SeamShape";
 import { SectionSeam } from "@/components/layout/SectionSeam";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
@@ -145,7 +146,10 @@ export default function AboutPage() {
            (designed empty-state, face never generated) bleeding to the reading edge,
            name + license chip + free-call CTA. COPY: ### סקשן 17 ===== */}
       <section data-light-hero className="border-b border-line">
-        <Container className="grid grid-cols-1 items-center gap-10 pt-28 pb-14 md:grid-cols-2 md:gap-14 md:py-24">
+        {/* house vertical rhythm (py-16 sm:py-20 md:py-32). The ONE deviation is the
+            mobile top pad: the header is `fixed`, so a light hero has to clear it —
+            pt-28 stays below md, and from md the house py-32 already exceeds it. */}
+        <Container className="grid grid-cols-1 items-center gap-10 pt-28 pb-16 sm:pb-20 md:grid-cols-2 md:gap-14 md:py-32">
           {/* Text column FIRST in DOM: on mobile the h1 + license + CTA open the
               page instead of the portrait empty-state card; on md+ the portrait
               Reveal below carries md:order-first, so the desktop layout is
@@ -242,11 +246,17 @@ export default function AboutPage() {
           as a SIGNED LETTER on an OPAQUE ivory card that leans in from the inline-end and
           overlaps that edge — the overlap IS the boundary, no melt, no frosted glass
           (paper-and-frames, not glassmorphism). Mobile: photo band on top, letter below. */}
-      <section id="story" className="relative overflow-hidden border-y border-line bg-card scroll-mt-24">
+      {/* border-t only: the bottom hairline retired when the soft curve moved in —
+          a ruled line 1px under the crest reads as two seams stacked. */}
+      <section id="story" className="relative overflow-hidden border-t border-line bg-card scroll-mt-24">
         <div aria-hidden className="absolute inset-y-0 start-0 hidden w-[52%] md:block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/media/client/recipes/moroccan-fish.jpg" alt="" loading="lazy" className="h-full w-full object-cover" />
           <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+          {/* house room-edge: the photo dissolves in from the hero above instead of
+              opening on a hard cut (the inline edge stays hard — that overlap IS
+              this section's pattern; only the block-start edge softens) */}
+          <div aria-hidden className="room-edges-top" />
         </div>
         {/* wide-viewport bookend (audit D1): past the container on the letter's side
             the bare paper margin read dead next to the busy photo — a quiet sand
@@ -259,8 +269,10 @@ export default function AboutPage() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/media/client/recipes/moroccan-fish.jpg" alt="דגים מרוקאים של שישי, מנה אמיתית מהמטבח של אלונה" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
           <div aria-hidden className="grain-overlay" />
+          {/* same room-edge on the mobile band */}
+          <div aria-hidden className="room-edges-top" />
         </div>
-        <div className="relative mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 md:py-28">
+        <div className="relative mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 sm:py-20 md:py-32">
           {/* md tablets get 58% (readable ~46ch measure; the overlap over the photo
               edge IS the pattern, it just grows a little) — back to 52% from lg */}
           <div className="md:ms-auto md:w-[58%] lg:w-[52%]">
@@ -300,6 +312,10 @@ export default function AboutPage() {
             </MStagger>
           </div>
         </div>
+        {/* the page's ONE photo room hands off with the house soft curve — a crest
+            (the quote room's ground rises into the dish photo). Alternation has
+            nothing to alternate with here: this is the only image seam on /about. */}
+        <SeamShape variant="curve-up" />
       </section>
 
       {/* ===== 19 · GUIDE - giant-quote, rebuilt as a composed object: four masked

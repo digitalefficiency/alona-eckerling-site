@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Section } from "@/components/layout/Section";
+import { SeamShape } from "@/components/layout/SeamShape";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { SplitText } from "@/components/motion/SplitText";
@@ -239,7 +240,7 @@ const FAQ = {
   ],
   closeLine: 'נשאר לך "כן, אבל" שלא מופיע כאן? בשיחת היכרות בלי עלות ובלי התחייבות נענה עליו יחד.',
   closeCta: "בואי נדבר ←",
-  magnet: "עדיין לא בטוחה? הצטרפי לרשימה השפויה.",
+  magnet: "עדיין לא בטוחה? הצצה למטבח שלי.",
 } as const;
 
 // COPY: ### סקשן 16 · ContactLeadForm (פאנל נייבי, Service+FAQPage JSON-LD)
@@ -304,7 +305,10 @@ export default function CoachingPage() {
     <main>
       {/* ── 09 · HOOK — hero סנד חם: still שולחן-הייעוץ המיוצר (layer 8, בלי פנים) יושב
              בפאנל-ממוסגר עם גבול גיאומטרי חד בקצה inline-end (בלי מסך-המסה, בלי אורות);
-             פורטרט אמיתי של אלונה יחליף אותו כשיגיע. ── */}
+             פורטרט אמיתי של אלונה יחליף אותו כשיגיע.
+             בלי SeamShape ובלי room-edges-top כאן בכוונה: הצילום ממוסגר ומוזח
+             (inset-y-10) ואינו נוגע בקצה החדר, כך שהגבול התחתון הוא נייר-על-נייר
+             עם קו-שיער מתוכנן, לא חיתוך-תמונה. קשת רכה שייכת לחדר-תמונה שנחתך. ── */}
       <section data-light-hero className="relative isolate overflow-hidden border-b border-line bg-sand">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
           {/* the still is CROPPED INTO A FRAMED PANEL, not melted into the page: a
@@ -343,12 +347,14 @@ export default function CoachingPage() {
             </div>
           </div>
         </div>
-        <div className="mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 md:py-24">
+        {/* house vertical rhythm — the same py-16/20/32 every content band on the
+            site breathes with (the old md:py-24 was a one-off) */}
+        <div className="mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 sm:py-20 md:py-32">
           <Breadcrumbs items={[{ label: "איך עובדים איתי", href: "/coaching" }]} />
           <MOrchestrate className="mt-10 max-w-[68ch]">
             <MItem as="p" className="flex items-center gap-2.5">
               <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
-              <span className="text-xs font-bold tracking-[.2em] text-gold-ink">{HERO.kicker}</span>
+              <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{HERO.kicker}</span>
             </MItem>
             <SplitText
               as="h1"
@@ -365,7 +371,9 @@ export default function CoachingPage() {
               {/* the rose thread is born here — a hairline under the trust chip that
                   travels the whole page (pin rail → package rule → form rule) */}
               <span className="inline-flex flex-col items-start gap-1.5">
-                <span className="inline-flex items-center gap-2 rounded-[14px] bg-navy px-4 py-2 sm:rounded-full">
+                {/* radius on the house scale: rounded-full once the token is a
+                    single-line pill (sm+), the 16 card rung while it still wraps */}
+                <span className="inline-flex items-center gap-2 rounded-[16px] bg-navy px-4 py-2 sm:rounded-full">
                   <span className="text-[0.6rem] leading-none text-gold-soft" aria-hidden>◆</span>
                   <span className="text-center text-xs font-bold text-white">{HERO.trustToken}</span>
                 </span>
@@ -666,21 +674,26 @@ export default function CoachingPage() {
              frosted ivory card LEANS IN from the inline-start with the proof story —
              "standing in her kitchen". Mobile: the photo becomes a top band, the card
              stacks, no slide. The testimonial slot stays honestly dark (soft wash, ◆). ── */}
-      <section className="relative overflow-hidden border-y border-line bg-card">
+      {/* border-t only: the room's BOTTOM hand-off is the soft seam below, not a
+          hairline (the house contract — a shaped edge replaces the cut) */}
+      <section className="relative overflow-hidden border-t border-line bg-card">
         {/* the half-bleed photo (desktop) — inline-end half, scrimmed toward the text half */}
         <div aria-hidden className="absolute inset-y-0 end-0 hidden w-[52%] md:block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={PROOF.stills[0].src} alt="" loading="lazy" className="h-full w-full object-cover" />
           <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
           <div className="absolute inset-0 bg-gradient-to-l from-card via-card/35 to-transparent" />
+          {/* soft top edge — the photo dissolves in instead of starting on a cut */}
+          <div aria-hidden className="room-edges-top" />
         </div>
         {/* mobile: the photo as a top band */}
         <div className="relative aspect-[3/2] md:hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={PROOF.stills[0].src} alt={PROOF.stills[0].alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
           <div aria-hidden className="grain-overlay" />
+          <div aria-hidden className="room-edges-top" />
         </div>
-        <div className="relative mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 md:py-28">
+        <div className="relative mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 sm:py-20 md:py-32">
           <div className="md:w-[52%]">
             <MStagger variants={slideIn("inline-start", 48)}>
               <div className="rounded-[16px] border border-line bg-card/80 p-7 shadow-[var(--elevation-2)] backdrop-blur-md md:p-9">
@@ -713,6 +726,10 @@ export default function CoachingPage() {
             </MStagger>
           </div>
         </div>
+        {/* soft-curve seam — the FAQ room's sand ground crests up into the kitchen
+            photo (crest, the page's opening direction, same as the home hero's).
+            The page's ONE seam: it is the page's ONE full/half-bleed photo room. */}
+        <SeamShape variant="curve-up" fill="var(--color-sand)" />
       </section>
 
       {/* ── 15 · OBJECTION — 11 שאלות בקולה שלה + FAQPage JSON-LD ── */}
@@ -769,7 +786,7 @@ export default function CoachingPage() {
               <ResponsePromise tone="dark" promise={CTA.promise} />
             </MItem>
             <MItem className="mt-6">
-              <span className="inline-flex items-center gap-2 rounded-[14px] border border-white/25 px-4 py-2 sm:rounded-full">
+              <span className="inline-flex items-center gap-2 rounded-[16px] border border-white/25 px-4 py-2 sm:rounded-full">
                 <span className="text-[0.6rem] leading-none text-gold-soft" aria-hidden>◆</span>
                 <span className="text-center text-xs font-bold text-white/90">{CTA.trustToken}</span>
               </span>
