@@ -209,15 +209,6 @@ const SUCCESS = {
   bridge: "וזה מתחיל בשיחה אחת, בלי לחץ. ←",
 } as const;
 
-// COPY: ### סקשן 7 — the settled noise: three of the film's thought-chips, now
-// visibly AT REST — laid down over the frame's edge like notes set aside for
-// good (decorative, aria-hidden — the motif resolves in plain sight).
-const SETTLED_NOISE = [
-  { text: "אוקיי, סלט. בטוח.", tilt: -3, offset: "0rem" },
-  { text: "כמה קלוריות זה כבר?", tilt: 2, offset: "1.75rem" },
-  { text: "בטטה בערב?!", tilt: -1.5, offset: "0.5rem" },
-];
-
 // COPY: ### סקשן 8 · ContactLeadForm (פאנל נייבי #lead)
 const CTA = {
   title: "בואי נדבר.\nהצעד הראשון קטן, וחינם.",
@@ -630,7 +621,7 @@ export default function HomePage() {
               // chaos peak (s07), the quiet way gets the finished plate (s14) —
               // both already in cache from the film, zero new bytes
               left={{ label: STAKES.quiet.label, note: STAKES.quiet.note, points: [...STAKES.quiet.points], highlight: true, ghost: FILM_FRAMES[13] }}
-              right={{ label: STAKES.noisy.label, note: STAKES.noisy.note, points: [...STAKES.noisy.points], noisy: true, echo: FILM_CHIPS[3].text, ghost: FILM_FRAMES[6] }}
+              right={{ label: STAKES.noisy.label, note: STAKES.noisy.note, points: [...STAKES.noisy.points], noisy: true, ghost: FILM_FRAMES[6] }}
             />
           </div>
           <div className="mt-8 flex flex-col items-center justify-between gap-6 rounded-[16px] bg-blush p-7 md:flex-row md:p-9">
@@ -713,20 +704,10 @@ export default function HomePage() {
                       {SUCCESS.bridge}
                     </Link>
                   </MItem>
-                  {/* the settled noise — the film's thought-chips, laid down over the
-                      card's END edge (the motif resolves in plain sight; the bridge
-                      button owns the start side, so the two never collide) */}
-                  <div aria-hidden className="absolute -bottom-7 end-6 flex flex-col items-end gap-2 md:end-9">
-                    {SETTLED_NOISE.map((w) => (
-                      <span
-                        key={w.text}
-                        className="inline-block whitespace-nowrap rounded-full border border-line bg-bg/90 px-4 py-1.5 font-serif text-[0.95rem] italic text-muted shadow-sm"
-                        style={{ transform: `rotate(${w.tilt}deg)`, marginInlineEnd: w.offset }}
-                      >
-                        {w.text}
-                      </span>
-                    ))}
-                  </div>
+                  {/* the settled-noise chips were removed here (Rom 2026-07-21:
+                      "תוריד את הפיצרים הקטנים האלו על התמונה") — the thought-chips
+                      now live ONLY inside the film, where they are the story. The
+                      evening room stays a clean photograph with one ivory card. */}
                 </div>
               </MItem>
             </MOrchestrate>

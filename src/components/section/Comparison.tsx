@@ -20,9 +20,6 @@ type Column = {
   highlight?: boolean; // the recommended / "our way" column
   note?: string; // small caption under the label (e.g. a caveat)
   noisy?: boolean; // serif-italic points — the thought-chip echo
-  echo?: string; // «חוט ואור» move 2: ONE faint film-chip resting on the card's
-  // edge — the noise's last appearance before §07 lays it down. Callers must
-  // pass FILM_CHIPS text only (YMYL: the chips never get new copy).
   ghost?: string; // «חדרים מצולמים»: a faint film-frame haunting the card's
   // background (~0.14 opacity under the content) — the film handing each
   // future its own frame. Pass frames the page already loaded (zero new bytes).
@@ -53,14 +50,6 @@ export function Comparison({
               <div aria-hidden className="absolute inset-0 overflow-hidden rounded-[inherit]">
                 <Image src={c.ghost} alt="" fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover opacity-[0.14]" />
               </div>
-            )}
-            {c.echo && (
-              <span
-                aria-hidden
-                className="absolute -top-3.5 end-6 inline-block rotate-[2deg] whitespace-nowrap rounded-full border border-line bg-bg/80 px-3.5 py-1 font-serif text-[0.85rem] italic text-muted opacity-45 shadow-sm"
-              >
-                {c.echo}
-              </span>
             )}
             {/* No ◆ badge here: the ◆ is a STRUCTURE mark (kickers, seams, step
                 markers), and this is a label. The recommended column is already
