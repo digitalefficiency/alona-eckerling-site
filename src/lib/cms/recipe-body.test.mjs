@@ -116,3 +116,56 @@ test("content after the last numbered step is a trailing block, not renumbered s
   assert.ok(!/3\.\s/.test(out), "the nutrition lines are never renumbered as step 3+");
   assert.equal(serializeRecipeBody(parseRecipeBody(out)), out, "fixpoint");
 });
+
+// ── the blank lines around structural ingredient lines ──────────────────────
+// These are not cosmetic. Markdown reads a non-blank line after a list item as
+// a lazy continuation of that item, so a sub-label written directly under a
+// bullet renders INSIDE it. Dropping these on save silently mangled 20 of the
+// 34 recipes the first time the editor touched one.
+
+test("a sub-label is separated from the bullet ABOVE it", () => {
+  // The blank line after it is not emitted, because a bullet may interrupt a
+  // paragraph: «**לרוטב:**\n- 2 כפות» and «**לרוטב:**\n\n- 2 כפות» render
+  // identically, and the corpus authors both ways.
+  const m = parseRecipeBody("## רכיבים\n\n- 1 בצל\n\n**לרוטב:**\n\n- 2 כפות טחינה");
+  assert.equal(
+    serializeRecipeBody(m),
+    "## רכיבים\n\n- 1 בצל\n\n**לרוטב:**\n- 2 כפות טחינה",
+  );
+});
+
+test("two structural lines in a row stay two paragraphs", () => {
+  // broccoli-onion-quiche.md: a yield note directly above a sub-label. Without
+  // the blank line between them markdown merges both into one <p>.
+  const m = parseRecipeBody('## רכיבים\n\n(תבנית פאי 20 ס"מ)\n\n**לבצק:**\n\n- 2 כוסות קמח');
+  assert.equal(
+    serializeRecipeBody(m),
+    '## רכיבים\n\n(תבנית פאי 20 ס"מ)\n\n**לבצק:**\n- 2 כוסות קמח',
+  );
+});
+
+test("consecutive bullets stay tight — no blank line is inserted between them", () => {
+  const m = parseRecipeBody("## רכיבים\n\n- א\n- ב\n- ג");
+  assert.equal(serializeRecipeBody(m), "## רכיבים\n\n- א\n- ב\n- ג");
+});
+
+test("the ingredients list renders identically before and after a round trip", async () => {
+  // The property that actually matters, checked through the renderer the site
+  // itself uses rather than through string equality.
+  const { marked } = await import("marked");
+  const src = [
+    "## רכיבים",
+    "",
+    "(4-5 מנות)",
+    "",
+    "- 2 כוסות בורגול",
+    "- 1 ברוקולי",
+    "",
+    "**לרוטב:**",
+    "",
+    "- 3 כפות טחינה",
+    "",
+    "מומלץ להגיש קר",
+  ].join("\n");
+  assert.equal(marked.parse(serializeRecipeBody(parseRecipeBody(src))), marked.parse(src));
+});

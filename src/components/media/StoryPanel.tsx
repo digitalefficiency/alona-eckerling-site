@@ -48,11 +48,11 @@ export function StoryPanel({
         <Reveal className={`md:max-w-[600px] ${panelSide === "end" ? "md:ms-auto" : ""}`}>
           <div className="relative" style={{ clipPath: clip }}>
             <div className="relative bg-navy/92 px-8 py-10 backdrop-blur-sm md:px-12 md:py-14">
-              <div
-                aria-hidden
-                className="absolute inset-0 opacity-[0.06]"
-                style={{ backgroundImage: "url('/media/texture/blueprint.webp')", backgroundSize: "cover" }}
-              />
+              {/* A blueprint texture used to sit here, inherited from the source design
+                  system. /media/texture/ was never provisioned for this site, so it
+                  fetched a 404 and painted nothing. Removed rather than provisioned:
+                  the palette here is the client's own, not the one that texture was cut
+                  for. Same removal as Monogram in media/Portrait.tsx. */}
               <div className="relative">
                 <div className="flex items-center justify-end gap-3">
                   <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>

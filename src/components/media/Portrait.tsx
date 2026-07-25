@@ -48,11 +48,12 @@ export function Monogram({
       className={`relative grid place-items-center overflow-hidden rounded-[10px] border border-line bg-navy ${className}`}
       style={{ aspectRatio: ar }}
     >
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-[0.07]"
-        style={{ backgroundImage: "url('/media/texture/blueprint.webp')", backgroundSize: "cover" }}
-      />
+      {/* A 7%-opacity blueprint texture used to sit here, carried over from the
+          source design system. /media/texture/ was never provisioned for this
+          site, so it 404'd on every render of /team/alona while showing nothing
+          — a failed request for zero pixels. Removed rather than provisioned:
+          the monogram reads as intended on the flat navy field, and the palette
+          here is the client's own, not the one that texture was cut for. */}
       <span className="relative font-serif font-black text-gold-soft" style={{ fontSize: "clamp(3rem, 9vw, 6rem)" }}>
         {initial}
       </span>

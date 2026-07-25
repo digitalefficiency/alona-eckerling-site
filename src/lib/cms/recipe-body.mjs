@@ -120,10 +120,23 @@ export function serializeRecipeBody(model) {
   const parts = [];
   if (model.intro.trim()) parts.push(model.intro.trim());
   if (model.ingredients.length) {
-    parts.push(
-      `## ${model.headings.ingredients}\n\n` +
-        model.ingredients.map((i) => (isIngredientNote(i) ? i : `- ${i}`)).join("\n"),
-    );
+    // These blank lines are NOT cosmetic: dropping them silently mangled 20 of
+    // the 34 recipes the first time the editor saved one.
+    // The rule, read off the renderer rather than guessed: a blank line is
+    // required BEFORE every structural line, and nowhere else.
+    //   item → structural   «- 1 בצל» then «**לרוטב:**» folds the label INTO
+    //                       the bullet as a lazy continuation. Blank required.
+    //   structural → structural  two paragraphs merge into one. Blank required.
+    //   structural → item   a bullet may interrupt a paragraph, so it renders
+    //                       identically either way. No blank, which also keeps
+    //                       the files that authored it that way byte-identical.
+    //   item → item         a tight list. No blank.
+    const lines = [];
+    for (const [i, item] of model.ingredients.entries()) {
+      if (i > 0 && isIngredientNote(item)) lines.push("");
+      lines.push(isIngredientNote(item) ? item : `- ${item}`);
+    }
+    parts.push(`## ${model.headings.ingredients}\n\n` + lines.join("\n"));
   }
   if (model.steps.length) {
     parts.push(`## ${model.headings.steps}\n\n` + model.steps.map((s, i) => `${i + 1}. ${s}`).join("\n"));

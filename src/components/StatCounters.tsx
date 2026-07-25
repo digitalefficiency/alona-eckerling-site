@@ -98,11 +98,11 @@ export function StatCounters() {
 
   return (
     <section className="relative overflow-hidden bg-navy text-white">
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-[0.07]"
-        style={{ backgroundImage: "url('/media/texture/blueprint.webp')", backgroundSize: "cover", backgroundPosition: "center" }}
-      />
+      {/* A blueprint texture used to sit here, inherited from the source design
+          system. /media/texture/ was never provisioned for this site, so it
+          fetched a 404 and painted nothing. Removed rather than provisioned:
+          the palette here is the client's own, not the one that texture was cut
+          for. Same removal as Monogram in media/Portrait.tsx. */}
       <div
         aria-hidden
         className="absolute inset-0"
