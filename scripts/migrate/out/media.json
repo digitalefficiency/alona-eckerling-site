@@ -1,0 +1,1170 @@
+{
+  "assets": [
+    {
+      "publicPath": "/media/client/recipes/baked-tofu-schnitzel.jpg",
+      "file": "public/media/client/recipes/baked-tofu-schnitzel.jpg",
+      "bytes": 168252,
+      "sha256": "5c5e1818fe76e2ac55b849863b07fa97cebf88e4413a107a53dea3bc51333051",
+      "width": 750,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "baked-tofu-schnitzel.jpg",
+      "alt": "שניצל טופו אפוי",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/baked-tofu-schnitzel.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/baked-tuna-patties.jpg",
+      "file": "public/media/client/recipes/baked-tuna-patties.jpg",
+      "bytes": 153876,
+      "sha256": "d8aa97c2489307bb904c636cb4e254c0f951fb58e2fdaef4d91139ae84fdc714",
+      "width": 1536,
+      "height": 1707,
+      "mime": "image/jpeg",
+      "basename": "baked-tuna-patties.jpg",
+      "alt": "קציצות טונה אפויות",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/baked-tuna-patties.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/bean-noodle-fish-salad.jpg",
+      "file": "public/media/client/recipes/bean-noodle-fish-salad.jpg",
+      "bytes": 234182,
+      "sha256": "501d93a7dd3de9b3de1406a8a0f5c34061154b6ec44ffc8639bb8a8b1220a672",
+      "width": 750,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "bean-noodle-fish-salad.jpg",
+      "alt": "סלט אטריות שעועית עם דג",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/bean-noodle-fish-salad.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/broccoli-onion-quiche.jpg",
+      "file": "public/media/client/recipes/broccoli-onion-quiche.jpg",
+      "bytes": 149998,
+      "sha256": "0619bdffec722fca398b4baf435902ae98dbc9363f2650a159a6956782a3a4a1",
+      "width": 792,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "broccoli-onion-quiche.jpg",
+      "alt": "קיש גבינות, בצל וברוקולי",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/broccoli-onion-quiche.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/bulgur-broccoli-salad.jpg",
+      "file": "public/media/client/recipes/bulgur-broccoli-salad.jpg",
+      "bytes": 159567,
+      "sha256": "9dbdd1f07965d127b0a9a455aee7103ef2d7eb7580a1cd47c6e8c7432de04cf8",
+      "width": 562,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "bulgur-broccoli-salad.jpg",
+      "alt": "סלט בורגול ברוקולי ומלא דברים טובים",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/bulgur-broccoli-salad.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/cauliflower-fried-rice.jpg",
+      "file": "public/media/client/recipes/cauliflower-fried-rice.jpg",
+      "bytes": 290139,
+      "sha256": "3e859d4a18442f2f56976666c6aaed28ecea136f16f07d2f1fb3d98140fd8312",
+      "width": 1536,
+      "height": 1702,
+      "mime": "image/jpeg",
+      "basename": "cauliflower-fried-rice.jpg",
+      "alt": "\"אורז מטוגן\" מוקפץ אסיאתי מכרובית",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/cauliflower-fried-rice.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/cauliflower-tabbouleh.jpg",
+      "file": "public/media/client/recipes/cauliflower-tabbouleh.jpg",
+      "bytes": 227156,
+      "sha256": "ba08b6f0d86e5b4b8e4d282cc16c1e6dfb73a4246db136f1deed991d6a5d1446",
+      "width": 750,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "cauliflower-tabbouleh.jpg",
+      "alt": "סלט טאבולה כרובית הכי טעים שתאכלו",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/cauliflower-tabbouleh.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/date-energy-bars.jpg",
+      "file": "public/media/client/recipes/date-energy-bars.jpg",
+      "bytes": 183918,
+      "sha256": "a512ef780ee354f2c845d8b98558c533f512317d14f5e9c3b9e41e7f898fb625",
+      "width": 1000,
+      "height": 857,
+      "mime": "image/jpeg",
+      "basename": "date-energy-bars.jpg",
+      "alt": "חטיפי אנרגיה ביתיים עם תמרים",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/date-energy-bars.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/fish-patties-sweet-sauce.jpg",
+      "file": "public/media/client/recipes/fish-patties-sweet-sauce.jpg",
+      "bytes": 432560,
+      "sha256": "bb7bbfa1423df3cb7135c04bb2d9df301e65ea0f7cd0a75abba7519b5d21fcf0",
+      "width": 1536,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "basename": "fish-patties-sweet-sauce.jpg",
+      "alt": "קציצות דג אמנון ברוטב מתקתק",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/fish-patties-sweet-sauce.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/flourless-brownies.jpg",
+      "file": "public/media/client/recipes/flourless-brownies.jpg",
+      "bytes": 106396,
+      "sha256": "f9ecb71a24a3820a2734fd1ddee2e99d72120f96fde62231f3daa6229837dbc2",
+      "width": 562,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "flourless-brownies.jpg",
+      "alt": "בראוניז ללא קמח מ4 מרכיבים",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/flourless-brownies.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/green-curry-stir-fry.jpg",
+      "file": "public/media/client/recipes/green-curry-stir-fry.jpg",
+      "bytes": 215675,
+      "sha256": "b6e25de90e7056a229b0aa22e57c7f37f92888b12469e5e06d0aecb317250aaa",
+      "width": 856,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "green-curry-stir-fry.jpg",
+      "alt": "מוקפץ קארי ירוק טבעוני, ללא גלוטן",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/green-curry-stir-fry.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/green-shakshuka.jpg",
+      "file": "public/media/client/recipes/green-shakshuka.jpg",
+      "bytes": 494803,
+      "sha256": "e5de48fc4819b7de7daaa979ccbf276891750e8bb8c010144d811854434aea4f",
+      "width": 1536,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "basename": "green-shakshuka.jpg",
+      "alt": "שקשוקה ירוקה - שקשוקת תרד חלומית",
+      "kind": "dual",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/coaching/page.tsx:185"
+      ],
+      "contentRefs": [
+        "content/recipes/green-shakshuka.md:5"
+      ],
+      "plan": "blocked-until-sections-are-extracted"
+    },
+    {
+      "publicPath": "/media/client/recipes/homemade-granola.jpg",
+      "file": "public/media/client/recipes/homemade-granola.jpg",
+      "bytes": 179959,
+      "sha256": "119180ac453dc6779132f5baa7eab571badb2ec9d3788a884a7ea8d5f06e5dd9",
+      "width": 1330,
+      "height": 1922,
+      "mime": "image/jpeg",
+      "basename": "homemade-granola.jpg",
+      "alt": "גרנולה ביתית ב10 דקות הכנה",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/homemade-granola.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/homemade-hummus.jpg",
+      "file": "public/media/client/recipes/homemade-hummus.jpg",
+      "bytes": 284631,
+      "sha256": "689da274601aa9a3db2f342110c85506572dc2a61d25efa8ce57b7342b1b7563",
+      "width": 1477,
+      "height": 1724,
+      "mime": "image/jpeg",
+      "basename": "homemade-hummus.jpg",
+      "alt": "חומוס ביתי",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/homemade-hummus.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/moroccan-fish.jpg",
+      "file": "public/media/client/recipes/moroccan-fish.jpg",
+      "bytes": 177206,
+      "sha256": "d99a2d40a0dc208c684cd5d8bb331d2c82f81d729d0c22a3cc2400f79ed90973",
+      "width": 1330,
+      "height": 2110,
+      "mime": "image/jpeg",
+      "basename": "moroccan-fish.jpg",
+      "alt": "דגים מרוקאים של שישי",
+      "kind": "dual",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/about/page.tsx:235",
+        "src/app/about/page.tsx:252"
+      ],
+      "contentRefs": [
+        "content/recipes/moroccan-fish.md:5"
+      ],
+      "plan": "blocked-until-sections-are-extracted"
+    },
+    {
+      "publicPath": "/media/client/recipes/oatmeal-chocolate-chip-cookies.jpg",
+      "file": "public/media/client/recipes/oatmeal-chocolate-chip-cookies.jpg",
+      "bytes": 398583,
+      "sha256": "e0a43acfeba7577225cd479bd2717e23c011f272b6279a6d123b1649bd682f88",
+      "width": 1536,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "basename": "oatmeal-chocolate-chip-cookies.jpg",
+      "alt": "עוגיות שוקולד צ'יפס שיבולת שועל",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/oatmeal-chocolate-chip-cookies.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/one-pot-bulgur-stew.jpg",
+      "file": "public/media/client/recipes/one-pot-bulgur-stew.jpg",
+      "bytes": 193183,
+      "sha256": "ba7bd465ebcb4ca7f34afbf6d6e25d60cd48f6ff535806790e613d2b9ad49e78",
+      "width": 750,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "one-pot-bulgur-stew.jpg",
+      "alt": "תבשיל בורגול בסיר אחד",
+      "kind": "dual",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/coaching/page.tsx:186"
+      ],
+      "contentRefs": [
+        "content/recipes/one-pot-bulgur-stew.md:5"
+      ],
+      "plan": "blocked-until-sections-are-extracted"
+    },
+    {
+      "publicPath": "/media/client/recipes/protein-cheesecake.jpg",
+      "file": "public/media/client/recipes/protein-cheesecake.jpg",
+      "bytes": 213139,
+      "sha256": "a54a2a86691f5ac9f0abc9b4a5ef00f4a27458f5ed07548cf013de4f6e04d44b",
+      "width": 885,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "protein-cheesecake.jpg",
+      "alt": "עוגת גבינה אפויה דלת קלוריות ועשירה בחלבון",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/protein-cheesecake.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/quinoa-citrus-salad.jpg",
+      "file": "public/media/client/recipes/quinoa-citrus-salad.jpg",
+      "bytes": 152909,
+      "sha256": "5fbc62991d361eda8fc0f90bf889372f155963d7216446c0678ae9bcff04fd95",
+      "width": 562,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "quinoa-citrus-salad.jpg",
+      "alt": "סלט קינואה ברוטב ויניגרט הדרים דבש",
+      "kind": "dual",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/about/page.tsx:440"
+      ],
+      "contentRefs": [
+        "content/recipes/quinoa-citrus-salad.md:5"
+      ],
+      "plan": "blocked-until-sections-are-extracted"
+    },
+    {
+      "publicPath": "/media/client/recipes/quinoa-in-red-sauce.jpg",
+      "file": "public/media/client/recipes/quinoa-in-red-sauce.jpg",
+      "bytes": 239702,
+      "sha256": "855c25307ca76dcf53d86fac3e20c8d5a461e8c7cf4ce450dd57e5762d0862e0",
+      "width": 750,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "quinoa-in-red-sauce.jpg",
+      "alt": "קינואה ברוטב אדום",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/quinoa-in-red-sauce.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/roasted-tomato-soup.jpg",
+      "file": "public/media/client/recipes/roasted-tomato-soup.jpg",
+      "bytes": 199322,
+      "sha256": "9e942b33693c6d25d94a2b87ba1e707fc0d76e6dc4e4e9ad896d33ac8b45590e",
+      "width": 1324,
+      "height": 1953,
+      "mime": "image/jpeg",
+      "basename": "roasted-tomato-soup.jpg",
+      "alt": "מרק עגבניות צלויות",
+      "kind": "dual",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/coaching/page.tsx:187"
+      ],
+      "contentRefs": [
+        "content/recipes/roasted-tomato-soup.md:5"
+      ],
+      "plan": "blocked-until-sections-are-extracted"
+    },
+    {
+      "publicPath": "/media/client/recipes/soba-noodle-salad.jpg",
+      "file": "public/media/client/recipes/soba-noodle-salad.jpg",
+      "bytes": 198688,
+      "sha256": "11b758eab8aa75c362c6a2d51abd493af49a28290df2fec650f2deb93cec8cda",
+      "width": 1406,
+      "height": 1839,
+      "mime": "image/jpeg",
+      "basename": "soba-noodle-salad.jpg",
+      "alt": "סלט אטריות סובה",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/soba-noodle-salad.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/spelt-banana-cake.jpg",
+      "file": "public/media/client/recipes/spelt-banana-cake.jpg",
+      "bytes": 250608,
+      "sha256": "f719db2d0d226f7a57864be74402ef5503a64078626560fa93c66fb9c08e3ba3",
+      "width": 1536,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "basename": "spelt-banana-cake.jpg",
+      "alt": "עוגת בננות מקמח כוסמין",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/spelt-banana-cake.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/spinach-cheese-bourekas.jpg",
+      "file": "public/media/client/recipes/spinach-cheese-bourekas.jpg",
+      "bytes": 371774,
+      "sha256": "f3d925e3a4c046e0a200739f322226d25ff1a60c9ed4772206967bd27227e839",
+      "width": 1525,
+      "height": 1857,
+      "mime": "image/jpeg",
+      "basename": "spinach-cheese-bourekas.jpg",
+      "alt": "בורקס גבינה ותרד מבצק יוגורט",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/spinach-cheese-bourekas.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/spinach-cheese-pie.jpg",
+      "file": "public/media/client/recipes/spinach-cheese-pie.jpg",
+      "bytes": 204589,
+      "sha256": "73995e7eea650b3aa411a72fad80be5b1f96ae22e67bc103dc4da83a39ac8288",
+      "width": 926,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "spinach-cheese-pie.jpg",
+      "alt": "פשטידת תרד וגבינות רזות",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/spinach-cheese-pie.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/sweet-and-sour-tofu.jpg",
+      "file": "public/media/client/recipes/sweet-and-sour-tofu.jpg",
+      "bytes": 144837,
+      "sha256": "9c06f1cc33121ac413311ccf0644cdc91cfc8f2dad424ed93350a4203d6a8957",
+      "width": 644,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "sweet-and-sour-tofu.jpg",
+      "alt": "טופו חמוץ מתוק",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/sweet-and-sour-tofu.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/three-ingredient-date-balls.jpg",
+      "file": "public/media/client/recipes/three-ingredient-date-balls.jpg",
+      "bytes": 132943,
+      "sha256": "90fa792a4cf3ddf434fff13f8cf4989d8839a4491407a84b0d664f0d3e2355d4",
+      "width": 750,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "three-ingredient-date-balls.jpg",
+      "alt": "כדורי תמרים מ3 מרכיבים",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/three-ingredient-date-balls.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/tofu-shawarma.jpg",
+      "file": "public/media/client/recipes/tofu-shawarma.jpg",
+      "bytes": 159881,
+      "sha256": "18e5434230bd9514f0a0bc1e218c8c984ee15a205a371e76f10b99969af9d0fb",
+      "width": 784,
+      "height": 1000,
+      "mime": "image/jpeg",
+      "basename": "tofu-shawarma.jpg",
+      "alt": "שווארמה טופו",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/tofu-shawarma.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/tuna-shawarma.jpg",
+      "file": "public/media/client/recipes/tuna-shawarma.jpg",
+      "bytes": 46299,
+      "sha256": "bd8e1a3bae81aa0871ec888823f5d0b6ef5a824fd8db5c2f9d99952ce514034c",
+      "width": 292,
+      "height": 390,
+      "mime": "image/jpeg",
+      "basename": "tuna-shawarma.jpg",
+      "alt": "שווארמה טונה",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/tuna-shawarma.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/client/recipes/zucchini-feta-salad.jpg",
+      "file": "public/media/client/recipes/zucchini-feta-salad.jpg",
+      "bytes": 227037,
+      "sha256": "b88089a0d26310bf84d7ce4a47d36dcc52afdee2610c9aa573ad3fbdd6e50a73",
+      "width": 1330,
+      "height": 1914,
+      "mime": "image/jpeg",
+      "basename": "zucchini-feta-salad.jpg",
+      "alt": "סלט זוקיני חי עם פטה ושקדים",
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
+      "contentRefs": [
+        "content/recipes/zucchini-feta-salad.md:5"
+      ],
+      "plan": "phase5-upload"
+    },
+    {
+      "publicPath": "/media/generated/01-hero-film-poster.jpg",
+      "file": "public/media/generated/01-hero-film-poster.jpg",
+      "bytes": 205320,
+      "sha256": "1d9260cf2411f8f8388d2dc5671a4d64e68c7cb0287c57d7835927eb4b56ca8f",
+      "width": 2000,
+      "height": 1116,
+      "mime": "image/jpeg",
+      "basename": "01-hero-film-poster.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:38"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/01-hero-film.mp4",
+      "file": "public/media/generated/01-hero-film.mp4",
+      "bytes": 491673,
+      "sha256": "5109351de11e9c51e5fe2a19850db03c0730416868a9832fd4c7118ba3920d4c",
+      "width": null,
+      "height": null,
+      "mime": "video/mp4",
+      "basename": "01-hero-film.mp4",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:261"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/01-hero-film.webm",
+      "file": "public/media/generated/01-hero-film.webm",
+      "bytes": 406107,
+      "sha256": "e186b1157223049979eb59e3d0124f59997b9990295a910e52399d472d44cc90",
+      "width": null,
+      "height": null,
+      "mime": "video/webm",
+      "basename": "01-hero-film.webm",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:260"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s01.jpg",
+      "file": "public/media/generated/02-problem-s01.jpg",
+      "bytes": 178272,
+      "sha256": "0b600c111c082ae7cc7109c93ae061e0aa4ba929d5488d5053c3cc2c1c4bf25d",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s01.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:66"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s02.jpg",
+      "file": "public/media/generated/02-problem-s02.jpg",
+      "bytes": 194836,
+      "sha256": "2d279e0262c3906f1a0653b7e50467704ba65cbd0315891dfda3a86d0294e406",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s02.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:67"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s03.jpg",
+      "file": "public/media/generated/02-problem-s03.jpg",
+      "bytes": 65381,
+      "sha256": "c014e5f295c49c4dad071e3d595ec4d07c3cb99d287db069f2043cf2e6fa6c14",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s03.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:68"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s04.jpg",
+      "file": "public/media/generated/02-problem-s04.jpg",
+      "bytes": 69034,
+      "sha256": "44bd7994ccb16e7a2010eadd5c32a35149f677561403e0b6efd262f04a195ba1",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s04.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:69"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s05.jpg",
+      "file": "public/media/generated/02-problem-s05.jpg",
+      "bytes": 68031,
+      "sha256": "19d9a073f8ab830b9197318f756a34054de878611b90e597a8a7bb8ce1594559",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s05.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:70"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s06.jpg",
+      "file": "public/media/generated/02-problem-s06.jpg",
+      "bytes": 70213,
+      "sha256": "89ced9c2841c337ff4fde6a7305bcf015a25f51581637fb6cb9ee62e3a4052b2",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s06.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:71"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s07.jpg",
+      "file": "public/media/generated/02-problem-s07.jpg",
+      "bytes": 69778,
+      "sha256": "caaa29cf2b8f333d8406216d5c5dfb6d8c56dd6dd07c8af048750e4b2c67efc8",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s07.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:72"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s08.jpg",
+      "file": "public/media/generated/02-problem-s08.jpg",
+      "bytes": 71381,
+      "sha256": "be7abca28669fe087f071cffbb3886063808aadd6275cf01b45a95a02559d23b",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s08.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:73"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s09.jpg",
+      "file": "public/media/generated/02-problem-s09.jpg",
+      "bytes": 72324,
+      "sha256": "16b70079a1ca7687cbba8b93d079adcb20ef3ec2d96253ca0e98ff0a6b0262bc",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s09.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:74"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s10.jpg",
+      "file": "public/media/generated/02-problem-s10.jpg",
+      "bytes": 71424,
+      "sha256": "be9f1bb29a61a9158dacb658ea5b12b3447f1a86e10c17c8a74f1fde20828b3e",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s10.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:75"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s11.jpg",
+      "file": "public/media/generated/02-problem-s11.jpg",
+      "bytes": 73932,
+      "sha256": "6d2d7c1033305ec9235ab933c489aac080d66ce64fee93a397b050d3af8d5443",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s11.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:76"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s12.jpg",
+      "file": "public/media/generated/02-problem-s12.jpg",
+      "bytes": 75246,
+      "sha256": "d5ae9da0bd9ec9a40f619ef7d700237d14ac307ea77288b664e9691bdaf4e4e1",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s12.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:77"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s13.jpg",
+      "file": "public/media/generated/02-problem-s13.jpg",
+      "bytes": 196652,
+      "sha256": "4ba9c3c118b84f13896b2eff10fb8f9b8a9fb3367c23a7caa330a01935b42203",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s13.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:78"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/02-problem-s14.jpg",
+      "file": "public/media/generated/02-problem-s14.jpg",
+      "bytes": 72644,
+      "sha256": "58a52583944a379e542cf25765b14dd29b28f2703d62952f3db5860fdcd24031",
+      "width": 1400,
+      "height": 781,
+      "mime": "image/jpeg",
+      "basename": "02-problem-s14.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:79"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/03-guide-desk.jpg",
+      "file": "public/media/generated/03-guide-desk.jpg",
+      "bytes": 213919,
+      "sha256": "647ecd625343e103265e4411d5508e6a833a79a808b6f20f8239d46e71f2ffb1",
+      "width": 2000,
+      "height": 1116,
+      "mime": "image/jpeg",
+      "basename": "03-guide-desk.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:103"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/04-plan-week.jpg",
+      "file": "public/media/generated/04-plan-week.jpg",
+      "bytes": 81289,
+      "sha256": "08162e88ca80a20d7d95691a2a94b1ad0cc9d49bf2558ab67cba2725606dba16",
+      "width": 900,
+      "height": 1117,
+      "mime": "image/jpeg",
+      "basename": "04-plan-week.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:448"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/04-rung-01-first-call.jpg",
+      "file": "public/media/generated/04-rung-01-first-call.jpg",
+      "bytes": 96221,
+      "sha256": "da267f5d2db50bf16bb9de078370a9deaca7260a39dbff43c6a8952aeb3858c5",
+      "width": 1600,
+      "height": 1073,
+      "mime": "image/jpeg",
+      "basename": "04-rung-01-first-call.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:159"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/04-rung-02-plan-page.jpg",
+      "file": "public/media/generated/04-rung-02-plan-page.jpg",
+      "bytes": 134349,
+      "sha256": "9ce527def3ca2faeb754738790df750c8950da86f395f73e18549d54ec655318",
+      "width": 1600,
+      "height": 1073,
+      "mime": "image/jpeg",
+      "basename": "04-rung-02-plan-page.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:160"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/04-rung-03-message-away.jpg",
+      "file": "public/media/generated/04-rung-03-message-away.jpg",
+      "bytes": 88552,
+      "sha256": "43b7b022d3e89457bee4bec2832b31a5d5feb86a615308bb979dc4e55d817155",
+      "width": 1600,
+      "height": 1073,
+      "mime": "image/jpeg",
+      "basename": "04-rung-03-message-away.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:161"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/06-fork-noisy.jpg",
+      "file": "public/media/generated/06-fork-noisy.jpg",
+      "bytes": 80486,
+      "sha256": "1a4f3abc93f2fed94ad8fa2dd8470adfe62dc2105881ebf90b40cd34c93330ae",
+      "width": 1600,
+      "height": 1073,
+      "mime": "image/jpeg",
+      "basename": "06-fork-noisy.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:569"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/06-fork-quiet.jpg",
+      "file": "public/media/generated/06-fork-quiet.jpg",
+      "bytes": 77476,
+      "sha256": "15337e40bd8d17a3c085293a29765c8d0d43fdeaa77be3e914004aaeb896d150",
+      "width": 1600,
+      "height": 1073,
+      "mime": "image/jpeg",
+      "basename": "06-fork-quiet.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:568"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/07-success-evening-wide.jpg",
+      "file": "public/media/generated/07-success-evening-wide.jpg",
+      "bytes": 132356,
+      "sha256": "8acc1d38ae573ee72b0720cc881b2399b8999cdee546d6349f8d9c0f8a8e5310",
+      "width": 2000,
+      "height": 1116,
+      "mime": "image/jpeg",
+      "basename": "07-success-evening-wide.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/page.tsx:605"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    },
+    {
+      "publicPath": "/media/generated/09-coaching-table.jpg",
+      "file": "public/media/generated/09-coaching-table.jpg",
+      "bytes": 68166,
+      "sha256": "871ae263738a4bbaf90f6269f8147804b1747adfb5a748d898b70c653653d08e",
+      "width": 896,
+      "height": 1200,
+      "mime": "image/jpeg",
+      "basename": "09-coaching-table.jpg",
+      "alt": "",
+      "kind": "code",
+      "origin": "code",
+      "locked": true,
+      "codeRefs": [
+        "src/app/coaching/page.tsx:318",
+        "src/app/coaching/page.tsx:392"
+      ],
+      "contentRefs": [],
+      "plan": "stays-in-repo"
+    }
+  ],
+  "orphans": [
+    {
+      "publicPath": "/media/generated/01-hero-kitchen.jpg",
+      "file": "public/media/generated/01-hero-kitchen.jpg",
+      "bytes": 95204,
+      "sha256": "6914ce909a4ffe8a594199c9945e9169eb0ab7898e90dac33f1f593e477285c1",
+      "width": 1264,
+      "height": 848,
+      "mime": "image/jpeg",
+      "basename": "01-hero-kitchen.jpg"
+    },
+    {
+      "publicPath": "/media/generated/01b-bridge-s01.jpg",
+      "file": "public/media/generated/01b-bridge-s01.jpg",
+      "bytes": 142668,
+      "sha256": "1175ffcb73974c5cadaee006f6d71838c1d8b99c6b34f546923975ab14d48337",
+      "width": 2000,
+      "height": 1116,
+      "mime": "image/jpeg",
+      "basename": "01b-bridge-s01.jpg"
+    },
+    {
+      "publicPath": "/media/generated/01b-bridge-s02.jpg",
+      "file": "public/media/generated/01b-bridge-s02.jpg",
+      "bytes": 178361,
+      "sha256": "70e3351d37eac522acba826353730f20b31d2570271592e04b3e41d4c59099df",
+      "width": 2000,
+      "height": 1116,
+      "mime": "image/jpeg",
+      "basename": "01b-bridge-s02.jpg"
+    },
+    {
+      "publicPath": "/media/generated/01b-bridge-s03.jpg",
+      "file": "public/media/generated/01b-bridge-s03.jpg",
+      "bytes": 111724,
+      "sha256": "d2f98d067108c7b8b2dc76fec4330aba84784bcc0701cfa17b3a88b36f172f40",
+      "width": 2000,
+      "height": 1116,
+      "mime": "image/jpeg",
+      "basename": "01b-bridge-s03.jpg"
+    },
+    {
+      "publicPath": "/media/generated/07-success-evening.jpg",
+      "file": "public/media/generated/07-success-evening.jpg",
+      "bytes": 60303,
+      "sha256": "eef9dfa08dccff73404b2c349f47dc439f1cf3a402ba4de511d828a2498819fc",
+      "width": 928,
+      "height": 1152,
+      "mime": "image/jpeg",
+      "basename": "07-success-evening.jpg"
+    },
+    {
+      "publicPath": "/media/generated/11-method-science.jpg",
+      "file": "public/media/generated/11-method-science.jpg",
+      "bytes": 81290,
+      "sha256": "e4001ff14030ffcdfda3f65615aeb0dadeb7caf0e83786913f38e014fb4ec299",
+      "width": 1264,
+      "height": 848,
+      "mime": "image/jpeg",
+      "basename": "11-method-science.jpg"
+    },
+    {
+      "publicPath": "/media/generated/11-method-two-cups.jpg",
+      "file": "public/media/generated/11-method-two-cups.jpg",
+      "bytes": 175112,
+      "sha256": "c70d1332dd858714884efd9b1b97647261ba1087c2a9e5a29a57f88e0f7deddb",
+      "width": 1200,
+      "height": 805,
+      "mime": "image/jpeg",
+      "basename": "11-method-two-cups.jpg"
+    },
+    {
+      "publicPath": "/media/generated/11-method-week-bowls.jpg",
+      "file": "public/media/generated/11-method-week-bowls.jpg",
+      "bytes": 199826,
+      "sha256": "56becaf2381e694050f1ba5830d9332103511ca5b12cc03ce41af691ceb7281a",
+      "width": 1200,
+      "height": 805,
+      "mime": "image/jpeg",
+      "basename": "11-method-week-bowls.jpg"
+    }
+  ],
+  "broken": [],
+  "licence": {
+    "checked": 30,
+    "ok": 30,
+    "mismatched": [],
+    "unlisted": [],
+    "missing": false
+  }
+}

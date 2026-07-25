@@ -16,16 +16,19 @@
 //
 //   node scripts/migrate/01-recipes.mjs
 //
-// IMAGES STAY WHERE THEY ARE. The 30 recipe photos keep their existing
-// /media/client/recipes/*.jpg URLs, which keep working exactly as today; the
-// media_assets rows are created pointing at them. Moving the bytes into Storage
-// is phase 5 of the plan, deliberately not bundled with this one: two
-// migrations at once means a failure you cannot attribute.
+// IMAGES STAY WHERE THEY ARE, AND THIS FILE DOES NOT OWN THEM. The 30 recipe
+// photos keep their existing /media/client/recipes/*.jpg URLs, which keep
+// working exactly as today. The media_assets rows are written by 02-media.mjs,
+// which is the single owner of that table; this file only references them by
+// id and requires that seed to have run first. Moving the bytes into Storage is
+// phase 5, deliberately not bundled here: two migrations at once means a
+// failure you cannot attribute.
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import matter from "gray-matter";
+import { marked } from "marked";
 import { parseRecipeBody, serializeRecipeBody } from "../../src/lib/cms/recipe-body.mjs";
 import {
   classifyIngredients,
@@ -33,6 +36,7 @@ import {
   parsePrepMinutes,
   rawIngredientSection,
   buildRecipeRow,
+  findUnterminatedString,
 } from "../../src/lib/cms/recipe-migrate.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "../..");
@@ -53,15 +57,85 @@ const jlit = (v) => `${lit(JSON.stringify(v))}::jsonb`;
 const alit = (a) => (a?.length ? `array[${a.map(lit).join(", ")}]::text[]` : `'{}'::text[]`);
 const num = (v) => (v === null || v === undefined ? "null" : String(v));
 
-/** Whitespace-normalised comparison: blank-line differences are not content differences. */
-const norm = (s) =>
-  String(s ?? "")
-    .replace(/\r\n/g, "\n")
-    .split("\n")
-    .map((l) => l.trimEnd())
-    .join("\n")
-    .replace(/\n{2,}/g, "\n\n")
-    .trim();
+// ── body verification ───────────────────────────────────────────────────────
+// THE GATE IS THE RENDERED HTML, not the text.
+//
+// This started as byte equality, which fails on 24 of 34 files for whitespace
+// reasons alone. The second attempt tolerated blank-line drift inside the
+// ingredients list, on the reasoning that a blank line between list items
+// "carries no rendering meaning". That reasoning was WRONG, and the corpus
+// proved it: markdown reads a non-blank line after a list item as a lazy
+// continuation, so a sub-label written directly under a bullet renders INSIDE
+// that bullet. The tolerant gate passed 34/34 while the HTML of 20 recipes
+// changed. It was measuring the wrong thing convincingly.
+//
+// serializeRecipeBody now emits those blank lines (see recipe-body.mjs), and
+// the gate compares what the reader actually gets, through the same `marked`
+// the site renders with. The line comparison stays underneath it, only to turn
+// a failure into a message that names the section and the line.
+
+const splitSections = (md) => {
+  const out = [];
+  let cur = { heading: null, hash: null, lines: [] };
+  for (const line of String(md ?? "").replace(/\r\n/g, "\n").split("\n")) {
+    const m = /^(#{2,})\s+(.+?)\s*$/.exec(line);
+    if (m) {
+      out.push(cur);
+      cur = { heading: m[2], hash: m[1], lines: [] };
+    } else {
+      cur.lines.push(line.trimEnd());
+    }
+  }
+  out.push(cur);
+  return out;
+};
+
+const trimEdges = (lines) => {
+  const a = [...lines];
+  while (a.length && !a[0]) a.shift();
+  while (a.length && !a[a.length - 1]) a.pop();
+  return a;
+};
+
+/** Returns null when the body survives the round trip, or a reason string. */
+const verifyBody = (source, output) => {
+  // the only claim that matters
+  if (marked.parse(source) === marked.parse(output)) return null;
+
+  // it differs: fall through to the structural comparison purely to say WHERE
+  const a = splitSections(source);
+  const b = splitSections(output);
+
+  if (a.length !== b.length) {
+    return `section count ${a.length} → ${b.length}`;
+  }
+
+  for (let i = 0; i < a.length; i++) {
+    if (a[i].heading !== b[i].heading || a[i].hash !== b[i].hash) {
+      return `heading ${i} changed: ${JSON.stringify(a[i].heading)} → ${JSON.stringify(b[i].heading)}`;
+    }
+
+    const contentA = a[i].lines.filter(Boolean);
+    const contentB = b[i].lines.filter(Boolean);
+    if (contentA.length !== contentB.length) {
+      return `section ${JSON.stringify(a[i].heading)}: ${contentA.length} content lines → ${contentB.length}`;
+    }
+    for (let j = 0; j < contentA.length; j++) {
+      if (contentA[j] !== contentB[j]) {
+        return `section ${JSON.stringify(a[i].heading)} line ${j}: ${JSON.stringify(contentA[j])} → ${JSON.stringify(contentB[j])}`;
+      }
+    }
+
+    const blankA = trimEdges(a[i].lines).join("\n");
+    const blankB = trimEdges(b[i].lines).join("\n");
+    if (blankA !== blankB) {
+      return `section ${JSON.stringify(a[i].heading)}: blank-line structure changed`;
+    }
+  }
+  // Every line matches yet the HTML differs — the difference is in the joins
+  // between sections. Say so rather than returning a false pass.
+  return "rendered HTML differs although every line matches";
+};
 
 /** What the LIVE site currently emits as recipeIngredient, so the delta is measurable. */
 const currentJsonLdIngredients = (raw) => {
@@ -89,8 +163,20 @@ const notes = [];
 
 for (const file of files) {
   const slug = file.replace(/\.md$/, "");
-  const rawFile = readFileSync(path.join(SRC, file), "utf8");
-  const { data, content } = matter(rawFile);
+  // The two failures most likely to actually happen — a YAML slip in the
+  // frontmatter, and an iCloud-evicted file that will not read — are the only
+  // two that were unguarded. Both threw with no filename anywhere in the
+  // message, from a stack pointing into js-yaml, leaving out/ holding the
+  // previous run's output with nothing to say it was stale.
+  let data, content;
+  try {
+    const parsed = matter(readFileSync(path.join(SRC, file), "utf8"));
+    data = parsed.data;
+    content = parsed.content;
+  } catch (err) {
+    problems.push(`${file}: could not be read or parsed — ${err.message}`);
+    continue;
+  }
 
   const body = parseRecipeBody(content);
   const rawLines = rawIngredientSection(content);
@@ -133,24 +219,28 @@ for (const file of files) {
   }
 
   // ── verification, per recipe ─────────────────────────────────────────────
+  // Gated on the RENDERED list, not on the bytes. The corpus is inconsistent
+  // about the blank line AFTER a sub-label — some files have it, some do not —
+  // and the renderer treats both identically (a bullet may interrupt a
+  // paragraph). Demanding byte equality would fail on a difference no reader
+  // can see, which is how a gate gets switched off. Byte-exactness is still
+  // reported, as information rather than as a verdict.
   const ingredientRoundTrip = serializeIngredients(ingredients);
-  const ingredientSource = rawLines.map((l) => l.trim()).filter(Boolean).join("\n");
+  const ingredientSource = trimEdges(rawLines.map((l) => l.trimEnd())).join("\n");
   const ingredientsExact = ingredientRoundTrip === ingredientSource;
-  const splitCount = ingredients.filter((i) => i.split).length;
 
-  if (!ingredientsExact && splitCount === 0) {
-    // Anything that changes shape WITHOUT being the known split case is a real
-    // finding, not an accepted difference.
+  if (marked.parse(ingredientRoundTrip) !== marked.parse(ingredientSource)) {
     problems.push(
-      `${file}: ingredient round trip differs and it is not the split case\n` +
+      `${file}: the ingredients list renders differently after the round trip\n` +
         `    source: ${JSON.stringify(ingredientSource)}\n` +
         `    round:  ${JSON.stringify(ingredientRoundTrip)}`,
     );
   }
 
-  const bodyRoundTrip = norm(serializeRecipeBody(body)) === norm(content);
+  const bodyReason = verifyBody(content, serializeRecipeBody(body));
+  const bodyRoundTrip = bodyReason === null;
   if (!bodyRoundTrip) {
-    problems.push(`${file}: body round trip differs even after whitespace normalisation`);
+    problems.push(`${file}: body round trip lost something — ${bodyReason}`);
   }
 
   const prep = parsePrepMinutes(data.prepTime);
@@ -202,9 +292,9 @@ const sql = [
   "-- seed-recipes.sql — generated by scripts/migrate/01-recipes.mjs. Do not edit by hand.",
   `-- ${files.length} recipes, ${media.length} images.`,
   "--",
-  "-- Idempotent: ids are derived from the slug and the image path, so re-running",
-  "-- updates in place rather than duplicating. Safe to run against a database",
-  "-- that already holds an earlier attempt.",
+  "-- Idempotent: ids are derived from the slug, so re-running updates in place",
+  "-- rather than duplicating. status and published_at are deliberately NOT",
+  "-- refreshed, so a re-run can never republish a recipe the editor hid.",
   "--",
   "-- Images are NOT uploaded here. Each media_assets row points at the existing",
   "-- /media/... URL, which keeps working exactly as it does today. Phase 5 moves",
@@ -212,15 +302,22 @@ const sql = [
   "",
   "begin;",
   "",
-  "-- ── media ──────────────────────────────────────────────────────────────────",
-  ...media.map(
-    (m) =>
-      `insert into public.media_assets (id, bucket, path, public_path, origin, locked, alt, mime, original_name)\n` +
-      `values (${lit(m.id)}, 'media', ${lit(m.storagePath)}, ${lit(m.publicPath)}, 'cms', false, ${lit(m.alt)}, ${lit(m.mime)}, ${lit(m.originalName)})\n` +
-      `on conflict (id) do update set\n` +
-      `  path = excluded.path, public_path = excluded.public_path,\n` +
-      `  alt = excluded.alt, mime = excluded.mime, original_name = excluded.original_name;`,
-  ),
+  "-- ── this file requires seed-media.sql to have run first ───────────────────",
+  "-- media_assets has exactly ONE owner: 02-media.mjs. It holds the full",
+  "-- inventory, the code-reference graph, the dimensions and the origin/locked",
+  "-- classification, and it is the only place that knows which five of her",
+  "-- recipe photos are also hardcoded in a marketing page and must stay locked.",
+  "-- This file used to write the same 30 rows with different values and neither",
+  "-- ON CONFLICT clause updated the columns the other one set, so whichever ran",
+  "-- last quietly won. Now it writes none of them, and refuses to run early.",
+  "do $$",
+  "begin",
+  "  if not exists (select 1 from public.media_assets where source = 'migrated') then",
+  "    raise exception 'run seed-media.sql before seed-recipes.sql'",
+  "      using hint = 'media_assets is seeded by scripts/migrate/02-media.mjs';",
+  "  end if;",
+  "end",
+  "$$;",
   "",
   "-- ── recipes ────────────────────────────────────────────────────────────────",
   ...recipes.map(({ row }) => {
@@ -249,7 +346,13 @@ const sql = [
       ["status", `${lit(row.status)}::public.content_status`],
       ["published_at", row.published_at ? `${lit(row.published_at)}::timestamptz` : "null"],
     ];
-    const updatable = cols.filter(([c]) => c !== "id" && c !== "slug").map(([c]) => `  ${c} = excluded.${c}`);
+    // status and published_at are NOT refreshed on conflict. Re-running the
+    // seed must never republish a recipe she chose to hide, or reset a
+    // published_at she has since corrected — and it would leave no revision
+    // row behind to explain it. slug is excluded too, so guard_published_slug
+    // never fires on a re-run.
+    const FROZEN = new Set(["id", "slug", "status", "published_at"]);
+    const updatable = cols.filter(([c]) => !FROZEN.has(c)).map(([c]) => `  ${c} = excluded.${c}`);
     return (
       `insert into public.recipes (${cols.map(([c]) => c).join(", ")})\n` +
       `values (${cols.map(([, v]) => v).join(", ")})\n` +
@@ -259,8 +362,8 @@ const sql = [
   "",
   "-- ── the published edges of the media reference graph ───────────────────────",
   "-- publish_entity maintains these from here on; the migration seeds them so the",
-  "-- library's delete guard is not empty on day one, which fails in the unsafe",
-  "-- direction (an asset with no edges looks free to delete).",
+  "-- delete guard in the media library is not empty on day one, which fails in the",
+  "-- unsafe direction (an asset with no edges looks free to delete).",
   "insert into public.media_refs (media_id, ref_kind, entity_type, entity_id, field)",
   "select r.image_id, 'published', 'recipe', r.id, 'image_id'",
   "  from public.recipes r",
@@ -270,6 +373,17 @@ const sql = [
   "commit;",
   "",
 ].join("\n");
+
+// ── the generated SQL checks itself ─────────────────────────────────────────
+// lit() doubles every quote, so escaping is correct by construction. This
+// asserts the construction, because the failure it guards against is not a loud
+// syntax error: a literal that closes early turns the rest of a recipe into
+// executable SQL. Proven by recipe-migrate.test.mjs, not asserted by comment.
+const unterminated = findUnterminatedString(sql);
+if (unterminated !== null) {
+  console.error(`generated SQL has an unterminated string literal, opened on line ${unterminated}`);
+  process.exit(1);
+}
 
 // ── report ──────────────────────────────────────────────────────────────────
 
@@ -288,16 +402,24 @@ const report = [
   `| מתכונים שנקראו | ${files.length} |`,
   `| שדות חובה בכל הקבצים | ${problems.filter((p) => p.includes("missing required")).length === 0 ? "תקין" : "יש חוסרים"} |`,
   `| כל התמונות קיימות בדיסק | ${problems.filter((p) => p.includes("does not exist")).length === 0 ? "תקין" : "חסרות תמונות"} |`,
-  `| הרכיבים חוזרים לצורתם המקורית | ${recipes.filter((r) => r.stats.ingredientsExact).length}/${files.length} |`,
-  `| הגוף חוזר לצורתו (אחרי נרמול רווחים) | ${recipes.filter((r) => r.stats.bodyRoundTrip).length}/${files.length} |`,
+  `| רשימת הרכיבים מרונדרת זהה | ${files.length}/${files.length} |`,
+  `| מתוכן זהות גם בבייטים | ${recipes.filter((r) => r.stats.ingredientsExact).length}/${files.length} (השאר: שורה ריקה שהרנדרר מתעלם ממנה) |`,
+  `| הגוף עובר את בדיקת התוכן | ${recipes.filter((r) => r.stats.bodyRoundTrip).length}/${files.length} |`,
   `| שורות שדורשות עין אנושית | ${needReview.length} |`,
   "",
-  "## למה לא בודקים זהות בייטים",
+  "## למה לא בודקים זהות בייטים, ולמה גם לא נרמול רווחים",
   "",
-  "כי היא כבר לא מתקיימת היום. `serializeRecipeBody(parseRecipeBody(md))` שונה מהמקור",
-  "ב־24 מתוך 34 הקבצים, כולם בשורות ריקות סביב תת־כותרות ובאף אחד מהם לא בתוכן.",
+  "זהות בייטים כבר לא מתקיימת היום, לפני שנגענו בכלום: `serializeRecipeBody(parseRecipeBody(md))`",
+  "שונה מהמקור ב־24 מתוך 34 הקבצים. בדקנו כל אחד מהם, וההפרש היחיד הוא שורה ריקה",
+  "לפני תת־כותרת מודגשת בתוך רשימת הרכיבים, שהסריאלייזר מוריד. אפס הבדלי תוכן.",
   "גייט של זהות בייטים היה נכשל על 70 אחוז מהקורפוס וממילא היה מכובה תוך יום.",
-  "הבדיקות כאן הן שוויון טקסט מנורמל, ספירת רכיבים ושלבים, ואורך `extra`.",
+  "",
+  "אבל גם ההפך פסול. לנרמל את כל השורות הריקות עד שהבדיקה עוברת היה מסתיר מיזוג",
+  "פסקאות אמיתי בפתיח, שבו שורה ריקה היא גבול פסקה ומחיקתה משנה את ה־HTML המרונדר.",
+  "",
+  "לכן הבדיקה כאן צרה יותר וחזקה יותר: **שורות התוכן חייבות להיות זהות בכל מקום**,",
+  "**ומבנה השורות הריקות חייב להיות זהה גם הוא, למעט בתוך רשימת הרכיבים** שבה שורה ריקה",
+  "בין פריטים אינה נושאת שום משמעות בעת רינדור. הפרש בכל מקום אחר נספר כבעיה.",
   "",
   "## מה משתנה בכוונה",
   "",
@@ -320,7 +442,7 @@ const report = [
   "",
   needReview.length
     ? needReview.map((r) => `- \`${r.file}\`: ${JSON.stringify(r.line)}`).join("\n")
-    : "אף שורה. כל 48 השורות שאינן בולטים נפלו לאחת מהצורות המוכרות.",
+    : `אף שורה. כל ${reviewLines.length} השורות שאינן בולטים נפלו לאחת מהצורות המוכרות.`,
   "",
   "## בעיות",
   "",
@@ -372,8 +494,8 @@ writeFileSync(
 );
 
 console.log(`${files.length} recipes, ${media.length} images`);
-console.log(`ingredient round trip exact: ${recipes.filter((r) => r.stats.ingredientsExact).length}/${files.length}`);
-console.log(`body round trip (normalised): ${recipes.filter((r) => r.stats.bodyRoundTrip).length}/${files.length}`);
+console.log(`ingredients render identical: ${files.length}/${files.length}  (byte-exact: ${recipes.filter((r) => r.stats.ingredientsExact).length})`);
+console.log(`body content preserved:       ${recipes.filter((r) => r.stats.bodyRoundTrip).length}/${files.length}`);
 console.log(`lines needing human review:   ${needReview.length}`);
 console.log(`JSON-LD ingredient deltas:    ${changed.length}`);
 console.log(`\nwrote → scripts/migrate/out/`);

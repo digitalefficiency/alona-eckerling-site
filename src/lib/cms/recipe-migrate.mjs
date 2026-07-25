@@ -19,14 +19,20 @@
 // recipe-body.mjs recognises, kept in sync deliberately.
 const BULLET = /^[-*•▪◦]\s+/;
 
-// «**להגשה:** בצל ירוק, כוסברה, בוטנים גרוסים» — a sub-label AND real
-// ingredients on one line. Exactly one line in the corpus has this shape
-// (green-curry-stir-fry.md), which is why it is a named special case and not a
-// heuristic. Today's JSON-LD builder drops this line entirely: its filter is
-// /^\s*[-*]\s+/, which needs whitespace after the glyph, and here the next
-// character is a second asterisk. So splitting it ADDS an ingredient to the
-// structured data. That is an intended improvement, not a regression, and the
-// verification report whitelists it by name.
+// «**להגשה:** בצל ירוק, כוסברה, בוטנים גרוסים» — a sub-label with content on
+// the same line. Exactly one line in the corpus has this shape
+// (green-curry-stir-fry.md), which is why it is a named case and not a
+// heuristic.
+//
+// It is DETECTED but not split. Splitting it into a sub-label plus an item
+// looked like an improvement — today's JSON-LD filter is /^\s*[-*]\s+/, which
+// needs whitespace after the glyph, so the line is dropped entirely and adding
+// it back reads as a gain. But what would be added is «בצל ירוק, כוסברה,
+// בוטנים גרוסים» as ONE recipeIngredient: three garnishes crammed into a single
+// structured-data string. Malformed structured data is worse than absent
+// structured data, and the line is a serving suggestion rather than a
+// quantified ingredient. recipe-body.mjs already classifies it as a note; this
+// agrees with it, which also makes the round trip exact.
 const SUBLABEL_WITH_ITEMS = /^\*\*(.+?:)\*\*\s+(.+)$/;
 
 // «**לרוטב:**» and «**שקדים מקורמלים: (לא לוותר)**» — the colon is not always
@@ -38,13 +44,12 @@ const SUBLABEL = /^\*\*(.+?)\*\*\s*$/;
 const PAREN_NOTE = /^\(.*\)\s*$/;
 
 // Hebrew words that open a serving suggestion and never an ingredient name.
-// Same list as recipe-body.mjs's NOTE_OPENER, minus «להגשה» which is handled
-// earlier by SUBLABEL_WITH_ITEMS.
+// Same list as recipe-body.mjs's NOTE_OPENER, kept in sync deliberately.
 const NOTE_OPENER = /^(?:מומלץ|הצעת\s+הגשה|ניתן\s+גם|אפשר\s+גם|להגשה\b)/;
 
 /**
- * Classify ONE raw line from inside a «## רכיבים» section.
- * Returns an array because a sub-label carrying items becomes two entries.
+ * Classify ONE raw line from inside a «## רכיבים» section. Returns an array so
+ * a line can expand or vanish (a bare bullet yields nothing).
  * `needsReview` marks a shape nobody anticipated: the runner prints every one
  * of them so a human decides once, instead of a regex deciding forever.
  */
@@ -63,12 +68,10 @@ export function classifyIngredientLine(raw) {
     return text ? [{ kind: "item", text }] : [];
   }
 
-  const withItems = SUBLABEL_WITH_ITEMS.exec(line);
-  if (withItems) {
-    return [
-      { kind: "sublabel", text: withItems[1].trim() },
-      { kind: "item", text: withItems[2].trim(), split: true },
-    ];
+  // kept whole, as a note — see the comment on SUBLABEL_WITH_ITEMS. `inline`
+  // marks it for the human review report without changing what is stored.
+  if (SUBLABEL_WITH_ITEMS.test(line)) {
+    return [{ kind: "note", text: line, inline: true }];
   }
 
   const sub = SUBLABEL.exec(line);
@@ -93,13 +96,15 @@ export function classifyIngredients(rawLines) {
  * (they were never bulleted); items regain the "- " that itemize stripped.
  */
 export function serializeIngredients(items) {
-  return (items ?? [])
-    .map((i) => {
-      if (i.kind === "sublabel") return `**${i.text}**`;
-      if (i.kind === "note") return i.text;
-      return `- ${i.text}`;
-    })
-    .join("\n");
+  // A blank line before every structural line and nowhere else — the same rule
+  // serializeRecipeBody uses, for the same reason: without it markdown folds a
+  // sub-label into the bullet above it.
+  const lines = [];
+  for (const [idx, i] of (items ?? []).entries()) {
+    if (idx > 0 && i.kind !== "item") lines.push("");
+    lines.push(i.kind === "sublabel" ? `**${i.text}**` : i.kind === "note" ? i.text : `- ${i.text}`);
+  }
+  return lines.join("\n");
 }
 
 // ── prep time ───────────────────────────────────────────────────────────────
@@ -197,6 +202,52 @@ export function buildRecipeRow({ slug, data, body, rawIngredientLines, imagePath
     status: data.draft === true ? "draft" : "published",
     published_at: data.draft === true ? null : `${data.date}T00:00:00Z`,
   };
+}
+
+// ── generated-SQL safety ────────────────────────────────────────────────────
+
+/**
+ * Returns the 1-based line where a string literal was opened and never closed,
+ * or null when the SQL is balanced. `--` comments run to end of line and cannot
+ * open a literal; a doubled '' inside a literal is an escaped quote.
+ *
+ * The generator doubles every quote, so escaping is correct by construction.
+ * This asserts the construction, because the failure it guards against is not a
+ * loud syntax error: a literal that closes early turns the rest of a recipe
+ * into executable SQL.
+ */
+export function findUnterminatedString(sql) {
+  const text = String(sql ?? "");
+  let i = 0;
+  let line = 1;
+  let inString = false;
+  let openedAt = 0;
+
+  while (i < text.length) {
+    const c = text[i];
+
+    if (!inString && c === "-" && text[i + 1] === "-") {
+      const nl = text.indexOf("\n", i);
+      if (nl === -1) break;
+      line++;
+      i = nl + 1;
+      continue;
+    }
+
+    if (c === "\n") line++;
+
+    if (c === "'") {
+      if (inString && text[i + 1] === "'") {
+        i += 2;
+        continue;
+      }
+      inString = !inString;
+      if (inString) openedAt = line;
+    }
+    i++;
+  }
+
+  return inString ? openedAt : null;
 }
 
 /**

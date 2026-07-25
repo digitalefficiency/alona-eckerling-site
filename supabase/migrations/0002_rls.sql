@@ -61,6 +61,15 @@ revoke delete on public.testimonials from anon, authenticated;
 revoke delete on public.media_assets from anon, authenticated;
 revoke delete on public.leads        from anon, authenticated;
 
+-- anon writes NOTHING except a lead. The default grant leaves it holding
+-- INSERT, UPDATE, REFERENCES and TRIGGER on every content table, which is
+-- exactly the standing privilege this file's own doctrine says should not
+-- exist: it is what turns a future policy mistake into a data-loss event.
+revoke insert, update, references, trigger on
+  public.pages, public.recipes, public.posts, public.testimonials, public.media_assets
+from anon;
+revoke insert, update, delete, references, trigger on public.site_settings from anon;
+
 -- What makes "append-only" true rather than merely stated.
 revoke update, delete on public.revisions from anon, authenticated;
 
@@ -112,6 +121,21 @@ create policy posts_staff_insert on public.posts
   for insert to authenticated with check (public.is_cms_user());
 create policy posts_staff_update on public.posts
   for update to authenticated using (public.is_cms_user()) with check (public.is_cms_user());
+
+-- The consent trail is NOT public. `consent_by` and `consent_at` record which
+-- real person allowed her quote to be published, and when. RLS gates the ROW,
+-- never the COLUMN, so a plain SELECT policy would serve that third party's
+-- name to anyone holding the anon key — which is a public credential sitting in
+-- the page source. Same reasoning that produced the column list on `leads`;
+-- it just was not carried across to the other table that holds someone else's
+-- personal data. Today that trail lives in a private git file, so publishing it
+-- would be a new exposure created by this migration, not an inherited one.
+--
+-- A policy's USING expression does not require the caller to hold privileges on
+-- the columns it references, so filtering on status and deleted_at keeps
+-- working after they are revoked.
+revoke select on public.testimonials from anon;
+grant select (id, quote, name, context, outcome, position, published_at) on public.testimonials to anon;
 
 create policy testimonials_read_published on public.testimonials
   for select to anon
@@ -171,12 +195,29 @@ create policy media_staff_update on public.media_assets
 
 -- No DELETE policy, and DELETE revoked above. Removal is `deleted_at`.
 
-create policy media_refs_staff_all on public.media_refs
-  for all to authenticated
-  using (public.is_cms_user())
-  with check (public.is_cms_user());
--- media_refs keeps FOR ALL on purpose: the reference graph is rebuilt at every
--- publish, so deleting stale rows is the normal path. Nothing here is content.
+-- The reference graph is rebuilt at every publish, so deleting stale rows is
+-- the normal path — but only for the rows publish OWNS. The ref_kind='code'
+-- edges are the entire mechanism protecting the 14 film frames and the other
+-- code-owned assets from a Delete button: they are seeded by the migration and
+-- refreshed by a CI scan, never by the desk. FOR ALL would let a single
+-- .from('media_refs').delete() strip exactly the protection this design was
+-- built around.
+create policy media_refs_staff_read on public.media_refs
+  for select to authenticated
+  using (public.is_cms_user());
+
+create policy media_refs_staff_insert on public.media_refs
+  for insert to authenticated
+  with check (public.is_cms_user() and ref_kind <> 'code');
+
+create policy media_refs_staff_update on public.media_refs
+  for update to authenticated
+  using (public.is_cms_user() and ref_kind <> 'code')
+  with check (public.is_cms_user() and ref_kind <> 'code');
+
+create policy media_refs_staff_delete on public.media_refs
+  for delete to authenticated
+  using (public.is_cms_user() and ref_kind <> 'code');
 
 -- ── drafts: staff only, full stop ───────────────────────────────────────────
 
@@ -191,9 +232,18 @@ create policy revisions_staff_read on public.revisions
   for select to authenticated
   using (public.is_cms_user());
 
+-- Append-only is not the same as tamper-evident. Without the column grant below
+-- the editor could POST straight to /rest/v1/revisions and choose created_by,
+-- created_at, action and snapshot freely: a history that can be written into is
+-- a history that cannot be trusted, and this table is the ONLY undo story left
+-- once the git layer is gone. The WITH CHECK pins authorship; the column grant
+-- is what stops a backdated created_at, because RLS cannot gate columns.
+revoke insert on public.revisions from authenticated;
+grant insert (entity_type, entity_id, action, snapshot, note, created_by) on public.revisions to authenticated;
+
 create policy revisions_staff_insert on public.revisions
   for insert to authenticated
-  with check (public.is_cms_user());
+  with check (public.is_cms_user() and created_by = auth.uid());
 
 -- ── redirects ───────────────────────────────────────────────────────────────
 
@@ -361,6 +411,44 @@ begin
   if bad <> '' then
     raise exception
       'DELETE/TRUNCATE still granted to a client role. Removal is deleted_at, not a row drop: %', bad;
+  end if;
+end
+$$;
+
+-- 3b. anon holds no write privilege anywhere, with exactly one intended
+--     exception: INSERT on leads, and there only on the granted columns.
+do $$
+declare
+  t   text;
+  p   text;
+  bad text := '';
+begin
+  foreach t in array array['pages', 'recipes', 'posts', 'testimonials', 'site_settings',
+                           'media_assets', 'media_refs', 'leads', 'drafts', 'revisions', 'redirects'] loop
+    foreach p in array array['INSERT', 'UPDATE', 'DELETE'] loop
+      if t = 'leads' and p = 'INSERT' then continue; end if;
+      if has_table_privilege('anon', format('public.%I', t), p) then
+        bad := bad || 'anon->' || t || '(' || p || ')  ';
+      end if;
+    end loop;
+  end loop;
+
+  if bad <> '' then
+    raise exception 'anon holds a write privilege it never uses: %', bad;
+  end if;
+end
+$$;
+
+-- 3c. the consent trail stays off the public wire
+do $$
+begin
+  if has_column_privilege('anon', 'public.testimonials', 'consent_by', 'SELECT')
+     or has_column_privilege('anon', 'public.testimonials', 'consent_at', 'SELECT') then
+    raise exception 'anon can read the testimonial consent trail — that is a third party''s personal data';
+  end if;
+  -- and the public grid must still work
+  if not has_column_privilege('anon', 'public.testimonials', 'quote', 'SELECT') then
+    raise exception 'anon cannot read testimonials.quote — the public grid would be empty';
   end if;
 end
 $$;

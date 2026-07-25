@@ -119,6 +119,11 @@ create table public.media_assets (
   bytes         integer,
   mime          text,
   original_name text,
+  -- How the row got here. 'migrated' is a file that already existed in the repo
+  -- when the CMS was built; 'upload' is one Alona added herself. The phase-5
+  -- upload plan is computed from this together with origin, so losing it means
+  -- losing the answer to "which bytes still have to move".
+  source        text not null default 'upload' check (source in ('upload', 'migrated')),
   -- Tombstone, never a hard delete. The public URL is immutable-cached, sits in
   -- Google's image index, and in links she has already shared. A purge is a
   -- separate, manual, owner-only script.
@@ -251,6 +256,36 @@ $$;
 create trigger pages_guard_core
   before update or delete on public.pages
   for each row execute function public.guard_core_page();
+
+-- A page she creates lives at /<slug>, the same namespace as the code routes.
+-- Nothing else stops her naming one "recipes" or "privacy": pages_slug_live_idx
+-- only enforces uniqueness WITHIN pages. A collision does not error, it just
+-- means one of the two never renders, and which one is decided by Next's route
+-- precedence rather than by anybody's intent.
+create or replace function public.guard_reserved_slug()
+  returns trigger
+  language plpgsql
+  security invoker
+  set search_path = ''
+as $$
+begin
+  if new.kind = 'content' and lower(new.slug) in (
+    '', 'recipes', 'blog', 'privacy', 'terms', 'accessibility', 'team', 'admin',
+    'api', 'preview', 'styleguide', 'contact', 'about', 'coaching', 'testimonials',
+    'sitemap.xml', 'robots.txt', 'feed.xml', 'manifest.webmanifest', '_next'
+  ) then
+    raise exception 'slug_reserved'
+      using errcode = '23514',
+            detail  = format('%s is a route the site already owns', new.slug),
+            hint    = 'choose a different address for this page';
+  end if;
+  return new;
+end
+$$;
+
+create trigger pages_guard_reserved
+  before insert or update on public.pages
+  for each row execute function public.guard_reserved_slug();
 
 -- ── recipes ─────────────────────────────────────────────────────────────────
 
@@ -464,7 +499,10 @@ create table public.revisions (
   snapshot    jsonb       not null,
   note        text,
   created_at  timestamptz not null default now(),
-  created_by  uuid references auth.users
+  -- Defaulted so the RLS check `created_by = auth.uid()` (0002) has something
+  -- to compare against even when a caller omits the column: authorship is not
+  -- optional on the only audit trail that survives the removal of git.
+  created_by  uuid default auth.uid() references auth.users
 );
 
 create index revisions_entity_idx on public.revisions (entity_type, entity_id, id desc);

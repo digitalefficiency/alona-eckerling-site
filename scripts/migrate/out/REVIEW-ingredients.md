@@ -28,7 +28,7 @@
 | green-curry-stir-fry.md | `**לטופו:**` | sublabel: לטופו: |
 | green-curry-stir-fry.md | `**למוקפץ:**` | sublabel: למוקפץ: |
 | green-curry-stir-fry.md | `**רוטב:**` | sublabel: רוטב: |
-| green-curry-stir-fry.md | `**להגשה:** בצל ירוק, כוסברה, בוטנים גרוסים` | sublabel: להגשה: + item (split): בצל ירוק, כוסברה, בוטנים גרוסים |
+| green-curry-stir-fry.md | `**להגשה:** בצל ירוק, כוסברה, בוטנים גרוסים` | note: **להגשה:** בצל ירוק, כוסברה, בוטנים גרוסים |
 | moroccan-fish.md | `**רוטב:**` | sublabel: רוטב: |
 | oatmeal-chocolate-chip-cookies.md | `(עבור 14 עוגיות)` | note: (עבור 14 עוגיות) |
 | protein-cheesecake.md | `(עבור תבנית עגולה בקוטר 24 ס"מ - 13 פרוסות עוגה)` | note: (עבור תבנית עגולה בקוטר 24 ס"מ - 13 פרוסות עוגה) |

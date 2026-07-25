@@ -9,6 +9,7 @@ import {
   serializeIngredients,
   parsePrepMinutes,
   rawIngredientSection,
+  findUnterminatedString,
 } from "./recipe-migrate.mjs";
 
 // ── items ───────────────────────────────────────────────────────────────────
@@ -50,24 +51,26 @@ test("a long sentence sub-label classifies as a sub-label, not a note", () => {
 
 // ── the one split case ──────────────────────────────────────────────────────
 
-test("a sub-label carrying ingredients on the same line splits into two entries", () => {
+test("a sub-label carrying content on the same line is kept whole, as a note", () => {
   // green-curry-stir-fry.md — the ONLY line in the corpus with this shape.
-  // Today's JSON-LD filter (/^\s*[-*]\s+/) drops it entirely, so this split
-  // ADDS one ingredient to the structured data. Intended.
+  // Splitting it would put "בצל ירוק, כוסברה, בוטנים גרוסים" into JSON-LD as a
+  // SINGLE recipeIngredient: three garnishes in one string. Malformed
+  // structured data is worse than none, and the line is a serving suggestion.
   assert.deepEqual(
     classifyIngredientLine("**להגשה:** בצל ירוק, כוסברה, בוטנים גרוסים"),
-    [
-      { kind: "sublabel", text: "להגשה:" },
-      { kind: "item", text: "בצל ירוק, כוסברה, בוטנים גרוסים", split: true },
-    ],
+    [{ kind: "note", text: "**להגשה:** בצל ירוק, כוסברה, בוטנים גרוסים", inline: true }],
   );
 });
 
-test("the split rule wins over the note-opener rule for «להגשה»", () => {
-  // «להגשה» is in NOTE_OPENER. A bare «להגשה: ...» is a note; a bold
-  // «**להגשה:** ...» is a labelled group of ingredients. Order matters.
+test("keeping it whole means the ingredients round trip is exact", () => {
+  const source = ["- 2 שיני שום", "", "**להגשה:** בצל ירוק, כוסברה"];  // blank before the structural line
+  assert.equal(serializeIngredients(classifyIngredients(source)), source.join("\n"));
+});
+
+test("a bare serving line is a note too, with no inline marker", () => {
   const [first] = classifyIngredientLine("להגשה: לפזר שומשום");
   assert.equal(first.kind, "note");
+  assert.equal(first.inline, undefined);
 });
 
 // ── notes ───────────────────────────────────────────────────────────────────
@@ -97,22 +100,20 @@ test("an unrecognised shape becomes a note AND is flagged for review", () => {
 // ── round trip ──────────────────────────────────────────────────────────────
 
 test("classify then serialize reproduces the source lines", () => {
+  // the blank lines are part of the source shape, not decoration: markdown
+  // folds a sub-label into the bullet above it without them
   const source = [
     "(4-5 מנות)",
     "- 2 כוסות בורגול",
     "- 1 ברוקולי",
+    "",
     "**לרוטב:**",
     "- 3 כפות טחינה",
+    "",
     "מומלץ להגיש קר",
   ];
   const round = serializeIngredients(classifyIngredients(source));
   assert.equal(round, source.join("\n"));
-});
-
-test("only the split line differs on round trip, and it differs predictably", () => {
-  const source = ["**להגשה:** בצל ירוק, כוסברה"];
-  const round = serializeIngredients(classifyIngredients(source));
-  assert.equal(round, "**להגשה:**\n- בצל ירוק, כוסברה");
 });
 
 test("bullet glyphs other than dash normalise to dash on serialize", () => {
@@ -194,4 +195,34 @@ test("only the first ingredients section is taken", () => {
 test("a file with no ingredients section yields nothing rather than throwing", () => {
   assert.deepEqual(rawIngredientSection("סתם טקסט").filter(Boolean), []);
   assert.deepEqual(rawIngredientSection("").filter(Boolean), []);
+});
+
+// ── generated-SQL safety ────────────────────────────────────────────────────
+
+test("balanced SQL passes", () => {
+  assert.equal(findUnterminatedString("insert into t values ('a', 'b');"), null);
+  assert.equal(findUnterminatedString(""), null);
+});
+
+test("an escaped quote inside a literal does not end it", () => {
+  // what lit() produces for  it's
+  assert.equal(findUnterminatedString("values ('it''s fine');"), null);
+});
+
+test("an UNescaped quote is caught, with the line it opened on", () => {
+  // what a broken escaper would produce for  it's
+  const sql = ["-- header", "insert into t", "values ('it's broken');"].join("\n");
+  assert.equal(findUnterminatedString(sql), 3);
+});
+
+test("a multi-line literal is fine — recipe intros contain newlines", () => {
+  assert.equal(findUnterminatedString("values ('שורה\nעוד שורה');"), null);
+});
+
+test("an apostrophe inside a comment cannot open a literal", () => {
+  assert.equal(findUnterminatedString("-- the library's guard\nvalues ('a');"), null);
+});
+
+test("a comment inside a literal is text, not a comment", () => {
+  assert.equal(findUnterminatedString("values ('a -- not a comment', 'b');"), null);
 });

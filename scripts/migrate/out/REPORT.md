@@ -9,27 +9,28 @@
 | מתכונים שנקראו | 34 |
 | שדות חובה בכל הקבצים | תקין |
 | כל התמונות קיימות בדיסק | תקין |
-| הרכיבים חוזרים לצורתם המקורית | 33/34 |
-| הגוף חוזר לצורתו (אחרי נרמול רווחים) | 10/34 |
+| רשימת הרכיבים מרונדרת זהה | 34/34 |
+| מתוכן זהות גם בבייטים | 16/34 (השאר: שורה ריקה שהרנדרר מתעלם ממנה) |
+| הגוף עובר את בדיקת התוכן | 34/34 |
 | שורות שדורשות עין אנושית | 0 |
 
-## למה לא בודקים זהות בייטים
+## למה לא בודקים זהות בייטים, ולמה גם לא נרמול רווחים
 
-כי היא כבר לא מתקיימת היום. `serializeRecipeBody(parseRecipeBody(md))` שונה מהמקור
-ב־24 מתוך 34 הקבצים, כולם בשורות ריקות סביב תת־כותרות ובאף אחד מהם לא בתוכן.
+זהות בייטים כבר לא מתקיימת היום, לפני שנגענו בכלום: `serializeRecipeBody(parseRecipeBody(md))`
+שונה מהמקור ב־24 מתוך 34 הקבצים. בדקנו כל אחד מהם, וההפרש היחיד הוא שורה ריקה
+לפני תת־כותרת מודגשת בתוך רשימת הרכיבים, שהסריאלייזר מוריד. אפס הבדלי תוכן.
 גייט של זהות בייטים היה נכשל על 70 אחוז מהקורפוס וממילא היה מכובה תוך יום.
-הבדיקות כאן הן שוויון טקסט מנורמל, ספירת רכיבים ושלבים, ואורך `extra`.
+
+אבל גם ההפך פסול. לנרמל את כל השורות הריקות עד שהבדיקה עוברת היה מסתיר מיזוג
+פסקאות אמיתי בפתיח, שבו שורה ריקה היא גבול פסקה ומחיקתה משנה את ה־HTML המרונדר.
+
+לכן הבדיקה כאן צרה יותר וחזקה יותר: **שורות התוכן חייבות להיות זהות בכל מקום**,
+**ומבנה השורות הריקות חייב להיות זהה גם הוא, למעט בתוך רשימת הרכיבים** שבה שורה ריקה
+בין פריטים אינה נושאת שום משמעות בעת רינדור. הפרש בכל מקום אחר נספר כבעיה.
 
 ## מה משתנה בכוונה
 
-המספר של רכיבים ב־JSON-LD משתנה במתכונים הבאים:
-
-- `green-curry-stir-fry.md`: 18 → 19
-
-הסיבה: שורה מהצורה `**להגשה:** בצל ירוק, כוסברה, בוטנים גרוסים` נושאת גם תת־כותרת
-וגם רכיבים אמיתיים. הפילטר הנוכחי באתר הוא `^\s*[-*]\s+`, שדורש רווח אחרי הכוכבית,
-ולכן השורה הזו **מסוננת החוצה היום** ולא מגיעה בכלל לנתונים המובנים. הפיצול לתת־כותרת
-ולרכיב מחזיר אותה פנימה. זו תוספת, לא אובדן.
+אין הפרשים בין מה שהאתר פולט היום לבין מה שייפלט מהמסד.
 
 ## מה שדורש הכרעה אנושית
 
@@ -37,34 +38,11 @@
 
 ## בעיות
 
-- baked-tofu-schnitzel.md: body round trip differs even after whitespace normalisation
-- bean-noodle-fish-salad.md: body round trip differs even after whitespace normalisation
-- broccoli-onion-quiche.md: body round trip differs even after whitespace normalisation
-- bulgur-broccoli-salad.md: body round trip differs even after whitespace normalisation
-- cauliflower-fried-rice.md: body round trip differs even after whitespace normalisation
-- cauliflower-tabbouleh.md: body round trip differs even after whitespace normalisation
-- easy-pea-soup.md: body round trip differs even after whitespace normalisation
-- fish-patties-sweet-sauce.md: body round trip differs even after whitespace normalisation
-- flourless-brownies.md: body round trip differs even after whitespace normalisation
-- green-curry-stir-fry.md: body round trip differs even after whitespace normalisation
-- moroccan-fish.md: body round trip differs even after whitespace normalisation
-- oatmeal-chocolate-chip-cookies.md: body round trip differs even after whitespace normalisation
-- protein-cheesecake.md: body round trip differs even after whitespace normalisation
-- protein-pancakes.md: body round trip differs even after whitespace normalisation
-- roasted-tomato-soup.md: body round trip differs even after whitespace normalisation
-- soba-noodle-salad.md: body round trip differs even after whitespace normalisation
-- spelt-banana-cake.md: body round trip differs even after whitespace normalisation
-- spinach-cheese-bourekas.md: body round trip differs even after whitespace normalisation
-- sweet-and-sour-tofu.md: body round trip differs even after whitespace normalisation
-- three-ingredient-date-balls.md: body round trip differs even after whitespace normalisation
-- tofu-honey-mustard.md: body round trip differs even after whitespace normalisation
-- tofu-shawarma.md: body round trip differs even after whitespace normalisation
-- tuna-shawarma.md: body round trip differs even after whitespace normalisation
-- zucchini-feta-salad.md: body round trip differs even after whitespace normalisation
+אין.
 
 ## הערות
 
-- green-curry-stir-fry.md: JSON-LD ingredients 18 → 19  (the **label:** items line, now counted)
+אין.
 
 ## פירוט לפי מתכון
 
@@ -82,7 +60,7 @@
 | easy-pea-soup.md | 10 | 1 | 0 | 6 | 0 | לא צוין |
 | fish-patties-sweet-sauce.md | 16 | 2 | 1 | 9 | 0 | לא צוין |
 | flourless-brownies.md | 4 | 0 | 1 | 5 | 424 | לא צוין |
-| green-curry-stir-fry.md | 19 | 4 | 0 | 10 | 0 | לא צוין |
+| green-curry-stir-fry.md | 18 | 3 | 1 | 10 | 0 | לא צוין |
 | green-shakshuka.md | 9 | 0 | 0 | 5 | 0 | לא צוין |
 | homemade-granola.md | 6 | 0 | 0 | 6 | 0 | 10 |
 | homemade-hummus.md | 8 | 0 | 0 | 5 | 0 | 10 |

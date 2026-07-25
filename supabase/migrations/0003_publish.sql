@@ -175,6 +175,7 @@ as $$
                           (select jsonb_build_object('path', m.public_path, 'alt', m.alt)
                              from public.media_assets m
                             where m.id = (s -> 'payload' ->> 'image_id')::uuid
+                              and m.deleted_at is null
                               and m.public_path is not null),
                           -- keep whatever the draft already carried rather than
                           -- replacing a working image with null
@@ -377,7 +378,8 @@ begin
                               when v_payload ? 'image_id' and nullif(v_payload ->> 'image_id', '') is not null
                                 then coalesce(
                                        (select m.public_path from public.media_assets m
-                                         where m.id = (v_payload ->> 'image_id')::uuid),
+                                         where m.id = (v_payload ->> 'image_id')::uuid
+                                           and m.deleted_at is null),
                                        nullif(v_payload ->> 'image_path', ''),
                                        r.image_path)
                               when v_payload ? 'image_path'
@@ -412,7 +414,8 @@ begin
                             when v_payload ? 'image_id' and nullif(v_payload ->> 'image_id', '') is not null
                               then coalesce(
                                      (select m.public_path from public.media_assets m
-                                       where m.id = (v_payload ->> 'image_id')::uuid),
+                                       where m.id = (v_payload ->> 'image_id')::uuid
+                                         and m.deleted_at is null),
                                      nullif(v_payload ->> 'image_path', ''),
                                      p.image_path)
                             when v_payload ? 'image_path'
@@ -484,7 +487,7 @@ begin
                     then v_payload -> 'sections' else '[]'::jsonb end
              ) as s
     ) as ref
-    join public.media_assets m on m.id = ref.media_id
+    join public.media_assets m on m.id = ref.media_id and m.deleted_at is null
   on conflict do nothing;
 
   -- The snapshot is the FULL authoring document, hidden sections included:
@@ -655,6 +658,16 @@ begin
   -- The old URL is one someone has linked to. The rename and the redirect are
   -- the same transaction on purpose: there is no window in which the old
   -- address 404s.
+  --
+  -- Two housekeeping steps first, both of which exist to stop a redirect LOOP.
+  -- Renaming A→B→A would otherwise leave /A → /B while /A is once again a live
+  -- page, so the live page redirects to a 404. And a chain C→A followed by
+  -- A→B leaves C pointing at an address that no longer resolves.
+  delete from public.redirects where source = v_prefix || p_new_slug;
+  update public.redirects
+     set destination = v_prefix || p_new_slug
+   where destination = v_prefix || v_old;
+
   insert into public.redirects (source, destination, permanent)
   values (v_prefix || v_old, v_prefix || p_new_slug, true)
   on conflict (source) do update
@@ -665,6 +678,57 @@ begin
           jsonb_build_object('from', v_old, 'to', p_new_slug),
           v_prefix || v_old || ' -> ' || v_prefix || p_new_slug,
           auth.uid());
+end
+$$;
+
+-- ── save_media_meta ─────────────────────────────────────────────────────────
+-- media_assets was the one write surface with no invariant-3 guard. There was
+-- no RPC, so the library would have written it as
+-- `.from('media_assets').update({ alt })`, and media_staff_update's USING
+-- clause silently skips a row it rejects: PostgREST answers 200 with an empty
+-- body and supabase-js reports no error.
+--
+-- That is not theoretical here. Five of Alona's OWN recipe photos are
+-- origin='code' and locked, because about/page.tsx and coaching/page.tsx name
+-- their paths directly. She sees her photo in her library, fixes a typo in its
+-- alt text, is told נשמר, and nothing changed — with no reason to look again.
+--
+-- NOTE ON WHY THE DIRECT GRANT SURVIVES: these functions are SECURITY INVOKER,
+-- which is the discipline the whole file rests on — RLS stays the single
+-- authorization layer and no function is a privilege escalation. Revoking
+-- UPDATE on media_assets from `authenticated` would therefore disable this RPC
+-- along with the direct write. So the grant stays and this is the DOCUMENTED
+-- door: the desk must call save_media_meta, never .from('media_assets').update.
+-- A direct update is not unsafe, it is merely silent, which is the bug.
+
+create or replace function public.save_media_meta(
+  p_id  uuid,
+  p_alt text
+) returns timestamptz
+  language plpgsql
+  security invoker
+  set search_path = ''
+as $$
+declare
+  v_now timestamptz;
+begin
+  update public.media_assets
+     set alt = p_alt
+   where id = p_id
+     and deleted_at is null
+  returning created_at into v_now;
+
+  if v_now is null then
+    if exists (select 1 from public.media_assets where id = p_id and deleted_at is null) then
+      raise exception 'media_forbidden'
+        using errcode = 'CMS02',
+              detail  = 'this asset is owned by the site design and cannot be edited from the desk',
+              hint    = 'code-owned assets are admin only';
+    end if;
+    raise exception 'media_not_found' using errcode = 'CMS03';
+  end if;
+
+  return v_now;
 end
 $$;
 
@@ -769,6 +833,7 @@ revoke execute on function public.restore_revision(bigint)                      
 revoke execute on function public.set_visibility(public.entity_kind, uuid, boolean)         from public, anon;
 revoke execute on function public.rename_slug(public.entity_kind, uuid, text)               from public, anon;
 revoke execute on function public.save_setting(text, jsonb, timestamptz)                    from public, anon;
+revoke execute on function public.save_media_meta(uuid, text)                                from public, anon;
 
 grant execute on function public.save_draft(public.entity_kind, uuid, jsonb, integer)       to authenticated;
 grant execute on function public.publish_entity(public.entity_kind, uuid, integer, text)    to authenticated;
@@ -776,6 +841,7 @@ grant execute on function public.restore_revision(bigint)                       
 grant execute on function public.set_visibility(public.entity_kind, uuid, boolean)          to authenticated;
 grant execute on function public.rename_slug(public.entity_kind, uuid, text)                to authenticated;
 grant execute on function public.save_setting(text, jsonb, timestamptz)                     to authenticated;
+grant execute on function public.save_media_meta(uuid, text)                                 to authenticated;
 
 -- ── compile check ───────────────────────────────────────────────────────────
 -- plpgsql does not resolve a DECLARE block until first execution, so a type
@@ -833,6 +899,14 @@ begin
   exception
     when undefined_object or undefined_table or undefined_function then
       raise exception 'save_setting failed to compile: %', sqlerrm;
+    when others then null;
+  end;
+
+  begin
+    perform public.save_media_meta(zero, 'x');
+  exception
+    when undefined_object or undefined_table or undefined_function then
+      raise exception 'save_media_meta failed to compile: %', sqlerrm;
     when others then null;
   end;
 end
