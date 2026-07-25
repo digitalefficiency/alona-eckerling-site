@@ -104,10 +104,17 @@ export function checkAdmin(root) {
     }
   }
 
-  // 2. the middleware must not locale-redirect /admin
-  const mw = read(join(root, "src/middleware.ts"));
+  // 2. the proxy must not locale-redirect /admin.
+  // Next 16 renamed the `middleware` file convention to `proxy` — read whichever
+  // this project ships so the gate survives the rename in either direction.
+  const proxyPath = ["src/proxy.ts", "src/middleware.ts"]
+    .map((p) => join(root, p))
+    .find((p) => existsSync(p));
+  const mw = proxyPath ? read(proxyPath) : "";
   if (mw && !/["']admin["']/.test(mw)) {
-    fails.push('src/middleware.ts — add "admin" to the SKIP token list, or a bilingual site redirects /admin to /<locale>/admin (404)');
+    fails.push(
+      `${proxyPath.replace(root + "/", "")} — add "admin" to the SKIP token list, or a bilingual site redirects /admin to /<locale>/admin (404)`,
+    );
   }
 
   // 3. tokens-only motion in the admin components (mirror of lint-motion's law)

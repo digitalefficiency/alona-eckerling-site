@@ -21,12 +21,15 @@ export function Header() {
 
   useEffect(() => {
     let solidNow = true;
-    const onScroll = () => {
+    let ticking = false;
+    // The white (light-text) treatment requires an explicit [data-dark-hero]
+    // marker on the page's opening dark hero — without one the header stays
+    // solid, so a light page can never ship an invisible nav. The marker is a
+    // per-page constant, so the lookup is hoisted OUT of the scroll handler
+    // (it used to run a document-wide attribute-selector query every frame).
+    const dh = document.querySelector("[data-dark-hero]");
+    const read = () => {
       const y = window.scrollY;
-      // The white (light-text) treatment requires an explicit [data-dark-hero]
-      // marker on the page's opening dark hero — without one the header stays
-      // solid, so a light page can never ship an invisible nav.
-      const dh = document.querySelector("[data-dark-hero]");
       const overDark = !!dh && dh.getBoundingClientRect().bottom > 90;
       // hysteresis so the transparent↔solid swap doesn't flicker at the boundary
       if (!solidNow && (y > 64 || !overDark)) {
@@ -40,8 +43,16 @@ export function Header() {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const p = max > 0 ? Math.min(1, y / max) : 0;
       if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
+      ticking = false;
     };
-    onScroll();
+    // rAF guard — the read touches scrollHeight (a forced layout) and shares the
+    // frame with SequenceFilm's per-frame style writes. One read per frame, max.
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(read);
+    };
+    read();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
     return () => {
@@ -62,8 +73,13 @@ export function Header() {
   // Over an opted-in dark hero (top, not scrolled, drawer closed) → light treatment.
   const light = !solid && !open;
 
+  // Current-page match: exact for "/", prefix for section routes (so a recipe
+  // page still marks «מתכונים» as current).
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="fixed inset-x-0 top-0 z-[var(--z-header)]">
       {/* reading-progress hairline at the very top edge (RTL: grows from the right) */}
       <span
         ref={barRef}
@@ -75,7 +91,7 @@ export function Header() {
       <div className="mx-auto max-w-[var(--container-wide)] px-3 pt-3 md:px-5 md:pt-4">
         {/* the floating island */}
         <div
-          className={`flex items-center justify-between gap-x-6 rounded-2xl px-4 transition-all duration-300 md:px-5 ${
+          className={`flex items-center justify-between gap-x-6 rounded-2xl px-4 transition-all duration-[var(--dur-micro)] md:px-5 ${
             condensed ? "py-2" : "py-2.5 md:py-3"
           } ${
             light
@@ -84,10 +100,10 @@ export function Header() {
           }`}
         >
           <Link href="/" className="flex flex-col items-end gap-1 leading-none">
-            <BrandLogo dark={light} className={`w-auto transition-[height] duration-300 ${condensed ? "h-7" : "h-8"}`} />
+            <BrandLogo dark={light} className={`w-auto transition-[height] duration-[var(--dur-micro)] ${condensed ? "h-7" : "h-8"}`} />
             <span
               className={`hidden text-[0.6rem] font-medium tracking-wide transition-colors sm:block ${
-                light ? "text-slate-300" : "text-navy-700/70"
+                light ? "text-on-navy-muted" : "text-navy-700/70"
               }`}
             >
               מאז {site.foundingYear}
@@ -96,15 +112,27 @@ export function Header() {
 
           <div className="flex items-center gap-5">
             <nav aria-label="ראשי" className="hidden items-center gap-x-4 text-[0.9rem] font-medium md:flex lg:gap-x-6 lg:text-[0.95rem]">
-              {nav.map((n) => (
-                <Link
-                  key={n.href}
-                  href={n.href}
-                  className={`transition-colors ${light ? "text-slate-100 hover:text-gold-soft" : "text-navy-700 hover:text-gold-ink"}`}
-                >
-                  {n.label}
-                </Link>
-              ))}
+              {nav.map((n) => {
+                const active = isActive(n.href);
+                return (
+                  <Link
+                    key={n.href}
+                    href={n.href}
+                    aria-current={active ? "page" : undefined}
+                    // Current location is marked with an underline as well as a
+                    // colour shift — colour alone would fail WCAG 1.4.1.
+                    className={`relative transition-colors ${
+                      light ? "text-on-navy hover:text-gold-soft" : "text-navy-700 hover:text-gold-ink"
+                    } ${active ? "font-semibold" : ""} ${
+                      active
+                        ? "after:absolute after:inset-x-0 after:-bottom-1.5 after:h-[2px] after:rounded-full after:bg-rose after:content-['']"
+                        : ""
+                    }`}
+                  >
+                    {n.label}
+                  </Link>
+                );
+              })}
             </nav>
 
             <Link
@@ -114,9 +142,13 @@ export function Header() {
               // on the site — on a shorter cut, since a 10px chamfer on a ~40px-high
               // button eats a third of the edge.
               style={{ "--chamfer": "8px" } as React.CSSProperties}
-              className={`btn-chamfer hidden rounded-[6px] px-5 py-2.5 text-sm font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 lg:inline-flex ${
+              // md:inline-flex (not lg) — between 768px and 1023px the hamburger
+              // is already hidden and the drawer CTA with it, so gating this at
+              // lg left the whole tablet band with no primary action rendered
+              // as a button.
+              className={`btn-chamfer hidden rounded-[6px] px-5 py-2.5 text-sm font-bold md:inline-flex ${
                 light
-                  ? "bg-gold text-white hover:bg-gold-dark focus-visible:ring-offset-transparent"
+                  ? "bg-gold text-white hover:bg-gold-dark"
                   : "bg-navy text-white hover:bg-navy-700"
               }`}
             >
@@ -142,25 +174,39 @@ export function Header() {
         <nav
           id="mobile-nav"
           aria-label="ראשי (מובייל)"
-          className={`mt-2 overflow-hidden rounded-2xl border border-line bg-card/98 backdrop-blur transition-[max-height,opacity] duration-300 ease-[var(--ease-out)] md:hidden ${
+          // inert when closed — max-h-0 + opacity-0 hide the drawer VISUALLY but
+          // leave its 6 links and CTA in the tab order and in the accessibility
+          // tree, so a keyboard user fell into 7 invisible stops (and the
+          // browser tried to scroll a zero-height box into view for each one),
+          // directly contradicting aria-expanded={false} on the hamburger.
+          // React 19 forwards `inert` natively; it removes both at once and the
+          // max-height transition is unaffected.
+          inert={!open}
+          className={`mt-2 overflow-hidden rounded-2xl border border-line bg-card/98 backdrop-blur transition-[max-height,opacity] duration-[var(--dur-micro)] ease-[var(--ease-out)] md:hidden ${
             open ? "max-h-[80vh] opacity-100" : "max-h-0 border-transparent opacity-0"
           }`}
         >
           <div className="flex flex-col gap-1 p-4">
-            {nav.map((n) => (
-              <Link
-                key={n.href}
-                href={n.href}
-                className="rounded-[6px] px-3 py-3 text-lg font-medium text-navy-700 transition hover:bg-sand hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-              >
-                {n.label}
-              </Link>
-            ))}
+            {nav.map((n) => {
+              const active = isActive(n.href);
+              return (
+                <Link
+                  key={n.href}
+                  href={n.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`rounded-[6px] px-3 py-3 text-lg font-medium transition hover:bg-sand hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
+                    active ? "bg-sand font-semibold text-gold-ink" : "text-navy-700"
+                  }`}
+                >
+                  {n.label}
+                </Link>
+              );
+            })}
             <Link
               href={cta.primary.href}
               data-cta="header-consult-mobile"
               style={{ "--chamfer": "8px" } as React.CSSProperties}
-              className="btn-chamfer mt-3 rounded-[6px] bg-navy px-5 py-3.5 text-center font-bold text-white hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+              className="btn-chamfer mt-3 rounded-[6px] bg-navy px-5 py-3.5 text-center font-bold text-white hover:bg-navy-700"
             >
               {cta.primary.short}
             </Link>

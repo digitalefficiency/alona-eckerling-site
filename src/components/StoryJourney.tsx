@@ -39,13 +39,13 @@ export function StoryJourney({
           <div aria-hidden className="absolute inset-0 bg-navy/70" />
         </div>
         <div className="relative mx-auto max-w-[var(--container-prose)] px-6 py-24 md:py-32">
-          <p className="text-center text-xs font-bold tracking-[.2em] text-gold-soft">סיפור המשרד · שלושה דורות</p>
+          <p className="text-center text-xs font-bold tracking-eyebrow text-gold-soft">סיפור המשרד · שלושה דורות</p>
           <div className="mt-12 flex flex-col gap-12">
             {chapters.map((c) => (
               <div key={c.name} className="text-center">
-                <span className="text-xs font-bold tracking-[.18em] text-gold-soft">{c.gen}</span>
+                <span className="text-xs font-bold tracking-eyebrow text-gold-soft">{c.gen}</span>
                 <h3 className="mt-2 font-serif text-2xl font-black text-white">{c.name}</h3>
-                <p className="mt-3 text-lg leading-relaxed text-slate-200">{c.story}</p>
+                <p className="mt-3 text-lg leading-relaxed text-on-navy">{c.story}</p>
               </div>
             ))}
           </div>
@@ -118,12 +118,12 @@ function StoryJourneyCinematic({
             style={{ opacity: i === 0 ? 1 : 0 }}
           >
             <div className="max-w-[640px] text-center">
-              <span className="text-xs font-bold tracking-[.22em] text-gold-soft">{c.gen}</span>
+              <span className="text-xs font-bold tracking-eyebrow text-gold-soft">{c.gen}</span>
               <h3 className="mt-3 font-serif font-black leading-tight text-white" style={{ fontSize: "clamp(2.2rem, 6vw, 4rem)" }}>
                 {c.name}
               </h3>
               <div className="mx-auto mt-5 h-px w-16 bg-gold/60" aria-hidden />
-              <p className="mt-6 text-lg leading-relaxed text-slate-100 md:text-xl">{c.story}</p>
+              <p className="mt-6 text-lg leading-relaxed text-on-navy md:text-xl">{c.story}</p>
             </div>
           </div>
         ))}

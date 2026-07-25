@@ -4,13 +4,14 @@ import matter from "gray-matter";
 import { Marked } from "marked";
 import { normalizeFrontmatter } from "@/lib/cms/frontmatter-normalize.mjs";
 
-// התוכן יושב ב-barzilay/content (אחות של barzilay/dev) בפיתוח מקומי, אבל בדיפלוי
-// (Vercel) נשלחת רק תיקיית האפליקציה — לכן מבססים על עותק מקובץ ב-dev/content.
-// בוחרים את הראשון שקיים: מקור-אחות מקומי, אחרת העותק המקובץ.
-const CONTENT_DIR =
-  [path.join(process.cwd(), "..", "content"), path.join(process.cwd(), "content")].find(
-    (p) => fs.existsSync(p),
-  ) ?? path.join(process.cwd(), "..", "content");
+// התוכן חי בתוך האפליקציה: site/content. הענף הישן חיפש קודם תיקיית-אחות
+// (‎../content‎, שריד ממבנה של פרויקט קודם) — היא לא קיימת כאן, ולכן היה קוד מת.
+//
+// חשוב מעבר לניקיון: ה-‎".."‎ יצא מחוץ לשורש הפרויקט, ולכן ה-file-tracer של
+// Turbopack לא הצליח לתחום את קריאות הקבצים והזהיר «the whole project was
+// traced unintentionally» (דרך feed.xml → collections → content), מה שגורר את
+// כל הריפו לבאנדל של הפונקציות. נתיב סטטי מתחת ל-cwd פותר את שניהם.
+const CONTENT_DIR = path.join(process.cwd(), "content");
 
 // ── SAFE MARKDOWN RENDERING ──────────────────────────────────────────────────
 // The rendered HTML lands in <Prose dangerouslySetInnerHTML> — so once markdown

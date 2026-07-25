@@ -1,1 +1,45 @@
-{}
+{
+  "testimonials": {
+    "label": "המלצות",
+    "array": true,
+    "itemLabel": "המלצה",
+    "fields": [
+      {
+        "key": "quote",
+        "type": "textarea",
+        "label": "מה היא כתבה, במילים שלה",
+        "required": true,
+        "min": 40
+      },
+      {
+        "key": "name",
+        "type": "text",
+        "label": "שם (אפשר שם פרטי בלבד, או שם בדוי בהסכמתה)",
+        "required": true
+      },
+      {
+        "key": "context",
+        "type": "text",
+        "label": "הקשר (למשל: ליווי 60 יום · אמא לשניים · רעננה)",
+        "required": true
+      },
+      {
+        "key": "outcome",
+        "type": "text",
+        "label": "התוצאה במשפט אחד (לא חובה, בלי מספרי משקל)"
+      },
+      {
+        "key": "consentBy",
+        "type": "text",
+        "label": "מי אישרה את הפרסום",
+        "required": true
+      },
+      {
+        "key": "consentAt",
+        "type": "date",
+        "label": "תאריך האישור",
+        "required": true
+      }
+    ]
+  }
+}

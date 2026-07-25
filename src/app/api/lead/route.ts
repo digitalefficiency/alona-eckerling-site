@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { randomUUID } from "node:crypto";
 import { deliverSigned } from "@/lib/webhook";
 
-// Lead capture endpoint for the on-page forms (e.g. /services/urban-renewal).
+// Lead capture endpoint for the on-page forms (ContactLeadForm, ContactQuietForm).
 //
 // Validates server-side, enriches with request metadata, then forwards to the
 // destination the client configures via env. Until a destination is wired
@@ -95,12 +95,25 @@ export async function POST(request: NextRequest) {
 
   // Forward to the configured destination, if any — HMAC-signed when the
   // shared secret is set (dormant otherwise; see lib/webhook.ts).
+  //
+  // TRUTHFULNESS RULE: the success screen promises «אני חוזרת אלייך אישית, עד 4
+  // ימי עסקים». We may only show it when the lead actually reached somewhere it
+  // can be read. So the two branches answer DIFFERENTLY:
+  //   • webhook configured + delivery failed → 502. deliverSigned has already
+  //     retried twice with a 5s timeout, so this is a real dead end: the form
+  //     must show its error path (which offers WhatsApp) rather than a promise
+  //     nobody will keep.
+  //   • no webhook configured → still 200. This is the documented pre-launch
+  //     posture (MARKETING.md §5); failing here would break every submission on
+  //     the staging site today. The launch checklist is what closes it.
   const webhook = process.env.LEAD_WEBHOOK_URL;
   if (webhook) {
     const landed = await deliverSigned(webhook, JSON.stringify(lead));
     if (!landed) {
-      // Don't lose the lead in logs if forwarding fails.
+      // Keep the payload in the log so the lead is recoverable by hand, then
+      // tell the client the truth.
       console.error("[lead:fallback] webhook forward failed", id, JSON.stringify(lead));
+      return Response.json({ ok: false, error: "delivery_failed" }, { status: 502 });
     }
   } else {
     // [לאימות] No destination configured yet — log so nothing is lost.

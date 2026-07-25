@@ -26,11 +26,11 @@ export function ExpandingPanels({ items }: { items: Item[] }) {
               aria-hidden
               fill
               sizes="(max-width:1024px) 100vw, 60vw"
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              className="object-cover transition-transform duration-[var(--dur-ui)] group-hover:scale-105"
             />
             <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-navy/85 via-navy/35 to-navy/15" />
             {/* deepen the scrim on expand — more image shows, so keep text legible */}
-            <div aria-hidden className="absolute inset-0 bg-navy/0 transition-colors duration-500 group-hover:bg-navy/45 group-focus:bg-navy/45" />
+            <div aria-hidden className="absolute inset-0 bg-navy/0 transition-colors duration-[var(--dur-ui)] group-hover:bg-navy/45 group-focus:bg-navy/45" />
           </div>
 
           {/* content — counter-skewed back to upright */}
@@ -40,10 +40,10 @@ export function ExpandingPanels({ items }: { items: Item[] }) {
             </span>
 
             {/* hover/focus detail — smooth 0fr→1fr open, ~75% fill with breathing room */}
-            <div className="grid grid-rows-[0fr] opacity-0 transition-all duration-500 ease-[var(--ease-out)] group-hover:mt-4 group-hover:grid-rows-[1fr] group-hover:opacity-100 group-focus:mt-4 group-focus:grid-rows-[1fr] group-focus:opacity-100">
+            <div className="grid grid-rows-[0fr] opacity-0 transition-all duration-[var(--dur-ui)] ease-[var(--ease-out)] group-hover:mt-4 group-hover:grid-rows-[1fr] group-hover:opacity-100 group-focus:mt-4 group-focus:grid-rows-[1fr] group-focus:opacity-100">
               <div className="overflow-hidden">
                 <p className="mx-auto max-w-[40ch] font-semibold leading-snug text-white">{s.short}</p>
-                <p className="mx-auto mt-2.5 max-w-[46ch] text-sm leading-relaxed text-slate-200">{s.detail}</p>
+                <p className="mx-auto mt-2.5 max-w-[46ch] text-sm leading-relaxed text-on-navy">{s.detail}</p>
                 <span className="mt-4 inline-flex items-center gap-1.5 rounded-[4px] border border-gold/40 bg-navy/40 px-4 py-2 text-sm font-bold text-gold-soft">
                   למדריך המלא
                   <span aria-hidden className="text-gold">›</span>

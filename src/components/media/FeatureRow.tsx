@@ -53,7 +53,7 @@ export function FeatureRow({
     <Reveal delay={90}>
       <SectionHeading eyebrow={eyebrow} title={title} tone={dark ? "dark" : "light"} />
       {body && (
-        <div className={`mt-5 text-lg leading-relaxed ${dark ? "text-slate-200" : "text-muted"}`}>
+        <div className={`mt-5 text-lg leading-relaxed ${dark ? "text-on-navy" : "text-muted"}`}>
           {body}
         </div>
       )}

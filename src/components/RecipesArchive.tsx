@@ -149,9 +149,16 @@ function ImageTile({ t, feature }: { t: RecipeTile; feature: boolean }) {
       data-cta={`recipes-card-${t.slug}`}
       className="group relative flex h-full flex-col justify-end overflow-hidden rounded-2xl border border-line transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)] hover:border-gold/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
     >
+      {/* alt="" — DECORATIVE here by construction. All 30 recipes carry an
+          imageAlt byte-identical to their title, and the title is rendered
+          directly on top of this image inside the same link, so a screen reader
+          announced every tile twice ("חומוס ביתי, חומוס ביתי"). An empty alt on
+          an image whose accessible name is already adjacent is the correct
+          call (WCAG H67). The recipe DETAIL page still uses the real imageAlt,
+          where the photo carries meaning on its own. */}
       <Image
         src={t.image as string}
-        alt={t.imageAlt || t.title}
+        alt=""
         fill
         sizes={
           feature
@@ -169,7 +176,12 @@ function ImageTile({ t, feature }: { t: RecipeTile; feature: boolean }) {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-navy/85 via-navy/35 to-transparent"
       />
       {t.category && (
-        <span className="absolute top-3 start-3 rounded-[4px] border border-white/25 bg-navy/40 px-3 py-1 text-xs font-bold text-white backdrop-blur-sm">
+        // bg-navy/80, not /40. The legibility scrim below is `bottom-0 h-2/3`,
+        // so it never reaches this top corner — the chip sat on bare photo and
+        // measured 3.59:1 on the lightest dishes (tuna-shawarma), under the 4.5:1
+        // floor for its 12px bold label. backdrop-blur softens but does not
+        // darken, so it cannot carry the contrast on its own.
+        <span className="absolute top-3 start-3 rounded-[4px] border border-white/20 bg-navy/80 px-3 py-1 text-xs font-bold text-white backdrop-blur-sm">
           {t.category}
         </span>
       )}

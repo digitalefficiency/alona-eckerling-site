@@ -4,12 +4,12 @@ import { CookiePrefsButton } from "@/components/CookiePrefsButton";
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t-4 border-rose bg-navy text-slate-300">
+    <footer className="mt-auto border-t-4 border-rose bg-navy text-on-navy-muted">
       <div className="mx-auto grid max-w-[1120px] grid-cols-1 gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
         <div>
           <p className="font-serif text-lg font-black text-white">{site.name}</p>
           <p className="mt-2 text-sm leading-relaxed">{site.tagline}</p>
-          <p className="mt-3 text-sm text-slate-400">מאז {site.foundingYear}</p>
+          <p className="mt-3 text-sm text-on-navy-muted">מאז {site.foundingYear}</p>
         </div>
 
         <div>
@@ -59,7 +59,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 px-4 py-6 text-xs text-slate-400 sm:px-6">
+      <div className="border-t border-white/10 px-4 py-6 text-xs text-on-navy-muted sm:px-6">
         <div className="mx-auto flex max-w-[1120px] flex-col items-center gap-3 text-center">
           <nav aria-label="עמודים משפטיים" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5">
             <Link href="/privacy" className="transition-colors duration-[var(--dur-micro)] hover:text-gold-soft">מדיניות פרטיות</Link>

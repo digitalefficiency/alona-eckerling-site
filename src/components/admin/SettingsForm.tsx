@@ -61,7 +61,7 @@ export function SettingsForm({ name, group }: { name: string; group: SettingsGro
           <div key={i} className="rounded-[10px] border border-line bg-card p-6">
             {group.array && (
               <div className="mb-4 flex items-center">
-                <span className="text-xs font-bold tracking-[.2em] text-gold-ink">
+                <span className="text-xs font-bold tracking-eyebrow text-gold-ink">
                   {group.itemLabel ?? T("settings.itemFallback")} {i + 1}
                 </span>
                 <button

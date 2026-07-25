@@ -66,8 +66,15 @@ export function MScrollScene({
   return (
     <div ref={ref} className={`relative ${className}`}>
       <div className={`absolute inset-0 overflow-hidden ${mediaClassName}`}>
+        {/* `relative` is REQUIRED, not cosmetic: the documented `media` slot is a
+            next/image with `fill`, which positions against its nearest positioned
+            ancestor. This div was static, so Next warned and the image resolved
+            against the outer absolute layer instead — and under reduced-motion
+            there is no transform here either, so not even a transform-induced
+            containing block saved it. One word, and the drift layer actually
+            clips its own image. */}
         <motion.div
-          className={`h-full w-full ${allowed ? "will-change-transform" : ""}`}
+          className={`relative h-full w-full ${allowed ? "will-change-transform" : ""}`}
           style={allowed ? { y, scale } : undefined}
         >
           {media}

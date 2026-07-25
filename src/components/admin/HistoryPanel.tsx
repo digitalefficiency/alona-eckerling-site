@@ -54,7 +54,7 @@ export function HistoryPanel({
 
   return (
     <section className="mt-8 rounded-[10px] border border-line bg-card p-5">
-      <h2 className="text-xs font-bold tracking-[.2em] text-gold-ink">{T("history.title")}</h2>
+      <h2 className="text-xs font-bold tracking-eyebrow text-gold-ink">{T("history.title")}</h2>
       <p className="mt-1 text-xs leading-relaxed text-muted">{T("history.scopeNote")}</p>
 
       {commits === null ? (

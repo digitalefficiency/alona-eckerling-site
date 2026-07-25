@@ -52,7 +52,7 @@ export function ServiceFeature({
           style={{ fontSize: "clamp(1.6rem, 3.4vw, 2.4rem)" }}
         />
       </div>
-      <p className={`mt-5 max-w-[46ch] text-lg leading-relaxed ${dark ? "text-slate-200" : "text-muted"} ms-auto`}>
+      <p className={`mt-5 max-w-[46ch] text-lg leading-relaxed ${dark ? "text-on-navy" : "text-muted"} ms-auto`}>
         {body}
       </p>
       <Link

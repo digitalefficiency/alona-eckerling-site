@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 
 import { Section } from "@/components/layout/Section";
 import { SeamShape } from "@/components/layout/SeamShape";
@@ -309,7 +310,7 @@ export default function CoachingPage() {
              בלי SeamShape ובלי room-edges-top כאן בכוונה: הצילום ממוסגר ומוזח
              (inset-y-10) ואינו נוגע בקצה החדר, כך שהגבול התחתון הוא נייר-על-נייר
              עם קו-שיער מתוכנן, לא חיתוך-תמונה. קשת רכה שייכת לחדר-תמונה שנחתך. ── */}
-      <section data-light-hero className="relative isolate overflow-hidden border-b border-line bg-sand">
+      <section className="relative isolate overflow-hidden border-b border-line bg-sand">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
           {/* the still is CROPPED INTO A FRAMED PANEL, not melted into the page: a
               double-frame plate (the house flagship treatment) anchored to the
@@ -411,22 +412,30 @@ export default function CoachingPage() {
           {/* ביקורת-עיצוב #31 — עד lg ה-still חבוי (hidden lg:block ברקע, כי ב-768–1024
               הפאנל מתנגש בטקסט הפתיחה); רצועת 16/9 שקטה עם אותו צילום, תחת מסך-סנד
               עדין, כדי שגם מבקרות אינסטגרם (וטאבלטים) יפגשו קליניקה. */}
-          <Reveal className="mt-10 lg:hidden">
-            <div className="relative">
-              <MediaFrame
-                src="/media/generated/09-coaching-table.jpg"
-                alt=""
-                ratio="16/9"
-                sizes="100vw"
-                // this band IS the mobile LCP — lazy discovery was costing seconds
-                eager
-              />
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-[10px] bg-gradient-to-t from-sand/45 to-transparent"
-              />
-            </div>
-          </Reveal>
+          {/* NO <Reveal> here. This band is the mobile LCP element (measured:
+              58,051px² at 412x823, against 35,243px² for the next candidate) and
+              it is marked `eager` for exactly that reason. Reveal applies
+              `translate-y-6 opacity-0` in a layout effect at hydration and waits
+              for an IntersectionObserver — so the image the page rushed to paint
+              was blanked immediately after painting and faded back in. The
+              visible result was a clinic photo appearing, vanishing, returning:
+              the precise opposite of the calm this page sells. The hero above
+              already runs MOrchestrate, and the house rule is one orchestrator
+              per section, so the band needs no entrance of its own. */}
+          <div className="relative mt-10 lg:hidden">
+            <MediaFrame
+              src="/media/generated/09-coaching-table.jpg"
+              alt=""
+              ratio="16/9"
+              sizes="100vw"
+              // this band IS the mobile LCP — lazy discovery was costing seconds
+              eager
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 rounded-[10px] bg-gradient-to-t from-sand/45 to-transparent"
+            />
+          </div>
         </div>
       </section>
 
@@ -610,17 +619,32 @@ export default function CoachingPage() {
               }`}
               style={card.highlight ? { boxShadow: "var(--elevation-2)" } : undefined}
             >
-              {card.highlight && <span aria-hidden className="mb-4 block h-[2px] w-16 bg-rose" />}
+              {/* The rose rule and the chip now render on ALL THREE cards, the
+                  rule transparent when not the flagship. They used to appear on
+                  one card each, which pushed that card's h3 down 19px and its
+                  «למי זה מתאים:» row 47px out of line with its neighbours —
+                  against spec 12, which asks for three cards «laid side by side
+                  so she can compare at a glance». Reserving the space keeps the
+                  emphasis (colour, frame, lift) while restoring the shared
+                  baseline that makes them comparable. */}
+              <span
+                aria-hidden
+                className={`mb-4 block h-[2px] w-16 ${card.highlight ? "bg-rose" : "bg-transparent"}`}
+              />
               <h3 className="font-serif text-xl font-black leading-snug text-navy">
                 <span className="underline decoration-rose decoration-2 underline-offset-8">{card.name}</span>
               </h3>
-              {card.chip && (
-                <p className="mt-4">
-                  <span className="inline-flex rounded-full border border-line bg-card px-3 py-1 text-xs font-bold text-navy-700">
-                    {card.chip}
-                  </span>
-                </p>
-              )}
+              <p className="mt-4">
+                <span
+                  className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold ${
+                    card.chip
+                      ? "border-line bg-card text-navy-700"
+                      : "border-transparent bg-transparent text-transparent"
+                  }`}
+                >
+                  {card.chip ?? " "}
+                </span>
+              </p>
               <p className="mt-5 text-sm font-bold text-gold-ink">{PACKAGES.fitLabel}</p>
               <p className="mt-1 leading-relaxed text-muted">{card.fit}</p>
               <p className="mt-5 text-sm font-bold text-gold-ink">{PACKAGES.includedLabel}</p>
@@ -678,9 +702,20 @@ export default function CoachingPage() {
           hairline (the house contract — a shaped edge replaces the cut) */}
       <section className="relative overflow-hidden border-t border-line bg-card">
         {/* the half-bleed photo (desktop) — inline-end half, scrimmed toward the text half */}
+        {/* next/image, not raw <img>: these three were the only images on the
+            page bypassing the optimizer, and they were the heaviest on it —
+            green-shakshuka.jpg alone is 494KB at 1536x2048, served into a
+            375x250 mobile band. With `sizes` + AVIF/WebP this drops to roughly
+            50KB total. No LCP change (all below the fold), pure transfer +
+            decode saving on a phone. */}
         <div aria-hidden className="absolute inset-y-0 end-0 hidden w-[52%] md:block">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={PROOF.stills[0].src} alt="" loading="lazy" className="h-full w-full object-cover" />
+          <Image
+            src={PROOF.stills[0].src}
+            alt=""
+            fill
+            sizes="(max-width: 768px) 0px, 52vw"
+            className="object-cover"
+          />
           <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
           <div className="absolute inset-0 bg-gradient-to-l from-card via-card/35 to-transparent" />
           {/* soft top edge — the photo dissolves in instead of starting on a cut */}
@@ -688,8 +723,13 @@ export default function CoachingPage() {
         </div>
         {/* mobile: the photo as a top band */}
         <div className="relative aspect-[3/2] md:hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={PROOF.stills[0].src} alt={PROOF.stills[0].alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+          <Image
+            src={PROOF.stills[0].src}
+            alt={PROOF.stills[0].alt}
+            fill
+            sizes="(max-width: 768px) 100vw, 0px"
+            className="object-cover"
+          />
           <div aria-hidden className="grain-overlay" />
           <div aria-hidden className="room-edges-top" />
         </div>
@@ -701,8 +741,15 @@ export default function CoachingPage() {
                 <div className="mt-8 grid grid-cols-2 gap-4">
                   {PROOF.stills.slice(1).map((s) => (
                     <div key={s.src} className="relative aspect-square overflow-hidden rounded-[10px] border border-line">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={s.src} alt={s.alt} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+                      {/* ~135px squares on mobile, ~200px on desktop — these were
+                          shipping 193KB and 199KB source files at full size. */}
+                      <Image
+                        src={s.src}
+                        alt={s.alt}
+                        fill
+                        sizes="(max-width: 768px) 45vw, 200px"
+                        className="object-cover"
+                      />
                       <div aria-hidden className="grain-overlay" />
                     </div>
                   ))}
@@ -776,10 +823,10 @@ export default function CoachingPage() {
         />
         <div className="mt-10 grid items-start gap-12 md:grid-cols-[1.1fr_0.9fr]">
           <MOrchestrate>
-            <MItem as="p" className="max-w-[52ch] text-lg leading-relaxed text-slate-200">
+            <MItem as="p" className="max-w-[52ch] text-lg leading-relaxed text-on-navy">
               {CTA.body}
             </MItem>
-            <MItem as="p" className="mt-4 max-w-[52ch] leading-relaxed text-slate-300">
+            <MItem as="p" className="mt-4 max-w-[52ch] leading-relaxed text-on-navy-muted">
               {CTA.packagesLine}
             </MItem>
             <MItem className="mt-7">

@@ -60,7 +60,7 @@ export function StoryPanel({
                   <SplitText as="p" text={kicker} className="font-serif tracking-wide text-gold-soft" style={{ fontSize: "clamp(1.6rem, 3.2vw, 2.4rem)" }} />
                 </div>
 
-                <div className="mt-7 space-y-4 text-right text-[1.05rem] leading-relaxed text-slate-200">
+                <div className="mt-7 space-y-4 text-right text-[1.05rem] leading-relaxed text-on-navy">
                   {children}
                 </div>
 

@@ -135,7 +135,7 @@ export function ConvergenceScene({
           className="pointer-events-none absolute inset-x-0 bottom-[11vh] px-6 text-center"
           style={{ opacity: pinned ? 1 : 0, transition: "opacity var(--dur-reveal)" }}
         >
-          <span className="font-mono text-xs tracking-[.16em] text-gold" dir="ltr">
+          <span className="font-mono text-xs tracking-eyebrow text-gold" dir="ltr">
             {String(beat + 1).padStart(2, "0")} / {String(beats.length).padStart(2, "0")}
           </span>
           <h3 key={beat} className="mx-auto mt-3.5 max-w-[22ch] text-[clamp(1.6rem,3.6vw,2.7rem)] font-extrabold leading-tight text-ink" style={{ textWrap: "balance" }}>{B?.t}</h3>

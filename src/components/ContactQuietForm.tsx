@@ -6,6 +6,8 @@ import { getAttributionSnapshot, getCampaignDimensions } from "@/lib/attribution
 import { getEngagement } from "@/lib/engagement";
 import { trackFormView, trackFormStart, trackGenerateLead } from "@/lib/analytics";
 import { Reveal } from "@/components/Reveal";
+import { focusFirstInvalid } from "@/lib/form-focus";
+import { site } from "@/lib/site";
 
 const FORM_ID = "contact";
 
@@ -80,11 +82,16 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
   };
 
   // אחרי כשל ולידציה (מקומי או 422 מהשרת) — הקשב עובר לשדה השגוי הראשון.
-  const focusFirstInvalid = () => {
-    requestAnimationFrame(() => {
-      ref.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
-    });
-  };
+  //
+  // This MUST be an effect keyed on `errors`, not a call inside the submit
+  // handler. focusFirstInvalid resolves its target with
+  // `[aria-invalid="true"]`, and that attribute only exists after React has
+  // committed the re-render that setErrors scheduled. A requestAnimationFrame
+  // from inside the handler races that commit and silently finds nothing —
+  // verified in the browser: errors rendered, focus stayed on <body>.
+  useEffect(() => {
+    if (Object.keys(errors).length) focusFirstInvalid(ref.current);
+  }, [errors]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -116,7 +123,6 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
     if (!payload.consent) next.consent = "נדרשת הסכמה ליצירת קשר";
     if (Object.keys(next).length) {
       setErrors(next);
-      focusFirstInvalid();
       return;
     }
 
@@ -131,8 +137,7 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
       if (!res.ok || !data.ok) {
         if (data.errors) {
           setErrors(data.errors);
-          focusFirstInvalid();
-        } else setServerError("אירעה תקלה בשליחה. נסי שוב מאוחר יותר.");
+        } else setServerError("לא הצלחתי לקלוט את הפנייה כרגע.");
         setStatus("error");
         return;
       }
@@ -146,7 +151,7 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
       });
       setStatus("success");
     } catch {
-      setServerError("אירעה תקלה בשליחה. נסי שוב מאוחר יותר.");
+      setServerError("לא הצלחתי לקלוט את הפנייה כרגע.");
       setStatus("error");
     }
   }
@@ -198,7 +203,7 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
   }
 
   return (
-    <form ref={ref} onSubmit={onSubmit} onFocusCapture={onFirstInteract} noValidate>
+    <form ref={ref} onSubmit={onSubmit} onFocusCapture={onFirstInteract} noValidate aria-label="טופס יצירת קשר">
       {/* honeypot */}
       <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
         <label>
@@ -220,7 +225,7 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
         />
       </label>
       {errors.name && (
-        <p id="contact-error-name" className="mt-1 text-sm text-bad">
+        <p id="contact-error-name" role="alert" className="mt-1 text-sm text-bad">
           {errors.name}
         </p>
       )}
@@ -240,7 +245,7 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
         />
       </label>
       {errors.phone && (
-        <p id="contact-error-phone" className="mt-1 text-sm text-bad">
+        <p id="contact-error-phone" role="alert" className="mt-1 text-sm text-bad">
           {errors.phone}
         </p>
       )}
@@ -269,7 +274,7 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
             />
           </label>
           {errors.email && (
-            <p id="contact-error-email" className="mt-1 text-sm text-bad">
+            <p id="contact-error-email" role="alert" className="mt-1 text-sm text-bad">
               {errors.email}
             </p>
           )}
@@ -277,7 +282,13 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
       ) : (
         <button
           type="button"
-          onClick={() => setEmailOpen(true)}
+          // The trigger UNMOUNTS on click, so without moving focus into the
+          // field it just revealed, focus falls to <body> and a keyboard user
+          // is dropped back to the top of the document.
+          onClick={() => {
+            setEmailOpen(true);
+            requestAnimationFrame(() => emailRef.current?.focus());
+          }}
           aria-expanded={false}
           className="mt-2 -mb-2 inline-flex min-h-11 items-center gap-1.5 px-2 -mx-2 py-2 text-sm font-semibold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:text-gold-dark"
         >
@@ -299,15 +310,34 @@ export function ContactQuietForm({ copy }: { copy: ContactQuietFormCopy }) {
         <span>{copy.consentLabel}</span>
       </label>
       {errors.consent && (
-        <p id="contact-error-consent" className="mt-1 text-sm text-bad">
+        <p id="contact-error-consent" role="alert" className="mt-1 text-sm text-bad">
           {errors.consent}
         </p>
       )}
 
+      {/* Server-error path offers a live way through rather than a dead end —
+          WhatsApp reaches a real person and is the client's referral channel.
+          (The standing WhatsApp row below is a different affordance: this one
+          appears in the moment the send failed, where she is looking.) */}
       {serverError && (
-        <p className="mt-4 rounded-[8px] bg-bad/10 px-3 py-2 text-sm text-bad" role="alert">
-          {serverError}
-        </p>
+        <div className="mt-4 rounded-[8px] bg-bad-soft px-3 py-2.5 text-sm text-bad" role="alert">
+          <p>{serverError}</p>
+          {site.whatsapp && (
+            <p className="mt-1">
+              אפשר לכתוב לי ישירות ב
+              <a
+                href={`https://wa.me/${site.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cta="quiet-error-whatsapp"
+                className="font-bold underline underline-offset-2"
+              >
+                וואטסאפ
+              </a>
+              , ואחזור אלייך משם.
+            </p>
+          )}
+        </div>
       )}
 
       {/* The most important click on the site wears the SAME silhouette as every

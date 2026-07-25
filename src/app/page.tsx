@@ -33,8 +33,8 @@ import { listDocs, type CollectionEntry } from "@/lib/collections";
 
 // COPY: ### סקשן 1 · ImageHero + MOrchestrate
 // The hero room's poster — first frame of the ring-loop film (K1 overhead:
-// empty plate surrounded by abundance). ALSO the LCP. When production lands,
-// HeroFilm gains webm/mp4 props pointing at 01-hero-film.{webm,mp4}.
+// empty plate surrounded by abundance). ALSO the LCP — the video starts on
+// this exact frame, so the swap from poster to film is invisible.
 const HERO_POSTER = "/media/generated/01-hero-film-poster.jpg";
 
 const HERO = {
@@ -265,10 +265,17 @@ export default function HomePage() {
              gold-framed panel retires — its vocabulary lives on in §03/§07.
              The limp hero chip is GONE (Rom's call): the chip arc now opens in
              the film itself (→ §06 echo → §07 rest).
-             data-light-hero: the floating header keeps its dark-ink treatment
-             (the scrim keeps the top-start corner paper-bright). ── */}
-      <section data-light-hero className="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-bg lg:items-center" style={{ "--grade-tint": "var(--hour-morning)" } as React.CSSProperties}>
-        <HeroFilm poster={HERO_POSTER} objectPosition="70% center" />
+             Header safety is DEFAULT-ON: the white nav treatment requires an
+             explicit [data-dark-hero], so a light hero can never ship an
+             invisible nav. The old data-light-hero marker was a no-op (nothing
+             ever read it) and was removed. ── */}
+      <section className="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-bg lg:items-center" style={{ "--grade-tint": "var(--hour-morning)" } as React.CSSProperties}>
+        <HeroFilm
+          poster={HERO_POSTER}
+          webm="/media/generated/01-hero-film.webm"
+          mp4="/media/generated/01-hero-film.mp4"
+          objectPosition="70% center"
+        />
         <div aria-hidden className="hero-scrim" />
         {/* soft-curve seam (Rom 2026-07-20): the cream ground crests up into the
             morning room — a shaped hand-off into the film, not a hard photo cut */}
@@ -276,7 +283,7 @@ export default function HomePage() {
         <Container width="wide" className="relative z-10 w-full pb-16 pt-44 sm:pt-56 md:pb-24 lg:py-24 lg:pb-32">
           {/* ONE orchestrator, same word choreography as ever — block-axis steps */}
           <MOrchestrate className="max-w-[620px]">
-            <MItem as="p" className="flex items-center gap-2.5 text-[13px] font-bold tracking-[0.14em] text-muted">
+            <MItem as="p" className="flex items-center gap-2.5 text-[13px] font-bold tracking-eyebrow text-muted">
               <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
               {HERO.kicker}
             </MItem>
@@ -731,8 +738,8 @@ export default function HomePage() {
               className="font-serif font-black leading-[1.15] text-white"
               style={{ fontSize: "clamp(2rem, 4.5vw, 3.2rem)" }}
             />
-            <p className="mt-6 max-w-[62ch] text-lg leading-[1.7] text-slate-200">{CTA.body}</p>
-            <p className="mt-4 max-w-[62ch] text-[0.95rem] leading-relaxed text-slate-300">{CTA.packages}</p>
+            <p className="mt-6 max-w-[62ch] text-lg leading-[1.7] text-on-navy">{CTA.body}</p>
+            <p className="mt-4 max-w-[62ch] text-[0.95rem] leading-relaxed text-on-navy-muted">{CTA.packages}</p>
             <div className="mt-8">
               <ResponsePromise tone="dark" promise={CTA.promise} />
             </div>

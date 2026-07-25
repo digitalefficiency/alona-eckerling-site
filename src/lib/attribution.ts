@@ -6,6 +6,8 @@
 // session id + visit count. No cookies, no third parties, no PII — only the
 // click/campaign params already present in the URL. SSR-safe.
 
+import { hasAnalyticsConsent } from "@/lib/consent";
+
 const STORE_FIRST = "bz_attr_first";
 const STORE_LAST = "bz_attr_last";
 const STORE_FIRST_SEEN = "bz_first_seen";
@@ -154,11 +156,24 @@ export function getAttributionSnapshot(): AttributionSnapshot {
   out.landing_page = safeGet(ss, SESSION_LANDING) || "";
   out.first_seen = safeGet(ls, STORE_FIRST_SEEN) || "";
   out.visit_count = Number(safeGet(ls, STORE_VISITS) || "1");
-  out.referrer = document.referrer || "";
-  out.user_agent = navigator.userAgent.slice(0, 256);
-  out.language = navigator.language || "";
-  out.screen = `${window.screen?.width || 0}x${window.screen?.height || 0}`;
-  out.viewport = `${window.innerWidth}x${window.innerHeight}`;
+  // DEVICE / BROWSER FIELDS — consent-gated.
+  //
+  // The campaign stores above are already protected: they live in localStorage,
+  // which is only written after consent is granted. These five are read LIVE
+  // from the browser on every call, so they bypassed the gate entirely and rode
+  // along with every lead regardless of the visitor's cookie choice — while the
+  // consent sentence beside the submit button promises the details are kept
+  // «לצורך מענה בלבד». Collecting a device fingerprint after she declined is
+  // exactly what that sentence rules out.
+  // Name and phone are unaffected: she typed those deliberately, and they are
+  // the payload the form exists to deliver.
+  if (hasAnalyticsConsent()) {
+    out.referrer = document.referrer || "";
+    out.user_agent = navigator.userAgent.slice(0, 256);
+    out.language = navigator.language || "";
+    out.screen = `${window.screen?.width || 0}x${window.screen?.height || 0}`;
+    out.viewport = `${window.innerWidth}x${window.innerHeight}`;
+  }
 
   return out;
 }

@@ -9,6 +9,15 @@ import { MStagger } from "@/components/motion/MStagger";
 import { slideIn } from "@/lib/motion-variants";
 import { Reveal } from "@/components/Reveal";
 import { ResponsePromise } from "@/components/trust/ResponsePromise";
+import { TestimonialCard } from "@/components/trust/TestimonialCard";
+import { testimonials } from "@/lib/settings";
+
+// YMYL gate: a quote is publishable ONLY with a recorded consent trail. An entry
+// missing consentBy/consentAt is treated as not-yet-approved and stays dark, so
+// a half-filled admin row can never reach the page.
+const published = testimonials.filter(
+  (t) => t.quote?.trim() && t.name?.trim() && t.context?.trim() && t.consentBy?.trim() && t.consentAt?.trim(),
+);
 
 // ============================================================================
 // עמוד המלצות — "המלצות אמיתיות, כשיהיו" (plan/sections/32–34)
@@ -66,17 +75,19 @@ export const metadata: Metadata = {
   openGraph: { url: "/testimonials" },
   // plan 32 שכבה 7 (thin-content, honesty-preserving): העמוד נשאר noindex עד
   // שיחזיק עדויות אמיתיות ומאושרות — נגיש לכל אדם, לא מוגש למנוע.
-  robots: { index: false, follow: true },
+  // מתהפך לבד ברגע שיש עדות מאושרת, יחד עם הכניסה ל-sitemap (app/sitemap.ts
+  // מסנן את המסלול באותו תנאי) — כדי ששני המקומות לא יסתרו זה את זה.
+  robots: { index: published.length > 0, follow: true },
 };
 
 export default function TestimonialsPage() {
   return (
     <>
       {/* ===== 32 · hero — centered-prose · מסגור כן (נייר חם + blush-wash) =====
-          data-light-hero: העמוד נפתח על היר בהיר — ה-Header חייב לקבל את מצב
-          הדיו הכהה מיד, אחרת הניווט לבן-על-קרם ובלתי-נראה (audit #1). */}
+          ה-Header מוגן כברירת-מחדל: הטיפול הלבן דורש [data-dark-hero] מפורש,
+          ולכן היר בהיר לא יכול לשלוח ניווט לבן-על-קרם. הסימון data-light-hero
+          הישן היה no-op (אף אחד לא קרא אותו) והוסר. */}
       <section
-        data-light-hero
         className="relative"
         style={{ background: "linear-gradient(180deg, var(--color-blush) 0%, color-mix(in srgb, var(--color-blush) 35%, var(--color-bg)) 62%, transparent 100%)" }}
       >
@@ -138,12 +149,28 @@ export default function TestimonialsPage() {
         <Container width="standard" className="py-16 sm:py-20 md:py-32">
           <SectionSeam className="mb-12" />
           <MStagger className="space-y-8">
-            {/* מצב-הריק הכן היחיד בעמוד — רצועה מעוצבת אחת (wash רך + ◆ + מוטיב
-                הגרשיים), לא כרטיסי-רפאים ולא מסגרות מקווקוות (audit #11).
-                הטקס קופל פנימה (דפוס-הבית «כותרת בתוך הכרטיס»): הגרשיים הוורודים
-                פותחים, «המלצות אמיתיות בלבד» היא כותרת הכרטיס עצמו, ושורת-הקיקר
-                העצמאית + פס-הרוז ירדו. אותן מילים, חצי מהטקס. */}
-            <div
+            {/* מצב B (plan 33 שכבה 5): ברגע שנכנסת המלצה אמיתית ומאושרת דרך
+                /admin → content/settings/testimonials.json, הרשת מחליפה את
+                מצב-הריק לבד. עד אז נשאר הריק המכובד. בלי הענף הזה העמוד היה
+                נעול על "ריק" לתמיד, ואלונה הייתה צריכה מפתח כדי לפרסם עדות. */}
+            {published.length > 0 ? (
+              <div className="grid gap-6 sm:grid-cols-2">
+                {published.map((t) => (
+                  <TestimonialCard
+                    key={`${t.name}-${t.context}`}
+                    quote={t.quote}
+                    attribution={{ name: t.name, context: t.context }}
+                    outcome={t.outcome}
+                  />
+                ))}
+              </div>
+            ) : (
+              // מצב-הריק הכן — רצועה מעוצבת אחת (wash רך + ◆ + מוטיב הגרשיים),
+              // לא כרטיסי-רפאים ולא מסגרות מקווקוות (audit #11). הטקס קופל
+              // פנימה (דפוס-הבית «כותרת בתוך הכרטיס»): הגרשיים הוורודים פותחים,
+              // «המלצות אמיתיות בלבד» היא כותרת הכרטיס עצמו, ושורת-הקיקר
+              // העצמאית + פס-הרוז ירדו. אותן מילים, חצי מהטקס.
+              <div
               className="frame-double relative mx-auto max-w-[42rem] rounded-[16px] bg-gold-soft/60 px-6 py-10 text-center sm:px-10"
               style={{ "--frame-gap": "8px", "--frame-color": "var(--color-rose)" } as React.CSSProperties}
             >
@@ -165,6 +192,7 @@ export default function TestimonialsPage() {
                 <span className="h-px w-14 bg-gold/45" />
               </span>
             </div>
+            )}
             <div className="text-center">
               <p className="text-sm font-semibold text-muted">{GRID.redirectIntro}</p>
               <div className="mt-4 flex flex-wrap items-center justify-center gap-3">

@@ -20,7 +20,7 @@ export function SectionHeading({
   accent?: string;
 }) {
   const titleColor = tone === "dark" ? "text-white" : "text-navy";
-  const leadColor = tone === "dark" ? "text-slate-200" : "text-muted";
+  const leadColor = tone === "dark" ? "text-on-navy" : "text-muted";
   const eyebrowColor = tone === "dark" ? "text-gold-soft" : "text-gold-ink";
   return (
     <div className={align === "center" ? "flex flex-col items-center text-center" : ""}>

@@ -359,7 +359,7 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
 
             {preview && (
               <div>
-                <span className="text-xs font-bold tracking-[.2em] text-gold-ink">{T("journey.preview.title")}</span>
+                <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{T("journey.preview.title")}</span>
                 <div className="prose-rtl mt-3 rounded-[10px] border border-line bg-card p-6">
                   <h2 className="font-serif text-2xl font-black text-ink">{String(values.title ?? "…")}</h2>
                   {metaLine && <p className="mt-1 text-sm text-muted">{metaLine}</p>}

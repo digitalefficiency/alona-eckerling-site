@@ -32,7 +32,7 @@ export function BlogCardGrid({ posts, base = "/blog" }: { posts: BlogListItem[];
                 src={img}
                 alt={p.data.h1 ?? p.data.title ?? ""}
                 sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 380px"
-                imgClassName="transition duration-700 group-hover:scale-105"
+                imgClassName="transition duration-[var(--dur-ui)] group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy/45 to-transparent" />
             </div>

@@ -70,13 +70,16 @@ export default async function TeamMemberPage({ params }: Params) {
           <div>
             <Breadcrumbs
               items={[
-                { label: "אודות", href: "/about" },
+                // «עליי» — the label the nav uses for /about. It said «אודות»
+                // here, so the same URL carried two different names across the
+                // site and inside the BreadcrumbList JSON-LD.
+                { label: "עליי", href: "/about" },
                 { label: m.name, href: `/team/${slug}` },
               ]}
             />
             <div className="mt-6 flex items-center gap-2.5">
               <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
-              <span className="text-xs font-bold tracking-[.2em] text-gold-ink">{m.role}</span>
+              <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{m.role}</span>
             </div>
             <SplitText
               as="h1"
@@ -177,17 +180,21 @@ export default async function TeamMemberPage({ params }: Params) {
           <Reveal as="div" className="order-2 md:order-1">
             <div className="flex items-center gap-2.5">
               <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
-              <span className="text-xs font-bold tracking-[.2em] text-gold-soft">{m.name}</span>
+              <span className="text-xs font-bold tracking-eyebrow text-gold-soft">{m.name}</span>
             </div>
             <SplitText
               as="h2"
-              text={"רוצים להתייעץ?\nדברו איתנו."}
+              // נקבה-יחיד, גוף ראשון — כמו כל מחרוזת אחרת באתר. הנוסח הקודם
+              // («רוצים להתייעץ? דברו איתנו») היה זכר-רבים בקול של משרד, שריד
+              // מהתבנית, והוא יושב בדיוק בבאנד ההמרה ש-/about שולח אליו את
+              // הספקנית — הרגע שבו קול לא-אישי עולה הכי יקר.
+              text={"רוצה לשמוע עוד?\nבואי נדבר."}
               lastLineClass="text-gold-soft"
               baseDelay={140}
               className="mt-4 font-serif font-black leading-[1.12] text-white"
               style={{ fontSize: "clamp(1.6rem, 3.2vw, 2.5rem)" }}
             />
-            <ul className="mt-6 space-y-2 text-sm text-slate-200">
+            <ul className="mt-6 space-y-2 text-sm text-on-navy">
               {site.phone && (
                 <li>
                   טלפון:{" "}

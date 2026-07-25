@@ -29,7 +29,7 @@ export function BookShelf({ items }: { items: Book[] }) {
               aria-hidden
               fill
               sizes="(max-width:640px) 44vw, 244px"
-              className="object-cover object-center transition-transform duration-[800ms] group-hover:scale-[1.06]"
+              className="object-cover object-center transition-transform duration-[var(--dur-ui)] group-hover:scale-[1.06]"
             />
             {/* deep, consistent bottom scrim so every cover reads the same regardless of art */}
             <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-navy via-navy/65 to-navy/5" />
@@ -42,7 +42,7 @@ export function BookShelf({ items }: { items: Book[] }) {
               <h3 className="mt-2 font-serif text-[0.98rem] font-bold leading-snug text-gold-soft transition-colors duration-[var(--dur-micro)] ease-[var(--ease-out)] group-hover:text-white">
                 {b.title}
               </h3>
-              <p className="mt-1.5 text-xs text-slate-300">{b.author}</p>
+              <p className="mt-1.5 text-xs text-on-navy-muted">{b.author}</p>
               {b.meta && <p className="mt-0.5 text-[11px] text-gold-soft/70">{b.meta}</p>}
               <span className="mt-2.5 inline-flex max-h-0 items-center gap-1 overflow-hidden text-xs font-semibold text-gold opacity-0 transition-all duration-[var(--dur-micro)] ease-[var(--ease-out)] group-hover:max-h-6 group-hover:opacity-100">
                 לעמוד הספר ›

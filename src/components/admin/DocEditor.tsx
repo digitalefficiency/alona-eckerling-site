@@ -302,7 +302,7 @@ export function DocEditor({
 
           {preview && (
             <div className="mt-8">
-              <span className="text-xs font-bold tracking-[.2em] text-gold-ink">{T("editor.preview")}</span>
+              <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{T("editor.preview")}</span>
               <div
                 className="prose-rtl mt-3 rounded-[10px] border border-line bg-card p-6"
                 dangerouslySetInnerHTML={{ __html: preview }}

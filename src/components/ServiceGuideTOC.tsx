@@ -40,7 +40,7 @@ export function ServiceGuideTOC({
 
   return (
     <nav aria-label="תוכן העמוד" className="text-sm">
-      <p className="flex items-center gap-2 text-xs font-bold tracking-[.18em] text-gold-ink">
+      <p className="flex items-center gap-2 text-xs font-bold tracking-eyebrow text-gold-ink">
         <span className="text-[0.6rem] leading-none text-gold" aria-hidden>◆</span>
         {title}
       </p>

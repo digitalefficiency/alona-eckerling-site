@@ -60,7 +60,7 @@ export function SplitHero({
       {eyebrow && (
         <Reveal className="flex items-center gap-2.5">
           <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
-          <span className="text-xs font-bold tracking-[.2em] text-gold-ink">{eyebrow}</span>
+          <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{eyebrow}</span>
         </Reveal>
       )}
       <SplitText
@@ -97,7 +97,7 @@ export function SplitHero({
   );
 
   return (
-    <section data-light-hero className={`border-b border-line ${tone === "sand" ? "bg-sand" : "bg-card"}`}>
+    <section className={`border-b border-line ${tone === "sand" ? "bg-sand" : "bg-card"}`}>
       <Container className="grid grid-cols-1 items-center gap-12 py-14 md:grid-cols-2 md:py-20">
         {imageSide === "end" ? (
           <>

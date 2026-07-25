@@ -46,7 +46,7 @@ const problems = new Set();
 for (const f of files) {
   if (BRAND.test(f)) continue;
   const txt = readFileSync(f, "utf8");
-  for (const m of txt.matchAll(/["'`](\/media\/[A-Za-z0-9/._-]+\.(?:webp|jpg|jpeg|png|mp4|avif))["'`]/g)) {
+  for (const m of txt.matchAll(/["'`](\/media\/[A-Za-z0-9/._-]+\.(?:webp|jpg|jpeg|png|mp4|webm|avif))["'`]/g)) {
     const ref = m[1], at = `${relative(resolve("."), f)} → ${ref}`;
     if (EXEMPT.some((re) => re.test(ref))) continue;
     if (!HOMES.test(ref)) { problems.add(`${at} — unsanctioned media home (allowed: generated/, client/, cinema/)`); continue; }

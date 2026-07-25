@@ -73,7 +73,32 @@ const CHECKS = [
     re: /cubic-bezier\(/,
     hint: "use var(--ease-*) (globals.css @theme) / EASE.* from lib/motion-tokens",
   },
+  {
+    kind: "tailwind-duration-utility",
+    // duration-300 / duration-[800ms] — the Tailwind UTILITY form, and the
+    // gate's blind spot: every check above matches an object property or a CSS
+    // declaration, so the whole utility syntax sailed through while the gate
+    // printed "clean". A gate that reports green on a rule it does not enforce
+    // is worse than no gate. duration-[var(--dur-NAME)] is the token form.
+    // An arbitrary value passes as long as a --dur-* token appears ANYWHERE in
+    // it, so a deliberate derivation like duration-[calc(var(--dur-reveal)*0.7)]
+    // is still legal — the rule is "derive from a token", not "one exact var".
+    re: /(?:^|["'`\s:{])duration-(?:\d+|\[(?![^\]]*var\(--dur-)[^\]]*\])/,
+    hint: "use duration-[var(--dur-NAME)] (globals.css @theme) or an M-primitive",
+  },
+  {
+    kind: "tailwind-ease-utility",
+    // ease-linear / ease-in / ease-[raw curve]. `ease-out` and `ease-in-out` are
+    // deliberately NOT flagged: globals.css overrides those two Tailwind
+    // defaults with the house curves, so they already resolve to tokens.
+    re: /(?:^|["'`\s:{])ease-(?:linear|in(?![-\w])|\[(?![^\]]*var\(--ease-)[^\]]*\])/,
+    hint: "use ease-out / ease-in-out (token-backed) or ease-[var(--ease-NAME)]",
+  },
 ];
+
+// .tsx AND .ts AND .css — the gate used to read .tsx only, so a raw transition
+// in a .ts helper or a stylesheet other than globals.css was invisible to it.
+const SCANNED = [".tsx", ".ts", ".css"];
 
 function collectFiles(path, out = []) {
   if (!existsSync(path)) return out;
@@ -82,7 +107,7 @@ function collectFiles(path, out = []) {
     const st = lstatSync(full); // F4: lstat, not stat — a directory-symlink loop must not ELOOP-crash the gate
     if (st.isSymbolicLink()) continue;
     if (st.isDirectory()) collectFiles(full, out);
-    else if (entry.endsWith(".tsx")) out.push(full);
+    else if (SCANNED.some((ext) => entry.endsWith(ext))) out.push(full);
   }
   return out;
 }

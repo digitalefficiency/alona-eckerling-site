@@ -49,7 +49,7 @@ export function AngularFrame({
           fill
           sizes={sizes}
           priority={priority}
-          className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+          className="object-cover transition-transform duration-[var(--dur-ui)] group-hover:scale-[1.04]"
         />
         <div aria-hidden className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,30,63,.32), transparent 50%)" }} />
       </div>

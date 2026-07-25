@@ -28,9 +28,20 @@ export function CookieConsent() {
       role="dialog"
       aria-modal="false"
       aria-label="הסכמה לעוגיות"
-      className="fixed inset-x-0 bottom-0 z-[60] px-3 pb-3 sm:px-4 sm:pb-4"
+      // Clears the bottom chrome instead of stacking on it: below md the
+      // StickyContactBar owns the bottom --chrome-bottom of the viewport and the
+      // accessibility button sits just above that. Anchoring to bottom-0 buried
+      // both on every first visit — the WhatsApp + «בואי נדבר» row (the client's
+      // primary referral channel) and the control a low-vision visitor needs in
+      // order to read this very banner.
+      // pointer-events-none on the WRAPPER, auto on the card. The wrapper is a
+      // transparent full-width box that still reaches bottom-0; without this it
+      // stays a hit-target over the mobile conversion bar, so clearing the bar
+      // visually was not enough — every tap on «וואטסאפ» / «בואי נדבר» was still
+      // swallowed by invisible padding. Verified with elementFromPoint.
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-[var(--z-consent)] px-3 pb-[calc(var(--chrome-bottom)+0.75rem)] sm:px-4 md:pb-4"
     >
-      <div className="mx-auto max-w-[var(--container-standard)] rounded-2xl border border-gold-soft/30 bg-navy/95 p-5 text-right text-slate-200 shadow-[0_24px_70px_-30px_rgba(0,0,0,.8)] backdrop-blur-md sm:p-6">
+      <div className="pointer-events-auto mx-auto max-w-[var(--container-standard)] rounded-2xl border border-gold-soft/30 bg-navy/95 p-5 text-right text-on-navy shadow-(--elevation-3) backdrop-blur-md sm:p-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-sm leading-relaxed">
             אנו משתמשים בעוגיות חיוניות לתפקוד האתר, ובעוגיות מדידה — בכפוף להסכמתכם — כדי לשפר את

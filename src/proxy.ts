@@ -17,7 +17,7 @@ const SKIP = new RegExp(
   `^/(?:${[...PREFIXED, "api", "admin", "_next", "icon", "apple-icon", "opengraph-image", "twitter-image", "sitemap", "robots", "favicon", "manifest"].join("|")})(?=[/?#]|$)`
 );
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   if (!isBilingual) return NextResponse.next();
   const { pathname, searchParams } = req.nextUrl;
   const known = locales as readonly string[];

@@ -61,18 +61,50 @@ export default async function CollectionEntryPage({ params }: Params) {
   // Parse the structured lists from the raw markdown body:
   // bullets under "## רכיבים" → recipeIngredient; numbered lines under
   // "## אופן הכנה" → HowToStep. Sections missing → fields omitted (never invented).
+  // Terminator is `#{2,}` — ANY heading of level 2 or deeper closes a section.
+  // With the old `\n##\s` a `### ערכים תזונתיים` heading did NOT terminate
+  // (after `##` comes `#`, not whitespace), so in the 9 recipes that use one,
+  // the whole nutrition block was swallowed into «אופן הכנה» and published as
+  // recipeInstructions — Google was served "step 6: אנרגיה (קלוריות) 367 קק״ל".
   const sectionOf = (heading: string): string => {
-    const m = doc.raw.match(new RegExp(`##\\s*${heading}\\s*\\n([\\s\\S]*?)(?=\\n##\\s|$)`));
+    const m = doc.raw.match(new RegExp(`##\\s*${heading}\\s*\\n([\\s\\S]*?)(?=\\n#{2,}\\s|$)`));
     return m ? m[1] : "";
   };
+  // Only actual list items become ingredients. Without the marker test, prose
+  // lines inside the section («(עבור 13 פנקייקים)», a bold sub-label like
+  // «**לרוטב:**») were emitted as recipeIngredient in 24 of 34 recipes.
   const ingredients = sectionOf("רכיבים")
     .split("\n")
-    .map((l) => l.replace(/^[-*]\s*/, "").trim())
-    .filter((l) => l && !l.startsWith("#"));
+    .filter((l) => /^\s*[-*]\s+/.test(l))
+    .map((l) => l.replace(/^\s*[-*]\s*/, "").trim())
+    .filter(Boolean);
+  // Same discipline for steps: numbered lines only.
   const steps = sectionOf("אופן הכנה")
     .split("\n")
-    .map((l) => l.replace(/^\d+[.)]\s*/, "").trim())
-    .filter((l) => l && !l.startsWith("#"));
+    .filter((l) => /^\s*\d+[.)]\s+/.test(l))
+    .map((l) => l.replace(/^\s*\d+[.)]\s*/, "").trim())
+    .filter(Boolean);
+
+  // The nutrition block freed by the terminator fix becomes real structured
+  // data instead of fake steps. Values are read verbatim from the client's own
+  // markdown — nothing is computed or inferred (YMYL: we never invent a number).
+  const nutritionRaw = doc.raw.match(/###\s*ערכים תזונתיים[^\n]*\n([\s\S]*?)(?=\n#{2,}\s|$)/)?.[1] ?? "";
+  const nutritionField = (labels: string[]): string | undefined => {
+    for (const line of nutritionRaw.split("\n")) {
+      const t = line.trim();
+      if (!t || !labels.some((l) => t.startsWith(l))) continue;
+      // «חלבון- 32.9 גרם.» → «32.9 גרם» (schema.org wants value + unit)
+      const v = t.split(/[-–:]/).slice(1).join("-").trim().replace(/\.$/, "");
+      if (v) return v;
+    }
+    return undefined;
+  };
+  const nutrition = {
+    ...(nutritionField(["אנרגיה", "קלוריות"]) ? { calories: nutritionField(["אנרגיה", "קלוריות"]) } : {}),
+    ...(nutritionField(["שומן"]) ? { fatContent: nutritionField(["שומן"]) } : {}),
+    ...(nutritionField(["חלבון"]) ? { proteinContent: nutritionField(["חלבון"]) } : {}),
+    ...(nutritionField(["פחמימה", "פחמימות"]) ? { carbohydrateContent: nutritionField(["פחמימה", "פחמימות"]) } : {}),
+  };
   // "20 דקות" → PT20M · "שעה" → PT1H (ISO-8601 duration; unparseable → omitted)
   const prepRaw = String(doc.data.prepTime ?? "");
   const prepMin = /(\d+)\s*דקות/.exec(prepRaw)?.[1];
@@ -102,6 +134,11 @@ export default async function CollectionEntryPage({ params }: Params) {
         ...(ingredients.length ? { recipeIngredient: ingredients } : {}),
         ...(steps.length
           ? { recipeInstructions: steps.map((s) => ({ "@type": "HowToStep", text: s })) }
+          : {}),
+        // Real NutritionInformation, transcribed verbatim from the client's own
+        // «### ערכים תזונתיים» block. Omitted entirely when the recipe has none.
+        ...(Object.keys(nutrition).length
+          ? { nutrition: { "@type": "NutritionInformation", ...nutrition } }
           : {}),
       }
     : {

@@ -26,7 +26,7 @@ export function Gallery({
               src={it.src}
               alt={it.alt}
               sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 380px"
-              imgClassName="transition duration-700 group-hover:scale-105"
+              imgClassName="transition duration-[var(--dur-ui)] group-hover:scale-105"
             />
           </div>
           {it.caption && (

@@ -119,7 +119,7 @@ export default function ContactPage() {
     <>
       {/* ===== 35 · HOOK — הדלת השקטה: פרוזה ממורכזת על blush, נשיפה אחת איטית.
            COPY: ### סקשן 35 ===== */}
-      <section data-light-hero className="relative overflow-hidden bg-blush/60">
+      <section className="relative overflow-hidden bg-blush/60">
         <div aria-hidden className="grain-overlay" />
         <Container width="prose" className="relative py-16 sm:py-20 md:py-32">
           <Breadcrumbs items={[{ label: DOOR.crumb, href: "/contact" }]} />

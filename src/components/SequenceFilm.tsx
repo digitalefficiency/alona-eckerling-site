@@ -145,10 +145,26 @@ export function SequenceFilm({
       (frames.length - 1);
     const i = Math.min(Math.floor(span), frames.length - 1);
     const f = span - i;
+    // DECODE GUARD — all 14 frames share one sticky stage, so they cross the
+    // lazy-load threshold together and land as a burst. On a slow connection the
+    // scrub can reach frame 9 before frame 9 has arrived, and writing
+    // `opacity: 1` onto an empty <img> shows bare bg-sand: a blank stage in the
+    // middle of the site's one signature moment. So resolve the target down to
+    // the newest frame that HAS decoded. The film then holds on the last real
+    // image and catches up as bytes land, instead of flashing empty.
+    const ready = (k: number) => {
+      const img = frameRefs.current[k];
+      return !!img && img.complete && img.naturalWidth > 0;
+    };
+    let shown = i;
+    while (shown > 0 && !ready(shown)) shown--;
+    // Only cross-fade into the next frame once it is genuinely paintable.
+    const blend = shown === i && ready(i + 1) ? f : 0;
+
     frameRefs.current.forEach((img, k) => {
       if (!img) return;
-      img.style.opacity = k === i ? "1" : k === i + 1 ? String(f) : "0";
-      const wc = k === i || k === i + 1 ? "opacity" : "auto";
+      img.style.opacity = k === shown ? String(1 - blend) : k === shown + 1 ? String(blend) : "0";
+      const wc = k === shown || k === shown + 1 ? "opacity" : "auto";
       if (img.style.willChange !== wc) img.style.willChange = wc;
     });
     overlayRefs.current.forEach((el) => {
@@ -191,11 +207,29 @@ export function SequenceFilm({
   const height = lengthVh ?? Math.max(400, frames.length * 30);
   const lastFrame = frames[frames.length - 1];
 
+  // RESERVE THE RUNWAY AT HYDRATION, not when the cinema mounts.
+  //
+  // `cinema` only flips after window.load + 300ms + frame-0 decode. On this page
+  // that lands seconds after first paint — long after a real reader has started
+  // scrolling. When it flipped, the section grew from auto-height to 420vh AND
+  // the static twin left the layout, teleporting everything below (the guide,
+  // the credential strip, the lead form) down by ~2,700px on desktop under a
+  // reader who was already there. Chrome and Firefox soften it with scroll
+  // anchoring; Safari does not. Lighthouse reports CLS 0 because it never
+  // scrolls, which is exactly why this stayed invisible.
+  //
+  // Reserving as soon as we know the cinema WILL mount (mounted + motion
+  // allowed) moves the resize into the hydration frame, before the reader can
+  // act on it. Crucially this is gated on `mounted`, not on a CSS media query:
+  // a no-JS or reduced-motion visitor keeps the auto-height twin and never gets
+  // a 420vh box holding one paragraph.
+  const reserveRunway = mounted && motionAllowed;
+
   return (
     <section
       ref={sectionRef}
       className="relative bg-sand"
-      style={cinema ? { height: `${height}vh` } : undefined}
+      style={reserveRunway ? { height: `${height}vh` } : undefined}
       aria-label={staticHeading}
     >
       {/* ── Layer B — the cinema (mounts only when motion is allowed) ── */}
@@ -251,7 +285,7 @@ export function SequenceFilm({
               }}
             >
               {/* paper chip — same family as the thought-chips, reads over any frame */}
-              <span className="inline-block rounded-full border border-line bg-bg/85 px-4 py-1.5 text-[13px] font-semibold tracking-[0.12em] text-ink shadow-sm">
+              <span className="inline-block rounded-full border border-line bg-bg/85 px-4 py-1.5 text-[13px] font-semibold tracking-eyebrow text-ink shadow-sm">
                 {kicker}
               </span>
             </div>
@@ -323,10 +357,18 @@ export function SequenceFilm({
 
       {/* ── Layer A — the static twin (SSR, crawlable, no-JS, reduced-motion,
              and the visible poster until the opening frame is decoded) ── */}
-      <div className={cinema ? "sr-only" : "py-24"}>
+      {/* While the runway is reserved but the cinema has not mounted yet, the twin
+          becomes the poster INSIDE the tall section — sticky so it sits on screen
+          rather than stranded at the top of a 420vh box. Once cinema takes over it
+          goes sr-only (still crawlable); with no JS it is a plain static block. */}
+      <div
+        className={
+          cinema ? "sr-only" : reserveRunway ? "sticky top-0 flex h-[100svh] items-center py-10" : "py-24"
+        }
+      >
         <div className="mx-auto max-w-[760px] px-7 text-center">
           {staticKicker && (
-            <div className="mb-3 text-[13px] font-semibold tracking-[0.12em] text-gold-ink">
+            <div className="mb-3 text-[13px] font-semibold tracking-eyebrow text-gold-ink">
               {staticKicker}
             </div>
           )}

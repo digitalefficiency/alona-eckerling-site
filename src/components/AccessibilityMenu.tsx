@@ -12,7 +12,10 @@ const useIso = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 // class or inline style on the root element; the root-element `filter` exception keeps
 // the fixed header/banner anchored to the viewport. No third-party widget, no cost.
 
-const KEY = "bz_a11y";
+// KEY + base px are shared with the pre-paint bootstrap script in layout.tsx
+// (lib/a11y-boot) so the two can never drift apart.
+import { A11Y_KEY as KEY, A11Y_BASE_PX } from "@/lib/a11y-boot";
+
 const TEXT_STEPS = [100, 115, 130, 145] as const;
 
 type Settings = {
@@ -49,7 +52,7 @@ function load(): Settings {
 function apply(s: Settings) {
   const root = document.documentElement;
   // Font size — inline overrides the @layer base html font-size (17px).
-  root.style.fontSize = s.textPct !== 100 ? `${((17 * s.textPct) / 100).toFixed(1)}px` : "";
+  root.style.fontSize = s.textPct !== 100 ? `${((A11Y_BASE_PX * s.textPct) / 100).toFixed(1)}px` : "";
   // Contrast + grayscale combine into one filter on the ROOT (does not reparent fixed).
   const filters: string[] = [];
   if (s.contrast) filters.push("contrast(1.4)");
@@ -122,7 +125,13 @@ export function AccessibilityMenu() {
         aria-label="פתיחת תפריט נגישות"
         aria-expanded={open}
         aria-controls="a11y-panel"
-        className="fixed bottom-4 left-4 z-[55] grid h-12 w-12 place-items-center rounded-full border border-gold/40 bg-navy text-gold-soft shadow-[0_10px_30px_-10px_rgba(0,0,0,.6)] transition hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+        // Below md the StickyContactBar owns the bottom --chrome-bottom of the
+        // viewport; anchoring at bottom-4 put this 51px button on top of the
+        // «בואי נדבר» half of the conversion bar (a stolen tap strip, and a
+        // mis-tap trap). Clear the bar on mobile, keep the original inset on md+
+        // where the bar does not render. left-4 (physical) is deliberate and
+        // documented — the RTL start corner belongs to WhatsAppFloat.
+        className="fixed bottom-[calc(var(--chrome-bottom)+0.75rem)] left-4 z-[var(--z-a11y)] grid h-12 w-12 place-items-center rounded-full border border-gold/40 bg-navy text-gold-soft shadow-(--elevation-3) transition hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 md:bottom-4"
       >
         {/* universal accessibility glyph */}
         <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden fill="currentColor">
@@ -137,7 +146,7 @@ export function AccessibilityMenu() {
           ref={panelRef}
           role="dialog"
           aria-label="הגדרות נגישות"
-          className="fixed bottom-20 left-4 z-[56] max-h-[75vh] w-[min(20rem,calc(100vw-2rem))] overflow-auto rounded-2xl border border-line bg-card p-4 text-right text-navy shadow-[0_24px_70px_-30px_color-mix(in_srgb,var(--color-navy)_60%,transparent)]"
+          className="fixed bottom-[calc(var(--chrome-bottom)+4.25rem)] left-4 z-[calc(var(--z-a11y)+1)] max-h-[75vh] w-[min(20rem,calc(100vw-2rem))] overflow-auto rounded-2xl border border-line bg-card p-4 text-right text-navy shadow-(--elevation-3) md:bottom-20"
         >
           <div className="flex items-center justify-between">
             <button

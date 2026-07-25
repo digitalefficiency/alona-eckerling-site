@@ -124,7 +124,7 @@ export default function RecipesPage() {
           </div>
           <div className="flex items-center gap-2.5">
             <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
-            <span className="text-xs font-bold tracking-[.2em] text-gold-ink">{HERO.eyebrow}</span>
+            <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{HERO.eyebrow}</span>
           </div>
           <SplitText
             as="h1"

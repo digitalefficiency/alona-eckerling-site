@@ -24,7 +24,7 @@ export function CredentialStrip({
       {label && (
         <div className="mb-7 flex items-center justify-center gap-2.5">
           <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-          <span className="text-xs font-bold tracking-[.18em] text-gold-ink">{label}</span>
+          <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{label}</span>
         </div>
       )}
       <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6">

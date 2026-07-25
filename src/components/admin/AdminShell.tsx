@@ -55,7 +55,7 @@ export function AdminShell({
         <div className="mx-auto flex max-w-[1100px] flex-wrap items-center gap-4 px-6 py-5">
           <div className="flex items-center gap-2.5">
             <BrandLogo className="h-7 w-auto" />
-            <span className="text-xs font-bold tracking-[.2em] text-gold-ink">{T("admin.deskTitle")}</span>
+            <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{T("admin.deskTitle")}</span>
           </div>
           <nav className="flex flex-wrap gap-2">
             {collections.map((c) => (

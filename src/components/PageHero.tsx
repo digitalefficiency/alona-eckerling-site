@@ -20,7 +20,7 @@ export function PageHero({
         {eyebrow && (
           <div className="mt-6 flex items-center gap-2.5">
             <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-            <span className="text-xs font-bold tracking-[.18em] text-gold-ink">{eyebrow}</span>
+            <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{eyebrow}</span>
           </div>
         )}
         <h1

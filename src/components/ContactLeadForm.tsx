@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { getAttributionSnapshot, getCampaignDimensions } from "@/lib/attribution";
 import { getEngagement } from "@/lib/engagement";
 import { trackFormView, trackFormStart, trackGenerateLead } from "@/lib/analytics";
-import { contactForm, responsePromise } from "@/lib/site";
+import { contactForm, responsePromise, site } from "@/lib/site";
+import { focusFirstInvalid, focusStatusPanel } from "@/lib/form-focus";
 
 const FORM_ID = "contact";
 
@@ -19,10 +20,28 @@ type Status = "idle" | "submitting" | "success" | "error";
 // the urban-renewal form. PII goes only in the POST body (never URL/dataLayer).
 export function ContactLeadForm() {
   const ref = useRef<HTMLFormElement>(null);
+  const successRef = useRef<HTMLDivElement>(null);
   const started = useRef(false);
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState("");
+
+  // The success panel REPLACES the form, so the focused submit button is
+  // unmounted and focus would fall to <body>. Move it to the panel instead:
+  // that both announces the outcome and keeps the reading position.
+  useEffect(() => {
+    if (status === "success") focusStatusPanel(successRef.current);
+  }, [status]);
+
+  // Focus the first invalid field AFTER React commits the error state.
+  // It has to be an effect keyed on `errors`: focusFirstInvalid resolves its
+  // target via `[aria-invalid="true"]`, and that attribute does not exist until
+  // the setErrors re-render is committed. Calling it from the submit handler
+  // (even inside requestAnimationFrame) races the commit and finds nothing —
+  // verified in the browser: errors rendered, focus stayed on <body>.
+  useEffect(() => {
+    if (Object.keys(errors).length) focusFirstInvalid(ref.current);
+  }, [errors]);
 
   useEffect(() => {
     const el = ref.current;
@@ -85,8 +104,11 @@ export function ContactLeadForm() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) {
-        if (data.errors) setErrors(data.errors);
-        else setServerError("אירעה תקלה בשליחה. נסי שוב מאוחר יותר.");
+        if (data.errors) {
+          setErrors(data.errors);
+        } else {
+          setServerError("לא הצלחתי לקלוט את הפנייה כרגע.");
+        }
         setStatus("error");
         return;
       }
@@ -101,7 +123,7 @@ export function ContactLeadForm() {
       });
       setStatus("success");
     } catch {
-      setServerError("אירעה תקלה בשליחה. נסי שוב מאוחר יותר.");
+      setServerError("לא הצלחתי לקלוט את הפנייה כרגע.");
       setStatus("error");
     }
   }
@@ -111,7 +133,12 @@ export function ContactLeadForm() {
 
   if (status === "success") {
     return (
-      <div className="rounded-[10px] border border-line bg-card p-7 text-center" role="status">
+      <div
+        ref={successRef}
+        tabIndex={-1}
+        className="rounded-card border border-line bg-card p-7 text-center outline-none"
+        role="status"
+      >
         <span className="mx-auto grid h-12 w-12 place-items-center rounded-full border border-gold bg-gold-soft text-xl text-gold-ink" aria-hidden>✓</span>
         <p className="mt-4 font-serif text-xl font-bold text-navy">הפרטים התקבלו, תודה!</p>
         <p className="mt-2 text-sm leading-relaxed text-muted">{responsePromise.promise}</p>
@@ -148,7 +175,7 @@ export function ContactLeadForm() {
           className={fieldClass}
         />
       </label>
-      {errors.name && <p id="lead-name-err" className="mt-1 text-sm text-bad">{errors.name}</p>}
+      {errors.name && <p id="lead-name-err" role="alert" className="mt-1 text-sm text-bad">{errors.name}</p>}
 
       <label className="mt-4 block text-sm font-semibold text-navy-700">
         טלפון / וואטסאפ *
@@ -164,7 +191,7 @@ export function ContactLeadForm() {
           className={fieldClass}
         />
       </label>
-      {errors.phone && <p id="lead-phone-err" className="mt-1 text-sm text-bad">{errors.phone}</p>}
+      {errors.phone && <p id="lead-phone-err" role="alert" className="mt-1 text-sm text-bad">{errors.phone}</p>}
 
       <label className="mt-4 block text-sm font-semibold text-navy-700">
         נושא הפנייה
@@ -192,18 +219,44 @@ export function ContactLeadForm() {
           aria-describedby={errors.consent ? "lead-consent-err" : undefined}
           className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--color-gold-dark)]"
         />
+        {/* «ולא יועברו לצד שלישי» ירד: מדיניות הפרטיות §5 מונה חמישה מעבדים
+            חיצוניים (אירוח, דיוור, מדידה), אז ההבטחה הקודמת סתרה את המסמך
+            שהיא מקשרת אליו. הניסוח החדש נאמן לשניהם. */}
         <span>
-          אני מאשרת ש{contactForm.consentBrandName} תיצור איתי קשר בנוגע לפנייתי. הפרטים נשמרים לצורך מענה בלבד ולא
-          יועברו לצד שלישי, בהתאם ל
+          אני מאשרת ש{contactForm.consentBrandName} תיצור איתי קשר בנוגע לפנייתי. הפרטים נשמרים לצורך מענה בלבד,
+          בהתאם ל
           <Link href="/privacy" target="_blank" className="font-semibold text-gold-ink underline hover:text-gold-dark">
             מדיניות הפרטיות
           </Link>
           .
         </span>
       </label>
-      {errors.consent && <p id="lead-consent-err" className="mt-1 text-sm text-bad">{errors.consent}</p>}
+      {errors.consent && <p id="lead-consent-err" role="alert" className="mt-1 text-sm text-bad">{errors.consent}</p>}
 
-      {serverError && <p className="mt-4 rounded-[4px] bg-bad/10 px-3 py-2 text-sm text-bad" role="alert">{serverError}</p>}
+      {/* Server-error path always offers a way through. If the lead could not be
+          delivered we must not leave her at a dead end with a promise we cannot
+          keep — WhatsApp is the client's primary referral channel and reaches a
+          real person. Rendered only when a number is configured. */}
+      {serverError && (
+        <div className="mt-4 rounded-[4px] bg-bad-soft px-3 py-2.5 text-sm text-bad" role="alert">
+          <p>{serverError}</p>
+          {site.whatsapp && (
+            <p className="mt-1">
+              אפשר לכתוב לי ישירות ב
+              <a
+                href={`https://wa.me/${site.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cta="lead-error-whatsapp"
+                className="font-bold underline underline-offset-2"
+              >
+                וואטסאפ
+              </a>
+              , ואחזור אלייך משם.
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Same silhouette as every other primary CTA on the site (and as
           ContactQuietForm's submit): btn-chamfer rounded-[6px] bg-gold. The ring

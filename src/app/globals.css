@@ -27,8 +27,27 @@
   --color-line2: var(--brand-line2, #eef2f8);
 
   --color-good: #1f9d6b;
-  --color-bad: #d6455d;
+  /* Error ink. The old #d6455d failed AA on EVERY surface it is used on
+     (4.31:1 on card white, 4.19:1 on bg, 3.84:1 on the sand /contact card, and
+     3.40:1 inside its own bad/10 alert box) while every error string renders at
+     text-sm — below the large-text exemption. It was also a cold crimson in a
+     deliberately warm palette. #B3243C clears AA on all three light surfaces
+     (6.4:1 card, 5.7:1 sand) and sits in the palette's warm-red family.
+     --color-bad-soft is a dedicated wash for alert boxes, so the box no longer
+     alpha-mixes the ink with itself and drags the contrast back down. */
+  --color-bad: #b3243c;
+  --color-bad-soft: #fbeaed;
   --color-amber: #dd8f2e;
+
+  /* ===== Text ON the dark (navy) surfaces =====
+     The dark bands were wearing Tailwind's `slate` ramp — a BLUE-grey family, on
+     a palette that was deliberately de-blued on 2026-07-19 (navy is now deep
+     pine #17382C). Four different slate steps were doing the same two jobs
+     across 25 call sites. These two tokens are those two jobs, tinted from the
+     brand primary so the dark bands stay in the same family as everything else.
+     Both clear AA on --color-navy (on-navy ~13:1, muted ~5.6:1). */
+  --color-on-navy: #eef3ef; /* primary text on a navy/pine surface */
+  --color-on-navy-muted: #b9c8bd; /* secondary/lede text on the same */
 
   /* Alona warmth roles — dusty rose (marks/underlines) + blush wash (warm bands) */
   --color-rose: var(--brand-rose, #DE8E85);
@@ -136,6 +155,20 @@
     color: var(--color-navy);
     text-wrap: balance;
   }
+
+  /* Form controls do NOT inherit font-family or font-size from body — browsers
+     hand them a ~13px system default. Two consequences this fixes at the root
+     rather than per-form: iOS Safari auto-zooms the whole page on focus for any
+     input under 16px (jarring, and it strands the reader zoomed-in mid-form),
+     and the typed answer rendered in a different family from the label it sits
+     under. 1rem = 17px here, comfortably over the threshold. */
+  input,
+  select,
+  textarea {
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--color-ink);
+  }
 }
 
 ::selection {
@@ -149,6 +182,27 @@
    and the film all paint THIS token, so sections + stills + film read as one
    art-directed shoot. Never fork or retune the SVG per surface — tune only
    --grain-opacity (@theme above, 0.05 default, keep ≤ 0.06). */
+/* ===== Floating-chrome ladder — ONE declared order for everything fixed =====
+   These were five hand-rolled z values across five files, and the bottom-anchored
+   ones stacked ON TOP of each other instead of clearing each other: the cookie
+   banner (bottom-0) buried both the mobile conversion bar and the accessibility
+   button on every first visit, which is also an a11y trap (a visitor who needs
+   the accessibility menu to read the banner cannot reach the button that opens
+   it). Consume as `z-[var(--z-consent)]` etc. — never re-roll a bare number.
+
+   --chrome-bottom is the height the mobile StickyContactBar reserves
+   (min-h-14 + safe area, matching its own spacer). ANY bottom-anchored floating
+   element must clear it below md, where the bar exists. */
+:root {
+  --z-float: 40; /* WhatsAppFloat (md+) */
+  --z-header: 50; /* Header island · StickyContactBar */
+  --z-a11y: 55; /* AccessibilityMenu button + panel */
+  --z-consent: 60; /* CookieConsent */
+  --z-skip: 70; /* skip-link — must beat the consent banner to be usable */
+
+  --chrome-bottom: calc(3.5rem + env(safe-area-inset-bottom));
+}
+
 :root {
   --texture-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
@@ -368,6 +422,20 @@
 .btn-chamfer:hover::after { transform: scaleX(1); }
 .btn-chamfer:active { transform: scale(0.985); }
 
+/* FOCUS RING vs clip-path — clip-path clips EVERYTHING the element paints,
+   including outlines and outer box-shadows, so a `ring-2 ring-offset-2` on a
+   chamfered CTA is silently cut away and the button ships with NO visible focus
+   indicator. That was true of 20 of the 22 .btn-chamfer call sites, i.e. every
+   primary CTA on the site, while /accessibility publishes a ת"י 5568 / WCAG 2.0
+   AA statement. Fix: drop the chamfer for the FOCUSED FRAME ONLY — the
+   silhouette is untouched in every other state, and the outline becomes visible
+   because there is no longer a clip to cut it. Tokens only. */
+.btn-chamfer:focus-visible {
+  clip-path: none;
+  outline: 2px solid var(--color-navy);
+  outline-offset: 3px;
+}
+
 /* skewed filter chip — the recipes archive's "spice-jar" parallelogram chip. */
 .chip-skew {
   transform: skewX(-6deg);
@@ -410,6 +478,13 @@
   --dur-wipe: calc(var(--dur-reveal) * 0.9); /* headline line wipe + image clip-uncover */
   --dur-settle: calc(var(--dur-reveal) * 1.1); /* image counter-scale settle */
   --dur-rule: calc(var(--dur-reveal) * 0.6); /* self-drawing rules/dividers */
+  /* --dur-ui: the mid tier the system was missing. Micro (0.25s) is right for a
+     hover colour change and reveal (1s) for a headline, but the in-between
+     gestures — a card image easing up on hover, an accordion panel, a carousel
+     crossfade — had no token, so 17 sites hand-rolled duration-300/500/700/[800ms]
+     in Tailwind utilities. Calc-derived like its siblings, so a motion
+     personality rescales it too. Default 0.55s. */
+  --dur-ui: calc(var(--dur-reveal) * 0.55);
   /* --dur-reveal / --dur-micro / --dur-stagger live in @theme above —
      sourced from src/lib/motion-tokens.ts (do NOT redeclare them here). */
   --stagger-line: var(--dur-stagger); /* = 80ms at the default token */

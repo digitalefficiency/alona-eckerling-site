@@ -39,7 +39,7 @@ export function Reveal({
     <Tag
       ref={ref as never}
       style={{ transitionDelay: `${delay}ms` }}
-      className={`transition-all duration-700 ease-[var(--ease-out)] ${
+      className={`transition-all duration-[var(--dur-ui)] ease-[var(--ease-out)] ${
         hidden ? "translate-y-6 opacity-0" : "translate-y-0 opacity-100"
       } ${className}`}
     >

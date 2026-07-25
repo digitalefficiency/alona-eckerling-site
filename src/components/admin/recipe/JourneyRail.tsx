@@ -20,7 +20,7 @@ export function JourneyRail({
   const done = STATION_ORDER.filter((s) => status[s]).length;
   return (
     <nav aria-label={T("journey.progress", { done, total: STATION_ORDER.length })}>
-      <p className="mb-3 hidden text-xs font-bold tracking-[.15em] text-gold-ink lg:block">
+      <p className="mb-3 hidden text-xs font-bold tracking-eyebrow text-gold-ink lg:block">
         {T("journey.progress", { done, total: STATION_ORDER.length })}
       </p>
       <ol className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:gap-1.5 lg:overflow-visible lg:pb-0">

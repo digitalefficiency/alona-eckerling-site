@@ -19,7 +19,7 @@ export function ResponsePromise({
       <div>
         <p className={`text-sm font-bold ${dark ? "text-white" : "text-navy"}`}>{promise}</p>
         {sub && (
-          <p className={`mt-1 text-xs leading-relaxed ${dark ? "text-slate-300" : "text-muted"}`}>{sub}</p>
+          <p className={`mt-1 text-xs leading-relaxed ${dark ? "text-on-navy-muted" : "text-muted"}`}>{sub}</p>
         )}
       </div>
     </div>

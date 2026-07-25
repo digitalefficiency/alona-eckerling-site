@@ -27,10 +27,10 @@ export function StickyContactBar({
   return (
     <>
       {/* spacer — same height as the bar (+ safe area) so nothing hides behind it */}
-      <div aria-hidden className="h-[calc(3.5rem+env(safe-area-inset-bottom))] md:hidden" />
+      <div aria-hidden className="h-[var(--chrome-bottom)] md:hidden" />
       <nav
         aria-label="יצירת קשר מהירה"
-        className="fixed inset-x-0 bottom-0 z-50 border-t border-gold-soft/40 bg-navy pb-[env(safe-area-inset-bottom)] md:hidden"
+        className="fixed inset-x-0 bottom-0 z-[var(--z-header)] border-t border-gold-soft/40 bg-navy pb-[env(safe-area-inset-bottom)] md:hidden"
       >
         <div className="flex items-stretch">
           {whatsapp && (

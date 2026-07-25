@@ -19,8 +19,16 @@ import { useAfterWindowLoad, useMotionAllowed } from "@/lib/motion";
 // webm/mp4 are optional: without them this is a plain full-bleed poster, so
 // the hero ships before the production lands.
 //
-// iOS Low-Power-Mode suspends autoplay → the element's own poster shows (never
-// a black box). muted+playsInline satisfies Chrome/iOS autoplay policy.
+// iOS Low-Power-Mode suspends autoplay → the <Image> beneath simply stays
+// visible (never a black box). muted+playsInline satisfies Chrome/iOS policy.
+//
+// THE BRIDGE (2026-07-22, Rom: "שהסרטון ימשיך גם למערכת גלילה, מאוחד"):
+// the film opens on the poster's exact frame and LANDS on the scroll-film's
+// first frame (02-problem-s01) — same table, same kitchen, camera descending
+// from overhead to eye level. So it plays ONCE and holds that last frame: the
+// reader then scrolls straight into the scrub, and hero → film reads as one
+// unbroken take instead of two separate plate-builds. Looping would break the
+// hand-off, so the IO only *starts* it and never restarts a finished film.
 
 function prefersReducedData(): boolean {
   if (typeof navigator === "undefined") return false;
@@ -35,7 +43,7 @@ export function HeroFilm({
   objectPosition,
   className = "",
 }: {
-  poster: string; // the LCP image AND the video poster — first frame of the loop
+  poster: string; // the LCP image — and the film's exact opening frame
   webm?: string;
   mp4?: string;
   objectPosition?: string;
@@ -54,8 +62,13 @@ export function HeroFilm({
     if (!showVideo || !v) return;
     const io = new IntersectionObserver(([e]) => {
       if (!e) return;
-      if (e.isIntersecting) v.play().catch(() => {});
-      else v.pause();
+      // never restart a film that already landed on its final frame — that
+      // frame IS the scroll-film's opening, and it must stay put
+      if (e.isIntersecting) {
+        if (!v.ended) v.play().catch(() => {});
+      } else if (!v.ended) {
+        v.pause();
+      }
     });
     io.observe(v);
     return () => io.disconnect();
@@ -80,10 +93,14 @@ export function HeroFilm({
           ref={videoRef}
           muted
           playsInline
-          loop
           autoPlay
           preload="none"
-          poster={poster}
+          // NO poster attribute, deliberately: the <Image> underneath already
+          // holds this exact frame as the eager LCP. Giving the video its own
+          // poster made the VIDEO the LCP element — it mounts after window.load,
+          // so its poster painted at ~520ms and pushed LCP 4.1s → 4.8s (measured).
+          // Without it the video contributes no LCP candidate, and if it can
+          // never play (iOS low-power, decode failure) the image simply shows.
           disablePictureInPicture
           tabIndex={-1}
           className="absolute inset-0 h-full w-full object-cover"

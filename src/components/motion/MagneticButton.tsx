@@ -43,7 +43,7 @@ export function MagneticButton({
       data-cta={dataCta}
       onMouseMove={onMove}
       onMouseLeave={reset}
-      className={`inline-block transition-transform duration-300 ease-[var(--ease-micro)] ${className}`}
+      className={`inline-block transition-transform duration-[var(--dur-micro)] ease-[var(--ease-micro)] ${className}`}
     >
       {children}
     </Link>

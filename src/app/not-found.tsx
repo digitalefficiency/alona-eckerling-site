@@ -31,7 +31,7 @@ export default function NotFound() {
           404
         </p>
         <h1 className="mt-6 font-serif text-2xl font-bold text-white md:text-3xl">העמוד לא נמצא</h1>
-        <p className="mt-3 max-w-[44ch] leading-relaxed text-slate-300">
+        <p className="mt-3 max-w-[44ch] leading-relaxed text-on-navy-muted">
           ייתכן שהקישור השתנה או שהעמוד הוסר. בואי נמצא לך את הדרך חזרה.
         </p>
 
@@ -55,7 +55,7 @@ export default function NotFound() {
         {/* live recovery paths — derived from site.ts nav, never hardcoded */}
         {quickLinks.length > 0 && (
           <nav aria-label="קיצורי דרך" className="mt-12">
-            <p className="text-xs font-bold tracking-[.2em] text-gold-soft">אולי חיפשת</p>
+            <p className="text-xs font-bold tracking-eyebrow text-gold-soft">אולי חיפשת</p>
             <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
               {quickLinks.map((n) => (
                 <li key={n.href} className="flex items-center gap-2">
@@ -63,7 +63,7 @@ export default function NotFound() {
                   <Link
                     href={n.href}
                     data-cta={`404-link-${n.href.replace("/", "")}`}
-                    className="text-sm font-medium text-slate-200 underline-offset-4 transition hover:text-gold-soft hover:underline"
+                    className="text-sm font-medium text-on-navy underline-offset-4 transition hover:text-gold-soft hover:underline"
                   >
                     {n.label}
                   </Link>

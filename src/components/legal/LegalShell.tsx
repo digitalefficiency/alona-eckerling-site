@@ -22,16 +22,16 @@ export function LegalShell({
       <Section tone="navy">
         <Reveal as="div" className="text-right">
           <div className="flex items-center justify-end gap-2.5">
-            <span className="text-xs font-bold tracking-[.2em] text-gold-soft">{eyebrow}</span>
+            <span className="text-xs font-bold tracking-eyebrow text-gold-soft">{eyebrow}</span>
             <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
           </div>
           <h1 className="mt-4 font-serif font-black text-white" style={{ fontSize: "var(--text-hero)" }}>
             {title}
           </h1>
           {intro && (
-            <p className="ms-auto mt-5 max-w-[60ch] text-lg leading-relaxed text-slate-200">{intro}</p>
+            <p className="ms-auto mt-5 max-w-[60ch] text-lg leading-relaxed text-on-navy">{intro}</p>
           )}
-          <p className="mt-5 text-sm text-slate-400">עודכן לאחרונה: {site.legalUpdated}</p>
+          <p className="mt-5 text-sm text-on-navy-muted">עודכן לאחרונה: {site.legalUpdated}</p>
         </Reveal>
       </Section>
 

@@ -37,7 +37,7 @@ export function MChapter({
       </span>
       {label && (
         <span
-          className={`text-[0.7rem] font-bold tracking-[0.18em] ${
+          className={`text-[0.7rem] font-bold tracking-eyebrow ${
             tone === "dark" ? "text-white/70" : "text-muted"
           }`}
         >

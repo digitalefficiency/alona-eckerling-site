@@ -145,7 +145,7 @@ export default function AboutPage() {
       {/* ===== 17 · HOOK - asymmetric-split hero on warm paper: real-portrait slot
            (designed empty-state, face never generated) bleeding to the reading edge,
            name + license chip + free-call CTA. COPY: ### סקשן 17 ===== */}
-      <section data-light-hero className="border-b border-line">
+      <section className="border-b border-line">
         {/* house vertical rhythm (py-16 sm:py-20 md:py-32). The ONE deviation is the
             mobile top pad: the header is `fixed`, so a light hero has to clear it —
             pt-28 stays below md, and from md the house py-32 already exceeds it. */}
@@ -250,8 +250,16 @@ export default function AboutPage() {
           a ruled line 1px under the crest reads as two seams stacked. */}
       <section id="story" className="relative overflow-hidden border-t border-line bg-card scroll-mt-24">
         <div aria-hidden className="absolute inset-y-0 start-0 hidden w-[52%] md:block">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/media/client/recipes/moroccan-fish.jpg" alt="" loading="lazy" className="h-full w-full object-cover" />
+          {/* next/image — same fix as the /coaching proof band, applied as one
+              house pattern rather than on a single page. The source is 177KB at
+              1330x2110 and was being served whole into a 375x250 mobile band. */}
+          <Image
+            src="/media/client/recipes/moroccan-fish.jpg"
+            alt=""
+            fill
+            sizes="(max-width: 768px) 0px, 52vw"
+            className="object-cover"
+          />
           <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
           {/* house room-edge: the photo dissolves in from the hero above instead of
               opening on a hard cut (the inline edge stays hard — that overlap IS
@@ -266,8 +274,13 @@ export default function AboutPage() {
           className="absolute inset-y-0 end-0 hidden w-[calc((100vw-var(--container-wide))/2)] border-s border-line bg-sand/70 xl:block"
         />
         <div className="relative aspect-[3/2] md:hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/media/client/recipes/moroccan-fish.jpg" alt="דגים מרוקאים של שישי, מנה אמיתית מהמטבח של אלונה" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+          <Image
+            src="/media/client/recipes/moroccan-fish.jpg"
+            alt="דגים מרוקאים של שישי, מנה אמיתית מהמטבח של אלונה"
+            fill
+            sizes="(max-width: 768px) 100vw, 0px"
+            className="object-cover"
+          />
           <div aria-hidden className="grain-overlay" />
           {/* same room-edge on the mobile band */}
           <div aria-hidden className="room-edges-top" />
@@ -542,7 +555,7 @@ export default function AboutPage() {
                 style={{ fontSize: "clamp(1.7rem, 3.6vw, 2.6rem)" }}
               />
               <Reveal delay={80}>
-                <p className="mt-6 max-w-[62ch] text-lg leading-[1.7] text-slate-200">
+                <p className="mt-6 max-w-[62ch] text-lg leading-[1.7] text-on-navy">
                   {CLOSE.body}
                 </p>
               </Reveal>

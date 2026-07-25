@@ -13,7 +13,7 @@ export function KeyTakeaways({
     <aside className="survey-card rounded-[10px] border border-line bg-card p-6 md:p-7">
       <div className="flex items-center gap-2.5">
         <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
-        <span className="text-xs font-bold tracking-[.18em] text-gold-ink">{title}</span>
+        <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{title}</span>
       </div>
       <ul className="mt-4 grid gap-3 sm:grid-cols-2">
         {items.map((t, i) => (

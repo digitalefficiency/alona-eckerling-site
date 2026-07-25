@@ -61,7 +61,7 @@ export function StickyScroll({
             <div
               key={i}
               aria-hidden={i !== active}
-              className="transition-opacity duration-500"
+              className="transition-opacity duration-[var(--dur-ui)]"
               style={
                 i === 0
                   ? { opacity: i === active ? 1 : 0, position: "relative" }
