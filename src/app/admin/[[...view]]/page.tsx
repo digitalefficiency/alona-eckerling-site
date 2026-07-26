@@ -5,6 +5,8 @@ import { settingsSchema } from "@/lib/cms/settings-schema";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/cms/session";
 import { listAdminDocs } from "@/lib/cms/read";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { loadPage } from "@/lib/sections/actions";
+import type { PageSummary } from "@/components/admin/pages/PagesTab";
 import { LoginCard } from "@/components/admin/LoginCard";
 import { T } from "@/lib/cms/desk-strings";
 
@@ -33,5 +35,21 @@ export default async function AdminPage() {
   // filesystem is one build behind every publish).
   const docs = await Promise.all(collections.map((c) => listAdminDocs(c)));
 
-  return <AdminShell email={email} collections={[...collections]} docs={docs} settings={settingsSchema} />;
+  // The page documents the desk can edit. One is loaded up front — the rest
+  // load when she picks them, so the first paint is not waiting on five files.
+  const pageDoc = await loadPage("");
+  const pages: PageSummary[] = pageDoc
+    ? [{ slug: "", title: "דף הבית", route: "/", sections: pageDoc.sections.length }]
+    : [];
+
+  return (
+    <AdminShell
+      email={email}
+      collections={[...collections]}
+      docs={docs}
+      settings={settingsSchema}
+      pages={pages}
+      pageDoc={pageDoc}
+    />
+  );
 }

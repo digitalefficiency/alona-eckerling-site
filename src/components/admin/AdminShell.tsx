@@ -11,10 +11,13 @@ import { CollectionList } from "@/components/admin/CollectionList";
 import { DocEditor } from "@/components/admin/DocEditor";
 import { RecipeJourney } from "@/components/admin/recipe/RecipeJourney";
 import { SettingsForm } from "@/components/admin/SettingsForm";
+import { PagesTab, type PageSummary } from "@/components/admin/pages/PagesTab";
+import type { PageDocument } from "@/lib/sections/schema";
 
 // The desk. Views are client state, not routes — one page, one noindex, no router
 // surface to keep in sync with lint-seo/sitemap.
 type View =
+  | { kind: "pages" }
   | { kind: "list"; collectionId: string }
   | { kind: "edit"; collectionId: string; file?: string }
   | { kind: "settings"; group: string };
@@ -24,19 +27,27 @@ export function AdminShell({
   collections,
   docs,
   settings,
+  pages,
+  pageDoc,
 }: {
   email: string;
   collections: CollectionConfig[];
   docs: AdminCollection[];
   settings: Record<string, SettingsGroup>;
+  pages: PageSummary[];
+  pageDoc: PageDocument | null;
 }) {
   const settingsKeys = Object.keys(settings);
+  // Pages open first: it is the tab that covers the most of the site, and the
+  // one she has never had before.
   const [view, setView] = useState<View>(
-    collections[0]
-      ? { kind: "list", collectionId: collections[0].id }
-      : { kind: "settings", group: settingsKeys[0] ?? "" },
+    pages.length
+      ? { kind: "pages" }
+      : collections[0]
+        ? { kind: "list", collectionId: collections[0].id }
+        : { kind: "settings", group: settingsKeys[0] ?? "" },
   );
-  const activeCollectionId = view.kind === "settings" ? "" : view.collectionId;
+  const activeCollectionId = view.kind === "settings" || view.kind === "pages" ? "" : view.collectionId;
   const current = collections.find((c) => c.id === activeCollectionId);
   const bucket = docs.find((d) => d.id === activeCollectionId);
 
@@ -58,6 +69,11 @@ export function AdminShell({
             <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{T("admin.deskTitle")}</span>
           </div>
           <nav className="flex flex-wrap gap-2">
+            {pages.length > 0 && (
+              <Tab active={view.kind === "pages"} onClick={() => setView({ kind: "pages" })}>
+                עמודים
+              </Tab>
+            )}
             {collections.map((c) => (
               <Tab
                 key={c.id}
@@ -97,7 +113,9 @@ export function AdminShell({
             {T("admin.unconfigured")}
           </p>
         )}
-        {view.kind === "settings" && settings[view.group] ? (
+        {view.kind === "pages" ? (
+          <PagesTab pages={pages} initialDoc={pageDoc} />
+        ) : view.kind === "settings" && settings[view.group] ? (
           <SettingsForm name={view.group} group={settings[view.group]} />
         ) : view.kind === "list" && current ? (
           <CollectionList
