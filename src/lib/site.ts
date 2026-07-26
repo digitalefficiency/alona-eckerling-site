@@ -10,6 +10,21 @@
 // ============================================================================
 import { business, withOverrides } from "./settings";
 
+/**
+ * A public profile: ONE row in the visible social row AND one schema.org
+ * `sameAs`. Keeping both surfaces on a single record is the point — a profile
+ * can never be shown on screen while missing from the markup, or the reverse.
+ */
+export type SocialProfile = {
+  /** stable key — selects the icon and the data-cta; never shown to a reader */
+  network: "instagram" | "tiktok";
+  /** visible Hebrew label */
+  label: string;
+  /** visible handle, where the layout has room for it */
+  handle: string;
+  url: string;
+};
+
 const siteBase = {
   name: "אלונה אקרלינג",
   legalName: "אלונה אקרלינג · דיאטנית קלינית מוסמכת R.D.",
@@ -31,23 +46,35 @@ const siteBase = {
   },
   areasServed: ["אונליין בכל הארץ", "רעננה והשרון"],
 
-  // Public social profiles — emitted as schema.org `sameAs` on the Person/Org so
-  // answer engines can resolve "אלונה אקרלינג" to one entity (research: sameAs is
-  // the highest-leverage markup for AI citation). Handle @alonaeck_ from the
-  // client's own channels. [לאימות מולה שאלה הכתובות המדויקות/הפעילות לפני עלייה לאוויר]
+  // Public social profiles — the ONE source for both the visible social row
+  // (components/SocialLinks) and schema.org `sameAs`, which lets answer engines
+  // resolve "אלונה אקרלינג" to a single entity (research: sameAs is the
+  // highest-leverage markup for AI citation — MARKETING.md §36).
+  // Handle @alonaeck_ from the client's own channels.
+  // [לאימות מולה שאלה הכתובות המדויקות/הפעילות לפני עלייה לאוויר]
+  // Facebook (alona.eck) + linktr.ee/alonaeck_ are known (MATERIALS.md:32) but
+  // stay OUT until she confirms they are live — a dead sameAs weakens the entity
+  // graph rather than strengthening it.
   socials: [
-    "https://www.instagram.com/alonaeck_/",
-    "https://www.tiktok.com/@alonaeck_",
-  ] as string[],
+    { network: "instagram", label: "אינסטגרם", handle: "@alonaeck_", url: "https://www.instagram.com/alonaeck_/" },
+    { network: "tiktok", label: "טיקטוק", handle: "@alonaeck_", url: "https://www.tiktok.com/@alonaeck_" },
+  ] as readonly SocialProfile[],
   // The provider's real expertise areas → schema.org `knowsAbout` on the Person,
   // binding the entity to nutrition/coaching topics for answer engines. Derived
   // from her actual positioning + services; never invented.
+  // The last three arrived from Alona via Rom (2026-07-26) and are her stated
+  // areas of care, NOT specialist titles — she is an R.D., and these sit inside
+  // a dietitian's scope. Copy everywhere frames them as work done ALONGSIDE the
+  // treating physician. [לאימות מולה: ניסוח התחומים במילים שלה]
   knowsAbout: [
     "תזונה קלינית",
     "ליווי תזונתי לנשים",
     "הרזיה בלי דיאטה",
     "אכילה רגשית",
     "מתכונים בריאים",
+    "תזונה בהריון",
+    "תזונה בשחלות פוליציסטיות",
+    "תזונה בטרום סוכרת",
   ] as string[],
 
   // Legal / compliance — shown on /privacy /terms /accessibility.
@@ -173,6 +200,7 @@ export const team: readonly TeamMember[] = [
       "דיאטנית קלינית מוסמכת · רישיון משרד הבריאות 204526-11",
       "B.Sc במדעי התזונה · המרכז האקדמי פרס",
       "התמחות קלינית · בית החולים איכילוב",
+      "קורס בתזונת הריון",
     ],
   },
 ];
@@ -205,4 +233,10 @@ export const credentials = [
   { t: "דיאטנית קלינית מוסמכת · R.D.", d: "רישיון משרד הבריאות 204526-11" },
   { t: "B.Sc במדעי התזונה", d: "המרכז האקדמי פרס, 2024" },
   { t: "התמחות קלינית", d: "בית החולים איכילוב, 2025" },
+  // A COURSE, never a specialty title. The other three rows carry institution +
+  // year because those are verified; this one deliberately does not, because we
+  // have neither yet. Writing "מומחית לתזונת הריון" here would repeat the exact
+  // protected-title mistake MATERIALS.md §6 documents from the old Wix site.
+  // [לאימות מולה: שם הקורס, המוסד, השנה, וקיום תעודה]
+  { t: "קורס בתזונת הריון", d: "לימודי המשך, מעבר לתואר" },
 ] as const;

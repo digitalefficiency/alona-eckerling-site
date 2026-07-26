@@ -17,6 +17,7 @@ import { SplitText } from "@/components/motion/SplitText";
 import { StickyScroll } from "@/components/motion/StickyScroll";
 import { SequenceFilm, type FilmChip, type FilmCaption } from "@/components/SequenceFilm";
 import { Comparison } from "@/components/section/Comparison";
+import { DishRibbon } from "@/components/section/DishRibbon";
 import { RecognitionBadges } from "@/components/trust/RecognitionBadges";
 import { ResponsePromise } from "@/components/trust/ResponsePromise";
 import { ContactLeadForm } from "@/components/ContactLeadForm";
@@ -49,6 +50,10 @@ const HERO = {
   trustToken: "דיאטנית קלינית מוסמכת · R.D.",
   trustTokenLicense: " · רישיון משרד הבריאות",
   ctaRecipes: "עוד לא מוכנה לשיחה? המתכונים שלי כאן",
+  // decorative only (aria-hidden): tells the eye the room continues below the
+  // fold. Deliberately NOT phrased as "skip to content" — layout.tsx already
+  // ships the WCAG skip-link, and two similar promises confuse a screen reader.
+  scrollCue: "גללי",
 } as const;
 
 // COPY: ### סקשן 2 · סרט-גלילה «בניית המנה» (צ'יפים + כיתובי-תחנה)
@@ -59,6 +64,10 @@ const FILM = {
   staticBody:
     'את יודעת בדיוק מה נכון לאכול, אבל לבד זה לא מחזיק. כל ביס מגיע עם חשבון בראש, וביס אחד "לא נכון" הופך מהר ל"היום כבר נהרס". ארוחה אמיתית, בלי חשבון ובלי אשמה, אפשרית, ואת לא צריכה להגיע לזה לבד.',
   finalAlt: "צלחת מאוזנת ומלאה, ערוכה ומוכנה",
+  // the way out of the 420vh pinned runway (WCAG 2.2 — never trap the reader).
+  // It lands on §03, so skipping the problem delivers you to the person holding
+  // the way through it, never to a dead end.
+  skipLabel: "דלגי קדימה",
 } as const;
 
 // 14 verified frames — the plate builds step by step while the noise-chips pile up.
@@ -101,6 +110,8 @@ const FILM_CAPTIONS: readonly FilmCaption[] = [
 // §03 room background — the desk the dossier spreads on (generated per plan
 // layer 8: top-down desk, blank notebook, palette-locked linens, faceless).
 const GUIDE_BG = "/media/generated/03-guide-desk.jpg";
+// REAL portrait (cl-101, MEDIA-PLAN §3) — never a generated face, never stock.
+const GUIDE_PORTRAIT = "/media/client/alona/alona-guide.jpg";
 
 const GUIDE = {
   kicker: "נעים להכיר",
@@ -111,6 +122,7 @@ const GUIDE = {
     "כן, אני צעירה. וזה בדיוק מה שמאפשר לי להחזיק את המדע הכי עדכני, ולדבר איתך בגובה העיניים, לא מלמעלה.",
   name: "אלונה אקרלינג",
   role: "דיאטנית קלינית מוסמכת · R.D.",
+  portraitAlt: "אלונה אקרלינג, דיאטנית קלינית מוסמכת, אוכלת מקערה במטבח שלה",
   credentials: [
     "דיאטנית קלינית מוסמכת · R.D.",
     "רישיון משרד הבריאות 204526-11",
@@ -118,6 +130,21 @@ const GUIDE = {
     "התמחות קלינית · איכילוב",
   ],
   mechanism: ["דיאטנית שמבשלת", "נבנה סביב השבוע שלך", "מדע עדכני", "ליווי אחת-על-אחת"],
+  // COPY: ### סקשן 3 — תחומי ליווי (נוסף 2026-07-26)
+  // The dossier metaphor earns this: a file on the desk lists what it covers.
+  // The last three arrived from Alona via Rom; the first two were already in the
+  // positioning, and pairing them is what makes this read as a list of areas
+  // rather than a new announcement. [לאימות מולה: ניסוח במילים שלה]
+  areasLabel: "תחומי ליווי",
+  areas: [
+    "תזונת הריון",
+    "שחלות פוליציסטיות (PCOS)",
+    "טרום סוכרת ואיזון מדדי דם",
+    "ירידה במשקל בלי דיאטה",
+    "אכילה רגשית",
+  ],
+  // The YMYL guardrail, rendered — never a promise to move a lab value.
+  areasNote: "בתחומים הרפואיים אני עובדת לצד הרופא או הרופאה שמלווים אותך, לא במקומם.",
   cta: "בואי לראות איך עובדים יחד ←",
 } as const;
 
@@ -170,6 +197,29 @@ const PROOF = {
   darkTestimonial: "המלצות אמיתיות יופיעו כאן ברגע שיהיו. אני לא ממציאה סיפור שלא קרה.",
   darkLogos: "שיתופי פעולה ומדיה יתווספו עם האישור.",
   cta: "לכל המתכונים ←",
+} as const;
+
+// COPY: ### סקשן 5 — רצועת המנות (הרחבה של ביט ה-PROOF, 2026-07-26)
+// המנות אמיתיות ומצולמות על ידה; נבחרו לעוצמה ויזואלית באריח אחיד (MEDIA-PLAN §2)
+// — פריימים דהויים (מרק בקערת זכוכית, כוסות פרפה על שיש אפור) נפסלו בכוונה.
+const RIBBON = {
+  kicker: "מהמטבח שלי",
+  note: "כל מתכון כאן נבדק אצלי בבית לפני שהוא מגיע אלייך. אלה לא צילומי מאגר.",
+  tiles: [
+    { src: "/media/client/alona/ribbon/kale-chickpea.jpg", alt: "קערת עלים ירוקים עם חומוס קלוי ובצל סגול כבוש" },
+    { src: "/media/client/alona/ribbon/pancakes-figs.jpg", alt: "מגדל פנקייקים עם תאנים, בננה ואוכמניות" },
+    { src: "/media/client/alona/ribbon/roasted-tray.jpg", alt: "תבנית ירקות שורש צלויים עם רוזמרין ולימון" },
+    { src: "/media/client/alona/ribbon/fruit-bowl.jpg", alt: "קערת פירות חתוכים: מלון, אבטיח, קיווי ואוכמניות" },
+    { src: "/media/client/alona/ribbon/pepper-salad.jpg", alt: "סלט פלפלים צבעוניים, מלפפון ובצל" },
+    { src: "/media/client/alona/ribbon/cauliflower-dip.jpg", alt: "כרובית פריכה בציפוי זהוב לצד רוטב ירוק" },
+    { src: "/media/client/alona/ribbon/fritters-tray.jpg", alt: "תבנית אפייה מלאה בלביבות זהובות" },
+    { src: "/media/client/alona/ribbon/chickpea-bowl.jpg", alt: "קערה עם חומוס קלוי, עלים ירוקים ובצל כבוש" },
+    { src: "/media/client/alona/ribbon/quinoa-platter.jpg", alt: "מגש קינואה עם ירק קצוץ ושקדים" },
+    { src: "/media/client/alona/ribbon/lasagna-basil.jpg", alt: "לזניה בתבנית עם עלי בזיליקום טריים" },
+    { src: "/media/client/alona/ribbon/green-pasta.jpg", alt: "מחבת פסטה ברוטב ירוק עם גבינה מגוררת" },
+    { src: "/media/client/alona/ribbon/focaccia.jpg", alt: "פוקצ'ה ביתית עם שומשום וזיתים" },
+    { src: "/media/client/alona/ribbon/rice-pan.jpg", alt: "מחבת אורז צהוב עם ירקות" },
+  ],
 } as const;
 
 // COPY: ### סקשן 6 · Comparison + צעד חינם צמוד
@@ -344,6 +394,16 @@ export default function HomePage() {
             </MItem>
           </MOrchestrate>
         </Container>
+        {/* scroll cue — decorative only, and desktop only. On mobile the layout
+            is items-end with the CTA already near the fold, so a cue would both
+            crowd it and state the obvious; at lg the hero centres and the room
+            below genuinely needs announcing. Sits above the seam (z-20). */}
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-8 z-20 hidden justify-center lg:flex">
+          <span className="inline-flex flex-col items-center gap-1 text-[0.7rem] font-bold tracking-eyebrow text-muted">
+            {HERO.scrollCue}
+            <span className="hero-cue-arrow text-sm leading-none text-gold">↓</span>
+          </span>
+        </div>
       </section>
 
       {/* ── 02 · TENSION — the site's ONE signature moment: the pinned «בניית המנה»
@@ -365,6 +425,8 @@ export default function HomePage() {
             staticHeading={FILM.staticHeading}
             staticBody={FILM.staticBody}
             finalAlt={FILM.finalAlt}
+            skipHref="#guide"
+            skipLabel={FILM.skipLabel}
           />
           {/* mirror-curve seam into the dossier — opposite direction to the hero's */}
           <SeamShape variant="curve-down" />
@@ -377,8 +439,11 @@ export default function HomePage() {
              stitches (the "spec that connects while scrolling"). Portrait slot stays
              the honest empty-state (real Alona photo pending — never a generated
              face), now a waiting frame pinned to the file. Text NEVER sits on the
-             bare photo — every piece is an opaque/milky paper card (AA). ── */}
-      <section className="relative">
+             bare photo — every piece is an opaque/milky paper card (AA).
+             id="guide" is the film's escape-hatch target (§02 skip control); the
+             global scroll-padding-top of 6rem clears the fixed header, so no
+             per-section scroll-mt is needed here. ── */}
+      <section id="guide" className="relative">
         <MScrollScene
           amplitude={4}
           mediaClassName="hidden md:block"
@@ -422,15 +487,30 @@ export default function HomePage() {
                       aria-hidden
                       className="absolute -top-2 start-1/2 z-10 h-4 w-4 translate-x-1/2 rotate-45 border border-gold/60 bg-gold-soft"
                     />
+                    {/* the real portrait (2026-07-25, MEDIA-PLAN §3): the honest
+                        empty-state retired — Alona's own photo, supplied to the
+                        project Drive on 2026-07-23, now fills the calling card.
+                        The name/role stay on an OPAQUE ivory strip at the foot,
+                        never over the bare photo (this room's AA rule). */}
                     <div
-                      className="frame-double relative flex aspect-[4/5] flex-col items-center justify-center gap-3 rounded-[16px] bg-gold-soft p-8 text-center"
+                      className="frame-double relative aspect-[4/5] overflow-hidden rounded-[16px] bg-gold-soft"
                       style={{ "--frame-gap": "7px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
                     >
+                      <Image
+                        src={GUIDE_PORTRAIT}
+                        alt={GUIDE.portraitAlt}
+                        fill
+                        sizes="(max-width: 768px) 88vw, 440px"
+                        className="object-cover"
+                      />
+                      <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
                       <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
-                      <span className="relative text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-                      <div className="relative font-serif text-3xl font-bold text-navy">{GUIDE.name}</div>
-                      <span aria-hidden className="relative h-[3px] w-10 rounded-full bg-rose" />
-                      <div className="relative font-serif text-base font-semibold text-navy-700">{GUIDE.role}</div>
+                      <div className="absolute inset-x-0 bottom-0 bg-bg/94 px-5 py-4 text-center">
+                        <span className="block text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
+                        <div className="mt-2 font-serif text-2xl font-bold text-navy">{GUIDE.name}</div>
+                        <span aria-hidden className="mx-auto mt-2 block h-[3px] w-10 rounded-full bg-rose" />
+                        <div className="mt-2 font-serif text-sm font-semibold text-navy-700">{GUIDE.role}</div>
+                      </div>
                     </div>
                   </div>
                 </MItem>
@@ -461,6 +541,28 @@ export default function HomePage() {
                     </MItem>
                   ))}
                 </ul>
+                {/* areas of care — a paper slip clipped under the index tabs, so
+                    the dossier says what it covers. Deliberately quieter than the
+                    mechanism tabs above it: this is reference, not the pitch. */}
+                <MItem className="mt-6">
+                  <div className="rounded-[10px] border border-line bg-card/90 px-5 py-4 md:backdrop-blur-md">
+                    <p className="flex items-center gap-2 text-[13px] font-bold tracking-eyebrow text-gold-ink">
+                      <span className="text-[0.6rem] leading-none" aria-hidden>◆</span>
+                      {GUIDE.areasLabel}
+                    </p>
+                    <ul className="mt-3 flex flex-wrap gap-x-2.5 gap-y-2">
+                      {GUIDE.areas.map((a) => (
+                        <li
+                          key={a}
+                          className="rounded-full bg-sand px-3.5 py-1.5 text-sm font-semibold text-navy"
+                        >
+                          {a}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-3.5 text-sm leading-relaxed text-muted">{GUIDE.areasNote}</p>
+                  </div>
+                </MItem>
                 <MItem className="mt-2">
                   <Link
                     href="/coaching"
@@ -477,6 +579,28 @@ export default function HomePage() {
         {/* soft-curve seam into the plan (crest — opposite the film's trough) */}
         <SeamShape variant="curve-up" />
       </section>
+
+      {/* ── 03b · the dish ribbon — an EXTENSION of §03's GUIDE beat, not a new section.
+             §03 answers "who is she"; the ribbon answers it in her own material —
+             "a dietitian who really cooks" stops being a claim in a credential chip
+             and becomes a wall of the food she actually made. Placed here (rather
+             than beside the recipe grid at §05) so the proof-of-craft lands while
+             the reader is still meeting her. The narrative chain is untouched: no
+             new beat, no arrives/leaves contract rewritten. Archetype: marquee —
+             adjacent to overlap-layered (§03) and sticky-scroll (§04), both
+             distinct, and §21 holds marquee on /about where the rule is per-page. ── */}
+      <div className="border-y border-line bg-card py-16 sm:py-20 md:py-24">
+        <Container width="wide">
+          <p className="mb-7 flex items-center justify-center gap-2.5 text-center">
+            <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
+            <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{RIBBON.kicker}</span>
+          </p>
+        </Container>
+        <DishRibbon tiles={RIBBON.tiles} />
+        <Container width="wide">
+          <p className="mt-7 text-center text-sm text-muted">{RIBBON.note}</p>
+        </Container>
+      </div>
 
       {/* ── 04 · PLAN — sticky-scroll ladder: three named rungs climb from a free call
              to the support that stays. Rungs 01–02 carry the generated stills (the

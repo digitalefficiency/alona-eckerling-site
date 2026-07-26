@@ -4,6 +4,7 @@ import type { FieldSpec } from "@/lib/cms/config";
 import type { SettingsGroup } from "@/lib/cms/settings-schema";
 import { DUR, EASE, cssDur, cssEase } from "@/lib/motion-tokens";
 import { fetchSettings, saveSettings, type ActionResult } from "@/lib/cms/actions";
+import { MediaPicker } from "@/components/admin/MediaPicker";
 import { T } from "@/lib/cms/desk-strings";
 
 // One component for BOTH shapes the settings schema allows:
@@ -75,7 +76,19 @@ export function SettingsForm({ name, group }: { name: string; group: SettingsGro
             )}
             <div className="grid gap-5 sm:grid-cols-2">
               {group.fields.map((f) => (
-                <SettingField key={f.key} spec={f} value={item[f.key]} onChange={(v) => set(i, f.key, v)} error={errFor(i, f.key)} />
+                <SettingField
+                  key={f.key}
+                  spec={f}
+                  value={item[f.key]}
+                  // an image field is really TWO keys — `<key>` and `<key>Alt` —
+                  // exactly as validateFields reads them, so the alt a client
+                  // types is the alt the gate checks
+                  altValue={item[`${f.key}Alt`]}
+                  onChange={(v) => set(i, f.key, v)}
+                  onAltChange={(v) => set(i, `${f.key}Alt`, v)}
+                  error={errFor(i, f.key)}
+                  altError={errFor(i, `${f.key}Alt`)}
+                />
               ))}
             </div>
           </div>
@@ -121,14 +134,51 @@ export function SettingsForm({ name, group }: { name: string; group: SettingsGro
 function SettingField({
   spec,
   value,
+  altValue,
   onChange,
+  onAltChange,
   error,
+  altError,
 }: {
   spec: FieldSpec;
   value: unknown;
+  altValue?: unknown;
   onChange: (v: unknown) => void;
+  onAltChange?: (v: unknown) => void;
   error?: string;
+  altError?: string;
 }) {
+  // An image field is NOT a <label>-wrapped input — MediaPicker owns its own
+  // file input and buttons, and nesting those under one label breaks the click
+  // target. So it returns early with its own container.
+  //
+  // validateSettings already routed `image` through validateFields (the /media/
+  // prefix rule AND requiredAlt), which meant the gate had been enforcing a
+  // field the form could not actually render: a client editing a settings group
+  // with a photo in it saw a bare text box asking for a path. This closes that
+  // gap and is the reason a CMS-editable, image-bearing settings group is now
+  // possible at all.
+  if (spec.type === "image") {
+    return (
+      <div className="sm:col-span-2">
+        <span className="text-sm font-semibold text-ink">
+          {spec.label}
+          {spec.required && <span className="text-gold-ink"> *</span>}
+        </span>
+        <MediaPicker
+          url={typeof value === "string" ? value : ""}
+          alt={typeof altValue === "string" ? altValue : ""}
+          onChange={(url, alt) => {
+            onChange(url);
+            onAltChange?.(alt);
+          }}
+        />
+        {error && <p className="mt-2 text-sm font-semibold text-ink">{error}</p>}
+        {altError && <p className="mt-2 text-sm font-semibold text-ink">{altError}</p>}
+      </div>
+    );
+  }
+
   const isList = spec.type === "list";
   return (
     <label className={`block ${spec.type === "textarea" || isList ? "sm:col-span-2" : ""}`}>

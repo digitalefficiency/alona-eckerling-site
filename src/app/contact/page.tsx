@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/Container";
+import { PaperTexture } from "@/components/backgrounds/PaperTexture";
 import { SectionSeam } from "@/components/layout/SectionSeam";
 import { SeamShape } from "@/components/layout/SeamShape";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -13,6 +14,7 @@ import { maskReveal } from "@/lib/motion-variants";
 import { ResponsePromise } from "@/components/trust/ResponsePromise";
 import { ContactQuietForm } from "@/components/ContactQuietForm";
 import { IsraelReachMap } from "@/components/media/IsraelReachMap";
+import { SocialLinks } from "@/components/SocialLinks";
 import { JsonLd } from "@/components/JsonLd";
 import { professionalService } from "@/lib/schema-presets";
 import { site, services } from "@/lib/site";
@@ -87,6 +89,8 @@ const WHERE = {
     { title: "וואטסאפ בין הפגישות", body: "לא נעלמת. ערוץ אמיתי לשאלות קטנות בדרך, בחבילות הליווי." },
   ],
   chip: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
+  // COPY: ### סקשן 37 — הדרך הרביעית להיפגש, בלי להתחייב לכלום
+  socialLabel: "ואפשר גם פשוט לעקוב",
 } as const;
 
 export const metadata: Metadata = {
@@ -120,6 +124,12 @@ export default function ContactPage() {
       {/* ===== 35 · HOOK — הדלת השקטה: פרוזה ממורכזת על blush, נשיפה אחת איטית.
            COPY: ### סקשן 35 ===== */}
       <section className="relative overflow-hidden bg-blush/60">
+        {/* רצועת-מרקם מהמטבח שלה (MEDIA-PLAN §2, שכבה A). נבחר דווקא לוח השיש
+            ולא רצועת הירק: הסקשן הוא פרוזה ממורכזת על blush, ומרקם עלים נבדק כאן
+            והתברר כשגוי — הצורות הגדולות התחרו במידה, וירוק על ורוד יצא עכור.
+            השיש כמעט חסר-צורה, ולכן הוא מוסיף חום-נייר בלבד. אטימות נמוכה כי
+            הכלל של השכבה הוא שה-wash קונה חום, לא רשות לשים גוף-טקסט על צילום. */}
+        <PaperTexture name="marble" opacity={0.28} />
         <div aria-hidden className="grain-overlay" />
         <Container width="prose" className="relative py-16 sm:py-20 md:py-32">
           <Breadcrumbs items={[{ label: DOOR.crumb, href: "/contact" }]} />
@@ -326,6 +336,13 @@ export default function ContactPage() {
                 <div className="mt-9 inline-flex rounded-full bg-gold-soft/70 px-5 py-3">
                   <ResponsePromise promise={WHERE.chip} />
                 </div>
+                {/* the no-commitment way in: three of the ways above ask her to
+                    reach out, this one asks nothing at all */}
+                <SocialLinks
+                  label={WHERE.socialLabel}
+                  showHandle
+                  className="mt-8 border-t border-line pt-7"
+                />
               </div>
             </Reveal>
           </div>

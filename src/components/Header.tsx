@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { site, nav, cta } from "@/lib/site";
 import { BrandLogo } from "@/components/BrandLogo";
+import { SocialGlyph } from "@/components/SocialLinks";
 
 // Floating "island" header: a rounded, detached bar that hovers over the page.
 // DEFAULT is the solid glass island with navy text — always readable, on any hero.
@@ -91,7 +92,11 @@ export function Header() {
       <div className="mx-auto max-w-[var(--container-wide)] px-3 pt-3 md:px-5 md:pt-4">
         {/* the floating island */}
         <div
-          className={`flex items-center justify-between gap-x-6 rounded-2xl px-4 transition-all duration-[var(--dur-micro)] md:px-5 ${
+          // 3-column grid, not justify-between: the nav sits in the middle column
+          // and the two 1fr rails are equal, so the links are centred against the
+          // ISLAND rather than against whatever is left over after the logo. With
+          // justify-between the nav drifted with every logo/CTA width change.
+          className={`grid grid-cols-[1fr_auto_1fr] items-center gap-x-4 rounded-2xl px-4 transition-all duration-[var(--dur-micro)] md:px-5 ${
             condensed ? "py-2" : "py-2.5 md:py-3"
           } ${
             light
@@ -99,7 +104,7 @@ export function Header() {
               : "border border-line bg-card/85 shadow-[0_14px_44px_-22px_color-mix(in_srgb,var(--color-navy)_55%,transparent)] backdrop-blur-md"
           }`}
         >
-          <Link href="/" className="flex flex-col items-end gap-1 leading-none">
+          <Link href="/" className="flex flex-col items-end gap-1 justify-self-start leading-none">
             <BrandLogo dark={light} className={`w-auto transition-[height] duration-[var(--dur-micro)] ${condensed ? "h-7" : "h-8"}`} />
             <span
               className={`hidden text-[0.6rem] font-medium tracking-wide transition-colors sm:block ${
@@ -110,8 +115,8 @@ export function Header() {
             </span>
           </Link>
 
-          <div className="flex items-center gap-5">
-            <nav aria-label="ראשי" className="hidden items-center gap-x-4 text-[0.9rem] font-medium md:flex lg:gap-x-6 lg:text-[0.95rem]">
+          {/* middle column — the nav itself, so it centres on the island */}
+          <nav aria-label="ראשי" className="hidden items-center gap-x-4 text-[0.9rem] font-medium md:flex lg:gap-x-6 lg:text-[0.95rem]">
               {nav.map((n) => {
                 const active = isActive(n.href);
                 return (
@@ -133,7 +138,32 @@ export function Header() {
                   </Link>
                 );
               })}
-            </nav>
+          </nav>
+
+          {/* end column — socials, CTA, hamburger */}
+          <div className="flex items-center gap-2 justify-self-end sm:gap-3 md:gap-4">
+            {/* Icon-only, which the labelled-chip rule in SocialLinks deliberately
+                avoids — the island has no room for a chip, so each link carries the
+                same aria-label the chips do and the meaning lives there instead of
+                in visible text. Hidden below sm so the phone island keeps logo +
+                hamburger uncrowded; the drawer repeats them with full labels. */}
+            {site.socials.map((s) => (
+              <a
+                key={s.network}
+                href={s.url}
+                target="_blank"
+                rel="me noopener noreferrer"
+                data-cta={`header-social-${s.network}`}
+                aria-label={`${s.label} של ${site.name}, ${s.handle}, נפתח בלשונית חדשה`}
+                className={`hidden h-9 w-9 place-items-center rounded-full transition-colors duration-[var(--dur-micro)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:grid ${
+                  light
+                    ? "text-on-navy-muted hover:bg-white/10 hover:text-gold-soft"
+                    : "text-navy-700/80 hover:bg-line/60 hover:text-gold-ink"
+                }`}
+              >
+                <SocialGlyph network={s.network} className="h-[19px] w-[19px]" />
+              </a>
+            ))}
 
             <Link
               href={cta.primary.href}
@@ -210,6 +240,24 @@ export function Header() {
             >
               {cta.primary.short}
             </Link>
+            {/* the drawer has room for the labelled form, so the phone gets the
+                readable version of what the island shows as glyphs */}
+            <div className="mt-3 flex items-center gap-2 border-t border-line pt-3">
+              {site.socials.map((s) => (
+                <a
+                  key={s.network}
+                  href={s.url}
+                  target="_blank"
+                  rel="me noopener noreferrer"
+                  data-cta={`drawer-social-${s.network}`}
+                  aria-label={`${s.label} של ${site.name}, ${s.handle}, נפתח בלשונית חדשה`}
+                  className="inline-flex items-center gap-2 rounded-full border border-line px-3.5 py-2 text-sm font-semibold text-navy-700 transition-colors duration-[var(--dur-micro)] hover:border-gold/60 hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                >
+                  <SocialGlyph network={s.network} className="h-[17px] w-[17px]" />
+                  <span>{s.label}</span>
+                </a>
+              ))}
+            </div>
           </div>
         </nav>
       </div>

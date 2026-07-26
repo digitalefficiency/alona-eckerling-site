@@ -129,6 +129,10 @@
   --dur-reveal: 1s; /* DUR.reveal — premium reveals (RevealHeading lines, wipes) */
   --dur-micro: 0.25s; /* DUR.micro — hover/press micro-interactions */
   --dur-stagger: 0.08s; /* DUR.stagger — per-line/per-child stagger step */
+  --ease-linear: linear; /* EASE.linear — constant-speed loops ONLY (drift bands) */
+  --dur-drift: 96s; /* one full pass of a continuous photo band. Deliberately far
+                       slower than a logo ticker (~20-40s): this site's register is
+                       "הקול השקט", so the ribbon must DRIFT, never run. */
 }
 
 /* Base element styles MUST live in @layer base so Tailwind utilities
@@ -643,6 +647,20 @@ html.a11y-stop-motion .thread-birth path { animation: none !important; }
    STATIC (no entrance transform) so it paints immediately. Animating it (e.g. a
    Ken-Burns counter-scale) delays LCP by seconds. The hero's life comes from the
    eyebrow/headline/lead/CTA choreography instead. */
+
+/* ---- Hero scroll cue: the slow bob that says "the room continues below" ----
+   Purely decorative (aria-hidden in the markup), so freezing it costs nothing:
+   both motion gates stop the bob and the arrow simply holds still, where it
+   still reads as "down". Never animate anything the reader needs. */
+@keyframes hero-cue-bob {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50%      { transform: translateY(5px); opacity: 1; }
+}
+.hero-cue-arrow { animation: hero-cue-bob 2.4s var(--ease-out) infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-cue-arrow { animation: none !important; }
+}
+html.a11y-stop-motion .hero-cue-arrow { animation: none !important; }
 
 /* ---- HeroShutter: "image opens from both sides" entrance (opt-in, LCP-safe) ----
    Mounted only by JS after first paint; the two leaves carry the hero photo,
@@ -1171,3 +1189,32 @@ html.a11y-big-cursor * {
   pointer-events: none;
   background: linear-gradient(to bottom, var(--color-bg) 0%, transparent 100%);
 }
+
+/* ── DishRibbon (§05 proof band) — a continuous drift of her own dishes ───────
+   Tokens only: --dur-drift / --ease-linear (declared with the motion tokens above).
+   The transform is the ONLY animated property (compositor-only, no layout work).
+
+   Pause is a real affordance, not decoration: :hover for the mouse and
+   :focus-within for the keyboard, so a reader who wants to look at one dish can
+   stop the band instead of chasing it.
+
+   Static twins follow the house pattern (reduced-motion media query + the
+   accessibility-menu kill switch): the drift stops dead. The COMPONENT swaps to a
+   wrapped, fully-visible row on the same gate, so nothing is left clipped
+   off-canvas by overflow:hidden — motion is the garnish, never the content. */
+@keyframes dish-drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.dish-ribbon-track {
+  animation: dish-drift var(--dur-drift) var(--ease-linear) infinite;
+  will-change: transform;
+}
+.dish-ribbon:hover .dish-ribbon-track,
+.dish-ribbon:focus-within .dish-ribbon-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dish-ribbon-track { animation: none; }
+}
+html.a11y-stop-motion .dish-ribbon-track { animation: none !important; }

@@ -18,6 +18,7 @@ import { RevealHeading } from "@/components/motion/RevealHeading";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SpotlightCard } from "@/components/section/SpotlightCard";
 import { ResponsePromise } from "@/components/trust/ResponsePromise";
+import { SocialLinks } from "@/components/SocialLinks";
 import { JsonLd } from "@/components/JsonLd";
 import { personFromBio } from "@/lib/schema-presets";
 
@@ -35,6 +36,9 @@ const signatureScript = Solitreo({
    Studio verification stamps from COPY.md are metadata and are NOT rendered. */
 
 // COPY: ### סקשן 17 · SplitHero + Portrait 4:5
+// REAL portrait (cl-102, MEDIA-PLAN §3) — never a generated face, never stock.
+const HERO_PORTRAIT = "/media/client/alona/alona-goldenhour.jpg";
+
 const HERO = {
   crumbLabel: "עליי",
   kicker: "נעים להכיר",
@@ -87,6 +91,10 @@ const CREDENTIALS = {
   },
   bsc: { title: "B.Sc במדעי התזונה", line: "המרכז האקדמי פרס, 2024" },
   intern: { title: "התמחות קלינית · בית החולים איכילוב", line: "חצי שנה, 2025" },
+  // A COURSE, stated as a course. The rows above carry institution + year because
+  // those are verified; this one says "לימודי המשך" instead, because we do not
+  // have them yet. [לאימות מולה: שם הקורס, המוסד, השנה, קיום תעודה]
+  course: { title: "קורס בתזונת הריון", line: "לימודי המשך, מעבר לתואר" },
   craft: {
     title: "דיאטנית שמבשלת",
     line: "לא רק אומרת לך מה לאכול. יודעת בדיוק איך זה נראה במטבח האמיתי.",
@@ -94,6 +102,44 @@ const CREDENTIALS = {
     micro: "בערך 30 מתכונים, מתעדכן מדי שבוע",
   },
   bridge: 'אז אם השאלה היא "אינפלואנסרית או דיאטנית אמיתית?", הנה הרקע, גלוי לבדיקה.',
+} as const;
+
+// COPY: ### סקשן 20א · הסטנדרט המקצועי + תחומי ליווי
+// Rom's call 2026-07-26. The message is Alona's: the field is wide open, and the
+// hours of reading behind her answers are the difference. It lands on /about
+// because this page belongs to avatar C (שירה, 39, the sceptic) whose first
+// question is "is she even qualified".
+// Tone rule held: it names the REGULATORY reality (in Israel "דיאטן" is a
+// protected title but "יועץ תזונה" is not), never a competitor, and every
+// stakes line is welded to what she does instead.
+const STANDARD = {
+  kicker: "הסטנדרט שלי",
+  title: "בתזונה אפשר להגיד כמעט הכל.\nאני עובדת אחרת.",
+  body:
+    "זה תחום פרוץ. כמעט כל אחד יכול לפתוח עמוד ולתת עצות, ואין מי שיבדוק אותן. אני בחרתי בדרך הארוכה: תואר, התמחות קלינית, רישיון של משרד הבריאות, והמון שעות של קריאה ועדכון מאחורי כל תשובה. לכל המלצה שאת מקבלת ממני יש מקור. וכשהמחקר משתנה, גם ההמלצה משתנה.",
+  principles: [
+    {
+      t: "כל המלצה נשענת על מחקר",
+      d: "לא על הטרנד של החודש, ולא על מה שעבד למישהי אחרת בתנאים אחרים.",
+    },
+    {
+      t: "רישיון שאפשר לבדוק",
+      d: "רישיון משרד הבריאות 204526-11, פתוח לבדיקה של כל אחת במאגר.",
+    },
+    {
+      t: "בתחום רפואי, לצד הרופא/ה",
+      d: "בהריון, בשחלות פוליציסטיות ובטרום סוכרת אני עובדת לצד הצוות הרפואי שמלווה אותך, לא במקומו.",
+    },
+  ],
+  areasLabel: "התחומים שאני מלווה בהם",
+  // [לאימות מולה: ניסוח התחומים במילים שלה, ומה בדיוק היא עושה בכל אחד]
+  areas: [
+    "תזונת הריון",
+    "שחלות פוליציסטיות (PCOS)",
+    "טרום סוכרת ואיזון מדדי דם",
+    "ירידה במשקל בלי דיאטה",
+    "אכילה רגשית",
+  ],
 } as const;
 
 // COPY: ### סקשן 21 · Marquee (מדיה ושת"פים) · כהה עד אישור
@@ -111,6 +157,8 @@ const CLOSE = {
   promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
   button: "בואי נדבר, שיחת היכרות חינם",
   signature: "אלונה",
+  // COPY: ### סקשן 22 — לאוואטר הספקנית: עוד דרך להתרשם לפני שמדברים
+  socialLabel: "ואם בא לך קודם לראות אותי ביומיום",
 } as const;
 
 export const metadata: Metadata = {
@@ -129,6 +177,10 @@ const personSchema = personFromBio(
       "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
       "B.Sc במדעי התזונה · המרכז האקדמי פרס, 2024",
       "התמחות קלינית · בית החולים איכילוב · חצי שנה, 2025",
+      // no institution/year here on purpose — the other three rows carry them
+      // because they are verified, and inventing them for this one would put a
+      // fabricated fact into structured data, which is the worst place for it
+      "קורס בתזונת הריון",
     ],
     // Canonical Person node lives at /team/alona — use that href here too so the
     // /about Person carries the SAME @id, not a competing /about#person entity.
@@ -208,20 +260,31 @@ export default function AboutPage() {
             </Reveal>
           </div>
 
-          {/* Portrait slot - REAL Alona portraits only (YMYL). Until the photo
-              lands this renders a DESIGNED calling-card empty-state: sage wash,
-              her hand-script signature, name + role. Never a generated face,
-              never a stock image, no developer-dashed frame. When the real 4:5
-              portrait arrives it mounts here with alt={HERO.portraitLabel}. */}
+          {/* Portrait slot - REAL Alona portraits only (YMYL). FILLED 2026-07-25
+              (MEDIA-PLAN §3, asset cl-102): her own golden-hour photo, supplied
+              to the project Drive on 2026-07-23 in answer to the MATERIALS.md
+              request for source portraits. Never a generated face, never stock.
+              The flagship double frame and the hand-script signature survive —
+              the signature now sits on an OPAQUE ivory foot strip so it keeps AA
+              over the photograph instead of floating on it. */}
           <Reveal className="md:order-first">
             {/* flagship double frame — the geometric signature's calling card */}
             <div
-              className="frame-double relative mx-auto w-full max-w-[20rem] rounded-[16px] bg-gold-soft/70 md:max-w-none"
+              className="frame-double relative mx-auto w-full max-w-[20rem] overflow-hidden rounded-[16px] bg-gold-soft/70 md:max-w-none"
               style={{ aspectRatio: "4 / 5", "--frame-gap": "7px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
             >
+              <Image
+                src={HERO_PORTRAIT}
+                alt={HERO.portraitLabel}
+                fill
+                priority
+                sizes="(max-width: 768px) 80vw, 32rem"
+                className="object-cover"
+              />
+              <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
               <div aria-hidden className="grain-overlay" />
-              <div className="relative flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
-                <span className={`${signatureScript.className} text-6xl text-navy`}>
+              <div className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-2 bg-bg/94 px-6 py-5 text-center">
+                <span className={`${signatureScript.className} text-4xl leading-none text-navy`}>
                   {STORY.signature}
                 </span>
                 <span aria-hidden className="flex items-center gap-3">
@@ -229,9 +292,6 @@ export default function AboutPage() {
                   <span className="text-[0.55rem] leading-none text-gold">◆</span>
                   <span className="h-px w-12 bg-gold/60" />
                 </span>
-                <p className="font-serif text-xl font-black leading-snug text-navy">
-                  {HERO.title}
-                </p>
                 <p className="text-sm font-semibold text-muted">{CREDENTIALS.anchor.title}</p>
               </div>
             </div>
@@ -474,6 +534,20 @@ export default function AboutPage() {
                 <p className="mt-1 text-sm leading-relaxed text-muted">{CREDENTIALS.intern.line}</p>
               </div>
             </div>
+            {/* record row - continuing education (2026-07-26). Same ledger row as
+                the degree and the internship, deliberately: it belongs to her
+                background. What it must never become is a specialty title. */}
+            <div className="mt-7 flex items-center gap-5 border-b border-gold/35 pb-7">
+              <span aria-hidden className="grid h-11 w-11 shrink-0 rotate-45 place-items-center border border-gold/60 bg-card">
+                <span className="-rotate-45 text-[0.6rem] leading-none text-gold">◆</span>
+              </span>
+              <div>
+                <h3 className="font-serif text-xl font-black leading-snug text-navy">
+                  {CREDENTIALS.course.title}
+                </h3>
+                <p className="mt-1 text-sm leading-relaxed text-muted">{CREDENTIALS.course.line}</p>
+              </div>
+            </div>
           </MStagger>
           {/* ── the human counterpoint: the dietitian who cooks (real dish) ── */}
           <MStagger variants={slideIn("inline-end", 48)} className="flex" itemClassName="flex w-full">
@@ -532,6 +606,48 @@ export default function AboutPage() {
         </p>
       </Section>
 
+      {/* ===== 20א · GUIDE - the professional standard (Rom 2026-07-26). Sits
+           AFTER the ledger on purpose: the ledger proves the credentials exist,
+           this explains what she does with them, which is the sceptic's real
+           question. archetype=centered-prose (neighbours are bento-grid and
+           spotlight-card, so adjacency holds). COPY: ### סקשן 20א ===== */}
+      <Section tone="white" border>
+        <div className="mx-auto max-w-[760px]">
+          <SectionHeading eyebrow={STANDARD.kicker} title={STANDARD.title} accent="אחרת" />
+          <Reveal delay={80}>
+            <p className="mt-7 text-lg leading-[1.75] text-ink">{STANDARD.body}</p>
+          </Reveal>
+          <MStagger as="ul" className="mt-10 flex flex-col gap-7" variants={slideIn("inline-start", 32)}>
+            {STANDARD.principles.map((p) => (
+              <li key={p.t} className="flex items-start gap-4 border-b border-line pb-6 last:border-b-0 last:pb-0">
+                <span aria-hidden className="mt-1.5 grid h-8 w-8 shrink-0 rotate-45 place-items-center border border-gold/60">
+                  <span className="-rotate-45 text-[0.55rem] leading-none text-gold">◆</span>
+                </span>
+                <div>
+                  <h3 className="font-serif text-xl font-black leading-snug text-navy">{p.t}</h3>
+                  <p className="mt-1.5 leading-relaxed text-muted">{p.d}</p>
+                </div>
+              </li>
+            ))}
+          </MStagger>
+          <Reveal delay={160}>
+            <div className="mt-11 rounded-[16px] bg-sand p-7">
+              <p className="flex items-center gap-2 text-[13px] font-bold tracking-eyebrow text-gold-ink">
+                <span className="text-[0.6rem] leading-none" aria-hidden>◆</span>
+                {STANDARD.areasLabel}
+              </p>
+              <ul className="mt-4 flex flex-wrap gap-x-2.5 gap-y-2">
+                {STANDARD.areas.map((a) => (
+                  <li key={a} className="rounded-full border border-line bg-card px-4 py-2 text-sm font-semibold text-navy">
+                    {a}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+      </Section>
+
       {/* ===== 22 · RESOLUTION - one elevated spotlight-card: the no-pressure
            invitation to see for herself + recipes side-door + Person JSON-LD.
            COPY: ### סקשן 22 ===== */}
@@ -576,6 +692,12 @@ export default function AboutPage() {
                     {CLOSE.recipes}
                   </Link>
                 </div>
+              </Reveal>
+              {/* the skeptic's off-ramp (avatar C): /about exists to answer
+                  "is she even qualified", and some readers want to watch a while
+                  before they talk. Give them somewhere to go that isn't away. */}
+              <Reveal delay={140}>
+                <SocialLinks tone="dark" label={CLOSE.socialLabel} showHandle className="mt-9" />
               </Reveal>
               <Reveal delay={160}>
                 <div className="mt-10 flex flex-col gap-5 border-t border-white/15 pt-6 sm:flex-row sm:items-end sm:justify-between">

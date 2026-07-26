@@ -60,6 +60,10 @@ export type SequenceFilmProps = {
   holdStart?: number;
   /** land on the last frame at this progress (hold through the resolution) */
   holdEnd?: number;
+  /** escape hatch — anchor target past the pinned region (e.g. "#guide") */
+  skipHref?: string;
+  /** escape hatch — visible label; the control renders only when BOTH are set */
+  skipLabel?: string;
 };
 
 export function SequenceFilm({
@@ -74,6 +78,8 @@ export function SequenceFilm({
   staticKicker,
   holdStart = 0.08,
   holdEnd = 0.78,
+  skipHref,
+  skipLabel,
 }: SequenceFilmProps) {
   const motionAllowed = useMotionAllowed();
   const [mounted, setMounted] = useState(false);
@@ -232,6 +238,49 @@ export function SequenceFilm({
       style={reserveRunway ? { height: `${height}vh` } : undefined}
       aria-label={staticHeading}
     >
+      {/* ── Layer C — the ESCAPE HATCH (WCAG: never trap a reader in a pinned
+             region). Three things this layer gets right, each the hard way:
+
+             1. It sits OUTSIDE the cinema's aria-hidden subtree. The stage below
+                is aria-hidden="true" wall to wall; a focusable anchor inside it
+                would be reachable by Tab yet unannounced by a screen reader —
+                a worse failure than having no skip at all.
+             2. It is gated on `reserveRunway`, NOT on `cinema`. The runway is
+                reserved at hydration but the stage only mounts after
+                window.load + 300ms + frame-0 decode. On a slow connection that
+                gap is seconds of a 420vh box with no way out.
+             3. It is `h-0` and rendered FIRST. Two sticky siblings at h-[100svh]
+                would stack to 200svh of flow and tear the layout apart; at zero
+                height it costs nothing and its sticky origin is y=0, so it pins
+                from the very top. z-20 lifts it over the stage, which paints
+                later in DOM order at z-index auto. ── */}
+      {reserveRunway && skipHref && skipLabel && (
+        // EVERY breakpoint (Rom's call): the runway is 420vh of pinned stage on a
+        // desktop too, so the reader is just as stuck there as on a phone. The
+        // only other way out at any width is the header nav, which is not an
+        // answer to "let me past this film".
+        <div className="sticky top-0 z-20 h-0">
+          <a
+            href={skipHref}
+            data-cta="film-skip"
+            // Vertical offset is RESPONSIVE because the obstacle is: below md the
+            // StickyContactBar is fixed over the same viewport and the chip sat
+            // UNDER it (in the DOM, invisible on the phone — precisely the failure
+            // this escape hatch exists to prevent), so it clears --chrome-bottom.
+            // At md+ that bar does not render at all, and keeping the offset would
+            // strand the chip ~56px above the fold for no reason.
+            //
+            // Rest of the class list: the same paper-chip vocabulary as the
+            // thought-chips and the kicker, so the way out belongs to the film
+            // rather than floating over it.
+            className="absolute start-6 top-[calc(100svh-var(--chrome-bottom)-3.25rem)] inline-flex items-center gap-1.5 rounded-full border border-line bg-bg/85 px-4 py-2 text-[0.78rem] font-bold text-ink shadow-sm backdrop-blur-[2px] transition-colors duration-[var(--dur-micro)] hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold md:top-[calc(100svh-3.25rem)]"
+          >
+            {skipLabel}
+            <span aria-hidden>↓</span>
+          </a>
+        </div>
+      )}
+
       {/* ── Layer B — the cinema (mounts only when motion is allowed) ── */}
       {cinema && (
         // h-[100svh] (not h-screen): the stage lives inside the SMALL viewport that

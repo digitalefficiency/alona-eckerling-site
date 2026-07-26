@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { site, services, nav, currentYear } from "@/lib/site";
 import { CookiePrefsButton } from "@/components/CookiePrefsButton";
+import { SocialLinks } from "@/components/SocialLinks";
 
 export function Footer() {
   return (
@@ -10,6 +11,10 @@ export function Footer() {
           <p className="font-serif text-lg font-black text-white">{site.name}</p>
           <p className="mt-2 text-sm leading-relaxed">{site.tagline}</p>
           <p className="mt-3 text-sm text-on-navy-muted">מאז {site.foundingYear}</p>
+          {/* the everyday channel — the site is where she explains, the feed is
+              where she shows up. Footer, never the header: an outbound link in
+              the primary nav leaks visitors before they ever reach the form. */}
+          <SocialLinks tone="dark" label="גם כאן, כל יום" className="mt-5" />
         </div>
 
         <div>
