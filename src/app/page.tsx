@@ -24,6 +24,11 @@ import { JsonLd } from "@/components/JsonLd";
 import { professionalService } from "@/lib/schema-presets";
 import { site, services } from "@/lib/site";
 import { listDocs, type CollectionEntry } from "@/lib/collections";
+import { getPublishedPage, sectionPayload } from "@/lib/sections/source";
+import type {
+  HomeHeroPayload, HomeFilmPayload, HomeGuidePayload, HomePlanPayload,
+  HomeProofPayload, HomeStakesPayload, HomeSuccessPayload, HomeCtaPayload,
+} from "@/lib/sections/payloads";
 
 // ============================================================================
 // בית — composed from plan/sections/01..08 (beats: HOOK→TENSION→GUIDE→PLAN→
@@ -35,31 +40,31 @@ import { listDocs, type CollectionEntry } from "@/lib/collections";
 // The hero room's poster — first frame of the ring-loop film (K1 overhead:
 // empty plate surrounded by abundance). ALSO the LCP — the video starts on
 // this exact frame, so the swap from poster to film is invisible.
-const HERO_POSTER = "/media/generated/01-hero-film-poster.jpg";
-
-const HERO = {
+// The hero's copy now lives in content/pages/home.json and is edited from the
+// desk. What stays here is only what the EDITOR must not own: the trust line is
+// split in two because the license clause hides below sm so the pill stays one
+// line, and that split is a layout fact, not a sentence she wrote.
+//
+// HERO_FALLBACK is the copy exactly as it shipped. It is used only when the
+// document cannot be read at all, so a filesystem hiccup degrades to the page
+// everyone already knows instead of to an empty hero.
+const HERO_FALLBACK: HomeHeroPayload = {
   kicker: "תזונת נשים · ליווי אישי",
   title: "את כבר יודעת מה לאכול.\nמה שחסר זה לא עוד תפריט.",
+  titleAccent: "לא עוד תפריט",
   lede: "אלא דרך שנבנית סביב השבוע האמיתי שלך, בלי לוותר על האוכל שאת אוהבת. כדי שסוף-סוף יהיה שקט בראש, והתוצאה תישאר.",
   ctaPrimary: "בואי נדבר",
   ctaSub: "שיחת היכרות חינם",
-  // ONE trust line, split for the pill's sake: on <sm the license clause hides so
-  // the pill stays a single-line pill (the full license lives in GUIDE.credentials
-  // and /about); nothing is added or reworded — only shown by width.
   trustToken: "דיאטנית קלינית מוסמכת · R.D.",
   trustTokenLicense: " · רישיון משרד הבריאות",
   ctaRecipes: "עוד לא מוכנה לשיחה? המתכונים שלי כאן",
-} as const;
+  poster: "/media/generated/01-hero-film-poster.jpg",
+  filmWebm: "/media/generated/01-hero-film.webm",
+  filmMp4: "/media/generated/01-hero-film.mp4",
+};
 
 // COPY: ### סקשן 2 · סרט-גלילה «בניית המנה» (צ'יפים + כיתובי-תחנה)
-const FILM = {
-  kicker: "מוכר לך? · צלחת אחת, ערב אחד",
-  staticKicker: "מוכר לך?",
-  staticHeading: "ניסית כבר הכל, והאוכל עדיין מרגיש כמו מלחמה.",
-  staticBody:
-    'את יודעת בדיוק מה נכון לאכול, אבל לבד זה לא מחזיק. כל ביס מגיע עם חשבון בראש, וביס אחד "לא נכון" הופך מהר ל"היום כבר נהרס". ארוחה אמיתית, בלי חשבון ובלי אשמה, אפשרית, ואת לא צריכה להגיע לזה לבד.',
-  finalAlt: "צלחת מאוזנת ומלאה, ערוכה ומוכנה",
-} as const;
+
 
 // 14 verified frames — the plate builds step by step while the noise-chips pile up.
 const FILM_FRAMES = [
@@ -81,20 +86,23 @@ const FILM_FRAMES = [
 
 // COPY: ### סקשן 2 — צ'יפי-מחשבות (5, הרעש בקולה); accumulate to the noise peak,
 // then clear together at the turn (positions/windows are art direction, layer 6).
-const FILM_CHIPS: readonly FilmChip[] = [
-  { text: "אוקיי, סלט. בטוח.", from: 0.13, to: 0.55, position: { top: "18%", insetInlineStart: "8%" }, tilt: -2 },
-  { text: "רגע, קינואה זה פחמימה?", from: 0.21, to: 0.55, position: { top: "32%", insetInlineEnd: "7%" }, tilt: 2 },
-  { text: "בטטה בערב?!", from: 0.29, to: 0.55, position: { top: "52%", insetInlineStart: "12%" }, tilt: -1.5 },
-  { text: "כמה קלוריות זה כבר?", from: 0.37, to: 0.55, position: { top: "24%", insetInlineStart: "34%" }, tilt: 1.5 },
-  { text: "טחינה זה שמן... אבל אני אוהבת.", from: 0.45, to: 0.55, position: { top: "62%", insetInlineEnd: "12%" }, tilt: -2.5 },
+// Positions, tilts and scroll windows are art direction (layer 6) and stay
+// here. The TEXT is merged in from the section payload by index, so the desk
+// can reword a thought without being handed a coordinate system.
+const FILM_CHIP_CHOREO = [
+  { from: 0.13, to: 0.55, position: { top: "18%", insetInlineStart: "8%" }, tilt: -2 },
+  { from: 0.21, to: 0.55, position: { top: "32%", insetInlineEnd: "7%" }, tilt: 2 },
+  { from: 0.29, to: 0.55, position: { top: "52%", insetInlineStart: "12%" }, tilt: -1.5 },
+  { from: 0.37, to: 0.55, position: { top: "24%", insetInlineStart: "34%" }, tilt: 1.5 },
+  { from: 0.45, to: 0.55, position: { top: "62%", insetInlineEnd: "12%" }, tilt: -2.5 },
 ];
 
 // COPY: ### סקשן 2 — כיתובי-תחנה (4): פתיחה → תפנית → שיא → סיום
-const FILM_CAPTIONS: readonly FilmCaption[] = [
-  { big: "ארוחת ערב. כמה קשה זה כבר יכול להיות?", from: 0, to: 0.12 },
-  { big: "שומעת את הרעש הזה?", small: "זה לא רעב. זו כל דיאטה שנשארה לך בראש.", tone: "turn", from: 0.56, to: 0.7 },
-  { big: "ארוחה אמיתית. בלי חשבון, בלי אשמה.", from: 0.72, to: 0.85 },
-  { big: "ואת לא צריכה להגיע לזה לבד.", small: "בדיוק בשביל זה יש ליווי.", from: 0.86, to: 0.985 },
+const FILM_CAPTION_CHOREO: readonly Omit<FilmCaption, "big" | "small">[] = [
+  { from: 0, to: 0.12 },
+  { tone: "turn", from: 0.56, to: 0.7 },
+  { from: 0.72, to: 0.85 },
+  { from: 0.86, to: 0.985 },
 ];
 
 // COPY: ### סקשן 3 · FeatureRow + BioCard + CredentialStrip
@@ -102,51 +110,10 @@ const FILM_CAPTIONS: readonly FilmCaption[] = [
 // layer 8: top-down desk, blank notebook, palette-locked linens, faceless).
 const GUIDE_BG = "/media/generated/03-guide-desk.jpg";
 
-const GUIDE = {
-  kicker: "נעים להכיר",
-  title: "אני מכירה את הבלבול הזה",
-  empathy:
-    "גם אני עמדתי מול הבלגן הזה. בשלב מסוים כבר לא ידעתי מה נכון ומה לא נכון. בדיוק בגלל זה הלכתי ללמוד, כדי להבין מה באמת קורה בגוף שלנו.",
-  ageLine:
-    "כן, אני צעירה. וזה בדיוק מה שמאפשר לי להחזיק את המדע הכי עדכני, ולדבר איתך בגובה העיניים, לא מלמעלה.",
-  name: "אלונה אקרלינג",
-  role: "דיאטנית קלינית מוסמכת · R.D.",
-  credentials: [
-    "דיאטנית קלינית מוסמכת · R.D.",
-    "רישיון משרד הבריאות 204526-11",
-    "B.Sc במדעי התזונה",
-    "התמחות קלינית · איכילוב",
-  ],
-  mechanism: ["דיאטנית שמבשלת", "נבנה סביב השבוע שלך", "מדע עדכני", "ליווי אחת-על-אחת"],
-  cta: "בואי לראות איך עובדים יחד ←",
-} as const;
+
 
 // COPY: ### סקשן 4 · ProcessTimeline (3 שלבים)
-const PLAN = {
-  kicker: "איך זה עובד",
-  title: "שלושה צעדים, בשפה שלך",
-  // the "לא X אלא Y" flip is the hero's line and stays THERE alone (it read as a
-  // pasted twin here); the plan states the same thing plainly, in her own voice.
-  lead: "תפריטים כבר יש לך. הדרך צריכה להיבנות סביב השבוע שלך.",
-  steps: [
-    {
-      n: "01",
-      t: "שיחת היכרות",
-      d: "שיחה קצרה, בחינם ובלי שום התחייבות. את מספרת לי מה עובר עלייך עכשיו, מה כבר ניסית, ומה הכי מעייף אותך סביב האוכל, ואני בעיקר מקשיבה. בסוף השיחה נבין ביחד אם אני האדם הנכון ללוות אותך, ואם התשובה היא לא, אגיד לך את זה בכנות. זו שיחה, לא שיחת מכירה, ואת לא צריכה להגיע אליה מוכנה.",
-    },
-    {
-      n: "02",
-      t: "פגישה עמוקה + תוכנית אישית",
-      d: "פגישה של 60 עד 75 דקות שיושבת לעומק: מה את אוהבת לאכול, איך נראה היום שלך באמת, מה כבר ניסית ומה נשבר בדרך, ובדיקות דם אם רלוונטי. אין כאן שיפוט ואין רשימת איסורים, יש הקשבה למה שבאמת קורה אצלך בשבוע. מהפגישה את יוצאת עם תוכנית אישית שנבנית סביב החיים שלך ולא במקומם, והאוכל שאת אוהבת נשאר בפנים. התוכנית נשארת אצלך, ולא נעלמת ברגע שיצאת מהחדר.",
-    },
-    {
-      n: "03",
-      t: "ליווי שנשאר",
-      d: "אני לא נעלמת אחרי הפגישה, וזה בדיוק החלק שרוב הדיאטות מפספסות. בחבילות הליווי אני איתך בוואטסאפ בין המפגשים, לשאלות הקטנות שצצות באמצע היום ולרגעים שבהם מתחשק לוותר, ויש גם פידבק על יומן האכילה ומפגשי מעקב לאורך הדרך. ככה הדברים מפסיקים להיות רעיון יפה ונכנסים לשגרה, גם בשבועות העמוסים. המטרה שלי היא שלא תישארי לבד מול האתגרים של היום יום, ושבסוף הדרך יישאר לך משהו שהוא כבר שלך. לא עוד דיאטה שנגמרת.",
-    },
-  ],
-  cta: "רוצה לראות איך זה נראה בפועל? הצצה למטבח שלי ←",
-} as const;
+
 
 // Rung media (rungs 01–02 only; rung 03 keeps the designed sage panel so the ladder
 // ends on the site's own calm). 01 stays the generated still — decorative, alt="".
@@ -162,64 +129,16 @@ const PLAN_MEDIA: readonly { src: string; alt: string }[] = [
 ];
 
 // COPY: ### סקשן 5 · RecipeCard grid + ResultCard
-const PROOF = {
-  kicker: "תראי בעצמך",
-  title: "היא באמת מבשלת",
-  body: "לא עוד תמונה יפה. אוכל אמיתי שאני מבשלת, מתוך שבוע רגיל ועמוס.",
-  countChip: "בערך 30 מתכונים · מתכון חדש כל שבוע",
-  darkTestimonial: "המלצות אמיתיות יופיעו כאן ברגע שיהיו. אני לא ממציאה סיפור שלא קרה.",
-  darkLogos: "שיתופי פעולה ומדיה יתווספו עם האישור.",
-  cta: "לכל המתכונים ←",
-} as const;
+
 
 // COPY: ### סקשן 6 · Comparison + צעד חינם צמוד
-const STAKES = {
-  kicker: "נמאס מהסבב הזה?",
-  title: "עוד שנה רועשת, או דרך שסוף-סוף שקטה",
-  cue: "הדרך שאני ממליצה עליה",
-  quiet: {
-    label: "הדרך השקטה",
-    note: "פעם אחת, בליווי, והאוכל שאת אוהבת נשאר על השולחן",
-    points: [
-      "דרך שנבנית סביב השבוע האמיתי שלך",
-      "שקט. לאכול בלי לספור ובלי להתנצל",
-      "משהו שנשאר איתך, כי זו לא עוד דיאטה",
-      "אחת-על-אחת, גם בין הפגישות",
-    ],
-  },
-  noisy: {
-    label: "עוד שנה רועשת",
-    note: "עוד דיאטה שמתחילה ביום ראשון ונשברת ברביעי",
-    points: [
-      "תפריט חדש שאת כבר יודעת שלא יחזיק",
-      "רעש בראש סביב כל ארוחה, ואשמה אחריה",
-      '"הפעם זה יחזיק", שכבר אמרת לעצמך',
-      "לבד מול עוד ניסיון",
-    ],
-  },
-  band: "במקום עוד שנה כזאת, בואי נדבר. שיחת היכרות בלי עלות ובלי התחייבות.",
-  bandCta: "בואי נדבר ←",
-  bandSecondary: "או קחי בינתיים הצצה למתכונים",
-} as const;
+
 
 // COPY: ### סקשן 7 · חצי-קומפוזיציה: still-ערב + PullQuote (רעש→שקט)
-const SUCCESS = {
-  kicker: "ככה זה יכול להרגיש",
-  lines: "בפעם הראשונה, אני לא בדיאטה.\nאכלתי בחוץ, נהניתי, ובלי אשמה.\nיש לי אנרגיה, ובראש שקט.",
-  bridge: "וזה מתחיל בשיחה אחת, בלי לחץ. ←",
-} as const;
+
 
 // COPY: ### סקשן 8 · ContactLeadForm (פאנל נייבי #lead)
-const CTA = {
-  title: "בואי נדבר.\nהצעד הראשון קטן, וחינם.",
-  body: "שיחת היכרות קצרה, בלי התחייבות. נכיר, ונבין יחד אם אני האדם הנכון ללוות אותך אל השקט הזה.",
-  packages:
-    "הליווי נמכר בחבילות שמתאימות לחיים שלך. על זה בדיוק נדבר בשיחה, בלי הפתעות ובלי מחיר שקופץ מהמסך.",
-  promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
-  // split like HERO.trustToken: the license clause hides below sm (pill stays one line)
-  trustToken: "דיאטנית קלינית מוסמכת · R.D.",
-  trustTokenLicense: " · רישיון משרד הבריאות",
-} as const;
+
 
 // One neutral meta line at most (mirrors the archive's tileMeta): a real prep
 // time, then the first diet tag — never invented numbers (YMYL).
@@ -231,7 +150,24 @@ function recipeMeta(e: CollectionEntry): string | undefined {
   return parts.length ? parts.slice(0, 2).join(" · ") : undefined;
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  // ONE read for the whole page. Every section below takes its words from here;
+  // what stays in this file is only what the editor must not own — the film
+  // frames, the scroll choreography, the generated room stills.
+  const page = await getPublishedPage("");
+  const HERO = sectionPayload<HomeHeroPayload>(page, "hero") ?? HERO_FALLBACK;
+  const FILM = sectionPayload<HomeFilmPayload>(page, "film")!;
+  const GUIDE = sectionPayload<HomeGuidePayload>(page, "guide")!;
+  const PLAN = sectionPayload<HomePlanPayload>(page, "plan")!;
+  const PROOF = sectionPayload<HomeProofPayload>(page, "proof")!;
+  const STAKES = sectionPayload<HomeStakesPayload>(page, "stakes")!;
+  const SUCCESS = sectionPayload<HomeSuccessPayload>(page, "success")!;
+  const CTA = sectionPayload<HomeCtaPayload>(page, "cta")!;
+
+  // words in, choreography unchanged — paired by index
+  const FILM_CHIPS: FilmChip[] = FILM_CHIP_CHOREO.map((c, i) => ({ ...c, text: FILM.chips[i] ?? "" }));
+  const FILM_CAPTIONS: FilmCaption[] = FILM_CAPTION_CHOREO.map((c, i) => ({ ...c, ...FILM.captions[i] }));
+
   // Real recipe cards from the CMS (proof-of-craft) — real client photography
   // only. The FULL pool goes to the client grid, which shows a random trio per
   // visit (Rom's call 2026-07-19: no "newest" highlight, fresh three each time).
@@ -271,9 +207,9 @@ export default function HomePage() {
              ever read it) and was removed. ── */}
       <section className="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-bg lg:items-center" style={{ "--grade-tint": "var(--hour-morning)" } as React.CSSProperties}>
         <HeroFilm
-          poster={HERO_POSTER}
-          webm="/media/generated/01-hero-film.webm"
-          mp4="/media/generated/01-hero-film.mp4"
+          poster={HERO.poster}
+          webm={HERO.filmWebm}
+          mp4={HERO.filmMp4}
           objectPosition="70% center"
         />
         <div aria-hidden className="hero-scrim" />
@@ -295,7 +231,7 @@ export default function HomePage() {
               autoplay
               // the rose ANSWERS the question — a hand-drawn rule under the
               // promise, after the line lands («חוט ואור» move 4)
-              accentText="לא עוד תפריט"
+              accentText={HERO.titleAccent}
               className="mt-5 font-serif font-black leading-[1.12] text-navy"
               style={{ fontSize: "clamp(2.1rem, 5vw, 3.3rem)" }}
             />
@@ -405,7 +341,7 @@ export default function HomePage() {
           <Container width="wide" className="py-16 sm:py-20 md:py-32">
             {/* the heading rides its own paper strip — never bare over the photo */}
             <div className="inline-block rounded-[10px] bg-bg/90 md:px-7 md:py-5 md:backdrop-blur-sm">
-              <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} accent="מכירה" />
+              <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} accent={GUIDE.titleAccent} />
             </div>
             <MOrchestrate className="relative mt-12 grid items-start gap-x-12 gap-y-9 md:grid-cols-[0.85fr_1.15fr]">
               {/* file anchor column — RTL inline-start (right): the calling card,
@@ -501,7 +437,7 @@ export default function HomePage() {
           }
         >
         <Container width="wide" className="py-16 sm:py-20 md:py-32">
-          <SectionHeading eyebrow={PLAN.kicker} title={PLAN.title} lead={PLAN.lead} accent="בשפה שלך" />
+          <SectionHeading eyebrow={PLAN.kicker} title={PLAN.title} lead={PLAN.lead} accent={PLAN.titleAccent} />
           <StickyScroll
             className="mt-14"
             mediaSide="start"
@@ -581,7 +517,7 @@ export default function HomePage() {
       {/* ── 05 · PROOF — card-grid: a random trio of real CMS recipes per visit;
              testimonial + media-logo slots stay honestly DARK until real. ── */}
       <Section tone="white" border id="proof">
-        <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.body} accent="באמת" />
+        <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.body} accent={PROOF.titleAccent} />
         <div className="mt-6">
           <span className="inline-block rounded-full bg-gold-soft px-4 py-1.5 text-sm font-semibold text-gold-ink">
             {PROOF.countChip}
@@ -618,7 +554,7 @@ export default function HomePage() {
       <section className="relative" style={{ "--grade-tint": "var(--hour-golden)" } as React.CSSProperties}>
         <Container width="wide" className="pb-32 pt-4 sm:pb-36 md:pb-44 md:pt-6">
           <div className="relative z-10 rounded-[16px] border border-line bg-bg p-7 shadow-[var(--elevation-2)] md:p-10">
-            <SectionHeading eyebrow={STAKES.kicker} title={STAKES.title} accent="שקטה" />
+            <SectionHeading eyebrow={STAKES.kicker} title={STAKES.title} accent={STAKES.titleAccent} />
             <p className="mt-8 font-serif text-lg italic text-rose-ink">{STAKES.cue}</p>
             <Comparison
               className="mt-5"
