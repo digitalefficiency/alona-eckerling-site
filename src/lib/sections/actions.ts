@@ -106,3 +106,30 @@ export async function loadPage(slug: string): Promise<PageDocument | null> {
     return null;
   }
 }
+
+/**
+ * Every page the desk can list. A page appears here as soon as its document
+ * exists, whether or not every one of its sections has a registry entry yet —
+ * PageView renders an un-modelled section as a card that says so, which is a
+ * truthful "not yet" rather than a page that pretends to have fewer parts.
+ */
+export async function listPages(): Promise<{ slug: string; title: string; route: string; sections: number }[]> {
+  if (!(await requireSession())) return [];
+  const known = [
+    { slug: "", title: "דף הבית", route: "/" },
+    { slug: "about", title: "עליי", route: "/about" },
+    { slug: "coaching", title: "איך עובדים איתי", route: "/coaching" },
+    { slug: "contact", title: "צור קשר", route: "/contact" },
+    { slug: "testimonials", title: "המלצות", route: "/testimonials" },
+  ];
+  const out = [];
+  for (const p of known) {
+    try {
+      const doc = JSON.parse(await readFile(fileFor(p.slug), "utf8")) as PageDocument;
+      out.push({ ...p, sections: doc.sections.length });
+    } catch {
+      // no document yet — the page is still rendered from code
+    }
+  }
+  return out;
+}

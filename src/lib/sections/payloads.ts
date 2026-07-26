@@ -107,3 +107,245 @@ export type HomeCtaPayload = {
   trustToken: string;
   trustTokenLicense: string;
 };
+
+// ── the four remaining pages ────────────────────────────────────────────────
+// Generated from the same map that produced the registry and the documents, so
+// a field cannot be described to the editor, stored in the document and unknown
+// to the compiler.
+
+// /testimonials
+export type TestimonialsHeroPayload = {
+  kicker: string;
+  title: string;
+  body: string;
+  bridge: string;
+  invite: string;
+  cta: string;
+};
+
+export type TestimonialsGridPayload = {
+  title: string;
+  emptyLead: string;
+  emptyBody: string;
+  redirectIntro: string;
+  redirects: string[];
+  reciprocity: string;
+};
+
+export type TestimonialsCtaPayload = {
+  title: string;
+  body: string;
+  packages: string;
+  promise: string;
+  trustToken: string;
+  ctaPrimary: string;
+  ctaRecipes: string;
+};
+
+// /contact
+export type ContactDoorPayload = {
+  crumb: string;
+  kicker: string;
+  title: string;
+  body: string;
+  bodyAccent: string;
+  cta: string;
+  ctaSub: string;
+  promise: string;
+  place: string;
+  trustToken: string;
+};
+
+export type ContactLeadPayload = {
+  title: string;
+  titleAccent: string;
+  body: string;
+  packages: string;
+  nameLabel: string;
+  phoneLabel: string;
+  messageLabel: string;
+  emailLabel: string;
+  consentLabel: string;
+  submitLabel: string;
+  submittingLabel: string;
+  whatsappLabel: string;
+  thanks: string;
+  thanksLink: string;
+  promise: string;
+  place: string;
+  trustToken: string;
+};
+
+export type ContactWherePayload = {
+  kicker: string;
+  title: string;
+  body: string;
+  items: { title: string; body: string }[];
+  chip: string;
+};
+
+// /about
+export type AboutHeroPayload = {
+  crumbLabel: string;
+  kicker: string;
+  title: string;
+  lede: string;
+  licenseChip: string;
+  ctaPrimary: string;
+  ctaPrimarySub: string;
+  ctaMicro: string;
+  ctaSecondary: string;
+  portraitLabel: string;
+  portraitSignature: string;
+  portraitRole: string;
+};
+
+export type AboutStoryPayload = {
+  kicker: string;
+  title: string;
+  p1: string;
+  p2: string;
+  credo1: string;
+  credo2: string;
+  credo2Accent: string;
+  signOff: string;
+  signature: string;
+  image: string;
+  imageAlt: string;
+};
+
+export type AboutAgePayload = {
+  kicker: string;
+  quote: string;
+  quoteAccent: string;
+  support: string;
+  signature: string;
+};
+
+export type AboutCredentialsPayload = {
+  kicker: string;
+  title: string;
+  titleAccent: string;
+  anchorTitle: string;
+  anchorLine: string;
+  anchorVerify: string;
+  anchorVerifyHref: string;
+  bscTitle: string;
+  bscLine: string;
+  internTitle: string;
+  internLine: string;
+  craftTitle: string;
+  craftLine: string;
+  craftLink: string;
+  craftMicro: string;
+  craftImage: string;
+  craftImageAlt: string;
+  bridge: string;
+  teamLink: string;
+};
+
+export type AboutPressPayload = {
+  reserved: string;
+};
+
+export type AboutCtaPayload = {
+  kicker: string;
+  title: string;
+  body: string;
+  recipes: string;
+  trustToken: string;
+  button: string;
+  signature: string;
+};
+
+// /coaching
+export type PageMetaPayload = {
+  title: string;
+  serviceName: string;
+  serviceType: string;
+};
+
+export type CoachingHeroPayload = {
+  breadcrumb: string;
+  kicker: string;
+  title: string;
+  body: string;
+  trustToken: string;
+  ctaPrimary: string;
+  ctaSub: string;
+  ctaWhatsapp: string;
+  micro: string;
+};
+
+export type CoachingProblemPayload = {
+  kicker: string;
+  title: string;
+  titleAccent: string;
+  lead: string;
+  body1: string;
+  quote: string;
+  quoteAccent: string;
+  body2: string;
+  cta: string;
+};
+
+export type CoachingMethodPayload = {
+  kicker: string;
+  title: string;
+  titleAccent: string;
+  pillars: { title: string; body: string }[];
+  cta: string;
+};
+
+export type CoachingPackagesPayload = {
+  kicker: string;
+  title: string;
+  titleAccent: string;
+  lead: string;
+  facts: string[];
+  fitLabel: string;
+  includedLabel: string;
+  cardCta: string;
+  sharedLine: string;
+  packages: { slug: string; name: string; chip: string; fit: string; included: string[]; highlight: boolean }[];
+};
+
+export type CoachingProcessPayload = {
+  kicker: string;
+  title: string;
+  lead: string;
+  steps: { t: string; d: string }[];
+  cta: string;
+};
+
+export type CoachingProofPayload = {
+  kicker: string;
+  title: string;
+  titleAccent: string;
+  lead: string;
+  photo: string;
+  photoAlt: string;
+  tiles: { src: string; alt: string }[];
+  testimonialEmpty: string;
+  cta: string;
+};
+
+export type CoachingFaqPayload = {
+  kicker: string;
+  title: string;
+  lead: string;
+  items: { q: string; a: string }[];
+  closeLine: string;
+  closeCta: string;
+  magnet: string;
+};
+
+export type CoachingCtaPayload = {
+  title: string;
+  body: string;
+  packagesLine: string;
+  promise: string;
+  trustToken: string;
+  aboutPointer: string;
+  formHeading: string;
+};

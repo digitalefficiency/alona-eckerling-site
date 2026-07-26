@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { PageDocument } from "@/lib/sections/schema";
-import { savePage } from "@/lib/sections/actions";
+import { savePage, loadPage } from "@/lib/sections/actions";
 import { PageView } from "./PageView";
 import { useDraftRescue } from "./useDraftRescue";
 
@@ -31,8 +31,31 @@ export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialD
   const [previewOpened, setPreviewOpened] = useState(false);
   const iframe = useRef<HTMLIFrameElement>(null);
 
+  const [loading, setLoading] = useState(false);
   const route = pages.find((p) => p.slug === slug)?.route ?? "/";
   const { rescue, dismiss, clear } = useDraftRescue(slug, doc, dirty);
+
+  // Switching pages fetches that page's document. Only the first one is sent
+  // with the initial render, so the desk paints without waiting on five files.
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    let live = true;
+    setLoading(true);
+    setStatus(null);
+    loadPage(slug).then((next) => {
+      if (!live) return;
+      setDoc(next);
+      setDirty(false);
+      setLoading(false);
+    });
+    return () => {
+      live = false;
+    };
+  }, [slug]);
 
   // Leaving with unsaved work should cost a keystroke, not a paragraph.
   useEffect(() => {
@@ -74,13 +97,7 @@ export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialD
     }
   }
 
-  if (!doc) {
-    return (
-      <p className="rounded-[8px] border border-line bg-card p-6 text-[13.5px] text-muted">
-        לא הצלחתי לטעון את העמוד. כדאי לרענן את הדף.
-      </p>
-    );
-  }
+
 
   return (
     <div className="grid gap-6 lg:grid-cols-[240px_minmax(0,1fr)]">
@@ -110,7 +127,13 @@ export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialD
       </aside>
 
       <div className="min-w-0">
-        {rescue && !dirty && (
+        {loading && <p className="text-[13.5px] text-muted">טוענת את העמוד…</p>}
+        {!loading && !doc && (
+          <p className="rounded-[8px] border border-line bg-card p-6 text-[13.5px] text-muted">
+            לא הצלחתי לטעון את העמוד. כדאי לרענן את הדף.
+          </p>
+        )}
+        {doc && rescue && !dirty && (
           <div className="mb-4 rounded-[8px] border border-gold bg-gold-soft/40 p-4">
             <p className="text-[13.5px] font-bold text-ink">יש כאן עבודה שלא פורסמה</p>
             <p className="mt-1.5 text-[13px] leading-relaxed text-ink/80">
@@ -143,7 +166,7 @@ export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialD
           <button
             type="button"
             onClick={publish}
-            disabled={!dirty || saving}
+            disabled={!dirty || saving || !doc}
             className={cx(
               "rounded-[6px] px-5 py-2.5 text-[13.5px] font-bold transition",
               dirty && !saving ? "bg-gold-ink text-bg hover:opacity-90" : "cursor-not-allowed bg-line text-muted",
@@ -179,7 +202,7 @@ export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialD
           )}
         </div>
 
-        <PageView doc={doc} onChange={change} onOpenPreview={openPreview} previewOpened={previewOpened} />
+        {doc && <PageView doc={doc} onChange={change} onOpenPreview={openPreview} previewOpened={previewOpened} />}
       </div>
 
       {previewOpen && (
