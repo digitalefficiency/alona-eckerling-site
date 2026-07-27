@@ -27,13 +27,28 @@ const BASE = process.env.PARITY_BASE ?? "http://127.0.0.1:3020";
 const DIR = path.join(process.cwd(), ".parity");
 const ROUTES = ["/", "/about", "/coaching", "/contact", "/testimonials", "/recipes"];
 
+// Belt to the normaliser's braces: the visible text is compared too, so a change
+// that a markup normaliser could swallow still fails. If the words a reader sees
+// move, nothing above this line can explain it away.
+const visibleText = (s) =>
+  s
+    .replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/g, "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
 const norm = (s) =>
   s
     .replace(/\/_next\/static\/[^"']+/g, "<chunk>")
     .replace(/self\.__next_f\.push\([\s\S]*?\)<\/script>/g, "<rsc></script>")
     .replace(/"buildId":"[^"]*"/g, '"buildId":"<id>"')
     .replace(/self\.__next_r="[^"]*"/g, 'self.__next_r="<req>"')
-    .replace(/<!--\$\?--><template id="B:[^"]*"><\/template>/g, "<suspense>");
+    .replace(/<!--\$\?--><template id="B:[^"]*"><\/template>/g, "<suspense>")
+    // The NUMBER of streamed RSC chunks changes when a page becomes async —
+    // same bytes of payload, split differently. Collapse a run of them to one
+    // marker so the gate measures content and not the shape of the stream.
+    // The control below still proves this normaliser is not hiding real change.
+    .replace(/(<script><rsc><\/script>)+/g, "<rscrun>");
 
 const sha = (s) => createHash("sha256").update(s).digest("hex").slice(0, 16);
 const fileFor = (route) => path.join(DIR, (route === "/" ? "home" : route.replace(/\//g, "_")) + ".html");
@@ -44,8 +59,15 @@ async function fetchNorm(route) {
   return norm(await res.text());
 }
 
-/** Two requests to the same build must normalise identically, or the gate is blind. */
+/**
+ * Two requests to the same build must normalise identically, or the gate is
+ * blind. A THIRD request happens first and is thrown away: in dev the request
+ * after an edit triggers a compile and legitimately differs from the next one,
+ * and without the warm-up this control reports a false alarm on exactly the
+ * runs that matter — the ones right after a change.
+ */
 async function control(route) {
+  await fetchNorm(route).catch(() => {});
   const a = await fetchNorm(route);
   const b = await fetchNorm(route);
   return { ok: a === b, body: a };
@@ -89,6 +111,16 @@ for (const route of routes) {
   }
 
   const before = readFileSync(f, "utf8");
+  if (visibleText(before) !== visibleText(body)) {
+    failed++;
+    const a = visibleText(before);
+    const b = visibleText(body);
+    const at = [...a].findIndex((c, i) => c !== b[i]);
+    console.error(`  ${route.padEnd(14)} VISIBLE TEXT CHANGED at char ${at}`);
+    console.error(`     before: …${a.slice(Math.max(0, at - 70), at + 70)}…`);
+    console.error(`     after : …${b.slice(Math.max(0, at - 70), at + 70)}…`);
+    continue;
+  }
   if (before === body) {
     console.log(`  ${route.padEnd(14)} identical  ${sha(body)}`);
   } else {

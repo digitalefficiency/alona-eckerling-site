@@ -7,10 +7,13 @@ import { SplitText } from "@/components/motion/SplitText";
 import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
 import { slideIn } from "@/lib/motion-variants";
-import { Reveal } from "@/components/Reveal";
 import { ResponsePromise } from "@/components/trust/ResponsePromise";
 import { TestimonialCard } from "@/components/trust/TestimonialCard";
 import { testimonials } from "@/lib/settings";
+import { getPublishedPage, sectionPayload } from "@/lib/sections/source";
+import type {
+  TestimonialsHeroPayload, TestimonialsGridPayload, TestimonialsCtaPayload,
+} from "@/lib/sections/payloads";
 
 // YMYL gate: a quote is publishable ONLY with a recorded consent trail. An entry
 // missing consentBy/consentAt is treated as not-yet-approved and stays dark, so
@@ -26,51 +29,35 @@ const published = testimonials.filter(
 // ============================================================================
 
 // COPY: ### סקשן 32 · Section width=prose (מסגור כן)
-const HERO = {
-  kicker: "רק אמיתי",
-  title: "המלצות אמיתיות, כשיהיו",
-  body: "כאן יופיעו סיפורים של נשים שליוויתי, במילים שלהן ובאישור שלהן. עוד אין לי כאלה להראות לך, ואני מעדיפה להשאיר את המקום הזה ריק מאשר להמציא סיפור שלא קרה.",
-  bridge:
-    "עד אז, מה שכן אפשר לראות באמת: המתכונים שאני מבשלת, הרישיון והלימודים שלי, ושיחת היכרות שבה תתרשמי בעצמך.",
-  invite: "ואם בא לך, את מוזמנת להיות אחת הראשונות שמספרות.",
-  // חלוקת-בעלות על נתיבי היציאה (ביקורת UX): פסקת-הגשר כבר מספרת על המתכונים
-  // והרישיון במילים; ההירו שומר קישור אחד בלבד. צ'יפי recipes/about בבעלות
-  // סקשן 33, והאזכור הרך של המתכונים בבעלות סקשן 34.
-  links: [{ label: "בואי נדבר ←", href: "/contact", cta: "testimonials-hero-contact" }],
-} as const;
+
 
 // COPY: ### סקשן 33 · TestimonialCard grid (מצב-ריק כן)
-const GRID = {
-  // הקיקר «במילים שלהן» ירד: הכותרת קופלה לתוך כרטיס מצב-הריק, ומוטיב הגרשיים
-  // פותח במקומו (ראו סקשן 33 למטה). לסנכרון COPY.md.
-  title: "המלצות אמיתיות בלבד",
-  emptyLead: "עוד לא פרסמתי המלצות. אעדכן כאן ברגע שיהיו.",
-  emptyBody:
-    "אני לא ממציאה סיפור שלא קרה. כשיגיעו המלצות אמיתיות, של נשים אמיתיות, הן יופיעו כאן, במילים שלהן ובאישורן.",
-  redirectIntro: "בינתיים, הנה מה שאפשר לבדוק כבר עכשיו:",
-  redirects: [
-    { label: "המתכונים שאני באמת מבשלת ←", href: "/recipes", cta: "testimonials-redirect-recipes" },
-    { label: "הרישיון והלימודים שלי ←", href: "/about", cta: "testimonials-redirect-about" },
-  ],
-  reciprocity: "עבדנו יחד? אשמח אם תשתפי, רק באישורך המלא ←",
-} as const;
+
 
 // COPY: ### סקשן 34 · CtaBand → #lead (מצב-ריק)
-const CTA = {
-  titleLine1: "לא תמצאי כאן סיפור שלא קרה.",
-  titleLine2: "בואי נכתוב אחד אמיתי, יחד.",
-  body: "המלצות אמיתיות יופיעו כאן עם שם ואישור פרסום, ולא רגע לפני. הכנות הזאת היא בדיוק מה שתקבלי גם בליווי עצמו. בינתיים, הדבר האמיתי ביותר שאני יכולה להציע לך הוא שיחת היכרות קצרה, בלי עלות ובלי התחייבות.",
-  packages:
-    "הליווי נמכר בחבילות שמתאימות לחיים שלך. על החבילה והמחיר נדבר בשיחה עצמה, בגובה העיניים.",
-  promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
-  trustToken: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
-  button: { label: "בואי נדבר, שיחת היכרות חינם", href: "/contact#lead", cta: "testimonials-cta-primary" },
-  soft: { label: "משהו לבדוק בעצמך עכשיו: המתכונים כאן ←", href: "/recipes", cta: "testimonials-cta-recipes" },
+
+
+// Destinations and analytics ids stay in code: they are routing and measurement,
+// not words. Paired by index with the labels in the payload, the same way the
+// home page pairs the film's chips with their choreography.
+const HERO_TARGET = { href: "/contact", cta: "testimonials-hero-contact" };
+const REDIRECT_TARGETS = [
+  { href: "/recipes", cta: "testimonials-redirect-recipes" },
+  { href: "/about", cta: "testimonials-redirect-about" },
+] as const;
+const CTA_TARGETS = {
+  primary: { href: "/contact#lead", cta: "testimonials-cta-primary" },
+  soft: { href: "/recipes", cta: "testimonials-cta-recipes" },
 } as const;
 
-export const metadata: Metadata = {
-  title: "המלצות",
-  description: HERO.body,
+// metadata now READS the page document, so it has to be a function: an
+// `export const` is evaluated when the module loads, before any await.
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPublishedPage("testimonials");
+  const hero = sectionPayload<TestimonialsHeroPayload>(page, "hero");
+  return {
+  title: page?.title ?? "המלצות",
+  description: hero?.body,
   alternates: { canonical: "/testimonials" },
   openGraph: { url: "/testimonials" },
   // plan 32 שכבה 7 (thin-content, honesty-preserving): העמוד נשאר noindex עד
@@ -78,9 +65,15 @@ export const metadata: Metadata = {
   // מתהפך לבד ברגע שיש עדות מאושרת, יחד עם הכניסה ל-sitemap (app/sitemap.ts
   // מסנן את המסלול באותו תנאי) — כדי ששני המקומות לא יסתרו זה את זה.
   robots: { index: published.length > 0, follow: true },
-};
+  };
+}
 
-export default function TestimonialsPage() {
+export default async function TestimonialsPage() {
+  const page = await getPublishedPage("testimonials");
+  const HERO = sectionPayload<TestimonialsHeroPayload>(page, "hero")!;
+  const GRID = sectionPayload<TestimonialsGridPayload>(page, "grid")!;
+  const CTA = sectionPayload<TestimonialsCtaPayload>(page, "cta")!;
+
   return (
     <>
       {/* ===== 32 · hero — centered-prose · מסגור כן (נייר חם + blush-wash) =====
@@ -128,7 +121,7 @@ export default function TestimonialsPage() {
                 {HERO.invite}
               </MItem>
               <MItem as="div" className="mt-8 flex flex-wrap items-center justify-center gap-x-7 gap-y-3">
-                {HERO.links.map((l) => (
+                {[{ label: HERO.cta, ...HERO_TARGET }].map((l) => (
                   <Link
                     key={l.href}
                     href={l.href}
@@ -196,7 +189,7 @@ export default function TestimonialsPage() {
             <div className="text-center">
               <p className="text-sm font-semibold text-muted">{GRID.redirectIntro}</p>
               <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
-                {GRID.redirects.map((l) => (
+                {GRID.redirects.map((label, i) => ({ label, ...REDIRECT_TARGETS[i] })).map((l) => (
                   <Link
                     key={l.href}
                     href={l.href}
@@ -246,7 +239,7 @@ export default function TestimonialsPage() {
                 <MItem>
                   <SplitText
                     as="h2"
-                    text={`${CTA.titleLine1}\n${CTA.titleLine2}`}
+                    text={CTA.title}
                     lastLineClass="text-gold-soft"
                     className="font-serif font-black leading-[1.18] text-white"
                     style={{ fontSize: "clamp(1.6rem, 3.6vw, 2.6rem)" }}
@@ -272,18 +265,18 @@ export default function TestimonialsPage() {
             <MStagger className="flex" itemClassName="flex w-full" variants={slideIn("inline-end", 40)}>
               <div className="flex w-full flex-col items-center justify-center gap-6 rounded-[16px] border border-line bg-sand px-6 py-12 text-center sm:px-8">
                 <Link
-                  href={CTA.button.href}
-                  data-cta={CTA.button.cta}
+                  href={CTA_TARGETS.primary.href}
+                  data-cta={CTA_TARGETS.primary.cta}
                   className="inline-block btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand lg:text-lg"
                 >
-                  {CTA.button.label}
+                  {CTA.ctaPrimary}
                 </Link>
                 <Link
-                  href={CTA.soft.href}
-                  data-cta={CTA.soft.cta}
+                  href={CTA_TARGETS.soft.href}
+                  data-cta={CTA_TARGETS.soft.cta}
                   className="text-sm font-semibold text-gold-ink underline-offset-4 transition-colors hover:text-gold-dark hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-sand"
                 >
-                  {CTA.soft.label}
+                  {CTA.ctaRecipes}
                 </Link>
               </div>
             </MStagger>
