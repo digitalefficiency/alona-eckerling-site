@@ -10,6 +10,8 @@
     "test": "node --test \"src/lib/cms/*.test.mjs\""
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.3",
+    "@supabase/supabase-js": "^2.110.8",
     "gray-matter": "^4.0.3",
     "lucide-react": "^1.21.0",
     "marked": "^18.0.5",

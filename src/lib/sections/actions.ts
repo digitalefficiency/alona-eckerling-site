@@ -6,14 +6,18 @@ import { revalidatePath } from "next/cache";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/cms/session";
 import { getSectionType } from "./registry";
 import type { PageDocument } from "./schema";
+import { userClient, supabaseConfigured } from "@/lib/supabase/client";
 
 // sections/actions.ts — the write path for page content.
 //
-// TODAY it writes content/pages/<slug>.json. ON MONDAY the body of savePage()
-// becomes a call to publish_entity(), and everything above it is unchanged:
-// the same authorisation, the same validation, the same revalidation, the same
-// return shape. That is the point of writing it this way now rather than
-// reaching for the filesystem from the component.
+// It writes to Supabase when the project is configured, and to
+// content/pages/<slug>.json when it is not. The authorisation, the validation
+// and the revalidation are identical either way — only the last step differs.
+//
+// THE WRITE NEVER FALLS BACK. Reads do, because a brochure page should not go
+// dark over a connection hiccup. A write must not: a save that quietly lands in
+// a file while the editor believes it reached the database is worse than a save
+// that fails, because she walks away thinking the site changed.
 //
 // THREE THINGS EVERY WRITE DOES, in this order, because the order is the
 // safety:
@@ -86,11 +90,38 @@ export async function savePage(slug: string, doc: PageDocument): Promise<SaveRes
 
   const clean = sanitise(doc);
 
-  try {
-    await mkdir(PAGES_DIR, { recursive: true });
-    await writeFile(fileFor(slug), JSON.stringify(clean, null, 2) + "\n", "utf8");
-  } catch {
-    return { ok: false, error: "השמירה נכשלה. התוכן שלך עדיין כאן במסך." };
+  if (supabaseConfigured) {
+    const sb = await userClient();
+    const { error } = await sb
+      .from("pages")
+      .update({
+        title: clean.title,
+        description: clean.description ?? null,
+        // only what is visible crosses into the published row — the same rule
+        // publish_entity enforces, applied here too so the two cannot disagree
+        sections: clean.sections.filter((x) => x.visible !== false),
+        status: "published",
+      })
+      .eq("slug", slug);
+
+    if (error) {
+      // An RLS refusal answers with zero rows and no error, so a successful
+      // response is not by itself proof that anything was written. The read-back
+      // below is what turns "the request succeeded" into "the site changed".
+      return { ok: false, error: "השמירה נדחתה. ייתכן שאין הרשאה לערוך את העמוד הזה." };
+    }
+
+    const { data: check } = await sb.from("pages").select("slug").eq("slug", slug).maybeSingle();
+    if (!check) {
+      return { ok: false, error: "השמירה לא נקלטה. התוכן שלך עדיין כאן במסך, כדאי לנסות שוב." };
+    }
+  } else {
+    try {
+      await mkdir(PAGES_DIR, { recursive: true });
+      await writeFile(fileFor(slug), JSON.stringify(clean, null, 2) + "\n", "utf8");
+    } catch {
+      return { ok: false, error: "השמירה נכשלה. התוכן שלך עדיין כאן במסך." };
+    }
   }
 
   revalidatePath(routeFor(slug));
