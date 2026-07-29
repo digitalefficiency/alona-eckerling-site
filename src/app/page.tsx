@@ -88,14 +88,16 @@ const FILM_FRAMES = [
   "/media/generated/02-problem-s14.jpg",
 ] as const;
 
-// COPY: ### סקשן 2 — צ'יפי-מחשבות (5, הרעש בקולה); accumulate to the noise peak,
-// then clear together at the turn (positions/windows are art direction, layer 6).
+// COPY: ### סקשן 2 — רשימת-המחשבות (5, הרעש בקולה): נערמות עד שיא-הרעש ואז
+// נעלמות יחד בתפנית. הן מוצגות כרשימה מסודרת בקצה-הקריאה (ימין), לא כצ'יפים
+// מפוזרים — הסדר עצמו הוא מה שמראה שהרעש מצטבר. המיקומים והנטיות הידניים ירדו
+// עם המעבר לרשימה (2026-07-29): הסידור נגזר מהסדר כאן, וזו האמנות היחידה שנשארה.
 const FILM_CHIPS: readonly FilmChip[] = [
-  { text: "אוקיי, סלט. בטוח.", from: 0.13, to: 0.55, position: { top: "18%", insetInlineStart: "8%" }, tilt: -2 },
-  { text: "רגע, קינואה זה פחמימה?", from: 0.21, to: 0.55, position: { top: "32%", insetInlineEnd: "7%" }, tilt: 2 },
-  { text: "בטטה בערב?!", from: 0.29, to: 0.55, position: { top: "52%", insetInlineStart: "12%" }, tilt: -1.5 },
-  { text: "כמה קלוריות זה כבר?", from: 0.37, to: 0.55, position: { top: "24%", insetInlineStart: "34%" }, tilt: 1.5 },
-  { text: "טחינה זה שמן... אבל אני אוהבת.", from: 0.45, to: 0.55, position: { top: "62%", insetInlineEnd: "12%" }, tilt: -2.5 },
+  { text: "אוקיי, סלט. בטוח.", from: 0.13, to: 0.55 },
+  { text: "רגע, קינואה זה פחמימה?", from: 0.21, to: 0.55 },
+  { text: "בטטה בערב?!", from: 0.29, to: 0.55 },
+  { text: "כמה קלוריות זה כבר?", from: 0.37, to: 0.55 },
+  { text: "טחינה זה שמן... אבל אני אוהבת.", from: 0.45, to: 0.55 },
 ];
 
 // COPY: ### סקשן 2 — כיתובי-תחנה (4): פתיחה → תפנית → שיא → סיום
@@ -449,24 +451,32 @@ export default function HomePage() {
           mediaClassName="hidden md:block"
           media={
             <>
-              <Image src={GUIDE_BG} alt="" fill sizes="100vw" quality={60} className="object-cover" />
+              {/* quality 85, was 60 — this is a full-bleed room photo, and 60 was
+                  visibly soft on the wood grain and the notebook paper. */}
+              <Image src={GUIDE_BG} alt="" fill sizes="100vw" quality={85} className="object-cover" />
               <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
               {/* mid-page material diet */}
               <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
-              {/* paper wash — the room stays present but never fights the pieces */}
-              <div aria-hidden className="absolute inset-0 bg-bg/72" />
+              {/* THE PAPER WASH IS GONE (Rom, 2026-07-29). It was `bg-bg/72` — a
+                  72% warm-white sheet over the whole desk photo, which is what
+                  made this room read as washed out. It was never load-bearing for
+                  legibility: every text piece in this section sits on its own
+                  opaque paper card (see the section note above), so the contrast
+                  was already paid for locally. The remaining two layers do not
+                  whiten: --grade-tint is a 10% NAVY tint (the shared house grade,
+                  it deepens) and the grain sits at 0.035. */}
               {/* top fade only — the seam shape carries the bottom hand-off */}
               <div aria-hidden className="room-edges-top" />
             </>
           }
         >
-          {/* mobile: the room becomes a quiet top band (the coaching §14 pattern) —
-              the full-bleed backdrop is desktop-only, saving decode where we measure */}
-          <div className="relative aspect-[3/2] overflow-hidden border-b border-line md:hidden">
-            <Image src={GUIDE_BG} alt="" fill sizes="100vw" quality={60} className="object-cover" />
-            <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
-            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-bg via-bg/25 to-transparent" />
-          </div>
+          {/* The mobile top band is GONE (Rom, 2026-07-29: «מיותרת»). It used to
+              repeat the same desk photo as a 3:2 strip above the heading, purely
+              so the phone would also "see the room". In practice it pushed the
+              actual content of the beat a full band down the page and carried no
+              information the section does not already state in words. The
+              full-bleed desk backdrop stays on md+ (mediaClassName), where it is
+              a background rather than a block the reader has to scroll past. */}
           <Container width="wide" className="py-16 sm:py-20 md:py-32">
             {/* the heading rides its own paper strip — never bare over the photo */}
             <div className="inline-block rounded-[10px] bg-bg/90 md:px-7 md:py-5 md:backdrop-blur-sm">

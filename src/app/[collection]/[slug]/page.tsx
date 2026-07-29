@@ -123,7 +123,10 @@ export default async function CollectionEntryPage({ params }: Params) {
         mainEntityOfPage: `${site.url}/${collection}/${slug}`,
         // Reference the ONE canonical Person node (defined on /team/alona) by @id,
         // instead of a second lookalike at /about — the entity-resolution fix.
-        author: { "@type": "Person", "@id": `${site.url}/team/alona#person`, name: site.name, url: `${site.url}/team/alona` },
+        // canonical Person node moved to /about when /team/alona was removed
+        // (2026-07-29) — this @id MUST match personFromBio's on /about or the
+        // recipes start referencing an entity that no longer resolves
+        author: { "@type": "Person", "@id": `${site.url}/about#person`, name: site.name, url: `${site.url}/about` },
         ...(doc.image ? { image: `${site.url}${doc.image}` } : {}),
         ...(doc.data.category ? { recipeCategory: String(doc.data.category) } : {}),
         ...(Array.isArray(doc.data.tags) && doc.data.tags.length

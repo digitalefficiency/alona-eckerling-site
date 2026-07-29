@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
-import { site, team } from "@/lib/site";
+import { site } from "@/lib/site";
 import { listDocs } from "@/lib/collections";
 import { testimonials } from "@/lib/settings";
 
 // Sitemap: the site's REAL routes — the money page (/coaching),
-// the trust pages, the bio routes (team/[slug]) + every published recipe, each
-// carrying its dish photo as an image entry (Google Images + Discover surfacing).
+// the trust pages + every published recipe, each carrying its dish photo as an
+// image entry (Google Images + Discover surfacing). The bio routes are gone:
+// /team/<slug> was removed 2026-07-29 and /about carries the bio.
 //
 // /blog is DELIBERATELY EXCLUDED while it has no published articles — a thin/empty
 // index on a YMYL nutrition domain drags sitewide quality. Add it back (and flip its
@@ -31,7 +32,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/coaching",
     ...(hasTestimonials ? ["/testimonials"] : []),
     "/about",
-    ...team.map((m) => `/team/${m.slug}`),
+    // the /team/<slug> bio routes were removed 2026-07-29 (Rom's call) — /about
+    // is the bio page now, so listing them here would sitemap a 404
     "/recipes",
     "/contact",
     "/privacy",

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { Solitreo } from "next/font/google";
 import { site } from "@/lib/site";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
@@ -10,10 +9,8 @@ import { SectionSeam } from "@/components/layout/SectionSeam";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
 import { MStagger } from "@/components/motion/MStagger";
-import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
-import { slideIn, maskReveal } from "@/lib/motion-variants";
+import { slideIn } from "@/lib/motion-variants";
 import { SplitText } from "@/components/motion/SplitText";
-import { DrawnRule } from "@/components/motion/DrawnRule";
 import { RevealHeading } from "@/components/motion/RevealHeading";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SpotlightCard } from "@/components/section/SpotlightCard";
@@ -22,14 +19,10 @@ import { SocialLinks } from "@/components/SocialLinks";
 import { JsonLd } from "@/components/JsonLd";
 import { personFromBio } from "@/lib/schema-presets";
 
-// The Hebrew signature-script hand accent (DESIGN-DIRECTION: reserved strictly
-// for her-voice moments on this page - the age answer seal + her signed name).
-// Loaded page-locally; evidently a webfont, never a forged autograph.
-const signatureScript = Solitreo({
-  subsets: ["hebrew", "latin"],
-  weight: "400",
-  display: "swap",
-});
+// The Solitreo signature-script hand was retired from this page on 2026-07-26
+// (Rom's call) together with the age-quote section it anchored. Her name still
+// signs the story and the closing card, now set in the house serif — one
+// typographic voice on the page instead of a second, decorative one.
 
 /* ============================== COPY (pasted) ==============================
    Every visible string below is pasted verbatim from COPY.md, "עמוד: עליי".
@@ -69,16 +62,10 @@ const STORY = {
   signature: "אלונה",
 } as const;
 
-// COPY: ### סקשן 19 · PullQuote ענק + כתב-יד (שאלת הגיל)
-// The pivot word carries the ONE rose hand-underline (plan 19 layer 5).
-const AGE_PIVOT = "בדיוק";
-const AGE = {
-  kicker: "על הגיל, בלי להתחמק",
-  quote:
-    "כן, אני צעירה.\nוזה בדיוק מה שמאפשר לי\nלהחזיק את המדע הכי עדכני,\nולדבר איתך בגובה העיניים, לא מלמעלה.",
-  support: "אני מגיעה עם אנרגיה, סקרנות ורצון ללמוד ולהתפתח.",
-  signature: "אלונה",
-} as const;
+// §19 was the giant age-quote («כן, אני צעירה») with its handwritten seal.
+// Retired 2026-07-26 (Rom's call) and replaced by the professional standard
+// below — the argument moves from persona to method. The retired copy survives
+// in the studio record at clients/alona-eckerling/sections/19-about-age-quote.md.
 
 // COPY: ### סקשן 20 · BentoGrid (קיר הקרדנציאלים)
 const CREDENTIALS = {
@@ -104,7 +91,7 @@ const CREDENTIALS = {
   bridge: 'אז אם השאלה היא "אינפלואנסרית או דיאטנית אמיתית?", הנה הרקע, גלוי לבדיקה.',
 } as const;
 
-// COPY: ### סקשן 20א · הסטנדרט המקצועי + תחומי ליווי
+// COPY: ### סקשן 19 · הסטנדרט המקצועי + תחומי ליווי
 // Rom's call 2026-07-26. The message is Alona's: the field is wide open, and the
 // hours of reading behind her answers are the difference. It lands on /about
 // because this page belongs to avatar C (שירה, 39, the sceptic) whose first
@@ -142,10 +129,8 @@ const STANDARD = {
   ],
 } as const;
 
-// COPY: ### סקשן 21 · Marquee (מדיה ושת"פים) · כהה עד אישור
-const PRESS = {
-  reserved: "שיתופי פעולה ומדיה יתווספו כאן עם האישור. אני לא מציגה לוגו שלא אושר.",
-} as const;
+// §21's reserved media/collab line is retired 2026-07-26 (Rom's call). The live
+// Marquee still returns here if the names + logos are ever approved (Q21).
 
 // COPY: ### סקשן 22 · SpotlightCard + Person JSON-LD
 const CLOSE = {
@@ -184,7 +169,11 @@ const personSchema = personFromBio(
     ],
     // Canonical Person node lives at /team/alona — use that href here too so the
     // /about Person carries the SAME @id, not a competing /about#person entity.
-    href: "/team/alona",
+    // /about IS the bio page now — the standalone /team/alona credentials route
+    // was removed 2026-07-29 (Rom's call), so the canonical Person node moves
+    // here. Every Recipe author @id points at this same URL, so the entity stays
+    // ONE node rather than splitting into two lookalikes.
+    href: "/about",
   },
   site,
 );
@@ -284,7 +273,7 @@ export default function AboutPage() {
               <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
               <div aria-hidden className="grain-overlay" />
               <div className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-2 bg-bg/94 px-6 py-5 text-center">
-                <span className={`${signatureScript.className} text-4xl leading-none text-navy`}>
+                <span className="font-serif text-3xl font-black leading-none text-navy">
                   {STORY.signature}
                 </span>
                 <span aria-hidden className="flex items-center gap-3">
@@ -378,7 +367,7 @@ export default function AboutPage() {
                   </p>
                 </div>
                 <p className="text-lg leading-relaxed text-ink">{STORY.signOff}</p>
-                <p className={`${signatureScript.className} mt-2 text-4xl text-navy`}>
+                <p className="mt-2 font-serif text-3xl font-black text-navy">
                   {STORY.signature}
                 </p>
               </div>
@@ -391,81 +380,51 @@ export default function AboutPage() {
         <SeamShape variant="curve-up" />
       </section>
 
-      {/* ===== 19 · GUIDE - giant-quote, rebuilt as a composed object: four masked
-           serif lines STEP DOWN from "מלמעלה" to eye level (the reframe drawn in
-           layout), landing on her handwritten seal at the letter's closing edge;
-           a giant script א rests behind as a pressed watermark. Typography is
-           still the art - now composed, not floating. Zero raster.
-           COPY: ### סקשן 19 ===== */}
-      <section className="relative overflow-hidden">
-        <Container width="wide" className="relative py-16 sm:py-20 md:py-32">
-          <SectionSeam className="mb-10 md:mb-14" />
-          {/* pressed watermark - her hand resting beneath the words (decorative) */}
-          <span
-            aria-hidden
-            className={`${signatureScript.className} pointer-events-none absolute top-1/2 hidden -translate-y-1/2 select-none leading-none text-navy/[0.06] md:block`}
-            style={{ insetInlineEnd: "-0.08em", fontSize: "min(30rem, 32vw)" }}
-          >
-            א
-          </span>
-          <MOrchestrate className="relative">
-            <MItem className="flex items-center gap-2.5">
-              <span className="text-[0.65rem] leading-none text-gold" aria-hidden>
-                ◆
+      {/* ===== 19 · GUIDE - the professional standard (Rom's call 2026-07-26,
+           replacing the giant age-quote). The age answer was the page's argument
+           from PERSONA; this is the argument from METHOD, which is the sceptic
+           avatar's real question. It also sits where the reader most needs it:
+           straight after the origin story, before the ledger proves it.
+           archetype=card-grid — deliberately NOT centered-prose, because §18
+           above it already is one and two prose columns back to back read as one
+           long undifferentiated wall (and lint-variety forbids the adjacency).
+           The three principles are peers, so a row of three cards states that
+           better than a stacked list anyway. COPY: ### סקשן 19 ===== */}
+      <Section tone="white" border>
+        {/* the argument stays at prose measure; the evidence widens out */}
+        <div className="mx-auto max-w-[760px]">
+          <SectionHeading eyebrow={STANDARD.kicker} title={STANDARD.title} accent="אחרת" />
+          <Reveal delay={80}>
+            <p className="mt-7 text-lg leading-[1.75] text-ink">{STANDARD.body}</p>
+          </Reveal>
+        </div>
+        <MStagger as="ul" className="mx-auto mt-12 grid max-w-[1000px] gap-5 sm:grid-cols-3" variants={slideIn("inline-start", 32)}>
+          {STANDARD.principles.map((p) => (
+            <li key={p.t} className="flex flex-col rounded-[16px] border border-line bg-card p-6 shadow-[var(--elevation-1)]">
+              <span aria-hidden className="grid h-9 w-9 rotate-45 place-items-center border border-gold/60">
+                <span className="-rotate-45 text-[0.55rem] leading-none text-gold">◆</span>
               </span>
-              <span className="text-xs font-bold tracking-eyebrow text-rose-ink">{AGE.kicker}</span>
-            </MItem>
-            <figure>
-              <blockquote className="mt-10">
-                <p
-                  className="font-serif font-black leading-[1.3] text-navy"
-                  style={{ fontSize: "clamp(1.9rem, 3.6vw, 3.4rem)" }}
-                >
-                  {AGE.quote.split("\n").map((line, i, all) => (
-                    /* each line in its own mask; the stairs descend to indent 0 -
-                       "לא מלמעלה" lands flush, at eye level. The stair indent is
-                       md+ only: at 375px it would eat ~30% of the measure and
-                       shred the composition, so mobile reads flush-start. */
-                    <span
-                      key={line}
-                      className="block overflow-hidden md:[padding-inline-start:var(--stair)]"
-                      style={{ "--stair": `${(all.length - 1 - i) * 1.1}em` } as React.CSSProperties}
-                    >
-                      <MItem as="span" className="block pb-[0.12em]" variants={maskReveal}>
-                        {line.includes(AGE_PIVOT) ? (
-                          <>
-                            {line.slice(0, line.indexOf(AGE_PIVOT))}
-                            <span className="underline decoration-rose decoration-[4px] underline-offset-[10px]">
-                              {AGE_PIVOT}
-                            </span>
-                            {line.slice(line.indexOf(AGE_PIVOT) + AGE_PIVOT.length)}
-                          </>
-                        ) : (
-                          line
-                        )}
-                      </MItem>
-                    </span>
-                  ))}
-                </p>
-              </blockquote>
-              {/* the letter closes where Hebrew letters close - the inline-end edge */}
-              <figcaption className="mt-10 flex flex-col items-start gap-4 md:mt-12 md:items-end">
-                <MItem variants={slideIn("inline-end", 32)}>
-                  <p className="max-w-[38ch] text-lg leading-relaxed text-muted md:text-end">
-                    {AGE.support}
-                  </p>
-                </MItem>
-                <MItem className="flex flex-col items-start gap-2 md:items-end">
-                  <span className={`${signatureScript.className} text-5xl text-navy md:text-6xl`}>
-                    {AGE.signature}
-                  </span>
-                  <DrawnRule className="h-[3px] w-24 rounded-full bg-rose/70" />
-                </MItem>
-              </figcaption>
-            </figure>
-          </MOrchestrate>
-        </Container>
-      </section>
+              <h3 className="mt-5 font-serif text-lg font-black leading-snug text-navy">{p.t}</h3>
+              <p className="mt-2.5 text-sm leading-relaxed text-muted">{p.d}</p>
+            </li>
+          ))}
+        </MStagger>
+        <Reveal delay={160}>
+          <div className="mx-auto mt-10 max-w-[1000px] rounded-[16px] bg-sand p-7">
+            <p className="flex items-center gap-2 text-[13px] font-bold tracking-eyebrow text-gold-ink">
+              <span className="text-[0.6rem] leading-none" aria-hidden>◆</span>
+              {STANDARD.areasLabel}
+            </p>
+            <ul className="mt-4 flex flex-wrap gap-x-2.5 gap-y-2">
+              {STANDARD.areas.map((a) => (
+                <li key={a} className="rounded-full border border-line bg-card px-4 py-2 text-sm font-semibold text-navy">
+                  {a}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
+      </Section>
 
       {/* ===== 20 · GUIDE - credentials rebuilt (Rom: 'לבנות אחרת'): the bento's
            dead-air tiles become a VERIFICATION LEDGER - the license as a
@@ -584,68 +543,10 @@ export default function AboutPage() {
           <p className="mt-10 max-w-[62ch] text-base leading-relaxed text-muted">
             {CREDENTIALS.bridge}
           </p>
-          {/* the full credentials page (/team/alona) gets its one quiet inbound door
-              (mt-2.5 + py-1.5 keeps the same visual gap while padding the tap area) */}
-          <p className="mt-2.5">
-            <Link
-              href="/team/alona"
-              data-cta="about-credentials-team"
-              className="inline-block py-1.5 text-sm font-bold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:decoration-gold"
-            >
-              לעמוד ההסמכות המלא ←
-            </Link>
-          </p>
         </Reveal>
-        {/* ===== 21 · PROOF - media/collab line, structurally DARK until approval:
-             folded in as a footnote of the ledger (a full standalone band read as
-             an unbuilt section at 1512 and cut the momentum before the close).
-             When the names+logos are approved, the live Marquee returns as its
-             own Section here. COPY: ### סקשן 21 ===== */}
-        <p className="mx-auto mt-14 max-w-[52ch] text-center text-sm text-muted">
-          {PRESS.reserved}
-        </p>
-      </Section>
-
-      {/* ===== 20א · GUIDE - the professional standard (Rom 2026-07-26). Sits
-           AFTER the ledger on purpose: the ledger proves the credentials exist,
-           this explains what she does with them, which is the sceptic's real
-           question. archetype=centered-prose (neighbours are bento-grid and
-           spotlight-card, so adjacency holds). COPY: ### סקשן 20א ===== */}
-      <Section tone="white" border>
-        <div className="mx-auto max-w-[760px]">
-          <SectionHeading eyebrow={STANDARD.kicker} title={STANDARD.title} accent="אחרת" />
-          <Reveal delay={80}>
-            <p className="mt-7 text-lg leading-[1.75] text-ink">{STANDARD.body}</p>
-          </Reveal>
-          <MStagger as="ul" className="mt-10 flex flex-col gap-7" variants={slideIn("inline-start", 32)}>
-            {STANDARD.principles.map((p) => (
-              <li key={p.t} className="flex items-start gap-4 border-b border-line pb-6 last:border-b-0 last:pb-0">
-                <span aria-hidden className="mt-1.5 grid h-8 w-8 shrink-0 rotate-45 place-items-center border border-gold/60">
-                  <span className="-rotate-45 text-[0.55rem] leading-none text-gold">◆</span>
-                </span>
-                <div>
-                  <h3 className="font-serif text-xl font-black leading-snug text-navy">{p.t}</h3>
-                  <p className="mt-1.5 leading-relaxed text-muted">{p.d}</p>
-                </div>
-              </li>
-            ))}
-          </MStagger>
-          <Reveal delay={160}>
-            <div className="mt-11 rounded-[16px] bg-sand p-7">
-              <p className="flex items-center gap-2 text-[13px] font-bold tracking-eyebrow text-gold-ink">
-                <span className="text-[0.6rem] leading-none" aria-hidden>◆</span>
-                {STANDARD.areasLabel}
-              </p>
-              <ul className="mt-4 flex flex-wrap gap-x-2.5 gap-y-2">
-                {STANDARD.areas.map((a) => (
-                  <li key={a} className="rounded-full border border-line bg-card px-4 py-2 text-sm font-semibold text-navy">
-                    {a}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-        </div>
+        {/* §21's reserved media/collab line was removed 2026-07-26 (Rom's call).
+             It was honest, but it announced an absence rather than stating
+             anything, and the ledger now closes on the bridge line instead. */}
       </Section>
 
       {/* ===== 22 · RESOLUTION - one elevated spotlight-card: the no-pressure
@@ -710,7 +611,7 @@ export default function AboutPage() {
                     </p>
                     <ResponsePromise promise={CLOSE.promise} tone="dark" />
                   </div>
-                  <p className={`${signatureScript.className} text-4xl text-blush`}>
+                  <p className="font-serif text-3xl font-black text-blush">
                     {CLOSE.signature}
                   </p>
                 </div>
