@@ -22,20 +22,25 @@
 ## הפעלת המיגרציות
 
 ```bash
-supabase link --project-ref <ref>
+npx supabase login
 ```
 
 ```bash
-supabase db push
+npx supabase link --project-ref bmcelejvclzxqvjcwebo && npx supabase db push
 ```
+
+`login` is the only step that cannot be automated: it opens a browser. The
+migrations use the CLI's own `<timestamp>_name.sql` convention rather than
+`0001_`-style names, so `db push` records them in `supabase_migrations` and a
+file it does not recognise cannot be skipped in silence.
 
 הקבצים רצים לפי הסדר:
 
 | קובץ | מה יש בו |
 | --- | --- |
-| `0001_schema.sql` | טיפוסים, טבלאות, אינדקסים וטריגרים |
-| `0002_rls.sql` | RLS, הרשאות, ומדיניות ה־Storage, כולל שש בדיקות שמפילות את המיגרציה אם משהו נשאר פתוח |
-| `0003_publish.sql` | נתיב הכתיבה: שמירת טיוטה, פרסום, שחזור, הסתרה, שינוי כתובת ושמירת הגדרה |
+| `20260729000001_schema.sql` | טיפוסים, טבלאות, אינדקסים וטריגרים |
+| `20260729000002_rls.sql` | RLS, הרשאות, ומדיניות ה־Storage, כולל שש בדיקות שמפילות את המיגרציה אם משהו נשאר פתוח |
+| `20260729000003_publish.sql` | נתיב הכתיבה: שמירת טיוטה, פרסום, שחזור, הסתרה, שינוי כתובת ושמירת הגדרה |
 
 ## הזרעת התוכן, ובאיזה סדר
 
