@@ -249,6 +249,7 @@ export type AboutPressPayload = {
 };
 
 export type AboutCtaPayload = {
+  promise: string;
   kicker: string;
   title: string;
   body: string;

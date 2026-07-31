@@ -20,6 +20,11 @@ import { SpotlightCard } from "@/components/section/SpotlightCard";
 import { ResponsePromise } from "@/components/trust/ResponsePromise";
 import { JsonLd } from "@/components/JsonLd";
 import { personFromBio } from "@/lib/schema-presets";
+import { getPublishedPage, sectionPayload } from "@/lib/sections/source";
+import type {
+  AboutHeroPayload, AboutStoryPayload, AboutAgePayload,
+  AboutCredentialsPayload, AboutPressPayload, AboutCtaPayload,
+} from "@/lib/sections/payloads";
 
 // The Hebrew signature-script hand accent (DESIGN-DIRECTION: reserved strictly
 // for her-voice moments on this page - the age answer seal + her signed name).
@@ -35,90 +40,41 @@ const signatureScript = Solitreo({
    Studio verification stamps from COPY.md are metadata and are NOT rendered. */
 
 // COPY: ### סקשן 17 · SplitHero + Portrait 4:5
-const HERO = {
-  crumbLabel: "עליי",
-  kicker: "נעים להכיר",
-  title: "אלונה אקרלינג", // איות מחייב: אקרלינג, לא אקרלינק
-  lede: "דיאטנית קלינית מוסמכת שמלווה נשים אל שקט סביב האוכל, בגובה העיניים, בלי דיאטות ובלי אשמה. הנה מי שעומדת מאחורי כל מילה כאן.",
-  licenseChip: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
-  // תווית-הכפתור והשורה-הקטנה שמתחתיה — פיצול משפחת-ההירו של הבית (בלי נקודה-אמצעית בתוך כפתור)
-  ctaPrimary: "בואי נדבר",
-  ctaPrimarySub: "שיחת היכרות בלי עלות",
-  ctaMicro: "תראי בעצמך אם זה מתאים · בלי התחייבות",
-  ctaSecondary: "קראי את הסיפור שלי ↓",
-  // שורת ה-alt מ-COPY משמשת כתווית מצב-הריק של משבצת הפורטרט (פורטרט אמיתי בלבד, טרם נמסר)
-  portraitLabel: "אלונה אקרלינג, דיאטנית קלינית מוסמכת, פורטרט",
-} as const;
+
 
 // COPY: ### סקשן 18 · Section width=prose (סיפור-המקור)
-const STORY = {
-  kicker: "הסיפור שלי",
-  title: "לפני שהייתי דיאטנית,\nהייתי בדיוק במקום שלך",
-  p1: "הכל התחיל אצלי בתקופת הקורונה, כשגיליתי את הבישול הבריא והתחלתי לשתף באינסטגרם.",
-  p2: "ואז טבעתי במיתוסים: בשלב מסוים כבר לא ידעתי מה נכון ומה לא נכון. בדיוק בגלל זה הלכתי ללמוד, כדי להבין מה באמת קורה בגוף שלנו.",
-  credo1: "אני מאמינה שאוכל בריא לא צריך להיות משעמם. להפך: הוא יכול להיות עשיר, מגוון, טעים וצבעוני, ולא מסובך בכלל.",
-  // הקרדו השני מפוצל סביב מילת-ההדגשה «ליהנות» (קו-יד ורוד) - אותו משפט, אחד-לאחד
-  credo2a: "אין מאכלים אסורים, אין אשמה. רק איזון חכם שמאפשר ",
-  credo2Mark: "ליהנות",
-  credo2b: " מהכל.",
-  signOff: "זמינה בשבילך לכל שאלה,",
-  signature: "אלונה",
-} as const;
+
 
 // COPY: ### סקשן 19 · PullQuote ענק + כתב-יד (שאלת הגיל)
 // The pivot word carries the ONE rose hand-underline (plan 19 layer 5).
-const AGE_PIVOT = "בדיוק";
-const AGE = {
-  kicker: "על הגיל, בלי להתחמק",
-  quote:
-    "כן, אני צעירה.\nוזה בדיוק מה שמאפשר לי\nלהחזיק את המדע הכי עדכני,\nולדבר איתך בגובה העיניים, לא מלמעלה.",
-  support: "אני מגיעה עם אנרגיה, סקרנות ורצון ללמוד ולהתפתח.",
-  signature: "אלונה",
-} as const;
+
 
 // COPY: ### סקשן 20 · BentoGrid (קיר הקרדנציאלים)
-const CREDENTIALS = {
-  kicker: "הרקע, בגילוי מלא",
-  title: "הרקע אמיתי, ואפשר לבדוק אותו",
-  anchor: {
-    title: "דיאטנית קלינית מוסמכת · R.D.",
-    line: "רישיון משרד הבריאות 204526-11",
-    verify: "בדקי אותי במאגר משרד הבריאות",
-  },
-  bsc: { title: "B.Sc במדעי התזונה", line: "המרכז האקדמי פרס, 2024" },
-  intern: { title: "התמחות קלינית · בית החולים איכילוב", line: "חצי שנה, 2025" },
-  craft: {
-    title: "דיאטנית שמבשלת",
-    line: "לא רק אומרת לך מה לאכול. יודעת בדיוק איך זה נראה במטבח האמיתי.",
-    link: "אל המתכונים ←",
-    micro: "בערך 30 מתכונים, מתעדכן מדי שבוע",
-  },
-  bridge: 'אז אם השאלה היא "אינפלואנסרית או דיאטנית אמיתית?", הנה הרקע, גלוי לבדיקה.',
-} as const;
+
 
 // COPY: ### סקשן 21 · Marquee (מדיה ושת"פים) · כהה עד אישור
-const PRESS = {
-  reserved: "שיתופי פעולה ומדיה יתווספו כאן עם האישור. אני לא מציגה לוגו שלא אושר.",
-} as const;
+
 
 // COPY: ### סקשן 22 · SpotlightCard + Person JSON-LD
-const CLOSE = {
-  kicker: "הצעד שלך",
-  title: "עכשיו כשאת מכירה אותי,\nבשיחת היכרות בלי עלות, תראי בעצמך אם זה מתאים.",
-  body: "עכשיו את כבר יודעת מאיפה אני מגיעה ומה הרקע שלי. מה שנשאר זה לשמוע אותך: שיחה קצרה, בלי עלות ובלי התחייבות, בגובה העיניים, ונראה אם הדרך שלי מתאימה לך. האוכל שאת אוהבת נשאר בפנים.",
-  recipes: "ורוצה קודם פשוט לראות מה אני מבשלת? המתכונים כאן ←",
-  trustToken: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
-  promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
-  button: "בואי נדבר, שיחת היכרות חינם",
-  signature: "אלונה",
-} as const;
 
-export const metadata: Metadata = {
-  title: "עליי",
-  description: HERO.lede,
-  alternates: { canonical: "/about" },
-  openGraph: { url: "/about" },
-};
+
+/** No match returns the text whole: a drifted highlight costs an underline, never a paragraph. */
+function splitAccent(text: string, accent: string): [string, string, string] {
+  const at = accent ? text.indexOf(accent) : -1;
+  if (at === -1) return [text, "", ""];
+  return [text.slice(0, at), accent, text.slice(at + accent.length)];
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPublishedPage("about");
+  const hero = sectionPayload<AboutHeroPayload>(page, "hero");
+  return {
+    title: page?.title ?? "עליי",
+    description: hero?.lede,
+    alternates: { canonical: "/about" },
+    openGraph: { url: "/about" },
+  };
+}
 
 // Person JSON-LD (סקשן 22) - real, stated credentials only; no ratings/reviews.
 const personSchema = personFromBio(
@@ -137,7 +93,17 @@ const personSchema = personFromBio(
   site,
 );
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const page = await getPublishedPage("about");
+  const HERO = sectionPayload<AboutHeroPayload>(page, "hero")!;
+  const STORY = sectionPayload<AboutStoryPayload>(page, "story")!;
+  const AGE = sectionPayload<AboutAgePayload>(page, "age")!;
+  const C = sectionPayload<AboutCredentialsPayload>(page, "credentials")!;
+  const PRESS = sectionPayload<AboutPressPayload>(page, "press")!;
+  const CLOSE = sectionPayload<AboutCtaPayload>(page, "cta")!;
+  const AGE_PIVOT = AGE.quoteAccent;
+  const [credo2Before, credo2Mark, credo2After] = splitAccent(STORY.credo2, STORY.credo2Accent);
+
   return (
     <>
       <JsonLd data={personSchema} />
@@ -222,7 +188,7 @@ export default function AboutPage() {
               <div aria-hidden className="grain-overlay" />
               <div className="relative flex h-full flex-col items-center justify-center gap-4 p-8 text-center">
                 <span className={`${signatureScript.className} text-6xl text-navy`}>
-                  {STORY.signature}
+                  {HERO.portraitSignature}
                 </span>
                 <span aria-hidden className="flex items-center gap-3">
                   <span className="h-px w-12 bg-gold/60" />
@@ -232,7 +198,7 @@ export default function AboutPage() {
                 <p className="font-serif text-xl font-black leading-snug text-navy">
                   {HERO.title}
                 </p>
-                <p className="text-sm font-semibold text-muted">{CREDENTIALS.anchor.title}</p>
+                <p className="text-sm font-semibold text-muted">{HERO.portraitRole}</p>
               </div>
             </div>
           </Reveal>
@@ -254,7 +220,7 @@ export default function AboutPage() {
               house pattern rather than on a single page. The source is 177KB at
               1330x2110 and was being served whole into a 375x250 mobile band. */}
           <Image
-            src="/media/client/recipes/moroccan-fish.jpg"
+            src={STORY.image}
             alt=""
             fill
             sizes="(max-width: 768px) 0px, 52vw"
@@ -275,8 +241,8 @@ export default function AboutPage() {
         />
         <div className="relative aspect-[3/2] md:hidden">
           <Image
-            src="/media/client/recipes/moroccan-fish.jpg"
-            alt="דגים מרוקאים של שישי, מנה אמיתית מהמטבח של אלונה"
+            src={STORY.image}
+            alt={STORY.imageAlt}
             fill
             sizes="(max-width: 768px) 100vw, 0px"
             className="object-cover"
@@ -310,11 +276,11 @@ export default function AboutPage() {
                     {STORY.credo1}
                   </p>
                   <p className="mt-4 font-serif text-xl font-bold leading-snug text-navy sm:text-2xl">
-                    {STORY.credo2a}
+                    {credo2Before}
                     <span className="underline decoration-rose decoration-[3px] underline-offset-[6px]">
-                      {STORY.credo2Mark}
+                      {credo2Mark}
                     </span>
-                    {STORY.credo2b}
+                    {credo2After}
                   </p>
                 </div>
                 <p className="text-lg leading-relaxed text-ink">{STORY.signOff}</p>
@@ -415,7 +381,7 @@ export default function AboutPage() {
            dish from her kitchen. Checkable facts only, no logos, no metrics,
            no testimonials. COPY: ### סקשן 20 ===== */}
       <Section tone="sand" seam>
-        <SectionHeading eyebrow={CREDENTIALS.kicker} title={CREDENTIALS.title} accent="אמיתי" />
+        <SectionHeading eyebrow={C.kicker} title={C.title} accent={C.titleAccent} />
         <div className="mt-12 grid items-stretch gap-10 md:grid-cols-[1.12fr_0.88fr] md:gap-12">
           {/* ── the official ledger: certificate + stamped rows ── */}
           <MStagger variants={slideIn("inline-start", 40)} className="flex flex-col">
@@ -428,10 +394,10 @@ export default function AboutPage() {
                 <div>
                   {/* explicit white — the global h3 rule paints navy, invisible on navy */}
                   <h3 className="font-serif text-2xl font-black leading-snug text-white md:text-[1.65rem]">
-                    {CREDENTIALS.anchor.title}
+                    {C.anchorTitle}
                   </h3>
                   <p className="mt-3 text-lg font-semibold tracking-wide text-gold-soft">
-                    {CREDENTIALS.anchor.line}
+                    {C.anchorLine}
                   </p>
                 </div>
                 <span aria-hidden className="grid h-11 w-11 shrink-0 rotate-45 place-items-center border border-gold-soft/60">
@@ -440,14 +406,14 @@ export default function AboutPage() {
               </div>
               {/* the checkability promise is a REAL link: the MOH practitioners registry */}
               <a
-                href="https://practitioners.health.gov.il"
+                href={C.anchorVerifyHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cta="about-credentials-verify"
                 className="btn-chamfer mt-7 inline-flex items-center gap-2.5 rounded-[6px] border border-gold-soft/50 px-5 py-3 text-sm font-bold text-gold-soft transition hover:border-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
               >
                 <span className="text-[0.6rem] leading-none" aria-hidden>◆</span>
-                {CREDENTIALS.anchor.verify}
+                {C.anchorVerify}
               </a>
             </article>
             {/* record row - the degree */}
@@ -457,9 +423,9 @@ export default function AboutPage() {
               </span>
               <div>
                 <h3 className="font-serif text-xl font-black leading-snug text-navy">
-                  {CREDENTIALS.bsc.title}
+                  {C.bscTitle}
                 </h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted">{CREDENTIALS.bsc.line}</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted">{C.bscLine}</p>
               </div>
             </div>
             {/* record row - the clinical internship */}
@@ -469,9 +435,9 @@ export default function AboutPage() {
               </span>
               <div>
                 <h3 className="font-serif text-xl font-black leading-snug text-navy">
-                  {CREDENTIALS.intern.title}
+                  {C.internTitle}
                 </h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted">{CREDENTIALS.intern.line}</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted">{C.internLine}</p>
               </div>
             </div>
           </MStagger>
@@ -480,8 +446,8 @@ export default function AboutPage() {
             <article className="flex w-full flex-col overflow-hidden rounded-[16px] border border-line bg-card shadow-[var(--elevation-1)]">
               <div className="relative aspect-[3/2]">
                 <Image
-                  src="/media/client/recipes/quinoa-citrus-salad.jpg"
-                  alt="סלט קינואה והדרים, מנה אמיתית מהמטבח של אלונה"
+                  src={C.craftImage}
+                  alt={C.craftImageAlt}
                   fill
                   sizes="(min-width: 768px) 38vw, 92vw"
                   className="object-cover"
@@ -489,18 +455,18 @@ export default function AboutPage() {
               </div>
               <div className="flex grow flex-col bg-gold-soft p-7 md:p-8">
                 <h3 className="font-serif text-2xl font-black leading-snug text-navy">
-                  {CREDENTIALS.craft.title}
+                  {C.craftTitle}
                 </h3>
-                <p className="mt-3 grow text-base leading-relaxed text-ink">{CREDENTIALS.craft.line}</p>
+                <p className="mt-3 grow text-base leading-relaxed text-ink">{C.craftLine}</p>
                 <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
                   <Link
                     href="/recipes"
                     data-cta="about-credentials-recipes"
                     className="inline-block py-1.5 font-bold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:decoration-gold"
                   >
-                    {CREDENTIALS.craft.link}
+                    {C.craftLink}
                   </Link>
-                  <span className="text-sm text-muted">{CREDENTIALS.craft.micro}</span>
+                  <span className="text-sm text-muted">{C.craftMicro}</span>
                 </div>
               </div>
             </article>
@@ -508,7 +474,7 @@ export default function AboutPage() {
         </div>
         <Reveal delay={220}>
           <p className="mt-10 max-w-[62ch] text-base leading-relaxed text-muted">
-            {CREDENTIALS.bridge}
+            {C.bridge}
           </p>
           {/* the full credentials page (/team/alona) gets its one quiet inbound door
               (mt-2.5 + py-1.5 keeps the same visual gap while padding the tap area) */}
@@ -518,7 +484,7 @@ export default function AboutPage() {
               data-cta="about-credentials-team"
               className="inline-block py-1.5 text-sm font-bold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:decoration-gold"
             >
-              לעמוד ההסמכות המלא ←
+              {C.teamLink}
             </Link>
           </p>
         </Reveal>

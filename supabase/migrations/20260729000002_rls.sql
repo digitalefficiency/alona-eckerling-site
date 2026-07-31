@@ -289,48 +289,50 @@ create policy leads_staff_update on public.leads
 -- standing between a client-typed value and a repo-wide write. It must not be
 -- lost in the port.
 --
--- These three statements are the only ones in the whole migration whose success
--- depends on a Supabase-managed grant rather than on something this migration
--- created: storage.objects is owned by supabase_storage_admin, and CREATE
--- POLICY requires ownership. On a managed project the postgres role holds that
--- membership. If it ever does not, the bare "must be owner of relation objects"
--- would abort 0002 AFTER RLS was enabled and BEFORE any policy existed, which
--- locks everyone out rather than degrading. Fail with an instruction instead.
+-- These are the only statements whose success depends on a Supabase-managed
+-- grant rather than on something this migration created: storage.objects is
+-- owned by supabase_storage_admin. Whether the migration role can create
+-- policies there varies by platform version — a membership probe gave a false
+-- answer in practice — so the only honest test is the attempt itself, wrapped
+-- so a refusal aborts with an instruction instead of a bare ownership error
+-- AFTER RLS was already enabled.
 do $$
 begin
-  if not pg_catalog.pg_has_role(current_user, 'supabase_storage_admin', 'member') then
+  execute $pol$
+  create policy media_bucket_editor_insert on storage.objects
+    for insert to authenticated
+    with check (
+      bucket_id = 'media'
+      and public.is_cms_user()
+      and (storage.foldername(name))[1] in ('uploads', 'recipes')
+    )
+  $pol$;
+  execute $pol$
+  create policy media_bucket_editor_update on storage.objects
+    for update to authenticated
+    using (
+      bucket_id = 'media'
+      and public.is_cms_user()
+      and (storage.foldername(name))[1] in ('uploads', 'recipes')
+    )
+    with check (
+      bucket_id = 'media'
+      and public.is_cms_user()
+      and (storage.foldername(name))[1] in ('uploads', 'recipes')
+    )
+  $pol$;
+  execute $pol$
+  create policy media_bucket_admin_all on storage.objects
+    for all to authenticated
+    using (bucket_id = 'media' and public.is_admin())
+    with check (bucket_id = 'media' and public.is_admin())
+  $pol$;
+exception
+  when insufficient_privilege then
     raise exception
-      'cannot create storage policies as %. Grant it membership in supabase_storage_admin, or apply the storage section from the dashboard SQL editor.',
-      current_user;
-  end if;
+      'this role cannot create policies on storage.objects. Run the storage section from the dashboard SQL editor, or grant the migration role membership in supabase_storage_admin.';
 end
 $$;
-
-create policy media_bucket_editor_insert on storage.objects
-  for insert to authenticated
-  with check (
-    bucket_id = 'media'
-    and public.is_cms_user()
-    and (storage.foldername(name))[1] in ('uploads', 'recipes')
-  );
-
-create policy media_bucket_editor_update on storage.objects
-  for update to authenticated
-  using (
-    bucket_id = 'media'
-    and public.is_cms_user()
-    and (storage.foldername(name))[1] in ('uploads', 'recipes')
-  )
-  with check (
-    bucket_id = 'media'
-    and public.is_cms_user()
-    and (storage.foldername(name))[1] in ('uploads', 'recipes')
-  );
-
-create policy media_bucket_admin_all on storage.objects
-  for all to authenticated
-  using (bucket_id = 'media' and public.is_admin())
-  with check (bucket_id = 'media' and public.is_admin());
 
 -- ============================================================================
 -- ASSERTIONS. These run at migration time and fail the deploy. They are the

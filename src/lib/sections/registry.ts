@@ -778,6 +778,12 @@ export const ABOUT_CTA: SectionType = {
   required: true,
   pin: "end",
   fields: [
+      { key: "promise",
+        label: "הבטחת המענה",
+        kind: "text",
+        required: true,
+        max: 60,
+        hint: "מספר ימי העסקים חייב להיות אמיתי — זו הבטחה, לא סלוגן" },
       { key: "kicker",
         label: "שורת פתיחה קטנה",
         kind: "text",
