@@ -139,18 +139,39 @@ export function Repeater({
                       onChange={(v) => onChange(value.map((x, j) => (j === i ? v : x)))}
                     />
                   ) : (
-                    spec.fields.map((f) =>
-                      f.kind === "text" || f.kind === "textarea" ? (
-                        <TextInput
-                          key={f.key}
-                          spec={f}
-                          value={String((item as Record<string, unknown>)[f.key] ?? "")}
-                          onChange={(v) =>
-                            onChange(value.map((x, j) => (j === i ? { ...(x as object), [f.key]: v } : x)))
-                          }
-                        />
-                      ) : null,
-                    )
+                    spec.fields.map((f) => {
+                      if (f.kind === "text" || f.kind === "textarea") {
+                        return (
+                          <TextInput
+                            key={f.key}
+                            spec={f}
+                            value={String((item as Record<string, unknown>)[f.key] ?? "")}
+                            onChange={(v) =>
+                              onChange(value.map((x, j) => (j === i ? { ...(x as object), [f.key]: v } : x)))
+                            }
+                          />
+                        );
+                      }
+                      // A list inside a list — the coaching packages carry their
+                      // "מה כלול" bullets inside each package. Without this the
+                      // inner list is invisible in the desk: the data survives a
+                      // save untouched, but a field she cannot see is a promise
+                      // the form quietly breaks.
+                      if (f.kind === "repeater") {
+                        const inner = (item as Record<string, unknown>)[f.key];
+                        return (
+                          <Repeater
+                            key={f.key}
+                            spec={f}
+                            value={Array.isArray(inner) ? (inner as Item[]) : []}
+                            onChange={(v) =>
+                              onChange(value.map((x, j) => (j === i ? { ...(x as object), [f.key]: v } : x)))
+                            }
+                          />
+                        );
+                      }
+                      return null;
+                    })
                   )}
                 </div>
               )}
