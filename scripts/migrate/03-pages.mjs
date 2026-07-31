@@ -53,6 +53,23 @@ for (const file of files) {
   for (const s of doc.sections ?? []) {
     if (!REGISTRY[s.type]) problems.push(`${file}: section "${s.id}" has type "${s.type}" with no registry entry`);
     if (!s.id) problems.push(`${file}: a section is missing its id`);
+
+    // AND every payload key must be declared. A key the registry misses is not
+    // a formality: savePage refuses to publish such a section (it used to strip
+    // the key — that is how a publish once deleted the stakes columns), so an
+    // undeclared key here means a page that cannot be published from the desk.
+    const reg = REGISTRY[s.type];
+    if (reg) {
+      const declared = new Set(reg.fields.map((f) => f.key));
+      for (const k of Object.keys(s.payload ?? {})) {
+        if (!declared.has(k)) problems.push(`${file}: ${s.type}.${k} exists in the payload but not in the registry`);
+      }
+      for (const f of reg.fields) {
+        if (f.required && !(f.key in (s.payload ?? {}))) {
+          problems.push(`${file}: ${s.type}.${f.key} is required by the registry but absent from the payload`);
+        }
+      }
+    }
   }
   const ids = (doc.sections ?? []).map((s) => s.id);
   const dupes = ids.filter((x, i) => ids.indexOf(x) !== i);

@@ -79,6 +79,41 @@ export function SectionForm({
             onChange={(v) => set(f.key, v)}
           />
         );
+      case "group": {
+        // A fixed object — the stakes columns. One bordered fieldset, its inner
+        // fields reading and writing payload[group][inner].
+        const group = (payload[f.key] ?? {}) as Record<string, unknown>;
+        const setInner = (k: string, v: unknown) => set(f.key, { ...group, [k]: v });
+        return (
+          <fieldset key={f.key} className="mb-6 rounded-[8px] border border-line p-4">
+            <legend className="px-1.5 text-[13px] font-bold text-ink">{f.label}</legend>
+            {f.hint && <p className="mb-3 text-[12px] leading-relaxed text-muted">{f.hint}</p>}
+            {f.fields.map((inner) => {
+              if (inner.kind === "text" || inner.kind === "textarea") {
+                return (
+                  <TextInput
+                    key={inner.key}
+                    spec={inner}
+                    value={String(group[inner.key] ?? "")}
+                    onChange={(v) => setInner(inner.key, v)}
+                  />
+                );
+              }
+              if (inner.kind === "repeater") {
+                return (
+                  <Repeater
+                    key={inner.key}
+                    spec={inner}
+                    value={Array.isArray(group[inner.key]) ? (group[inner.key] as never[]) : []}
+                    onChange={(v) => setInner(inner.key, v)}
+                  />
+                );
+              }
+              return null;
+            })}
+          </fieldset>
+        );
+      }
       case "image":
       case "video":
         return (

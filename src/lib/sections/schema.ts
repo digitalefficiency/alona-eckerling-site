@@ -77,6 +77,16 @@ export type ImageField = Base & {
 export type VideoField = Base & { kind: "video" };
 export type BooleanField = Base & { kind: "boolean" };
 
+/**
+ * A fixed named object inside the payload — the stakes section's two columns
+ * are {label, note, points[]} each. Unlike a repeater the shape never grows or
+ * shrinks; the desk renders it as one bordered fieldset.
+ */
+export type GroupField = Base & {
+  kind: "group";
+  fields: FieldSpec[];
+};
+
 export type RepeaterField = Base & {
   kind: "repeater";
   min?: number;
@@ -93,6 +103,7 @@ export type FieldSpec =
   | ImageField
   | VideoField
   | BooleanField
+  | GroupField
   | RepeaterField;
 
 export type SectionType = {

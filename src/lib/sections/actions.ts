@@ -45,13 +45,19 @@ async function requireSession(): Promise<string | null> {
  * Unknown keys are dropped silently — they cannot have come from the desk, and
  * storing them would mean the document grows fields no form can ever edit.
  */
-function sanitise(doc: PageDocument): PageDocument {
-  return {
-    ...doc,
-    sections: doc.sections.map((s) => {
+function sanitise(doc: PageDocument): PageDocument | { registryGap: string } {
+  const gaps: string[] = [];
+  const sections = doc.sections.map((s) => {
       const type = getSectionType(s.type);
       if (!type) return s; // a section we do not model yet passes through untouched
       const allowed = new Set(type.fields.map((f) => f.key));
+      // A payload key the registry does not declare is NOT junk to strip — the
+      // desk cannot produce one, so it can only mean the registry entry is
+      // incomplete. Dropping it silently is how a publish deleted the stakes
+      // section's two comparison columns. Refuse instead, naming the keys.
+      for (const k of Object.keys(s.payload)) {
+        if (!allowed.has(k)) gaps.push(`${s.type}.${k}`);
+      }
       const payload: Record<string, unknown> = {};
       for (const [k, v] of Object.entries(s.payload)) if (allowed.has(k)) payload[k] = v;
       // a locked field can never be written from the desk, whatever arrives
@@ -62,8 +68,9 @@ function sanitise(doc: PageDocument): PageDocument {
         }
       }
       return { ...s, payload, visible: s.visible !== false };
-    }),
-  };
+  });
+  if (gaps.length) return { registryGap: gaps.join(", ") };
+  return { ...doc, sections };
 }
 
 export async function savePage(slug: string, doc: PageDocument): Promise<SaveResult> {
@@ -88,11 +95,36 @@ export async function savePage(slug: string, doc: PageDocument): Promise<SaveRes
     return { ok: false, error: "לא הצלחתי לקרוא את העמוד. כדאי לרענן." };
   }
 
-  const clean = sanitise(doc);
+  const cleanOrGap = sanitise(doc);
+  if ("registryGap" in cleanOrGap) {
+    return {
+      ok: false,
+      error: `באג ברישום הסקשנים (${cleanOrGap.registryGap}) — השמירה נעצרה כדי לא לאבד תוכן. פנו לרום.`,
+    };
+  }
+  const clean = cleanOrGap;
 
+  // WHICH BACKEND IS THE LIVE SOURCE for this page? Not "is Supabase
+  // configured" — the read path serves the pages TABLE only when the row
+  // exists, and the file otherwise. A save must land wherever reads actually
+  // come from: writing the file while visitors read the table would be edits
+  // into a void, and writing the table while visitors read the file would be
+  // the same lie in the other direction.
+  let dbIsLive = false;
   if (supabaseConfigured) {
     const sb = await userClient();
-    const { error } = await sb
+    const { data: existing } = await sb.from("pages").select("slug").eq("slug", slug).maybeSingle();
+    dbIsLive = Boolean(existing);
+  }
+
+  if (dbIsLive) {
+    const sb = await userClient();
+    // .select() makes the update RETURN the rows it touched. This is the whole
+    // check: an RLS-refused update answers with ZERO rows and NO error, so
+    // "no error" proves nothing and "the row exists" (a read-back) proves even
+    // less — the row existing is exactly what a refused update leaves behind.
+    // Only "the update returned the row" means the write landed.
+    const { data: updated, error } = await sb
       .from("pages")
       .update({
         title: clean.title,
@@ -102,18 +134,17 @@ export async function savePage(slug: string, doc: PageDocument): Promise<SaveRes
         sections: clean.sections.filter((x) => x.visible !== false),
         status: "published",
       })
-      .eq("slug", slug);
+      .eq("slug", slug)
+      .select("slug");
 
     if (error) {
-      // An RLS refusal answers with zero rows and no error, so a successful
-      // response is not by itself proof that anything was written. The read-back
-      // below is what turns "the request succeeded" into "the site changed".
       return { ok: false, error: "השמירה נדחתה. ייתכן שאין הרשאה לערוך את העמוד הזה." };
     }
-
-    const { data: check } = await sb.from("pages").select("slug").eq("slug", slug).maybeSingle();
-    if (!check) {
-      return { ok: false, error: "השמירה לא נקלטה. התוכן שלך עדיין כאן במסך, כדאי לנסות שוב." };
+    if (!updated || updated.length === 0) {
+      return {
+        ok: false,
+        error: "השמירה נדחתה: אין לחשבון הזה הרשאת כתיבה במסד. התוכן שלך עדיין כאן במסך.",
+      };
     }
   } else {
     try {
