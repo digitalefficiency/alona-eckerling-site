@@ -10,6 +10,7 @@ import { ArticleMeta } from "@/components/ArticleMeta";
 import { MediaFrame } from "@/components/media/MediaFrame";
 import { Gallery } from "@/components/media/Gallery";
 import { Prose } from "@/components/Prose";
+import { ServiceGuideTOC } from "@/components/ServiceGuideTOC";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { SectionHeading } from "@/components/SectionHeading";
 import { JsonLd, faqSchema } from "@/components/JsonLd";
@@ -201,18 +202,63 @@ export default async function CollectionEntryPage({ params }: Params) {
         </div>
       </Section>
 
-      <Section tone="white" width="prose" border>
-        {doc.image && (
-          <MediaFrame
-            src={doc.image}
-            alt={doc.imageAlt ?? doc.title}
-            ratio="16/9"
-            priority
-            className="mb-10"
-          />
-        )}
-        <Prose html={doc.html} />
-      </Section>
+      {/* ── The article body. Long-form entries with a real outline get the
+             running table of contents beside them; recipes and short pieces keep
+             the plain prose measure.
+
+             Why `>= 2` and not `> 0`: a contents list with ONE entry is not a
+             contents list, it is a duplicate of the title taking up a column.
+
+             ONE TOC instance, not one per breakpoint. The grid is single-column
+             on mobile with the aside first (so the outline reads as an intro to
+             what follows) and two-column at lg, where `order` puts the article on
+             the reading edge and the aside on the outer one. Rendering a second
+             copy inside a mobile <details> would have been easier and would have
+             put two IntersectionObservers on the same headings.
+
+             The stickiness lives HERE, not in ServiceGuideTOC: the component
+             scroll-spies but never positions itself, so it stays usable in a
+             non-sticky context too. top-28 clears the fixed header and matches
+             the global scroll-padding-top, so a clicked anchor and the sticky
+             rail agree about where a section starts. ── */}
+      {!isRecipe && doc.headings.length >= 2 ? (
+        <Section tone="white" width="wide" border>
+          <div className="grid gap-x-12 gap-y-10 lg:grid-cols-[minmax(0,1fr)_15rem]">
+            <aside className="lg:order-2">
+              <div className="lg:sticky lg:top-28">
+                <ServiceGuideTOC headings={doc.headings} />
+              </div>
+            </aside>
+            {/* min-w-0: without it a long unbroken string in the prose would
+                blow the 1fr track wider than the grid and shove the rail off */}
+            <div className="min-w-0 lg:order-1">
+              {doc.image && (
+                <MediaFrame
+                  src={doc.image}
+                  alt={doc.imageAlt ?? doc.title}
+                  ratio="16/9"
+                  priority
+                  className="mb-10"
+                />
+              )}
+              <Prose html={doc.html} />
+            </div>
+          </div>
+        </Section>
+      ) : (
+        <Section tone="white" width="prose" border>
+          {doc.image && (
+            <MediaFrame
+              src={doc.image}
+              alt={doc.imageAlt ?? doc.title}
+              ratio="16/9"
+              priority
+              className="mb-10"
+            />
+          )}
+          <Prose html={doc.html} />
+        </Section>
+      )}
 
       {doc.gallery.length > 0 && (
         <Section tone="white" width="wide" border>

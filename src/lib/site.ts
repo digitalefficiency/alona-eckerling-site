@@ -115,7 +115,7 @@ export const nav = [
   { href: "/recipes", label: "מתכונים" },
   { href: "/coaching", label: "איך עובדים איתי" },
   { href: "/about", label: "עליי" },
-  { href: "/testimonials", label: "המלצות" },
+  { href: "/articles", label: "מאמרים" },
   { href: "/contact", label: "צור קשר" },
 ] as const;
 
@@ -163,7 +163,7 @@ export const services: readonly Service[] = [
   {
     slug: "coaching-120",
     title: "ליווי מורחב (120 יום)",
-    short: "אותה דרך, עם יותר זמן לבסס הרגלים. אבחון מעמיק, מפגשי מעקב, ליווי וואטסאפ ותכנים מקצועיים לאורך ארבעה חודשים.",
+    short: "אותה דרך, עם יותר זמן לבסס הרגלים. שבעה מפגשים לאורך ארבעה חודשים: אבחון מעמיק, שישה מפגשי מעקב, ליווי וואטסאפ ותכנים מקצועיים.",
   },
   {
     slug: "single-session",

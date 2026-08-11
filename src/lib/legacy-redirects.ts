@@ -90,6 +90,11 @@ export function legacyRedirects(): LegacyRedirect[] {
     { source: "/post/:slug*", destination: "/recipes", permanent: true },
     // 4. Wix on-site search had its own indexed pages — no equivalent, land softly.
     { source: "/search", destination: "/", permanent: true },
+    // 5b. RETIRED ROUTE (2026-07-30, Rom's call): /testimonials became the
+    //    articles surface. The old path 308s to its replacement rather than
+    //    404ing. The testimonials CAPABILITY is untouched — the CMS settings
+    //    group and its consent trail stay, ready to be placed on another page.
+    { source: "/testimonials", destination: "/articles", permanent: true },
     // 5. RETIRED ROUTE (2026-07-29, Rom's call): the standalone credentials page
     //    /team/<slug>. /about carries the bio and now owns the canonical Person
     //    node, so the old URL points at its own replacement rather than 404ing.
