@@ -11,9 +11,16 @@ export function Gallery({
 }: {
   items: Item[];
   cols?: 2 | 3;
-  ratio?: "card" | "wide";
+  /** "portrait" is for phone-shot sets (the recipe archive): a 9:16 photo cropped
+   *  into the 4/3 card loses most of the plate, 3/4 keeps the dish whole. */
+  ratio?: "card" | "wide" | "portrait";
 }) {
-  const ar = ratio === "wide" ? "var(--aspect-wide)" : "var(--aspect-card)";
+  const ar =
+    ratio === "wide"
+      ? "var(--aspect-wide)"
+      : ratio === "portrait"
+        ? "var(--aspect-portrait)"
+        : "var(--aspect-card)";
   return (
     <div className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${cols === 3 ? "lg:grid-cols-3" : ""}`}>
       {items.map((it, i) => (
