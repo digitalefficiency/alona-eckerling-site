@@ -15,7 +15,6 @@ import { irisDiamond, slideIn } from "@/lib/motion-variants";
 import { MMagnetic } from "@/components/motion/MMagnetic";
 import { SplitText } from "@/components/motion/SplitText";
 import { StickyScroll } from "@/components/motion/StickyScroll";
-import { SequenceFilm, type FilmChip, type FilmCaption } from "@/components/SequenceFilm";
 import { Comparison } from "@/components/section/Comparison";
 import { DishRibbon } from "@/components/section/DishRibbon";
 import { RecognitionBadges } from "@/components/trust/RecognitionBadges";
@@ -55,58 +54,6 @@ const HERO = {
   // ships the WCAG skip-link, and two similar promises confuse a screen reader.
   scrollCue: "גללי",
 } as const;
-
-// COPY: ### סקשן 2 · סרט-גלילה «בניית המנה» (צ'יפים + כיתובי-תחנה)
-const FILM = {
-  kicker: "מוכר לך? · צלחת אחת, ערב אחד",
-  staticKicker: "מוכר לך?",
-  staticHeading: "ניסית כבר הכל, והאוכל עדיין מרגיש כמו מלחמה.",
-  staticBody:
-    'את יודעת בדיוק מה נכון לאכול, אבל לבד זה לא מחזיק. כל ביס מגיע עם חשבון בראש, וביס אחד "לא נכון" הופך מהר ל"היום כבר נהרס". ארוחה אמיתית, בלי חשבון ובלי אשמה, אפשרית, ואת לא צריכה להגיע לזה לבד.',
-  finalAlt: "צלחת מאוזנת ומלאה, ערוכה ומוכנה",
-  // the way out of the 420vh pinned runway (WCAG 2.2 — never trap the reader).
-  // It lands on §03, so skipping the problem delivers you to the person holding
-  // the way through it, never to a dead end.
-  skipLabel: "דלגי קדימה",
-} as const;
-
-// 14 verified frames — the plate builds step by step while the noise-chips pile up.
-const FILM_FRAMES = [
-  "/media/generated/02-problem-s01.jpg",
-  "/media/generated/02-problem-s02.jpg",
-  "/media/generated/02-problem-s03.jpg",
-  "/media/generated/02-problem-s04.jpg",
-  "/media/generated/02-problem-s05.jpg",
-  "/media/generated/02-problem-s06.jpg",
-  "/media/generated/02-problem-s07.jpg",
-  "/media/generated/02-problem-s08.jpg",
-  "/media/generated/02-problem-s09.jpg",
-  "/media/generated/02-problem-s10.jpg",
-  "/media/generated/02-problem-s11.jpg",
-  "/media/generated/02-problem-s12.jpg",
-  "/media/generated/02-problem-s13.jpg",
-  "/media/generated/02-problem-s14.jpg",
-] as const;
-
-// COPY: ### סקשן 2 — רשימת-המחשבות (5, הרעש בקולה): נערמות עד שיא-הרעש ואז
-// נעלמות יחד בתפנית. הן מוצגות כרשימה מסודרת בקצה-הקריאה (ימין), לא כצ'יפים
-// מפוזרים — הסדר עצמו הוא מה שמראה שהרעש מצטבר. המיקומים והנטיות הידניים ירדו
-// עם המעבר לרשימה (2026-07-29): הסידור נגזר מהסדר כאן, וזו האמנות היחידה שנשארה.
-const FILM_CHIPS: readonly FilmChip[] = [
-  { text: "אוקיי, סלט. בטוח.", from: 0.13, to: 0.55 },
-  { text: "רגע, קינואה זה פחמימה?", from: 0.21, to: 0.55 },
-  { text: "בטטה בערב?!", from: 0.29, to: 0.55 },
-  { text: "כמה קלוריות זה כבר?", from: 0.37, to: 0.55 },
-  { text: "טחינה זה שמן... אבל אני אוהבת.", from: 0.45, to: 0.55 },
-];
-
-// COPY: ### סקשן 2 — כיתובי-תחנה (4): פתיחה → תפנית → שיא → סיום
-const FILM_CAPTIONS: readonly FilmCaption[] = [
-  { big: "ארוחת ערב. כמה קשה זה כבר יכול להיות?", from: 0, to: 0.12 },
-  { big: "שומעת את הרעש הזה?", small: "זה לא רעב. זו כל דיאטה שנשארה לך בראש.", tone: "turn", from: 0.56, to: 0.7 },
-  { big: "ארוחה אמיתית. בלי חשבון, בלי אשמה.", from: 0.72, to: 0.85 },
-  { big: "ואת לא צריכה להגיע לזה לבד.", small: "בדיוק בשביל זה יש ליווי.", from: 0.86, to: 0.985 },
-];
 
 // COPY: ### סקשן 3 · FeatureRow + BioCard + CredentialStrip
 // §03 room background — the desk the dossier spreads on (generated per plan
@@ -315,8 +262,8 @@ export default function HomePage() {
              side scrim (paper solid under the text column, opening into the room);
              the thread is still born from the CTA's chamfered corner. The old
              gold-framed panel retires — its vocabulary lives on in §03/§07.
-             The limp hero chip is GONE (Rom's call): the chip arc now opens in
-             the film itself (→ §06 echo → §07 rest).
+             The limp hero chip is GONE (Rom's call); the thought-chip arc that
+             replaced it lived in the §02 film and retired with it (2026-08-11).
              Header safety is DEFAULT-ON: the white nav treatment requires an
              explicit [data-dark-hero], so a light hero can never ship an
              invisible nav. The old data-light-hero marker was a no-op (nothing
@@ -330,7 +277,8 @@ export default function HomePage() {
         />
         <div aria-hidden className="hero-scrim" />
         {/* soft-curve seam (Rom 2026-07-20): the cream ground crests up into the
-            morning room — a shaped hand-off into the film, not a hard photo cut */}
+            morning room — a shaped hand-off out of the hero (into the dossier,
+            since the film's exit 2026-08-11), not a hard photo cut */}
         <SeamShape variant="curve-up" />
         <Container width="wide" className="relative z-10 w-full pb-16 pt-44 sm:pt-56 md:pb-24 lg:py-24 lg:pb-32">
           {/* ONE orchestrator, same word choreography as ever — block-axis steps */}
@@ -408,31 +356,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 02 · TENSION — the site's ONE signature moment: the pinned «בניית המנה»
-             scroll-film (14 frames), noise-chips pile up → the turn → quiet on the
-             gold frame. Static twin (reduced-motion / no-JS): final frame + PAS prose.
-             No arcs, no curves: the ONE seam of this site is the thread, which
-             simply keeps descending behind the stage (2026-07-20 — seven seam
-             mechanisms collapsed into one). The film is not an island; it is a
-             room the thread passes through. ── */}
-      <div className="relative bg-bg">
-          {/* fade the film's hard top edge so it dissolves in from the hero's seam */}
-          <div aria-hidden className="room-edges-top z-10" />
-          <SequenceFilm
-            frames={FILM_FRAMES}
-            kicker={FILM.kicker}
-            chips={FILM_CHIPS}
-            captions={FILM_CAPTIONS}
-            staticKicker={FILM.staticKicker}
-            staticHeading={FILM.staticHeading}
-            staticBody={FILM.staticBody}
-            finalAlt={FILM.finalAlt}
-            skipHref="#guide"
-            skipLabel={FILM.skipLabel}
-          />
-          {/* mirror-curve seam into the dossier — opposite direction to the hero's */}
-          <SeamShape variant="curve-down" />
-      </div>
+      {/* ── 02 · TENSION — THE FILM IS GONE (Rom, 2026-08-11: «תוריד את הסקשן של
+             סרט הגלילה»). The pinned «בניית המנה» scroll-film (SequenceFilm, 14
+             frames, noise-chips → turn → gold-frame quiet) came off the page with
+             its 420vh runway. Its copy stays in COPY.md §2 and the frames stay in
+             /media/generated should it ever return; the component itself remains
+             in components/ as reference, unmounted. The hero's curve-up seam now
+             hands straight into the dossier, whose room-edges-top fade was already
+             built for a soft entry. ── */}
 
       {/* ── 03 · GUIDE — «הדוסייה על השולחן» (overlap-layered): the camera looks down at
              her work desk (a photo ROOM via MScrollScene, never a framed object) and
@@ -442,7 +373,8 @@ export default function HomePage() {
              the honest empty-state (real Alona photo pending — never a generated
              face), now a waiting frame pinned to the file. Text NEVER sits on the
              bare photo — every piece is an opaque/milky paper card (AA).
-             id="guide" is the film's escape-hatch target (§02 skip control); the
+             id="guide" stays as an in-page anchor (it was the retired film's
+             escape-hatch target); the
              global scroll-padding-top of 6rem clears the fixed header, so no
              per-section scroll-mt is needed here. ── */}
       <section id="guide" className="relative">
@@ -757,9 +689,9 @@ export default function HomePage() {
             <Comparison
               className="mt-5"
               fork
-              // the film hands each future its own frame: the noisy year gets the
-              // chaos peak (s07), the quiet way gets the finished plate (s14) —
-              // both already in cache from the film, zero new bytes
+              // fork ghosts: the noisy year gets the chaos peak, the quiet way the
+              // finished plate — stills born from the retired §02 film's frames
+              // (s07/s14), which outlived it here as the fork's two futures
               left={{ label: STAKES.quiet.label, note: STAKES.quiet.note, points: [...STAKES.quiet.points], highlight: true, ghost: "/media/generated/06-fork-quiet.jpg" }}
               right={{ label: STAKES.noisy.label, note: STAKES.noisy.note, points: [...STAKES.noisy.points], noisy: true, ghost: "/media/generated/06-fork-noisy.jpg" }}
             />
@@ -793,9 +725,8 @@ export default function HomePage() {
              The golden-hour restaurant IS the room now (wide still via MScrollScene);
              the whole scene uncovers through the growing ◆ (irisDiamond on the media
              layer — the glyph that was a picture's shutter becomes the evening's).
-             One milky ivory card carries the felt-lines; the film's noise-chips rest
-             on ITS edge, set down for good. Zero grain — the material diet's clean
-             end. A dusk gradient hands the evening to §08's navy night, where the
+             One milky ivory card carries the felt-lines. Zero grain — the material
+             diet's clean end. A dusk gradient hands the evening to §08's navy night, where the
              gold ◆ of the form is the light that stays. ── */}
       <section className="relative">
         <MScrollScene
@@ -845,9 +776,10 @@ export default function HomePage() {
                     </Link>
                   </MItem>
                   {/* the settled-noise chips were removed here (Rom 2026-07-21:
-                      "תוריד את הפיצרים הקטנים האלו על התמונה") — the thought-chips
-                      now live ONLY inside the film, where they are the story. The
-                      evening room stays a clean photograph with one ivory card. */}
+                      "תוריד את הפיצרים הקטנים האלו על התמונה"), and the film that
+                      carried the chip arc followed on 2026-08-11 — the chips are
+                      fully retired. The evening room stays a clean photograph
+                      with one ivory card. */}
                 </div>
               </MItem>
             </MOrchestrate>
