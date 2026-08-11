@@ -122,13 +122,21 @@ export default async function CollectionEntryPage({ params }: Params) {
         dateModified: String(doc.data.last_updated ?? doc.date),
         inLanguage: htmlLang[defaultLocale],
         mainEntityOfPage: `${site.url}/${collection}/${slug}`,
-        // Reference the ONE canonical Person node (defined on /team/alona) by @id,
-        // instead of a second lookalike at /about — the entity-resolution fix.
-        // canonical Person node moved to /about when /team/alona was removed
+        // Reference the ONE canonical Person node by @id rather than emitting a
+        // second lookalike here — the entity-resolution fix. That node moved to
+        // /about when /team/alona was removed
         // (2026-07-29) — this @id MUST match personFromBio's on /about or the
         // recipes start referencing an entity that no longer resolves
         author: { "@type": "Person", "@id": `${site.url}/about#person`, name: site.name, url: `${site.url}/about` },
-        ...(doc.image ? { image: `${site.url}${doc.image}` } : {}),
+        // Google's Recipe guidance asks for MULTIPLE images of the finished dish;
+        // now that a recipe carries its own photo set, the hero rides at the front
+        // and the first few gallery shots follow (capped — the rest add bytes to
+        // every page's head without adding a signal).
+        ...(doc.image
+          ? {
+              image: [doc.image, ...doc.gallery.slice(0, 3).map((g) => g.url)].map((u) => `${site.url}${u}`),
+            }
+          : {}),
         ...(doc.data.category ? { recipeCategory: String(doc.data.category) } : {}),
         ...(Array.isArray(doc.data.tags) && doc.data.tags.length
           ? { keywords: (doc.data.tags as string[]).join(", ") }
@@ -260,9 +268,20 @@ export default async function CollectionEntryPage({ params }: Params) {
         </Section>
       )}
 
+      {/* The photo set behind the entry. On a recipe these are Alona's own phone
+          shots (9:16), so the tiles take the PORTRAIT crop — the 4/3 card ate most
+          of the plate. Recipes also get a quiet heading, because a bare grid of
+          eight photos under a method reads as a layout accident; every other
+          collection keeps the unlabelled strip it already had. */}
       {doc.gallery.length > 0 && (
         <Section tone="white" width="wide" border>
-          <Gallery items={doc.gallery.map((g) => ({ src: g.url, alt: g.alt }))} />
+          {isRecipe && <SectionHeading eyebrow="מהמטבח" title="עוד תמונות מהמנה" />}
+          <div className={isRecipe ? "mt-10" : ""}>
+            <Gallery
+              items={doc.gallery.map((g) => ({ src: g.url, alt: g.alt }))}
+              ratio={isRecipe ? "portrait" : "card"}
+            />
+          </div>
         </Section>
       )}
 
