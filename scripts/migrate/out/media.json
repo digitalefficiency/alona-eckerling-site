@@ -219,16 +219,14 @@
       "mime": "image/jpeg",
       "basename": "green-shakshuka.jpg",
       "alt": "שקשוקה ירוקה - שקשוקת תרד חלומית",
-      "kind": "dual",
-      "origin": "code",
-      "locked": true,
-      "codeRefs": [
-        "src/app/coaching/page.tsx:185"
-      ],
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
       "contentRefs": [
         "content/recipes/green-shakshuka.md:5"
       ],
-      "plan": "blocked-until-sections-are-extracted"
+      "plan": "phase5-upload"
     },
     {
       "publicPath": "/media/client/recipes/homemade-granola.jpg",
@@ -278,17 +276,14 @@
       "mime": "image/jpeg",
       "basename": "moroccan-fish.jpg",
       "alt": "דגים מרוקאים של שישי",
-      "kind": "dual",
-      "origin": "code",
-      "locked": true,
-      "codeRefs": [
-        "src/app/about/page.tsx:235",
-        "src/app/about/page.tsx:252"
-      ],
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
       "contentRefs": [
         "content/recipes/moroccan-fish.md:5"
       ],
-      "plan": "blocked-until-sections-are-extracted"
+      "plan": "phase5-upload"
     },
     {
       "publicPath": "/media/client/recipes/oatmeal-chocolate-chip-cookies.jpg",
@@ -319,16 +314,14 @@
       "mime": "image/jpeg",
       "basename": "one-pot-bulgur-stew.jpg",
       "alt": "תבשיל בורגול בסיר אחד",
-      "kind": "dual",
-      "origin": "code",
-      "locked": true,
-      "codeRefs": [
-        "src/app/coaching/page.tsx:186"
-      ],
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
       "contentRefs": [
         "content/recipes/one-pot-bulgur-stew.md:5"
       ],
-      "plan": "blocked-until-sections-are-extracted"
+      "plan": "phase5-upload"
     },
     {
       "publicPath": "/media/client/recipes/protein-cheesecake.jpg",
@@ -359,16 +352,14 @@
       "mime": "image/jpeg",
       "basename": "quinoa-citrus-salad.jpg",
       "alt": "סלט קינואה ברוטב ויניגרט הדרים דבש",
-      "kind": "dual",
-      "origin": "code",
-      "locked": true,
-      "codeRefs": [
-        "src/app/about/page.tsx:440"
-      ],
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
       "contentRefs": [
         "content/recipes/quinoa-citrus-salad.md:5"
       ],
-      "plan": "blocked-until-sections-are-extracted"
+      "plan": "phase5-upload"
     },
     {
       "publicPath": "/media/client/recipes/quinoa-in-red-sauce.jpg",
@@ -399,16 +390,14 @@
       "mime": "image/jpeg",
       "basename": "roasted-tomato-soup.jpg",
       "alt": "מרק עגבניות צלויות",
-      "kind": "dual",
-      "origin": "code",
-      "locked": true,
-      "codeRefs": [
-        "src/app/coaching/page.tsx:187"
-      ],
+      "kind": "cms",
+      "origin": "cms",
+      "locked": false,
+      "codeRefs": [],
       "contentRefs": [
         "content/recipes/roasted-tomato-soup.md:5"
       ],
-      "plan": "blocked-until-sections-are-extracted"
+      "plan": "phase5-upload"
     },
     {
       "publicPath": "/media/client/recipes/soba-noodle-salad.jpg",
@@ -595,7 +584,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:38"
+        "src/app/page.tsx:61"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -614,7 +603,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:261"
+        "src/app/page.tsx:63"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -633,7 +622,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:260"
+        "src/app/page.tsx:62"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -652,7 +641,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:66"
+        "src/app/page.tsx:71"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -671,7 +660,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:67"
+        "src/app/page.tsx:72"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -690,7 +679,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:68"
+        "src/app/page.tsx:73"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -709,7 +698,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:69"
+        "src/app/page.tsx:74"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -728,7 +717,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:70"
+        "src/app/page.tsx:75"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -747,7 +736,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:71"
+        "src/app/page.tsx:76"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -766,7 +755,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:72"
+        "src/app/page.tsx:77"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -785,7 +774,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:73"
+        "src/app/page.tsx:78"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -804,7 +793,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:74"
+        "src/app/page.tsx:79"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -823,7 +812,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:75"
+        "src/app/page.tsx:80"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -842,7 +831,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:76"
+        "src/app/page.tsx:81"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -861,7 +850,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:77"
+        "src/app/page.tsx:82"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -880,7 +869,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:78"
+        "src/app/page.tsx:83"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -899,7 +888,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:79"
+        "src/app/page.tsx:84"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -918,7 +907,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:103"
+        "src/app/page.tsx:111"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -937,7 +926,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:448"
+        "src/app/page.tsx:384"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -956,7 +945,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:159"
+        "src/app/page.tsx:126"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -975,7 +964,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:160"
+        "src/app/page.tsx:127"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -994,7 +983,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:161"
+        "src/app/page.tsx:128"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -1013,7 +1002,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:569"
+        "src/app/page.tsx:505"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -1032,7 +1021,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:568"
+        "src/app/page.tsx:504"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -1051,7 +1040,7 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/page.tsx:605"
+        "src/app/page.tsx:541"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"
@@ -1070,8 +1059,8 @@
       "origin": "code",
       "locked": true,
       "codeRefs": [
-        "src/app/coaching/page.tsx:318",
-        "src/app/coaching/page.tsx:392"
+        "src/app/coaching/page.tsx:157",
+        "src/app/coaching/page.tsx:231"
       ],
       "contentRefs": [],
       "plan": "stays-in-repo"

@@ -43,7 +43,33 @@ alter table public.redirects     enable row level security;
 -- schema by default and relies on RLS as the gate. RLS is the right gate for
 -- rows, but a privilege the design never intends to use should not exist at
 -- all: it is what turns a future policy mistake into a data-loss event.
+--
+-- FIRST the grants this design actually uses, stated explicitly. On Supabase
+-- every one of them is already covered by the platform's default `grant all`,
+-- so these lines are no-ops there — but this file must also be true on a
+-- database that granted nothing (the local replay harness today, the Vangus
+-- Postgres if the stack ever moves). A security file that silently depends on
+-- the host platform's generosity is the same class of bug as the policy
+-- without TO that this file's assertions exist to catch.
 
+grant usage on schema public to anon, authenticated;
+grant select on public.pages, public.recipes, public.posts, public.site_settings
+  to anon;
+grant select, insert, update on
+  public.pages, public.recipes, public.posts, public.testimonials,
+  public.media_assets, public.media_refs, public.site_settings,
+  public.drafts, public.redirects, public.leads
+to authenticated;
+grant delete on public.drafts to authenticated;  -- discarding a draft is the one true delete
+grant select on public.revisions to authenticated;  -- history panel; INSERT is column-granted below
+-- publish_entity rebuilds the published reference edges (delete from
+-- media_refs where ref_kind='published' ...) and rename_slug prunes a
+-- redirect that would shadow the new slug — both SECURITY INVOKER, both
+-- running as authenticated. Without these two grants every publish and every
+-- rename dies with 42501 on any host that granted nothing.
+grant delete on public.media_refs, public.redirects to authenticated;
+
+-- THEN the pruning of what the platform hands out beyond that.
 revoke all on public.drafts      from anon;
 revoke all on public.revisions   from anon;
 revoke all on public.redirects   from anon;
@@ -329,8 +355,18 @@ begin
   $pol$;
 exception
   when insufficient_privilege then
-    raise exception
-      'this role cannot create policies on storage.objects. Run the storage section from the dashboard SQL editor, or grant the migration role membership in supabase_storage_admin.';
+    -- On storage-hardened projects (every project created after mid-2025) NO
+    -- SQL role reachable from the dashboard may create policies on
+    -- storage.objects — they are managed through the Storage API. Aborting
+    -- here once rolled back an entire dashboard apply because of three
+    -- policies that guard a bucket which does not exist yet. The uploads phase
+    -- creates the bucket AND these policies together via the Storage API;
+    -- until then they protect nothing, so their absence must not block the
+    -- schema. The final status SELECT of the paste reports how many of the
+    -- three exist, so this branch is visible even though the dashboard does
+    -- not surface RAISE NOTICE output.
+    raise notice
+      'storage.objects policies were NOT created (storage is platform-managed on this project). Create the three media-bucket policies via the Storage API together with the bucket, in the uploads phase.';
 end
 $$;
 

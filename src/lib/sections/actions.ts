@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/cms/session";
 import { getSectionType } from "./registry";
 import type { PageDocument } from "./schema";
-import { userClient, supabaseConfigured } from "@/lib/supabase/client";
+import { deskClient, publicClient, supabaseConfigured } from "@/lib/supabase/client";
 
 // sections/actions.ts — the write path for page content.
 //
@@ -73,26 +73,90 @@ function sanitise(doc: PageDocument): PageDocument | { registryGap: string } {
   return { ...doc, sections };
 }
 
+// WHICH BACKEND IS THE LIVE SOURCE for a page? Not "is Supabase configured" —
+// the read path serves the pages TABLE only when the row exists, and the file
+// otherwise. Desk reads and desk writes must both land wherever public reads
+// actually come from: loading the file while visitors read the table means the
+// desk edits YESTERDAY'S text and every save silently reverts what the last
+// session changed — split-brain, the exact bug class the write-never-falls-back
+// rule exists for.
+//
+// In DB mode the desk's working document is the DRAFTS row (full document,
+// hidden sections included — drafts have no anon policy at all) and the pages
+// row carries only the visible projection, which is the same split
+// publish_entity enforces. Without the drafts row, hiding a section and saving
+// would DELETE its content from the only place it existed.
+type Backend =
+  | { mode: "db"; id: string; current: PageDocument }
+  | { mode: "file"; current: PageDocument }
+  | { mode: "missing" };
+
+async function resolveBackend(slug: string): Promise<Backend> {
+  if (supabaseConfigured) {
+    // existence probe via the anon client on purpose: it can only see
+    // published rows, and a page is only "live in the DB" once it is one
+    const { data: row } = await publicClient()
+      .from("pages")
+      .select("id,slug,title,description,sections,baseline_order")
+      .eq("slug", slug)
+      .maybeSingle();
+    if (row) {
+      const sb = await deskClient();
+      if (sb) {
+        const { data: draft } = await sb
+          .from("drafts")
+          .select("payload")
+          .eq("entity_type", "page")
+          .eq("entity_id", row.id)
+          .maybeSingle();
+        if (draft?.payload) {
+          return { mode: "db", id: row.id, current: draft.payload as PageDocument };
+        }
+      }
+      // no draft yet (or desk user not wired): the published row is the truth
+      return {
+        mode: "db",
+        id: row.id,
+        current: {
+          slug: row.slug,
+          title: row.title,
+          description: row.description ?? undefined,
+          sections: row.sections ?? [],
+          baseline_order: row.baseline_order ?? [],
+        },
+      };
+    }
+  }
+  try {
+    const current = JSON.parse(await readFile(fileFor(slug), "utf8")) as PageDocument;
+    return { mode: "file", current };
+  } catch {
+    return { mode: "missing" };
+  }
+}
+
 export async function savePage(slug: string, doc: PageDocument): Promise<SaveResult> {
   const email = await requireSession();
   if (!email) return { ok: false, error: "לא מחוברת. יש להיכנס מחדש." };
 
   if (doc.slug !== slug) return { ok: false, error: "אי-התאמה בכתובת העמוד." };
 
-  try {
-    // read-modify-write against what is on disk, so a stale tab cannot silently
-    // drop a section that was added since it loaded
-    const current = JSON.parse(await readFile(fileFor(slug), "utf8")) as PageDocument;
+  const backend = await resolveBackend(slug);
+  if (backend.mode === "missing") {
+    return { ok: false, error: "לא הצלחתי לקרוא את העמוד. כדאי לרענן." };
+  }
+
+  // read-modify-write against the live source, so a stale tab cannot silently
+  // drop a section that was added since it loaded
+  {
     const known = new Set(doc.sections.map((s) => s.id));
-    const dropped = current.sections.filter((s) => !known.has(s.id));
+    const dropped = backend.current.sections.filter((s) => !known.has(s.id));
     if (dropped.length) {
       return {
         ok: false,
         error: `העמוד השתנה מאז שנפתח (${dropped.length} סקשנים חסרים). כדאי לרענן ולנסות שוב.`,
       };
     }
-  } catch {
-    return { ok: false, error: "לא הצלחתי לקרוא את העמוד. כדאי לרענן." };
   }
 
   const cleanOrGap = sanitise(doc);
@@ -104,21 +168,26 @@ export async function savePage(slug: string, doc: PageDocument): Promise<SaveRes
   }
   const clean = cleanOrGap;
 
-  // WHICH BACKEND IS THE LIVE SOURCE for this page? Not "is Supabase
-  // configured" — the read path serves the pages TABLE only when the row
-  // exists, and the file otherwise. A save must land wherever reads actually
-  // come from: writing the file while visitors read the table would be edits
-  // into a void, and writing the table while visitors read the file would be
-  // the same lie in the other direction.
-  let dbIsLive = false;
-  if (supabaseConfigured) {
-    const sb = await userClient();
-    const { data: existing } = await sb.from("pages").select("slug").eq("slug", slug).maybeSingle();
-    dbIsLive = Boolean(existing);
-  }
+  if (backend.mode === "db") {
+    const sb = await deskClient();
+    if (!sb) {
+      return {
+        ok: false,
+        error:
+          "השמירה נדחתה: משתמש המסד של המערכת עוד לא הוגדר. התוכן שלך עדיין כאן במסך — פנו לרום.",
+      };
+    }
 
-  if (dbIsLive) {
-    const sb = await userClient();
+    // the FULL document (hidden sections included) lives in drafts, which has
+    // no anon policy at all; only then does the visible projection go public
+    const { error: draftErr } = await sb.from("drafts").upsert(
+      { entity_type: "page", entity_id: backend.id, payload: clean, updated_at: new Date().toISOString() },
+      { onConflict: "entity_type,entity_id" },
+    );
+    if (draftErr) {
+      return { ok: false, error: "השמירה נדחתה. התוכן שלך עדיין כאן במסך — פנו לרום." };
+    }
+
     // .select() makes the update RETURN the rows it touched. This is the whole
     // check: an RLS-refused update answers with ZERO rows and NO error, so
     // "no error" proves nothing and "the row exists" (a read-back) proves even
@@ -134,7 +203,7 @@ export async function savePage(slug: string, doc: PageDocument): Promise<SaveRes
         sections: clean.sections.filter((x) => x.visible !== false),
         status: "published",
       })
-      .eq("slug", slug)
+      .eq("id", backend.id)
       .select("slug");
 
     if (error) {
@@ -159,14 +228,11 @@ export async function savePage(slug: string, doc: PageDocument): Promise<SaveRes
   return { ok: true, savedAt: new Date().toISOString() };
 }
 
-/** The desk reads through this so it never touches the filesystem itself. */
+/** The desk reads through this so it never touches the backend itself. */
 export async function loadPage(slug: string): Promise<PageDocument | null> {
   if (!(await requireSession())) return null;
-  try {
-    return JSON.parse(await readFile(fileFor(slug), "utf8")) as PageDocument;
-  } catch {
-    return null;
-  }
+  const backend = await resolveBackend(slug);
+  return backend.mode === "missing" ? null : backend.current;
 }
 
 /**
@@ -186,12 +252,11 @@ export async function listPages(): Promise<{ slug: string; title: string; route:
   ];
   const out = [];
   for (const p of known) {
-    try {
-      const doc = JSON.parse(await readFile(fileFor(p.slug), "utf8")) as PageDocument;
-      out.push({ ...p, sections: doc.sections.length });
-    } catch {
-      // no document yet — the page is still rendered from code
+    const backend = await resolveBackend(p.slug);
+    if (backend.mode !== "missing") {
+      out.push({ ...p, sections: backend.current.sections.length });
     }
+    // missing: no document yet — the page is still rendered from code
   }
   return out;
 }

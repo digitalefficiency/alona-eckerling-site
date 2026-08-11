@@ -7,35 +7,13 @@
 | סוג | כמה | מה זה אומר |
 | --- | --- | --- |
 | נכסי קוד | 26 | מופנים ממחרוזת בתוך `src/**`. נעולים. אלונה לא רואה כפתור מחיקה או החלפה |
-| שלה | 25 | מופנים רק מתוכן. ניתנים להחלפה ולמחיקה כשאין הפניות |
-| כפולים | 5 | מופנים משניהם. **הסכנה האמיתית**, ראו למטה |
+| שלה | 30 | מופנים רק מתוכן. ניתנים להחלפה ולמחיקה כשאין הפניות |
+| כפולים | 0 | מופנים משניהם. **הסכנה האמיתית**, ראו למטה |
 | יתומים | 8 | על הדיסק, אף אחד לא מפנה אליהם. לא נכנסים למסד |
 
 ## הכפולים, והסיבה שהם נעולים
 
-התמונות האלה הן גם צילומי מתכון שאלונה יכולה להחליף, וגם מחרוזות קשיחות בתוך
-עמודי שיווק. אם היא תחליף אותן דרך הדסק, שורת המתכון תתעדכן והעמוד השני ימשיך
-להציג את הקובץ הישן, כי הוא מפנה לנתיב ולא לשורה במסד. אין דרך לכתוב מחדש
-מחרוזת בתוך TSX מתוך המסד.
-
-לכן הן נעולות עד שלב 3ב, שבו עמודי `about` ו־`coaching` מחולצים לסקשנים ואז
-ההפניה עוברת למסד וההחלפה עובדת בכל המקומות.
-
-- `/media/client/recipes/green-shakshuka.jpg`
-  - בקוד: src/app/coaching/page.tsx:185
-  - בתוכן: content/recipes/green-shakshuka.md:5
-- `/media/client/recipes/moroccan-fish.jpg`
-  - בקוד: src/app/about/page.tsx:235, src/app/about/page.tsx:252
-  - בתוכן: content/recipes/moroccan-fish.md:5
-- `/media/client/recipes/one-pot-bulgur-stew.jpg`
-  - בקוד: src/app/coaching/page.tsx:186
-  - בתוכן: content/recipes/one-pot-bulgur-stew.md:5
-- `/media/client/recipes/quinoa-citrus-salad.jpg`
-  - בקוד: src/app/about/page.tsx:440
-  - בתוכן: content/recipes/quinoa-citrus-salad.md:5
-- `/media/client/recipes/roasted-tomato-soup.jpg`
-  - בקוד: src/app/coaching/page.tsx:187
-  - בתוכן: content/recipes/roasted-tomato-soup.md:5
+אין.
 
 ## יתומים
 
@@ -61,7 +39,7 @@
 
 ## הפניות שבורות
 
-אין. כל מחרוזת `/media/` בקוד שנטען מעמוד (141 קבצים) ובתוכן מצביעה על קובץ קיים.
+אין. כל מחרוזת `/media/` בקוד שנטען מעמוד (155 קבצים) ובתוכן מצביעה על קובץ קיים.
 
 ## מידות שלא נקראו
 
@@ -71,9 +49,9 @@
 
 | יעד | כמה |
 | --- | --- |
-| עולים ל־Storage | 25 |
+| עולים ל־Storage | 30 |
 | נשארים בריפו | 26 |
-| חסומים עד חילוץ הסקשנים | 5 |
+| חסומים עד חילוץ הסקשנים | 0 |
 
 ## הגייט
 
@@ -100,16 +78,16 @@ node scripts/migrate/02-media.mjs --check
 | `/media/client/recipes/fish-patties-sweet-sauce.jpg` | cms | 1536×2048 | 422 | 1 |
 | `/media/client/recipes/flourless-brownies.jpg` | cms | 562×1000 | 104 | 1 |
 | `/media/client/recipes/green-curry-stir-fry.jpg` | cms | 856×1000 | 211 | 1 |
-| `/media/client/recipes/green-shakshuka.jpg` | dual | 1536×2048 | 483 | 2 |
+| `/media/client/recipes/green-shakshuka.jpg` | cms | 1536×2048 | 483 | 1 |
 | `/media/client/recipes/homemade-granola.jpg` | cms | 1330×1922 | 176 | 1 |
 | `/media/client/recipes/homemade-hummus.jpg` | cms | 1477×1724 | 278 | 1 |
-| `/media/client/recipes/moroccan-fish.jpg` | dual | 1330×2110 | 173 | 3 |
+| `/media/client/recipes/moroccan-fish.jpg` | cms | 1330×2110 | 173 | 1 |
 | `/media/client/recipes/oatmeal-chocolate-chip-cookies.jpg` | cms | 1536×2048 | 389 | 1 |
-| `/media/client/recipes/one-pot-bulgur-stew.jpg` | dual | 750×1000 | 189 | 2 |
+| `/media/client/recipes/one-pot-bulgur-stew.jpg` | cms | 750×1000 | 189 | 1 |
 | `/media/client/recipes/protein-cheesecake.jpg` | cms | 885×1000 | 208 | 1 |
-| `/media/client/recipes/quinoa-citrus-salad.jpg` | dual | 562×1000 | 149 | 2 |
+| `/media/client/recipes/quinoa-citrus-salad.jpg` | cms | 562×1000 | 149 | 1 |
 | `/media/client/recipes/quinoa-in-red-sauce.jpg` | cms | 750×1000 | 234 | 1 |
-| `/media/client/recipes/roasted-tomato-soup.jpg` | dual | 1324×1953 | 195 | 2 |
+| `/media/client/recipes/roasted-tomato-soup.jpg` | cms | 1324×1953 | 195 | 1 |
 | `/media/client/recipes/soba-noodle-salad.jpg` | cms | 1406×1839 | 194 | 1 |
 | `/media/client/recipes/spelt-banana-cake.jpg` | cms | 1536×2048 | 245 | 1 |
 | `/media/client/recipes/spinach-cheese-bourekas.jpg` | cms | 1525×1857 | 363 | 1 |

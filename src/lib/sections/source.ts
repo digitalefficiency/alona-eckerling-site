@@ -24,7 +24,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import type { PageDocument, SectionInstance } from "./schema";
-import { publicClient, userClient, supabaseConfigured } from "@/lib/supabase/client";
+import { publicClient, deskClient, supabaseConfigured } from "@/lib/supabase/client";
 
 const PAGES_DIR = path.join(process.cwd(), "content", "pages");
 
@@ -80,16 +80,35 @@ export async function getPublishedPage(slug: string): Promise<PageDocument | nul
   return { ...doc, sections: doc.sections.filter((s) => s.visible !== false) };
 }
 
-/** The preview read: everything, including what is hidden, through her session. */
+/**
+ * The preview read: everything, including what is hidden. It reads what the
+ * DESK would read — the drafts row first (the full working document), then the
+ * published row, then the file. An earlier version read the pages table with
+ * the browser's (empty) Supabase session, which meant role anon: the preview
+ * silently rendered the PUBLISHED row while claiming to show the draft, and a
+ * hidden section could never appear in it. The route this feeds is already
+ * behind the cms_session check.
+ */
 export async function getDraftPage(slug: string): Promise<PageDocument | null> {
   if (supabaseConfigured) {
-    const sb = await userClient();
-    const { data, error } = await sb
+    const { data: row } = await publicClient()
       .from("pages")
-      .select("slug,title,description,sections,baseline_order")
+      .select("id,slug,title,description,sections,baseline_order")
       .eq("slug", slug)
       .maybeSingle();
-    if (!error && data) return toDoc(data as PageRow);
+    if (row) {
+      const sb = await deskClient();
+      if (sb) {
+        const { data: draft } = await sb
+          .from("drafts")
+          .select("payload")
+          .eq("entity_type", "page")
+          .eq("entity_id", row.id)
+          .maybeSingle();
+        if (draft?.payload) return draft.payload as PageDocument;
+      }
+      return toDoc(row as PageRow);
+    }
   }
   return fromFile(slug);
 }

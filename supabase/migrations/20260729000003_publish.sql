@@ -827,6 +827,28 @@ $$;
 -- SECURITY INVOKER so RLS still holds, but the anon key has no business being
 -- able to call the write path at all.
 
+-- The helpers first: they are the write path's internals. They leak nothing on
+-- their own (security invoker; anon holds no privilege on the tables they
+-- read), but a PostgREST rpc endpoint that exists for no caller is standing
+-- surface — the same doctrine as the unused-privilege revokes in 0002.
+-- Revoking PUBLIC also strips authenticated's implicit access, and the write
+-- RPCs invoke these helpers AS the calling role (security invoker), so
+-- authenticated must be granted back explicitly or every publish would 42501.
+revoke execute on function public.visible_sections(jsonb)       from public, anon;
+revoke execute on function public.resolve_section_media(jsonb)  from public, anon;
+revoke execute on function public.jsonb_text_array(jsonb)       from public, anon;
+revoke execute on function public.jsonb_positive_int(jsonb)     from public, anon;
+revoke execute on function public.jsonb_int(jsonb)              from public, anon;
+revoke execute on function public.jsonb_iso_date(jsonb)         from public, anon;
+revoke execute on function public.uuid_for_setting(text)        from public, anon;
+grant execute on function public.visible_sections(jsonb)        to authenticated;
+grant execute on function public.resolve_section_media(jsonb)   to authenticated;
+grant execute on function public.jsonb_text_array(jsonb)        to authenticated;
+grant execute on function public.jsonb_positive_int(jsonb)      to authenticated;
+grant execute on function public.jsonb_int(jsonb)               to authenticated;
+grant execute on function public.jsonb_iso_date(jsonb)          to authenticated;
+grant execute on function public.uuid_for_setting(text)         to authenticated;
+
 revoke execute on function public.save_draft(public.entity_kind, uuid, jsonb, integer)      from public, anon;
 revoke execute on function public.publish_entity(public.entity_kind, uuid, integer, text)   from public, anon;
 revoke execute on function public.restore_revision(bigint)                                  from public, anon;

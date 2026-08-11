@@ -107,6 +107,22 @@ const sql = [
     );
   }),
   "",
+  "-- The FULL documents — hidden sections included — go to drafts, which has no",
+  "-- anon policy at all. The pages rows above hold only the visible projection,",
+  "-- so without these rows a section hidden at migration time would exist",
+  "-- NOWHERE in the database, and the desk could never show or unhide it again.",
+  "-- The desk reads drafts-first for exactly this reason.",
+  ...docs.map(({ doc }) => {
+    const id = idFor(doc.slug);
+    return (
+      `insert into public.drafts (entity_type, entity_id, payload)\n` +
+      `values ('page', ${lit(id)}, ${jlit(doc)})\n` +
+      `on conflict (entity_type, entity_id) do update set\n` +
+      `  payload = excluded.payload,\n` +
+      `  updated_at = now();`
+    );
+  }),
+  "",
   "commit;",
   "",
 ].join("\n");
