@@ -36,6 +36,12 @@
           "requiredAlt": true
         },
         {
+          "key": "gallery",
+          "type": "gallery",
+          "label": "עוד תמונות מהמנה",
+          "max": 12
+        },
+        {
           "key": "category",
           "type": "text",
           "label": "קטגוריה",
