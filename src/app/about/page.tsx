@@ -313,7 +313,7 @@ export default function AboutPage() {
               house pattern rather than on a single page. The source is 177KB at
               1330x2110 and was being served whole into a 375x250 mobile band. */}
           <Image
-            src="/media/client/recipes/moroccan-fish.jpg"
+            src="/media/client/recipes/light-cheese-lasagna.webp"
             alt=""
             fill
             sizes="(max-width: 768px) 0px, 52vw"
@@ -334,7 +334,7 @@ export default function AboutPage() {
         />
         <div className="relative aspect-[3/2] md:hidden">
           <Image
-            src="/media/client/recipes/moroccan-fish.jpg"
+            src="/media/client/recipes/light-cheese-lasagna.webp"
             alt="דגים מרוקאים של שישי, מנה אמיתית מהמטבח של אלונה"
             fill
             sizes="(max-width: 768px) 100vw, 0px"

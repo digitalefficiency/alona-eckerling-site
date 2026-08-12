@@ -12,14 +12,15 @@ import { slideIn } from "@/lib/motion-variants";
 // `fork` (the scroll-story mode): the two futures APPROACH FROM OPPOSITE inline
 // sides — column 0 leans in from inline-start, column 1 from inline-end (logical,
 // so RTL resolves visually right/left). Default stays the quiet block Reveal.
-// `noisy` on a column sets its points in the film-chip serif-italic — the faint
-// echo of the home film's thought-chips (the traveling motif).
+// `noisy` marks the not-recommended column. Tone only: it renders in the SAME
+// type as the recommended side (the old serif-italic film-chip echo retired
+// with the film era — Rom, 2026-08-12); the contrast lives in borders/bullets.
 type Column = {
   label: string;
   points: string[];
   highlight?: boolean; // the recommended / "our way" column
   note?: string; // small caption under the label (e.g. a caveat)
-  noisy?: boolean; // serif-italic points — the thought-chip echo
+  noisy?: boolean; // the not-recommended future (no highlight chrome)
   ghost?: string; // «חדרים מצולמים»: a faint still haunting the card's
   // background (~0.16 opacity under the content) — EACH column carries its OWN
   // photograph (Rom 2026-07-21: both used to share one film frame, which read as
@@ -62,13 +63,14 @@ export function Comparison({
               {c.label}
             </h3>
             {c.note && <p className="relative mb-4 text-[13px] leading-relaxed text-muted">{c.note}</p>}
+            {/* both futures speak the same type — the noisy serif-italic
+                retired (Rom, 2026-08-12: «שהם יהיו אותו דבר כמו בכרטיסיה של
+                הדרך השקטה»); only tone and borders differ */}
             <ul className="relative flex flex-col gap-3">
               {c.points.map((p, j) => (
                 <li
                   key={j}
-                  className={`flex gap-2.5 text-sm leading-relaxed text-muted ${
-                    c.noisy ? "font-serif italic" : ""
-                  }`}
+                  className="flex gap-2.5 text-sm leading-relaxed text-muted"
                 >
                   <span
                     className={`mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full ${c.highlight ? "bg-gold" : "bg-line"}`}

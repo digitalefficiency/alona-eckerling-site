@@ -3,471 +3,6 @@
   "generatedAt": "2026-07-25",
   "assets": [
     {
-      "id": "cl-001",
-      "installPath": "/media/client/recipes/baked-tofu-schnitzel.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "5c5e1818fe76e2ac55b849863b07fa97cebf88e4413a107a53dea3bc51333051",
-        "bytes": 168252
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "baked tofu schnitzel",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-002",
-      "installPath": "/media/client/recipes/baked-tuna-patties.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "d8aa97c2489307bb904c636cb4e254c0f951fb58e2fdaef4d91139ae84fdc714",
-        "bytes": 153876,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "baked tuna patties",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-003",
-      "installPath": "/media/client/recipes/bean-noodle-fish-salad.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "501d93a7dd3de9b3de1406a8a0f5c34061154b6ec44ffc8639bb8a8b1220a672",
-        "bytes": 234182
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "bean noodle fish salad",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-004",
-      "installPath": "/media/client/recipes/broccoli-onion-quiche.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "0619bdffec722fca398b4baf435902ae98dbc9363f2650a159a6956782a3a4a1",
-        "bytes": 149998,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "broccoli onion quiche",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-005",
-      "installPath": "/media/client/recipes/bulgur-broccoli-salad.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "9dbdd1f07965d127b0a9a455aee7103ef2d7eb7580a1cd47c6e8c7432de04cf8",
-        "bytes": 159567
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "bulgur broccoli salad",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-006",
-      "installPath": "/media/client/recipes/cauliflower-fried-rice.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "3e859d4a18442f2f56976666c6aaed28ecea136f16f07d2f1fb3d98140fd8312",
-        "bytes": 290139,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "cauliflower fried rice",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-007",
-      "installPath": "/media/client/recipes/cauliflower-tabbouleh.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "ba08b6f0d86e5b4b8e4d282cc16c1e6dfb73a4246db136f1deed991d6a5d1446",
-        "bytes": 227156
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "cauliflower tabbouleh",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-008",
-      "installPath": "/media/client/recipes/date-energy-bars.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "a512ef780ee354f2c845d8b98558c533f512317d14f5e9c3b9e41e7f898fb625",
-        "bytes": 183918
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "date energy bars",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-009",
-      "installPath": "/media/client/recipes/fish-patties-sweet-sauce.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "bb7bbfa1423df3cb7135c04bb2d9df301e65ea0f7cd0a75abba7519b5d21fcf0",
-        "bytes": 432560,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "fish patties sweet sauce",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-010",
-      "installPath": "/media/client/recipes/flourless-brownies.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "f9ecb71a24a3820a2734fd1ddee2e99d72120f96fde62231f3daa6229837dbc2",
-        "bytes": 106396
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "flourless brownies",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-011",
-      "installPath": "/media/client/recipes/green-curry-stir-fry.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "b6e25de90e7056a229b0aa22e57c7f37f92888b12469e5e06d0aecb317250aaa",
-        "bytes": 215675
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "green curry stir fry",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-012",
-      "installPath": "/media/client/recipes/green-shakshuka.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "e5de48fc4819b7de7daaa979ccbf276891750e8bb8c010144d811854434aea4f",
-        "bytes": 494803,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "green shakshuka",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-013",
-      "installPath": "/media/client/recipes/homemade-granola.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "119180ac453dc6779132f5baa7eab571badb2ec9d3788a884a7ea8d5f06e5dd9",
-        "bytes": 179959,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "homemade granola",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-014",
-      "installPath": "/media/client/recipes/homemade-hummus.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "689da274601aa9a3db2f342110c85506572dc2a61d25efa8ce57b7342b1b7563",
-        "bytes": 284631,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "homemade hummus",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-015",
-      "installPath": "/media/client/recipes/moroccan-fish.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "d99a2d40a0dc208c684cd5d8bb331d2c82f81d729d0c22a3cc2400f79ed90973",
-        "bytes": 177206,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "moroccan fish",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-016",
-      "installPath": "/media/client/recipes/oatmeal-chocolate-chip-cookies.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "e0a43acfeba7577225cd479bd2717e23c011f272b6279a6d123b1649bd682f88",
-        "bytes": 398583,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "oatmeal chocolate chip cookies",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-017",
-      "installPath": "/media/client/recipes/one-pot-bulgur-stew.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "ba7bd465ebcb4ca7f34afbf6d6e25d60cd48f6ff535806790e613d2b9ad49e78",
-        "bytes": 193183
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "one pot bulgur stew",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-018",
-      "installPath": "/media/client/recipes/protein-cheesecake.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "a54a2a86691f5ac9f0abc9b4a5ef00f4a27458f5ed07548cf013de4f6e04d44b",
-        "bytes": 213139
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "protein cheesecake",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-019",
-      "installPath": "/media/client/recipes/quinoa-citrus-salad.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "5fbc62991d361eda8fc0f90bf889372f155963d7216446c0678ae9bcff04fd95",
-        "bytes": 152909
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "quinoa citrus salad",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-020",
-      "installPath": "/media/client/recipes/quinoa-in-red-sauce.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "855c25307ca76dcf53d86fac3e20c8d5a461e8c7cf4ce450dd57e5762d0862e0",
-        "bytes": 239702
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "quinoa in red sauce",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-021",
-      "installPath": "/media/client/recipes/roasted-tomato-soup.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "9e942b33693c6d25d94a2b87ba1e707fc0d76e6dc4e4e9ad896d33ac8b45590e",
-        "bytes": 199322,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "roasted tomato soup",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-022",
-      "installPath": "/media/client/recipes/soba-noodle-salad.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "11b758eab8aa75c362c6a2d51abd493af49a28290df2fec650f2deb93cec8cda",
-        "bytes": 198688,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "soba noodle salad",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-023",
-      "installPath": "/media/client/recipes/spelt-banana-cake.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "f719db2d0d226f7a57864be74402ef5503a64078626560fa93c66fb9c08e3ba3",
-        "bytes": 250608,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "spelt banana cake",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-024",
-      "installPath": "/media/client/recipes/spinach-cheese-bourekas.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "f3d925e3a4c046e0a200739f322226d25ff1a60c9ed4772206967bd27227e839",
-        "bytes": 371774,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "spinach cheese bourekas",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-025",
-      "installPath": "/media/client/recipes/spinach-cheese-pie.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "73995e7eea650b3aa411a72fad80be5b1f96ae22e67bc103dc4da83a39ac8288",
-        "bytes": 204589
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "spinach cheese pie",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-026",
-      "installPath": "/media/client/recipes/sweet-and-sour-tofu.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "9c06f1cc33121ac413311ccf0644cdc91cfc8f2dad424ed93350a4203d6a8957",
-        "bytes": 144837,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "sweet and sour tofu",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-027",
-      "installPath": "/media/client/recipes/three-ingredient-date-balls.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "90fa792a4cf3ddf434fff13f8cf4989d8839a4491407a84b0d664f0d3e2355d4",
-        "bytes": 132943
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "three ingredient date balls",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-028",
-      "installPath": "/media/client/recipes/tofu-shawarma.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "18e5434230bd9514f0a0bc1e218c8c984ee15a205a371e76f10b99969af9d0fb",
-        "bytes": 159881
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "tofu shawarma",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-029",
-      "installPath": "/media/client/recipes/tuna-shawarma.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "bd8e1a3bae81aa0871ec888823f5d0b6ef5a824fd8db5c2f9d99952ce514034c",
-        "bytes": 46299
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "tuna shawarma",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
-      "id": "cl-030",
-      "installPath": "/media/client/recipes/zucchini-feta-salad.jpg",
-      "status": "installed",
-      "optimized": {
-        "sha256": "b88089a0d26310bf84d7ce4a47d36dcc52afdee2610c9aa573ad3fbdd6e50a73",
-        "bytes": 227037,
-        "reoptimized": "2026-07-19 perf round: sharp mozjpeg q68 max-1600w re-compression of the installed copy (same licensed source)"
-      },
-      "license": {
-        "status": "client-confirmed",
-        "basis": "המיגרציה החתומה בהצעה: צילומי המתכונים שלה מהאתר הישן (alonaeck.com), הורדו מה-CDN החי של Wix. מקור: MATERIALS.md יומן 2026-07-16."
-      },
-      "alt": "zucchini feta salad",
-      "source": "wix-cdn-migration-2026-07-16"
-    },
-    {
       "id": "cl-101",
       "installPath": "/media/client/alona/alona-guide.jpg",
       "status": "installed",
@@ -788,6 +323,2886 @@
       },
       "alt": "מחבת אורז צהוב עם ירקות",
       "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-r001",
+      "installPath": "/media/client/recipes/rice-paper-malawach.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "33c73b47d06fd04a6198e5f584bcda669db0aee2b474d71ceaf208f341a99878",
+        "bytes": 306970
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "שלושה מלוואח קריספיים על קרש עץ עם קערות ביצה ורסק",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r002",
+      "installPath": "/media/client/recipes/rice-paper-malawach-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "1215689dcc8451f4d9048d29b4e1d32d48287a1dc30c00f09ac9bc14224ce0f3",
+        "bytes": 181990
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "פרוסות אבוקדו בקערית זכוכית לצד המלוואח ובצל ירוק",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r003",
+      "installPath": "/media/client/recipes/rice-paper-malawach-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "d6043dae192c8790af3051a5499b9798cc7847b3a53f6f9e2ed485d3973d3509",
+        "bytes": 182226
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט על קרש ההגשה עם בצל ירוק וקערת רסק עגבניות",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r004",
+      "installPath": "/media/client/recipes/rice-paper-malawach-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "63f92c2f6d8a615c1fbd5ca9acd6e9af6c3f8d13d83130e1395f1be49b1cad73",
+        "bytes": 156490
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צילום מלמעלה של המלוואח לצד ביצה קשה פרוסה ואבוקדו",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r005",
+      "installPath": "/media/client/recipes/rice-paper-malawach-4.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "644c00f4210df33a8f2540637d411b09a4aabe2b305fea7835ea823de45ae0ab",
+        "bytes": 199658
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מלוואח משחים על קרש עץ בתאורת שמש עם קערת ביצים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r006",
+      "installPath": "/media/client/recipes/tuna-bolognese.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "375ded313da62d8614a859d1c8f3ffd316a27fed545b97b8a9062caaed47f631",
+        "bytes": 147248
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צלחת פסטה פוסילי ברוטב טונה עם פרמזן ובזיליקום",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r007",
+      "installPath": "/media/client/recipes/tuna-bolognese-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "71561ceeec665d28560d471c4af1b034d1781a094bac24c0f9cf0991b3ec249f",
+        "bytes": 113832
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צלחת הפסטה לצד סיר הרוטב ומזלג זהב על משטח כהה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r008",
+      "installPath": "/media/client/recipes/tuna-bolognese-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "686493582f99cbf7d2692fe3a33f9379d4101e5de70f8a4eff5b604601384dab",
+        "bytes": 101958
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט רחב על סיר הבולונז וצלחת פסטה מוכנה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r009",
+      "installPath": "/media/client/recipes/baked-tofu-vegetable-patties.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "a3e1cf71097e62c3e5d1e06f503645e9975322c6b74774df8d2be81056e895aa",
+        "bytes": 168228
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קציצות טופו וירק על מצע יוגורט עם פלפל חריף",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r010",
+      "installPath": "/media/client/recipes/baked-tofu-vegetable-patties-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "9b8d59f34860c5d092bd05a814293b65b50e608fccb90474ec4ff7c182a56e40",
+        "bytes": 100610
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צילום מלמעלה של צלחת הקציצות בעיטור עלים ירוקים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r011",
+      "installPath": "/media/client/recipes/baked-tofu-vegetable-patties-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "5915ead796e0aac479a792c38b603079640925c094b43c02230fbd959f6b787d",
+        "bytes": 137498
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תבנית מלאה בקציצות טופו לפני הכניסה לתנור",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r012",
+      "installPath": "/media/client/recipes/baked-tofu-vegetable-patties-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "74cf19a9d37dd02e9e6914e6b63d96727fe11cfcc061b27edee08a9a86375305",
+        "bytes": 73154
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מרימה קציצה שחומה מהתבנית מול החלון",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r013",
+      "installPath": "/media/client/recipes/date-brownies.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "b490e323eb18e147c4bc6b24648f2ff29ef189c6ffd974dbc6ce80e581b11083",
+        "bytes": 149300
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד אוחזת ריבוע בראוניז תמרים עם שוקולד צ׳יפס",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r014",
+      "installPath": "/media/client/recipes/date-brownies-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "26eda8334b295e51392e70ec5449ed1dbba4fd6beb0b82719478252127e8b0d7",
+        "bytes": 100834
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב של בראוניז פאדג׳י שבור עם שברי שוקולד",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r015",
+      "installPath": "/media/client/recipes/date-brownies-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "baa081f0e116114578b50351611ffd52833a8ff9bafc7c59a0044d910d347f9e",
+        "bytes": 78898
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מרימה ריבוע בראוניז מהמלבן שעל נייר האפייה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r016",
+      "installPath": "/media/client/recipes/date-brownies-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "2db810ceeb49f27b9e8e972909ea9652cbe05b150c0591ab41e584abb5dd0f9a",
+        "bytes": 79490
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "אצבעות נוגעות בריבוע בראוניז מפוזר בשוקולד צ׳יפס",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r017",
+      "installPath": "/media/client/recipes/date-brownies-4.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "4e7d3bf9c2e33bb4b463e31292f830dc4f35abed53f1de5a4300131559484a8f",
+        "bytes": 259942
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "בראוניז חתוך לריבועים בתבנית אנגלית עם שוקולד מבריק",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r018",
+      "installPath": "/media/client/recipes/date-brownies-5.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "dd2fa46e1c2c5aa64c4dc0d1ac542ee74c3235815c4ef04d5ecbc73710caf482",
+        "bytes": 248308
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט מקרוב על חיתוכי הבראוניז בתוך התבנית",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r019",
+      "installPath": "/media/client/recipes/date-brownies-6.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "717b07ca0cc83f011ca585c9f1d7cf94fcc230acc56ad7863b820d02e289b2e0",
+        "bytes": 181680
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "כיכר הבראוניז השלמה בתבנית מיד אחרי האפייה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r020",
+      "installPath": "/media/client/recipes/cabbage-carrot-rice.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "15f7d60032cd27a2aeb73e3f723ed49b5da798797a97aeb17d6a2f4241d7682b",
+        "bytes": 164160
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "סיר ברזל מלא באורז עם כרוב וגזר",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r021",
+      "installPath": "/media/client/recipes/cabbage-carrot-rice-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "61fe1d8542fb9915885b298e8ea8d21fe402f5d8185deb988a65473ed55d9c72",
+        "bytes": 100752
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "האורז המוכן בסיר שחור על משטח שיש בהיר",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r022",
+      "installPath": "/media/client/recipes/cabbage-carrot-rice-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "dd03aeb1a73778e1c2cc3229b668122f3ad43907eed114d7e1dc4811fa24c2e5",
+        "bytes": 101522
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב על גרגרי האורז ורצועות הכרוב בסיר",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r023",
+      "installPath": "/media/client/recipes/corn-ribs.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "e39279d978997878f6c140c147428cc3fd3e92f224f359302dc23106e0e2a321",
+        "bytes": 266520
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צלחת מלאה בצלעות תירס אפויות עם פרמזן וקערית רוטב יוגורט",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r024",
+      "installPath": "/media/client/recipes/corn-ribs-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "269e51f050b7a1432c73f0bc8bc12a6a1440380b94ab22c31f632b0eee623bda",
+        "bytes": 67546
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מרימה צלע תירס מעל הצלחת לצד הרוטב",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r025",
+      "installPath": "/media/client/recipes/corn-ribs-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "67ebf668ed8480fb1687ffa9adc0f4240df2487dac8308c2606ca3cbe077d81f",
+        "bytes": 164496
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צלעות תירס מפוזרות על צלחת קרמית מעל משטח כהה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r026",
+      "installPath": "/media/client/recipes/soba-noodle-salad.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "416fe128f81563516d1dd939b5d4f028a2e51828e6df27453e704139fe3f9a2c",
+        "bytes": 118486
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערה שחורה עם אטריות סובה, קוביות טופו וירקות ירוקים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r027",
+      "installPath": "/media/client/recipes/soba-noodle-salad-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "21a32566d2d82878bd4a35b8b623eaf0ef2e81a0b2dddf09801ddab5c71dd0dd",
+        "bytes": 75904
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "סלט סובה בקערה שחורה עם שומשום שחור ובצל ירוק",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r028",
+      "installPath": "/media/client/recipes/soba-noodle-salad-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "63f26dea48fb3dc1244a9885955ef11086bdf7961fc93ab41eb36b46694cf5a5",
+        "bytes": 65284
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערת סלט סובה מצולמת מלמעלה על אדן חלון בהיר",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r029",
+      "installPath": "/media/client/recipes/soba-noodle-salad-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "260841a564593193c159fb89b98072ad261120f4a85190d5bccac4aca7b8e413",
+        "bytes": 98958
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערת ערבוב מתכת עם טופו, עלי קייל וצ׳ילי אדום",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r030",
+      "installPath": "/media/client/recipes/mini-broccoli-cheese-quiches.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "40a99bcab76d6d48aad721a7f1dce1d92cfeb045d044adc805235edae510205b",
+        "bytes": 88240
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צלחת עם קישים אישיים ברוקולי לצד סלט ירקות צבעוני",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r031",
+      "installPath": "/media/client/recipes/mini-broccoli-cheese-quiches-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "ddb3800baf3d20ffac0dd8743f442b9d7c376cf09a88c565d3ec7230dc382d2d",
+        "bytes": 47522
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד אוחזת קיש ברוקולי קטן מעל הצלחת",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r032",
+      "installPath": "/media/client/recipes/mini-broccoli-cheese-quiches-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "e5f19012deb9cfff5d48f0361c0eea9272bdf45e076ed34a8035107b36db1ae9",
+        "bytes": 42776
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קיש אישי מוגש ביד עם סלט פלפלים ברקע",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r033",
+      "installPath": "/media/client/recipes/quinoa-lentil-labneh-salad.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "95e1c9c1e03d21812c331eefbb044142b7602d9ab44cfb5c5d2f1b9b8ea81c0c",
+        "bytes": 158210
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "סלט קינואה ועדשים על מצע לאבנה בקערה כהה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r034",
+      "installPath": "/media/client/recipes/quinoa-lentil-labneh-salad-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "0ce8209c4a31d2f6f3a1edb7d5dc9237db5c4d6f79edc840ae10f457d9403bcc",
+        "bytes": 84100
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "ערימת סלט קינואה במרכז צלחת עם שוליים זהובים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r035",
+      "installPath": "/media/client/recipes/quinoa-lentil-labneh-salad-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "6708ae9cc8d7fca5a15fd9152240c1956401af7189c8f47f8d097dd81889f385",
+        "bytes": 101120
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "סלט קינואה ועדשים עם זילוף טחינה גולמית מעל",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r036",
+      "installPath": "/media/client/recipes/quinoa-lentil-labneh-salad-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "9126a0a94bbb066d9be280f10cb93ef2c5021e1b9a0a40f52042cea6172b0729",
+        "bytes": 72004
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צלחת סלט קינואה עם כפית זהב נעוצה בתוכה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r037",
+      "installPath": "/media/client/recipes/tuna-arayes.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "b59f6471f63d2ca9082751480b1fdb60645f7d9b6c5223c984c4e3f2bf7ffc79",
+        "bytes": 236820
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "עראייס טונה על קרש עץ עם טחינה וזיתים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r038",
+      "installPath": "/media/client/recipes/tuna-arayes-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "bd972999f1a1e7977ae74f86dd00cf1ddb2ce0bdb99bccd4387f30929457f79d",
+        "bytes": 165272
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "פיתות ממולאות בטונה מסודרות בשורה על קרש הגשה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r039",
+      "installPath": "/media/client/recipes/tuna-arayes-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "8dfb9bda0c901f2d2ce70f6dbaa65578e5abc58093a106fe9ec4550f924e501d",
+        "bytes": 170824
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "עראייס אפוי מקרוב לצד קערת טחינה וזיתים ירוקים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r040",
+      "installPath": "/media/client/recipes/tuna-arayes-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "b790534a8eb48cdc8ae54b28c98970d1031a0b35698895b9219126284f2f6a3c",
+        "bytes": 134042
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מרימה עראייס טונה מהקרש לצד קערת הטחינה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r041",
+      "installPath": "/media/client/recipes/rice-paper-omelette.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "b5010940c1310b8cecfc7c2a4c407e225ef4695ec17c1d09509dd2d42f2f59f3",
+        "bytes": 220426
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "חביתת דפי אורז מוזהבת וקריספית על קרש עץ",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r042",
+      "installPath": "/media/client/recipes/rice-paper-omelette-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "7fa924888d6b56873068fe265699fa3e6dd779186154aa35faab97d1f4c2e747",
+        "bytes": 122150
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "החביתה לצד עגבניות שרי, פרוסות מלפפון ובצל ירוק",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r043",
+      "installPath": "/media/client/recipes/asian-glazed-salmon-bites.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "233ed321e2049f08ad50484ee042c3075284ea85b1854372320ea9f1f8352023",
+        "bytes": 136132
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קוביות סלמון בקערה לצד אורז לבן וברוקולי ירוק",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r044",
+      "installPath": "/media/client/recipes/asian-glazed-salmon-bites-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "ec1676c04f291be550c6aa5cfeb12b0c6df47b5d45ae52d5f343e83e2fb27b7a",
+        "bytes": 197944
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מחבת מלאה בקוביות סלמון מבריקות עם בצל ירוק ושומשום",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r045",
+      "installPath": "/media/client/recipes/asian-glazed-salmon-bites-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "f357e7a1e54a600ccf9808c1519f791e52125c9f8be355da19178d0576833b8e",
+        "bytes": 159114
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט מלמעלה על המחבת עם הסלמון ברוטב הכהה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r046",
+      "installPath": "/media/client/recipes/asian-glazed-salmon-bites-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "a8dd7608fe2db7467d04113ded8c973224982a79b79a90008473a497de93208a",
+        "bytes": 190706
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב על קוביות סלמון זהובות עטופות ברוטב סמיך",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r047",
+      "installPath": "/media/client/recipes/baked-bulgur-lentil-mujadara.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "0c7d3173806d45440ba49f21fa56a38d333a9c48c120258b4b62970095633863",
+        "bytes": 237278
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מג׳דרה אפויה בתבנית זכוכית מפוזרת בפטרוזיליה קצוצה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r048",
+      "installPath": "/media/client/recipes/baked-bulgur-lentil-mujadara-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "223a90032c762eeedf651ce8bbb2fbb722805d05f62571032eac99c9862ed949",
+        "bytes": 76112
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "כף שולה מנה חמה מהמג׳דרה שבתבנית",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r049",
+      "installPath": "/media/client/recipes/baked-bulgur-lentil-mujadara-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "81b07222e42822d39420e8ec80d80a49794cf0788914df5cfc8e7c7d69f92f88",
+        "bytes": 88060
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב על גרגרי הבורגול, העדשים ורצועות הבצל",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r050",
+      "installPath": "/media/client/recipes/baked-bulgur-lentil-mujadara-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "21fc59499504ce27152b504e40ca19ac10efe6bd1be53b3b410371505a4b4933",
+        "bytes": 142882
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "התבנית ישר מהתנור, מוזהבת לפני פיזור העשבים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r051",
+      "installPath": "/media/client/recipes/maple-mustard-tofu-skewers.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "1893c5adc5347fc520f156ba78ab935227da75c0b5f852f3033daa738cad4e3f",
+        "bytes": 143974
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מגש שיפודי טופו וירקות מפוזרים בכוסברה ובצל ירוק",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r052",
+      "installPath": "/media/client/recipes/maple-mustard-tofu-skewers-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "ba7e875f39dc204ead6d69a62e66a52c048f37bc2f3f2921e559d7a57549d65e",
+        "bytes": 70118
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מרימה שיפוד טופו צלוי מעל הצלחת",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r053",
+      "installPath": "/media/client/recipes/maple-mustard-tofu-skewers-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "2e47b5ccd5ea64d9aa73d1d19afbf251df20bba321b530dded21e1898ef2c088",
+        "bytes": 64410
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "שיפודים ערומים בצלחת עם פלח לימון בצד",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r054",
+      "installPath": "/media/client/recipes/maple-mustard-tofu-skewers-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "3e335e805af342c40f04cf04ded875b623a3416da3b1bf055ab122046df427b0",
+        "bytes": 111802
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "שיפודים מורכבים מטופו, זוקיני, כרוב ובצל לפני הצלייה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r055",
+      "installPath": "/media/client/recipes/flourless-brownies.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "f43762c7a1579dc6c314eb9229ceb102735322255474745f1a5924b81b2665c1",
+        "bytes": 149532
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מחזיקה ריבוע בראוניז מאובק בלבן מעל התבנית",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r056",
+      "installPath": "/media/client/recipes/flourless-brownies-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "96dabc8d120639b5e528faeb34c254cbdd79359857de2a8360fa494cb584deaf",
+        "bytes": 93660
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "טור ריבועי בראוניז חתוכים ומאובקים, אחד נגוס",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r057",
+      "installPath": "/media/client/recipes/flourless-brownies-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "1e7072963b2a0974ccbbb04b9524803be8034cbec701bdf519f0e326c736d63e",
+        "bytes": 86614
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב על מרקם הפאדג׳ הרך בתוך הריבוע הנגוס",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r058",
+      "installPath": "/media/client/recipes/baked-tuna-patties.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "a757d3aae32e91fc0b1e34146e869237fe785d731654b183dc26b96d75b8aa9e",
+        "bytes": 141854
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קציצות טונה עם טחינה לצד אורז וקישואים בצלחת",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r059",
+      "installPath": "/media/client/recipes/baked-tuna-patties-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "421550a67c1aab5adb42e0ea6e4f573c9672436a09acdd693960f96a0c778b98",
+        "bytes": 77604
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "שלוש קציצות טונה עם אורז ושעועית ירוקה על השיש",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r060",
+      "installPath": "/media/client/recipes/baked-tuna-patties-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "f326131009eb5f58d398860043e60a03a4766c24bd19f219af26c7a8e7d78a39",
+        "bytes": 103032
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קציצות טונה עם בטטה אפויה ושעועית ירוקה בצלחת מוחזקת",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r061",
+      "installPath": "/media/client/recipes/baked-tuna-patties-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "062ee0437e719399210a6308a43b5db899036bceb32f041c774eed4fbef63232",
+        "bytes": 105584
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קציצות שחומות עם צ׳יפס בטטה, שעועית ירוקה וקטשופ",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r062",
+      "installPath": "/media/client/recipes/baked-tuna-patties-4.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "f3b304eadf2379c0bd9f81c6d95a6c2e5a05382ab9be24caebe60afc31c38af1",
+        "bytes": 48572
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט מלמעלה על קציצות טונה, סלט ואורז מלא",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r063",
+      "installPath": "/media/client/recipes/rice-paper-pizza.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "7e6838ed0c22736ca5cd1076038fc2543763dde937a2366b8fc6070e0225de79",
+        "bytes": 264894
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "פיצת דפי אורז חתוכה לריבועים על נייר אפייה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r064",
+      "installPath": "/media/client/recipes/rice-paper-pizza-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "29b8f643d1559c5f894e4832a59b177c695f8d9a7c9ad5f0eb04ba7f9005325d",
+        "bytes": 76478
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מרימה פרוסה מפיצת דפי האורז החתוכה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r065",
+      "installPath": "/media/client/recipes/rice-paper-pizza-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "7844e8a5bd5730c49f666892b640903e687da260450764f1d72bab98f3c53adf",
+        "bytes": 145078
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מאפה דפי אורז שלם עם זיתים וגבינה מותכת",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r066",
+      "installPath": "/media/client/recipes/rice-paper-pizza-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "a16683f561a9f4c53fca127e6c374c4b525d72f039eb6f3217638f809386a38c",
+        "bytes": 160794
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "פיצת דפי אורז שלמה עם שומשום בקצוות",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r067",
+      "installPath": "/media/client/recipes/cauliflower-asian-tahini.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "1bdcbd9553f423dd6ff703eed6cb0fe7778ec58d66289041f25acdcbd010de98",
+        "bytes": 205518
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "כרובית ברוטב טחינה בצלחת הגשה מוארכת עם שומשום וכוסברה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r068",
+      "installPath": "/media/client/recipes/cauliflower-asian-tahini-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "4ad6e82c3100cc60fa0b0ccdce16a6495704a43f205503416f202911db195334",
+        "bytes": 141590
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב של פרחי כרובית עם צ׳ילי אדום ובצל ירוק",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r069",
+      "installPath": "/media/client/recipes/cauliflower-asian-tahini-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "01a96ebbdc43cf066cf06edd0c0ee58b5cc1775212f4a92a2abeaa79f21b496f",
+        "bytes": 53550
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "כף זהובה אוספת כרובית ברוטב טחינה מהצלחת",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r070",
+      "installPath": "/media/client/recipes/peanut-butter-date-bark.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "e056befbdcf8f3626dc182ef09d3cb780876f252c3116725468bf3a252abc1c0",
+        "bytes": 300598
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "משטח חטיף תמרים בשוקולד חתוך לריבועים על נייר אפייה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r071",
+      "installPath": "/media/client/recipes/peanut-butter-date-bark-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "aae200a7264e89a143843600bc91d5051fa431b5e90fe28cc48d8a952ab86703",
+        "bytes": 96016
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מרימה ריבוע חטיף תמרים משכבת השוקולד",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r072",
+      "installPath": "/media/client/recipes/peanut-butter-date-bark-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "84c41f4458ec1ddc98b3437ce1ace0fdf98cdcc9fc1b585e1c5642bb28950c24",
+        "bytes": 89360
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "ריבוע חטיף תמרים עם אגוזים מוחזק מעל המשטח",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r073",
+      "installPath": "/media/client/recipes/banana-oat-cookies.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "1c737ba6cdb68047de7711b3f3b39c3e74552041e424ba5e182aa148d26b3575",
+        "bytes": 116560
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מחזיקה עוגיית שיבולת שועל עם שוקולד צ׳יפס",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r074",
+      "installPath": "/media/client/recipes/banana-oat-cookies-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "338b4297e7f20340b5ec0abeb786d6ba2bdd5b49df6127b9e1802facb3b56514",
+        "bytes": 75724
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב עוגיית שיבולת שועל מעל תבנית האפייה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r075",
+      "installPath": "/media/client/recipes/banana-oat-cookies-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "ebb0a0a111bcd704553163907aba263f564a73260f727836128e40f59d6e95fe",
+        "bytes": 188372
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "עוגיות מעוצבות על תבנית עם נייר אפייה לפני האפייה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r076",
+      "installPath": "/media/client/recipes/sweet-and-sour-tofu.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "57daf7b52d45f4895f051c5f2c7c712a83101a229a75f3513760894c9e653b60",
+        "bytes": 120238
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערה שחורה עם אורז לבן וטופו בקשיו ברוטב",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r077",
+      "installPath": "/media/client/recipes/sweet-and-sour-tofu-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "ae8f473268ac85033f859b251ac42b5ce8d497421cd5db031f5951e66016757f",
+        "bytes": 207408
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מחבת ווק מלאה בקוביות טופו, קשיו וירקות מוקפצים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r078",
+      "installPath": "/media/client/recipes/sweet-and-sour-tofu-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "db64da8d32dafa1ff42cd5e9f7c098c1132e4fb1dbbc20e0328b0a6709243cd9",
+        "bytes": 76248
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "כף עץ מרימה קוביות טופו זהובות מתוך המחבת",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r079",
+      "installPath": "/media/client/recipes/crispy-tofu-peanut-salad.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "356087fcc5882f4e0d944d3c9f7262bc7c47fc3041f7e5d5f81c88f68a1ca8d3",
+        "bytes": 161718
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערת סלט טופו קריספי עם ירקות ובצל ירוק קצוץ",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r080",
+      "installPath": "/media/client/recipes/crispy-tofu-peanut-salad-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "388acfbf26298ef4bde0a8e059eaa466350d8a7e0fc2326e21be945b0a522a5d",
+        "bytes": 105128
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט קרוב על הסלט המעורבב עם אורז אפוי ואדממה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r081",
+      "installPath": "/media/client/recipes/crispy-tofu-peanut-salad-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "61c2b175b6292c6eb2cfde9387aee8bc1b6f36f199d0074146b76feafefc2220",
+        "bytes": 95954
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "חתיכות טופו קריספי ורוטב בוטנים מעל מצע ירקות",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r082",
+      "installPath": "/media/client/recipes/oven-noodle-stir-fry.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "f99987220d49e934673d957594b6f96c74b41ea7248ba0cbb0f34082351e3a2f",
+        "bytes": 266256
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תבנית זכוכית מלאה באטריות אורז, טופו וברוקולי",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r083",
+      "installPath": "/media/client/recipes/oven-noodle-stir-fry-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "7de57cf8ed3a548257b8d42b61faacc89e699433eb04e9779941590accb53daa",
+        "bytes": 184134
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט קרוב על אטריות אורז חומות עם פטריות וטופו",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r084",
+      "installPath": "/media/client/recipes/oven-noodle-stir-fry-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "7a7bc46396cac95e20fb50ebc39696734f8a2b630b0c14d35cab16bd724bd8d4",
+        "bytes": 183438
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "התבנית לאחר ערבוב, אטריות עטופות ברוטב סויה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r085",
+      "installPath": "/media/client/recipes/oven-noodle-stir-fry-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "52418fcd3de48b650de9fe0152dec0773e36b0938e1f49d862126d5605d116ea",
+        "bytes": 94796
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מרית אדומה מרימה אטריות אורז מתוך התבנית",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r086",
+      "installPath": "/media/client/recipes/oven-noodle-stir-fry-4.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "5ffcddfccb2a4da90fda6f367cd7efeafaed5aa26f3eba01bb920a567f3ac088",
+        "bytes": 167854
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תבנית עם טופו, פטריות, גזר וברוקולי לפני ערבוב",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r087",
+      "installPath": "/media/client/recipes/oven-noodle-stir-fry-5.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "a00cd6a6cc2a19341464c2e280e1d1fd019a48a370b706d7c0a5b67a2b5c1650",
+        "bytes": 201530
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב של קוביות טופו ופטריות אפויות בתבנית",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r088",
+      "installPath": "/media/client/recipes/oven-noodle-stir-fry-6.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "2f00b5a4a6fe3d452d1681b4205d49e7922624416c7e6e763755acb2ae334d41",
+        "bytes": 206192
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "גזר וברוקולי מסודרים בשורות לצד האטריות בתבנית",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r089",
+      "installPath": "/media/client/recipes/bean-noodle-tofu-stir-fry.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "f91b9fbe1453244de6d65d3ddc9e1d742716530c3106981727dbca031723312f",
+        "bytes": 331712
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מחבת עם קוביות טופו, בוטנים קצוצים ובצל ירוק",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r090",
+      "installPath": "/media/client/recipes/bean-noodle-tofu-stir-fry-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "0ae7ad12085cec0f678ff01a10808d1afe1a1abd518828363095904db53c4dec",
+        "bytes": 178944
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מחבת שלמה של מוקפץ אטריות שעועית על השיש",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r091",
+      "installPath": "/media/client/recipes/baked-quinoa-patties.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "d138c7d98c6b547a0d1c494ec256d2879dbac85bb925fbbcb69a9ebbde2d4385",
+        "bytes": 167034
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צלחת עם קציצות קינואה אפויות וקערת רוטב טחינה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r092",
+      "installPath": "/media/client/recipes/baked-quinoa-patties-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "fa738eabbde29a1bf303b580b53fccc1bec5049ad53a034622dbf057cd7e4c7f",
+        "bytes": 138114
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט קרוב על קציצות קינואה זהובות בצלחת הגשה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r093",
+      "installPath": "/media/client/recipes/baked-quinoa-patties-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "ba8c630b6dcab7f4e017c7f2fcaeaa23044f57dac0b7333ded81791dd4b32a6e",
+        "bytes": 59474
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מחזיקה קציצת קינואה מעל צלחת ההגשה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r094",
+      "installPath": "/media/client/recipes/crunchy-rainbow-quinoa-salad.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "1925d9401334552f3ed7d80974d2fe28ac87baff8438c80492844037012d7e7d",
+        "bytes": 133592
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערה שחורה עם סלט קינואה וכרוב סגול לצד כפית זהב",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r095",
+      "installPath": "/media/client/recipes/crunchy-rainbow-quinoa-salad-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "38bf8b15887f2bbb98caa7f4ff05b46da90c6fbbda729de66d49ffecd586b9ad",
+        "bytes": 93142
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מנת סלט קינואה בקערה שחורה וקערת הערבוב מאחור",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r096",
+      "installPath": "/media/client/recipes/crunchy-rainbow-quinoa-salad-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "8fcefa0fc2fa75f62efe44ecccccae39595afbf0d13c09286d43b81510a563f2",
+        "bytes": 106794
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערת נירוסטה גדולה עם הסלט מיד אחרי הערבוב",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r097",
+      "installPath": "/media/client/recipes/thai-pomelo-salad.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "baf940af200f5228d3a0256546dd4305a8b95fbe1b47c57bb75d269aa98bc33d",
+        "bytes": 233188
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערה לבנה עם סלט פומלה תאילנדי על שולחן עץ",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r098",
+      "installPath": "/media/client/recipes/thai-pomelo-salad-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "ecd65ac2b2eba5d8be088e1ab2f217a3fc349cefdbd87e117a7a4e1e9f228279",
+        "bytes": 152222
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צילום מלמעלה של סלט הפומלה עם מלפפון ובצל פרוס",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r099",
+      "installPath": "/media/client/recipes/thai-pomelo-salad-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "f2cbf13deb6ad10272b94de4e92409eca5b8af7ebfe0f0d81234bc56c2515a20",
+        "bytes": 104012
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב של כף מרימה פלחי פומלה ובוטנים מהסלט",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r100",
+      "installPath": "/media/client/recipes/three-ingredient-date-balls.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "8452e48803d86ca9d6f347d58fbfa487af53fc3312be2f128d6231fe057da77c",
+        "bytes": 102798
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערית לבנה עם כדורי תמרים בציפוי קקאו וקוקוס",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r101",
+      "installPath": "/media/client/recipes/three-ingredient-date-balls-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "c3f863f567d4910c32f32ef4fdd783ceef1aee851148a53b5b43f2b91f5d4a4c",
+        "bytes": 88074
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "כדורי תמרים בקערית על שולחן עץ באור שמש",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r102",
+      "installPath": "/media/client/recipes/three-ingredient-date-balls-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "78b5180dc4911e1aa3420ceac9c23182ae1ec403c091a91f23e6d4f22c585416",
+        "bytes": 45794
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מחזיקה כדור תמרים מעל קערית על משטח שיש",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r103",
+      "installPath": "/media/client/recipes/three-ingredient-date-balls-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "1661ac89e598b9c08bb1d342c0f9802ae1918249ce4337c23f017346cac0cb97",
+        "bytes": 47258
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב של כדור תמרים נגוס שמראה את המרקם הפנימי",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r104",
+      "installPath": "/media/client/recipes/sweet-potato-pumpkin-soup.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "12ff3f44490d5a2f043ce4335ba27f33a0075b805339e814d6b4a3eaa4bdb6cb",
+        "bytes": 84166
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערה שחורה עם מרק כתום וגרעינים לצד כפית זהב",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r105",
+      "installPath": "/media/client/recipes/sweet-potato-pumpkin-soup-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "80574daf59f76e55332a13a613e15fad24f34fb00fcd672c9e83aed0aef99385",
+        "bytes": 49344
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מרק כתום בקערה שחורה עם זילוף שמן זית וגרעינים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r106",
+      "installPath": "/media/client/recipes/sweet-potato-pumpkin-soup-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "a0f1909696a47acb8d10d036a119e342907cbaccdc1f2551a6bc92a0e3e4d5f4",
+        "bytes": 56494
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב של המרק הכתום עם גרעיני דלעת ופתיתי צ׳ילי",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r107",
+      "installPath": "/media/client/recipes/sweet-potato-pumpkin-soup-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "476bcee2c8b40b4903ef5ef1a6fc1870719c195b0542d87503c3362bbdfe1a49",
+        "bytes": 46118
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערת מרק כתום סמיך עומדת על משטח המטבח",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r108",
+      "installPath": "/media/client/recipes/green-goddess-salad.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "0c7ea787ee3e9e962f587331407b6d43f81d7d880adb87d5a844b56b095daa20",
+        "bytes": 188606
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערת נירוסטה עם סלט גרין גודס וטורטיות קריספיות",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r109",
+      "installPath": "/media/client/recipes/green-goddess-salad-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "35e55427e792e0ac93bf4d6c4ddd44f48be54187b6393e8d58e2edf451707c26",
+        "bytes": 77622
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד טובלת משולש טורטיה בסלט הירוק הקרמי",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r110",
+      "installPath": "/media/client/recipes/green-goddess-salad-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "d6a50989049d55d9b5a43cf1696fa22063bb4ed3d0cd0711acfb83bbcebdf201",
+        "bytes": 59730
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מרימה טורטיה עמוסה בסלט מעל הקערה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r111",
+      "installPath": "/media/client/recipes/colorful-chia-pudding.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "a97bfbb997c8ed37d5e7baac2178a73a11e702214c23b3ff5339dca9d2804d97",
+        "bytes": 124234
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "שלוש כוסות פודינג צ'יה בצבעי חום, ורוד וכחול על שולחן שיש",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r112",
+      "installPath": "/media/client/recipes/colorful-chia-pudding-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "b19c49e672ddaef8ca0b988f333a2d2b385120f69c13212fc0da8d2648dd9274",
+        "bytes": 82424
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב של כוסות הפודינג עם פרוסות בננה, גרנולה ואוכמניות",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r113",
+      "installPath": "/media/client/recipes/tuna-melt-sandwich.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "54efb46028090eb5e618a266ebc2babd577827e21542d15a6f7a235655c99480",
+        "bytes": 93168
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מחזיקה כריך טונה חתוך לצד מקלות מלפפון ועגבניות שרי",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r114",
+      "installPath": "/media/client/recipes/light-cheese-lasagna.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "8747ffd8900428513a420c4a58e7d3b2ab3c6b52fd65bfe447fae0e601a4a7f8",
+        "bytes": 243638
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "פרוסת לזניה מוגשת בצלחת מעוטרת לצד התבנית עם עלי בזיליקום",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r115",
+      "installPath": "/media/client/recipes/light-cheese-lasagna-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "67d2e6dbe0802f2638c8a7176f71572a2c2ced5d88ee5fbfcab6aab744e700b7",
+        "bytes": 201304
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט מלמעלה על הלזניה בתבנית עם גבינה מוזהבת ובזיליקום",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r116",
+      "installPath": "/media/client/recipes/light-cheese-lasagna-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "c81735fed2d27905f7e4ec672dbf8a196cfd54033795cd4bc763491ee0b2ca5a",
+        "bytes": 133990
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תבנית הלזניה מונחת על מפית משבצות אדומה אחרי האפייה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r117",
+      "installPath": "/media/client/recipes/light-cheese-lasagna-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "680345c294aefa927676b40246dc133dd23bd504ba00522aa7cf561d7981d997",
+        "bytes": 153080
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "לזניה בתבנית זכוכית מזווית הצד עם קצוות שחומים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r118",
+      "installPath": "/media/client/recipes/light-cheese-lasagna-4.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "fa7b30730ee6dfa9d0bbb2859d882198e7e6e597fdfbeaaf9fa32b75a8e19350",
+        "bytes": 68266
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תבנית הלזניה על השיש מול חלון באור יום",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r119",
+      "installPath": "/media/client/recipes/quinoa-lentil-vegetable-bake.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "9d3f5ab760ca88d0cdc19504bc68a2ce0b04285b8433573949d760f94b8cb40a",
+        "bytes": 338000
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תבנית קינואה ועדשים עם קוביות גזר, בצל סגול ופטרוזיליה טרייה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r120",
+      "installPath": "/media/client/recipes/quinoa-lentil-vegetable-bake-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "e2986563439cb907b573cb272d3439ed488afe336528ffa9895f6d802a198191",
+        "bytes": 214270
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט קרוב על התבשיל עם קוביות קישוא, גזר וחצילים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r121",
+      "installPath": "/media/client/recipes/quinoa-lentil-vegetable-bake-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "7129d3d81110249a1ea2ad05798733fb7729336c4f0b25b075ff829ffd5c60a9",
+        "bytes": 91770
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "התבשיל מעורבב בתבנית עם כף הגשה בתוכו",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r122",
+      "installPath": "/media/client/recipes/baked-tofu-schnitzel.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "29e4d21c8917030f964996b1f4fdd4858054504b73489328cf1cd25513cb4657",
+        "bytes": 176744
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צלחת שניצלי טופו לצד קוסקוס ירקות וקערית רוטב אדום",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r123",
+      "installPath": "/media/client/recipes/baked-tofu-schnitzel-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "1e191a29cb4f1a03dd64a1f4343c77e940242f2b7e909a10119ac81bd4312bdf",
+        "bytes": 100788
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מלבני שניצל טופו בציפוי פירורים על נייר אפייה בתבנית",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r124",
+      "installPath": "/media/client/recipes/tofu-satay-skewers.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "0f75c2f35b04de86a4dc704f13c3197ef92fa4aca6ac84b0d074d24d49ae7c00",
+        "bytes": 151964
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "שיפודי טופו בצלחת עם רוטב בוטנים, בצל ירוק וצ'ילי",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r125",
+      "installPath": "/media/client/recipes/tofu-satay-skewers-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "c8f07235e31041c2ff993a0f117d069a1061b537953d5d4281043f389a811426",
+        "bytes": 99228
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט מקרוב על השיפודים והרוטב הקרמי בצלחת לבנה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r126",
+      "installPath": "/media/client/recipes/tofu-satay-skewers-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "fc915970d4ebba72f87dbb79ac6882f117ec959ca16896d3c1464d40009b5d2b",
+        "bytes": 111508
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "הצלחת מוגשת על שיש בהיר לצד צנצנות רטבים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r127",
+      "installPath": "/media/client/recipes/upside-down-pear-cake.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "e522692598aa0357be63f9e3accebccadb2df1c3a40b5f2c1644522a5bf1aae5",
+        "bytes": 111170
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "פרוסה מעוגת האגסים ההפוכה לצד כדור גלידת וניל",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r128",
+      "installPath": "/media/client/recipes/upside-down-pear-cake-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "6ea09ff00d6c7d1350027966bd3d6393e8fe42f8b22df9e2cefa922adb57b669",
+        "bytes": 85902
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "העוגה השלמה על מגש זכוכית לצד פרוסה עם גלידה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r129",
+      "installPath": "/media/client/recipes/upside-down-pear-cake-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "8243b313162c15ce18f5a65b292f6aebbf127514170095f192671e7ef0af2ac4",
+        "bytes": 91832
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "רצועות אגסים על פני העוגה ופרוסה שנשלפת ממנה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r130",
+      "installPath": "/media/client/recipes/upside-down-pear-cake-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "e51077216be0246d48ccffdd8bff09ee6378658475c6ed34bcbba6240b57d348",
+        "bytes": 66428
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "עוגת האגסים בתבנית זכוכית ופרוסה מורמת על מרית",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r131",
+      "installPath": "/media/client/recipes/upside-down-pear-cake-4.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "fb61a31b8af87b69a629d9b20b0a2c4f244392657c8309f0e64c8e79fc2c8b7a",
+        "bytes": 63198
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מחזיקה צלחת עם פרוסת עוגה וגלידה מול העוגה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r132",
+      "installPath": "/media/client/recipes/upside-down-pear-cake-5.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "543f21a0553c5f530e6cb6c61c16d930dc99873d0ad3985e497795f5b63fed3a",
+        "bytes": 67824
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צלחת מנוקדת עם פרוסת עוגה וכדור גלידה לבן",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r133",
+      "installPath": "/media/client/recipes/upside-down-pear-cake-6.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "3f38de13acf15877ff732f72caba9c3c19d27ea600563b46aa16d1f01bd483e4",
+        "bytes": 77432
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "אלונה במטבח מחזיקה צלחת עוגה עם גלידה ואגס אדום",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r134",
+      "installPath": "/media/client/recipes/upside-down-pear-cake-7.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "3d793a5410814725df5a3a6964c7d5cced8f9a159b36c2e24fe53c4d704860dc",
+        "bytes": 74562
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "אלונה מחייכת למצלמה עם צלחת העוגה במטבח הלבן",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r135",
+      "installPath": "/media/client/recipes/upside-down-pear-cake-8.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "a7a7c4d9f58dc584b0c78a8e2380ea019387510315eafb688bf9b80cf55b4b50",
+        "bytes": 72032
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "אלונה מרימה אגס אדום לפה ליד צלחת העוגה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r136",
+      "installPath": "/media/client/recipes/lemon-garlic-greens.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "0955727180a63f890447ed3c4c4a5642c64bfd348f23c7e4f1c6f53f7b262afd",
+        "bytes": 135742
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "ערימת שעועית ואפונת שלג ירוקות מונחת על נייר לבן",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r137",
+      "installPath": "/media/client/recipes/lemon-garlic-greens-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "5588951b4464ba7459cc3a9019a52d729164d463ef8a18611cb6a394537e51c6",
+        "bytes": 92690
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב של הירוקים עם גרידת לימון ושמן זית",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r138",
+      "installPath": "/media/client/recipes/lemon-garlic-greens-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "5f81a56f2d0dbdc882401c32a7de9ce7ca1cc3f3f12b45c49e6f04476f57cd8c",
+        "bytes": 72954
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מנת הירוקים על נייר אפייה לצד חלון בהיר",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r139",
+      "installPath": "/media/client/recipes/kale-crispy-chickpea-salad.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "f7b7afd0418c9603562435d7266958164dbd2aed60c6d478d79382f37baaae7d",
+        "bytes": 197690
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "סלט קייל מעורבב בקערה לבנה על מפה משובצת צהובה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r140",
+      "installPath": "/media/client/recipes/kale-crispy-chickpea-salad-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "a6d81940c548fd1664318a7a2271fcc73208e5c95174dc5ba55d3c316122642d",
+        "bytes": 110618
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט מלמעלה על מרכיבי הסלט מסודרים בקערה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r141",
+      "installPath": "/media/client/recipes/kale-crispy-chickpea-salad-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "22ad65bab89fbefbd3be906c627fe66b49893d71a97787f42cc9606d341c3bc1",
+        "bytes": 114496
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "חומוס קריספי, מלפפון ובצל סגול לפני הערבוב",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r142",
+      "installPath": "/media/client/recipes/oven-fried-rice-tofu.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "c6427ba14c0a8dab27ad4cff1bf2f9d4f8849e3a38458f82d78e832d1e9c7255",
+        "bytes": 244958
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב אורז מוקפץ בתנור עם קוביות טופו וירקות",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r143",
+      "installPath": "/media/client/recipes/oven-fried-rice-tofu-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "b5db64dc48a5279126b6e1ad32e3511160572cde78bd76fa572e48d2781a6690",
+        "bytes": 80144
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערת אורז מוגשת עם בוטנים ובצל ירוק מעל",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r144",
+      "installPath": "/media/client/recipes/oven-fried-rice-tofu-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "8bbd94edf3206700f05f2d91efba9d2ae1fbea2846c692ac21ad9d0d49621a21",
+        "bytes": 137314
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "כף נעוצה בכלי הזכוכית המלא באורז וירקות",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r145",
+      "installPath": "/media/client/recipes/oven-fried-rice-tofu-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "9313f4a8d49463740c3fae2084524345ee1a7fdaaeb7a97af09bbb80752de150",
+        "bytes": 85166
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "כלי אפייה סגלגל מלא באורז עם גזר וטופו",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r146",
+      "installPath": "/media/client/recipes/baked-vegetable-latkes.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "6e86f2bc814e5b28f454c276e6cb75d23c9144f26bba12f664451a24407b2135",
+        "bytes": 275546
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תבנית מלאה בלביבות ירק אפויות לצד קערית יוגורט בשמן זית",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r147",
+      "installPath": "/media/client/recipes/baked-vegetable-latkes-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "1f1ce381eea1813f35a2df93a5dd12547e50f1d9582096c23fc9308d909f845e",
+        "bytes": 164066
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט מלמעלה על שורות לביבות שחומות וקערת מטבל מנוקדת",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r148",
+      "installPath": "/media/client/recipes/baked-vegetable-latkes-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "1737a79c272a62b422131abb76847a681d703a4e001daa5590bde44b51d0ff8e",
+        "bytes": 71624
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד אוחזת לביבת ירק קריספית מעל התבנית והמטבל",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r149",
+      "installPath": "/media/client/recipes/spelt-carrot-cake.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "becea121ed48c7d50e64b708964ac4f2f88c6120b7c4746ae51ae38f7e237f21",
+        "bytes": 179146
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "כיכר עוגת גזר מכוסה אבקת סוכר בתבנית, פרוסות ראשונות נחתכו",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r150",
+      "installPath": "/media/client/recipes/spelt-carrot-cake-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "8a0c22530da5f95e09093c3ee9a5aab882cd9661d05f93b0bbefe94d28eac3af",
+        "bytes": 86260
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "פרוסת עוגה אחוזה ביד עם שבבי גזר בתוך הבלילה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r151",
+      "installPath": "/media/client/recipes/spelt-carrot-cake-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "8972b3222d84d797ffe11789ae30e3faa92a60c8e2621f18352fc90fdae56e7f",
+        "bytes": 95024
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "כיכר עוגה פרוסה בתבנית מונחת על מגבת בהירה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r152",
+      "installPath": "/media/client/recipes/spelt-carrot-cake-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "97fe8b6ede71468a23696e8a49e6e0eb6d268021c57ea8c462abb4e7d8ee8d58",
+        "bytes": 198862
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "שתי כיכרות עוגת גזר זו לצד זו בתבניות אפייה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r153",
+      "installPath": "/media/client/recipes/spelt-carrot-cake-4.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "f6a28072db82af8e95189e7a4449093fc233e764a143fa79ebe9c86ae3773b72",
+        "bytes": 84876
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מרימה פרוסת עוגה מעל התבנית המאובקת בסוכר",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r154",
+      "installPath": "/media/client/recipes/crispy-rice-tuna-salad.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "7005db16795c9d64deb8def6594cb466727fa5a76b31278ce5c3a76de5acd763",
+        "bytes": 307912
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערת סלט אורז קריספי עם אבוקדו ובצל סגול על שולחן עץ",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r155",
+      "installPath": "/media/client/recipes/crispy-rice-tuna-salad-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "dcaac57f3ddaa64fd84aede528352d23b67fb8b22b810319a6a09bd88894142b",
+        "bytes": 146526
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט קרוב על הסלט בקערה כהה, קוביות אבוקדו ושומשום",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r156",
+      "installPath": "/media/client/recipes/crispy-rice-tuna-salad-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "458f1490aa0ea368b15a504e4b667f836491d894118ca8e39df436cc6ea0f82a",
+        "bytes": 153464
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערת הסלט מזווית הצד, פתיתי אורז שחומים וחתיכות מלפפון",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r157",
+      "installPath": "/media/client/recipes/hearty-lentil-soup.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "68639da7bdc6ca49f63a9214e0c226a61766ac99e9637f22b9f0c02e9d656c5d",
+        "bytes": 188472
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערת מרק עדשים סמיכה עם כף זהובה מונחת על מפית",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r158",
+      "installPath": "/media/client/recipes/hearty-lentil-soup-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "55c529a77ea9924dfb9c87c90553c5c36833dd4c5a10dc48c80f2d590355c9f0",
+        "bytes": 60762
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "כף מרימה עדשים וירקות מתוך קערת המרק",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r159",
+      "installPath": "/media/client/recipes/cinnamon-maple-hazelnut-muffins.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "6ef7c62023a597bc5b446c0865faf99e3903504966f43916409d2024a25f8936",
+        "bytes": 116202
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מאפין קינמון עם קראמבל אגוזי לוז בתבנית, צילום מקרוב",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r160",
+      "installPath": "/media/client/recipes/cinnamon-maple-hazelnut-muffins-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "1a9d3f25c893c7187889d67d642b40f7c16e14ab9193a83b7b45d577d3da7e73",
+        "bytes": 98080
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תבנית מלאה בשנים עשר מאפינס אפויים עם קראמבל",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r161",
+      "installPath": "/media/client/recipes/cinnamon-maple-hazelnut-muffins-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "8e7904342e04b79caf42c6a1311dc86a4b5464a5b522df85e4eb20e3ba53b7a5",
+        "bytes": 73476
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מרימה מאפין עטוף בנייר אפייה מתוך התבנית",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r162",
+      "installPath": "/media/client/recipes/tofu-shawarma.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "cf4384fc8a2abde420cf0fffd98ecfa2ba72cad85b811a3bdcf11504dbdc948b",
+        "bytes": 128018
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צלחת סלט שווארמה טופו עם כרוב סגול וטחינה, מאחור מחבת",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r163",
+      "installPath": "/media/client/recipes/tofu-shawarma-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "27a872736d93c83a5b26acaeab556169793a53b298ce9dd20a766c55a873ea76",
+        "bytes": 80996
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט מלמעלה על קערת סלט שווארמה טופו וירקות קצוצים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r164",
+      "installPath": "/media/client/recipes/autumn-quinoa-pumpkin-salad.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "b518a54ff1f2d615b7e263523ddaa4143a9fe1d8a6756e2094e484c0ecf28a67",
+        "bytes": 185796
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צלחת סלט קינואה עם קוביות דלעת, פטריות ובצל סגול",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r165",
+      "installPath": "/media/client/recipes/autumn-quinoa-pumpkin-salad-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "bcc89e0155673ce5370d90a1cd45802a2045e12275ece551d0deb734d81f15d4",
+        "bytes": 164926
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב על סלט הקינואה עם דלעת כתומה וכוסברה טרייה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r166",
+      "installPath": "/media/client/recipes/autumn-quinoa-pumpkin-salad-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "7e4992b5d0ea08cefaefa7dacb0904492e0acfc8fa5fdf598985d69d042aca04",
+        "bytes": 77724
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד אוחזת בכף בתוך צלחת סלט הקינואה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r167",
+      "installPath": "/media/client/recipes/autumn-quinoa-pumpkin-salad-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "0290b418eff0bd72a22ca2448bf2ec85299c3b7b1bc27597ed317b21a4ff95b4",
+        "bytes": 65046
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "ירקות צלויים בצלחת עם רוטב טחינה לימוני יצוק מעל",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r168",
+      "installPath": "/media/client/recipes/braised-cabbage-tomato-sauce.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "f243998370cffd2f40b0cdaa3372c1497d6623233ad00bc7832460ef7894bd20",
+        "bytes": 329902
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מחבת כרוב מבושל ברוטב אדום על מפה משובצת צהובה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r169",
+      "installPath": "/media/client/recipes/braised-cabbage-tomato-sauce-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "4a088ddef06ad04b3f3c620308b29429fa5338bbb07ef1522455da1dffc10423",
+        "bytes": 203454
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב על רצועות כרוב רכות ברוטב עגבניות סמיך",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r170",
+      "installPath": "/media/client/recipes/bulgur-jar-salad.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "444ff20573986ae1b37b9f1de1a0b95507345e8cb448d43a03656d10890d0ac2",
+        "bytes": 90518
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צנצנת סלט בורגול בשכבות עם חומוס, מלפפון וגבינה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r171",
+      "installPath": "/media/client/recipes/bulgur-jar-salad-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "c2f4bfe86adff00b2a39b4910a088901330f562d837478be0f97aba064af9fc8",
+        "bytes": 60670
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "הסלט שפוך לצלחת ומעורבב עם גרגרי חומוס ופלפלונים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r172",
+      "installPath": "/media/client/recipes/bulgur-jar-salad-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "e4d19eb841f15acc7e9b76c20491f10caf519e64dca4528b897dde0515d9244c",
+        "bytes": 60168
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צנצנת סגורה עם מכסה עץ וכפית, על רקע חלון",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r173",
+      "installPath": "/media/client/recipes/bulgur-jar-salad-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "f2a9696b9a0062fa48c9266b0f0a76b0d9ff229a90d1c3e88bcc10bc9f0567fb",
+        "bytes": 46762
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צנצנת הסלט מול חלון עם עצים ירוקים ברקע",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r174",
+      "installPath": "/media/client/recipes/caesar-salad-crispy-chickpeas.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "9c76729404ee248c75ef789a6801df63f7f5819efd10bfbf8655a47ef8364adc",
+        "bytes": 168490
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערת סלט קיסר עם חומוס אפוי ופרמזן מגורר",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r175",
+      "installPath": "/media/client/recipes/caesar-salad-crispy-chickpeas-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "6455e6e9eb3bb227322b0a06decadded511efe9a1aba402aafde04264875402c",
+        "bytes": 124986
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מבט מלמעלה על לבבות חסה עם רוטב קיסר וחומוס",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r176",
+      "installPath": "/media/client/recipes/caesar-salad-crispy-chickpeas-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "32e2952677a04d91408d3a824ea31c71ec5c2a1939ae14cb18a29ad6e8058b2c",
+        "bytes": 133078
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב על גרגרי חומוס קראנצ'יים ופרמזן על עלי חסה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r177",
+      "installPath": "/media/client/recipes/eggplant-carpaccio.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "1b3229f4bd34c764d84df9c757cf4b8fa96f0ba321dfe4fa632cb827eaadc834",
+        "bytes": 229070
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מגש אובלי של קרפצ׳יו חציל מכוסה בירקות קצוצים וצנוברים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r178",
+      "installPath": "/media/client/recipes/eggplant-carpaccio-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "b618fc0d511a1536cd93cc756d8a0372d34626fd29847222b58f2e236fe8facf",
+        "bytes": 155836
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תקריב על שכבת החציל המעוך עם פלפל חריף וצנוברים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r179",
+      "installPath": "/media/client/recipes/eggplant-carpaccio-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "0a7217df97d2e91c1ee83b0c0b80eb1e6a3ccae11858d26e9f68599af12c3e3f",
+        "bytes": 83052
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד לוקחת מנה מהמגש, כף הגשה מונחת בצד",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r180",
+      "installPath": "/media/client/recipes/homemade-granola.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "dcd90c01d8ce2a2d707a480cdb3012203d75baabf1a4e457c420bc3c4cf7cffc",
+        "bytes": 98912
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "גרנולה פריכה בכוס זכוכית שקופה על אדן חלון",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r181",
+      "installPath": "/media/client/recipes/homemade-granola-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "952a0364cf584d01da86171e61a4fd3cde4bf2fe03d98a96bc4f391be6886432",
+        "bytes": 222756
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "תבנית אפייה מלאה בגרנולה זהובה היישר מהתנור",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r182",
+      "installPath": "/media/client/recipes/homemade-granola-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "7fbd970f6eef52afc4eed50fbcf4bae3a160a38f5373614047ed4b98a3878d0d",
+        "bytes": 116132
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "קערת מתכת עם אגוזים, גרעיני דלעת ושקדים פרוסים לפני הערבוב",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r183",
+      "installPath": "/media/client/recipes/maple-pecan-spelt-cake.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "7509e166f54257a1f6e2f4448c7f8d5a4ad8c49d3f4ace34dce9979ec8f4c59e",
+        "bytes": 203718
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "עוגת מייפל פרוסה בתבנית אינגליש ופרוסה בצלחת עם מזלג",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r184",
+      "installPath": "/media/client/recipes/maple-pecan-spelt-cake-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "215ec6ae0c99ba2dda2d4c7f243c4dba4918d01201a3962f60653071eb5a911e",
+        "bytes": 71698
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "יד מרימה פרוסת עוגה ומראה את הקראסט הפקאן שמעליה",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r185",
+      "installPath": "/media/client/recipes/protein-pancakes.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "7104af48e7b3892405379156f6a52f3ec22ec3e001559aa59487e095b6f4805d",
+        "bytes": 106258
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מגדל פנקייקים בצלחת לבנה עם תאנים, בננה ואוכמניות",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r186",
+      "installPath": "/media/client/recipes/protein-pancakes-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "054cfc4ce81beeb20a61a50b019ae6ef7154c54fa8c9bbbe4cc8cfd2f1301fd6",
+        "bytes": 76046
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "פנקייקים מצולמים מהצד עם מייפל שנוזל על הצלחת",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r187",
+      "installPath": "/media/client/recipes/protein-pancakes-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "384e9b154d53c421799618a3e5795810d24e5d6d3adf624f1d0220a03ba39a1f",
+        "bytes": 67096
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צלחת פנקייקים מקושטת בפלחי תאנים ובננה על שיש",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r188",
+      "installPath": "/media/client/recipes/protein-pancakes-3.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "a52ad845dfdb684a06658c1c834dc58f31a26bd446fa1d26f54e38aba1730a31",
+        "bytes": 64326
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "פנקייק חצוי שחושף את המרקם הרך מבפנים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r189",
+      "installPath": "/media/client/recipes/protein-pancakes-4.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "772967118d062624e04947ee9f821204c7d8ad159611feb4f5974d560475c290",
+        "bytes": 60180
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "צלחת הפנקייקים מרחוק על משטח שיש מואר",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r190",
+      "installPath": "/media/client/recipes/roasted-vegetable-antipasti.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "1a194655d32243ca6bac8b61c7fcb7a58c21b0bf822d868974767ea88bbe5b36",
+        "bytes": 231476
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מגש אנטיפסטי צבעוני עם חציל, בטטה, גזר ופלפלונים",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r191",
+      "installPath": "/media/client/recipes/roasted-vegetable-antipasti-1.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "d4c46f1340d773f63e97bbdc3ceb704b886128a1819942157ede1dac68819617",
+        "bytes": 143776
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "מגש הירקות האפויים מקרוב, פרוסת לימון וענפי רוזמרין במרכז",
+      "source": "alona-recipes-doc-2026-08-11"
+    },
+    {
+      "id": "cl-r192",
+      "installPath": "/media/client/recipes/roasted-vegetable-antipasti-2.webp",
+      "status": "installed",
+      "optimized": {
+        "sha256": "f01b92b5bf54803867901b48a9b9a375a947d46cbf9c4c4601519efd4955e0ec",
+        "bytes": 89028
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "המתכונים והצילומים נמסרו על ידי אלונה כחומר גלם לאתר: מסמך המתכונים ותיקיית התמונות שלה (מסירה 2026-08-11)."
+      },
+      "alt": "ראש שום שלם קלוי בין הירקות עם רוזמרין מעל",
+      "source": "alona-recipes-doc-2026-08-11"
     },
     {
       "id": "cl-115",
