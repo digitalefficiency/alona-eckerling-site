@@ -46,6 +46,14 @@ const HE = {
   "login.emailLabel": "כתובת מייל",
   "login.sending": "שולח…",
   "login.submit": "שליחת קישור כניסה",
+  "login.passwordPrompt": "הזינו אימייל וסיסמה.",
+  "login.passwordLabel": "סיסמה",
+  "login.enter": "כניסה",
+  "login.checking": "רק רגע…",
+  "login.badCredentials": "פרטי הכניסה לא נכונים. אפשר לנסות שוב.",
+  "login.tooMany": "יותר מדי ניסיונות. כדאי לחכות כמה דקות ולנסות שוב.",
+  "login.magicInstead": "אפשר גם בלי סיסמה, עם קישור למייל",
+  "login.passwordInstead": "כניסה עם סיסמה",
 
   // ── editor ──
   "editor.deleteConfirm": "למחוק את הפריט הזה מהאתר? הפעולה אינה הפיכה.",
@@ -244,6 +252,14 @@ const EN = {
   "login.emailLabel": "Email address",
   "login.sending": "Sending…",
   "login.submit": "Send sign-in link",
+  "login.passwordPrompt": "Enter your email and password.",
+  "login.passwordLabel": "Password",
+  "login.enter": "Sign in",
+  "login.checking": "One moment",
+  "login.badCredentials": "Wrong sign-in details. Try again.",
+  "login.tooMany": "Too many attempts. Wait a few minutes and try again.",
+  "login.magicInstead": "Or skip the password and get an email link",
+  "login.passwordInstead": "Sign in with a password",
 
   "editor.deleteConfirm": "Remove this item from the site? This cannot be undone.",
   // LTR back affordance points LEFT (‹); the he value keeps › because back = rightward in RTL.

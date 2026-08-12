@@ -313,7 +313,7 @@ export default function AboutPage() {
               house pattern rather than on a single page: the source is a full-size
               dish photo and was being served whole into a 375x250 mobile band. */}
           <Image
-            src="/media/client/recipes/light-cheese-lasagna.webp"
+            src="/media/client/recipes/light-cheese-lasagna-2.webp"
             alt=""
             fill
             sizes="(max-width: 768px) 0px, 52vw"
@@ -334,11 +334,11 @@ export default function AboutPage() {
         />
         <div className="relative aspect-[3/2] md:hidden">
           <Image
-            src="/media/client/recipes/light-cheese-lasagna.webp"
-            alt="לזניית גבינות רזות, מנה אמיתית מהמטבח של אלונה"
+            src="/media/client/recipes/light-cheese-lasagna-2.webp"
+            alt="לזניה גבינה קלילה בתבנית עם עלי בזיליקום, מנה אמיתית מהמטבח של אלונה"
             fill
             sizes="(max-width: 768px) 100vw, 0px"
-            className="object-cover"
+            className="object-cover object-[50%_62%]"
           />
           <div aria-hidden className="grain-overlay" />
           {/* same room-edge on the mobile band */}
