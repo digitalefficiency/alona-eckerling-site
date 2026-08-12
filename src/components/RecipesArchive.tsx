@@ -34,7 +34,7 @@ export type RecipeTile = {
 export type ArchiveLabels = {
   /** COPY: «הכול» — the default filter chip */
   all: string;
-  /** COPY: the honest count chip («בערך 30 מתכונים · מתכון חדש כל שבוע») */
+  /** COPY: the honest count chip («55 מתכונים · מתכון חדש כל שבוע») */
   countChip: string;
   /** COPY: the honest empty-filter state */
   empty: string;

@@ -310,8 +310,8 @@ export default function AboutPage() {
       <section id="story" className="relative overflow-hidden border-t border-line bg-card scroll-mt-24">
         <div aria-hidden className="absolute inset-y-0 start-0 hidden w-[52%] md:block">
           {/* next/image — same fix as the /coaching proof band, applied as one
-              house pattern rather than on a single page. The source is 177KB at
-              1330x2110 and was being served whole into a 375x250 mobile band. */}
+              house pattern rather than on a single page: the source is a full-size
+              dish photo and was being served whole into a 375x250 mobile band. */}
           <Image
             src="/media/client/recipes/light-cheese-lasagna.webp"
             alt=""
@@ -335,7 +335,7 @@ export default function AboutPage() {
         <div className="relative aspect-[3/2] md:hidden">
           <Image
             src="/media/client/recipes/light-cheese-lasagna.webp"
-            alt="דגים מרוקאים של שישי, מנה אמיתית מהמטבח של אלונה"
+            alt="לזניית גבינות רזות, מנה אמיתית מהמטבח של אלונה"
             fill
             sizes="(max-width: 768px) 100vw, 0px"
             className="object-cover"
