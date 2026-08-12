@@ -84,7 +84,8 @@ for (const t of ["drafts", "revisions", "leads", "redirects", "media_assets", "m
 
 // ── 3. the write surface ────────────────────────────────────────────────────
 {
-  const { status, body } = await rest("pages?slug=eq.home", {
+  // the home page's slug is the EMPTY string, not "home"
+  const { status, body } = await rest("pages?slug=eq.", {
     method: "PATCH",
     headers: { "Content-Type": "application/json", Prefer: "return=representation" },
     body: JSON.stringify({ status: "draft" }),
@@ -94,7 +95,7 @@ for (const t of ["drafts", "revisions", "leads", "redirects", "media_assets", "m
   // row is the breach — it means the row was actually unpublished.
   const touched = Array.isArray(body) ? body.length : 0;
   record("anon cannot UPDATE pages", status >= 400 || touched === 0, `status ${status}, ${touched} rows affected`);
-  const after = await rest("pages?slug=eq.home&select=slug&limit=1");
+  const after = await rest("pages?slug=eq.&select=slug&limit=1");
   record("home is still published after the attack", Array.isArray(after.body) && after.body.length === 1, `status ${after.status}`);
 }
 {

@@ -26,7 +26,7 @@
       "id": "film",
       "type": "home-film",
       "schema_version": 1,
-      "visible": true,
+      "visible": false,
       "payload": {
         "kicker": "מוכר לך? · צלחת אחת, ערב אחד",
         "staticKicker": "מוכר לך?",

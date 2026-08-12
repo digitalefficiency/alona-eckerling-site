@@ -156,7 +156,11 @@ export default async function HomePage() {
   // frames, the scroll choreography, the generated room stills.
   const page = await getPublishedPage("");
   const HERO = sectionPayload<HomeHeroPayload>(page, "hero") ?? HERO_FALLBACK;
-  const FILM = sectionPayload<HomeFilmPayload>(page, "film")!;
+  // The film is the ONE hideable section this page honors (Rom, 2026-08-11:
+  // «תוריד את הסקשן של סרט הגלילה») — hidden via `visible: false` in the page
+  // document, so the desk's own toggle owns its return. null = don't render §02;
+  // the old `!` here would have 500'd the home page the day someone hid it.
+  const FILM = sectionPayload<HomeFilmPayload>(page, "film");
   const GUIDE = sectionPayload<HomeGuidePayload>(page, "guide")!;
   const PLAN = sectionPayload<HomePlanPayload>(page, "plan")!;
   const PROOF = sectionPayload<HomeProofPayload>(page, "proof")!;
@@ -164,9 +168,9 @@ export default async function HomePage() {
   const SUCCESS = sectionPayload<HomeSuccessPayload>(page, "success")!;
   const CTA = sectionPayload<HomeCtaPayload>(page, "cta")!;
 
-  // words in, choreography unchanged — paired by index
-  const FILM_CHIPS: FilmChip[] = FILM_CHIP_CHOREO.map((c, i) => ({ ...c, text: FILM.chips[i] ?? "" }));
-  const FILM_CAPTIONS: FilmCaption[] = FILM_CAPTION_CHOREO.map((c, i) => ({ ...c, ...FILM.captions[i] }));
+  // words in, choreography unchanged — paired by index (empty when the film is hidden)
+  const FILM_CHIPS: FilmChip[] = FILM ? FILM_CHIP_CHOREO.map((c, i) => ({ ...c, text: FILM.chips[i] ?? "" })) : [];
+  const FILM_CAPTIONS: FilmCaption[] = FILM ? FILM_CAPTION_CHOREO.map((c, i) => ({ ...c, ...FILM.captions[i] })) : [];
 
   // Real recipe cards from the CMS (proof-of-craft) — real client photography
   // only. The FULL pool goes to the client grid, which shows a random trio per
@@ -282,14 +286,16 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {/* ── 02 · TENSION — the site's ONE signature moment: the pinned «בניית המנה»
-             scroll-film (14 frames), noise-chips pile up → the turn → quiet on the
-             gold frame. Static twin (reduced-motion / no-JS): final frame + PAS prose.
-             No arcs, no curves: the ONE seam of this site is the thread, which
-             simply keeps descending behind the stage (2026-07-20 — seven seam
-             mechanisms collapsed into one). The film is not an island; it is a
-             room the thread passes through. ── */}
-      <div className="relative bg-bg">
+      {/* ── 02 · TENSION — the pinned «בניית המנה» scroll-film (14 frames),
+             noise-chips pile up → the turn → quiet on the gold frame. Static twin
+             (reduced-motion / no-JS): final frame + PAS prose. OFF THE PAGE since
+             2026-08-11 (Rom: «תוריד את הסקשן של סרט הגלילה») — the section is
+             hidden via `visible: false` in the page document, and this block only
+             renders when the desk shows it again, so the removal is the editor's
+             to reverse. While hidden, the hero's curve-up seam hands straight into
+             the dossier, whose room-edges-top fade was built for a soft entry. ── */}
+      {FILM && (
+        <div className="relative bg-bg">
           {/* fade the film's hard top edge so it dissolves in from the hero's seam */}
           <div aria-hidden className="room-edges-top z-10" />
           <SequenceFilm
@@ -304,7 +310,8 @@ export default async function HomePage() {
           />
           {/* mirror-curve seam into the dossier — opposite direction to the hero's */}
           <SeamShape variant="curve-down" />
-      </div>
+        </div>
+      )}
 
       {/* ── 03 · GUIDE — «הדוסייה על השולחן» (overlap-layered): the camera looks down at
              her work desk (a photo ROOM via MScrollScene, never a framed object) and
