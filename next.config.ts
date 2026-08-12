@@ -10,7 +10,11 @@ const nextConfig: NextConfig = {
   // layers, 75 is the default for content images.
   images: {
     formats: ["image/avif", "image/webp"],
-    qualities: [60, 75],
+    // 85 joined for the §03 desk room (quality raised 2026-07 for wood-grain
+    // detail) — Next 16 ENFORCES this list in production: an unlisted q returns
+    // 400 from the optimizer, which is exactly how the desk photo broke live
+    // (caught 2026-08-12 while chasing the dev-overlay warning).
+    qualities: [60, 75, 85],
   },
   // Wix → new-site 301 migration (preserves the indexed recipe-archive equity on
   // the alonaeck.com domain). Map + rationale live in src/lib/legacy-redirects.ts.

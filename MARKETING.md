@@ -58,6 +58,7 @@
 | ללא PII ב-dataLayer | ✅ | JSON.stringify של 17 אירועים: hasName/hasPhone/hasEmail=false. PII נוסע רק ב-POST לשרת (`analytics.ts:25-27`) | — |
 | קליטת ליד end-to-end בשרת | ✅ | `[lead] received` בלוג-השרת, id זהה ל-generate_lead. (`.env.local` בלי LEAD_WEBHOOK_URL → לוג-בלבד, בטוח לבדיקה) | — |
 | GTM: הוצע — התקבל/נדחה · NEXT_PUBLIC_GTM_ID | — | לא מוגדר (תקין לפרה-לאונץ'). ההצעה עומדת: הלקוחה פותחת מכולת GTM, מוסרת ID, האירועים ממופים להמרות בלי שינוי קוד | לקוח |
+| **GA4 ישיר · NEXT_PUBLIC_GA_ID** (נוסף 2026-08-12) | — | דלת שנייה שלא דורשת GTM: פותחים נכס GA4, שמים את ה-G-ID ב-env של Vercel ופורסים — וכל שכבת האירועים זורמת ישר ל-GA4 (מקורות תנועה/UTM נמדדים אוטומטית על כל page_view). האירועים: page_view (SPA-מדויק), cta_click (כל data-cta + טלפון/וואטסאפ/מייל), **social_click (network=instagram/tiktok + placement — הספירה שרום ביקש)**, scroll_depth, form_view/form_start, generate_lead. הכל אחרי הסכמת-עוגיות בלבד, IP מאונם, אפס PII ב-dataLayer. אזהרה: אם בעתיד יוגדר גם GTM, אסור למפות בו תג GA4 לאותו נכס (ספירה כפולה) | לקוח (יצירת הנכס) + סטודיו (ה-env) |
 
 ## 4b. פערי-שלמות (מבקר — 6 פערים ששום אודיטור לא מדד)
 
