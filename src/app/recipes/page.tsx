@@ -21,7 +21,7 @@ import { RecipesArchive, type RecipeTile } from "@/components/RecipesArchive";
 // full-bleed appetite hero → filterable cookbook bento (real CMS entries via
 // listDocs) → the blush booklet-magnet close. Every visible string is pasted
 // from COPY.md «עמוד: מתכונים» or arrives as CMS data; the count line stays
-// honest (~30, never rounded up).
+// honest (55 after the 2026-08-11 archive import, never rounded up).
 // ============================================================================
 
 // COPY: ### סקשן 23 · ImageHero (צילום-אוכל בהיר)
@@ -39,7 +39,9 @@ const HERO = {
 // (the honest count chip is section 23's «צ'יפ-ספירה כנה», repeated here by the
 //  section-24 kicker rule; chip sets themselves derive from the CMS fields)
 const ARCHIVE = {
-  countChip: "בערך 30 מתכונים · מתכון חדש כל שבוע",
+  // the honest count, re-verified against the CMS after the 2026-08-11 archive
+  // import (55 files in content/recipes/) — COPY's rule is «never round up»
+  countChip: "55 מתכונים · מתכון חדש כל שבוע",
   all: "הכול",
   empty: "עוד מתכונים בקטגוריה הזו בדרך. מתכון חדש כל שבוע.",
 };

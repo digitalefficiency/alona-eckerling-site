@@ -161,7 +161,8 @@ const PROOF = {
   // hello above it — «אני», not «היא»
   title: "אני באמת מבשלת",
   body: "לא עוד תמונה יפה. אוכל אמיתי שאני מבשלת, מתוך שבוע רגיל ועמוס.",
-  countChip: "בערך 30 מתכונים · מתכון חדש כל שבוע",
+  // exact count, re-verified against content/recipes/ after the 2026-08-11 import
+  countChip: "55 מתכונים · מתכון חדש כל שבוע",
   // the honest dark slots (testimonials + media logos) came off 2026-08-12
   // (Rom: «במקום המקום של ההמלצות תעשה מקום ל-3 מאמרים») — replaced by the
   // articles index below. The INTEGRITY rule is untouched: no invented
