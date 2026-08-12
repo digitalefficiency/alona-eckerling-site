@@ -6,12 +6,6 @@ import { Section } from "@/components/layout/Section";
 import { SeamShape } from "@/components/layout/SeamShape";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { getPublishedPage, sectionPayload } from "@/lib/sections/source";
-import type {
-  PageMetaPayload, CoachingHeroPayload, CoachingProblemPayload, CoachingMethodPayload,
-  CoachingPackagesPayload, CoachingProcessPayload, CoachingProofPayload,
-  CoachingFaqPayload, CoachingCtaPayload,
-} from "@/lib/sections/payloads";
 import { SplitText } from "@/components/motion/SplitText";
 import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
@@ -36,56 +30,262 @@ import { site, services } from "@/lib/site";
 const WHATSAPP_HREF = `https://wa.me/${site.whatsapp}`;
 
 // COPY: ### סקשן 9 · ImageHero + Breadcrumbs + SplitText H1
-
+const HERO = {
+  kicker: "ליווי אחת-על-אחת",
+  title: "ככה נעבוד ביחד",
+  body: "את כבר יודעת מה לאכול. הדרך צריכה להיבנות סביב השבוע שלך, בלי לוותר על האוכל שאת אוהבת, כדי שסוף-סוף יהיה שקט בראש והתוצאה תישאר.",
+  trustToken: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
+  // כותרת-כפתור נקייה + שורת-משנה קטנה מתחתיה (תאום ל-hero של הבית) — בלי · בתוך תווית
+  ctaPrimary: "בואי נדבר",
+  ctaSub: "שיחת היכרות חינם",
+  ctaWhatsapp: "אפשר גם לכתוב לי בוואטסאפ",
+  micro: "בלי התחייבות · מענה עד 4 ימי עסקים · על החבילות נדבר בשיחה",
+} as const;
 
 // COPY: ### סקשן 10 · Section width=prose (PAS ממוקד-שירות)
-
+const PROBLEM = {
+  kicker: "למה דווקא ליווי",
+  title: "את כבר יודעת מה לאכול",
+  subtitle: "מה שחסר זה לא עוד ידע.",
+  // re-layout בלבד של גוף COPY §10 (ביקורת-עיצוב #35): פיצול בגבול-משפט לשתי
+  // פסקאות, כשה-PullQuote הקיים נושם ביניהן. אפס שינוי-ניסוח.
+  body1: "שמרת את הפוסטים, קראת את התפריטים, התחלת ביום ראשון. ולבד, שוב, זה לא החזיק, וזה לא כי טעית או לא ניסית מספיק.",
+  body2: "הידע כבר אצלך; מה שאף מדריך לא נתן לך זה מישהי לצדך, בתוך השבוע האמיתי שלך.",
+  pullQuoteStart: "הפער הוא לא במה לאכול. הפער הוא לעשות את זה ",
+  pullQuoteMark: "לבד",
+  pullQuoteEnd: ".",
+  cta: "אז ככה זה עובד כשלא לבד ←",
+} as const;
 
 // COPY: ### סקשן 11 · FeatureAlternating (עמודי המנגנון)
-
+const METHOD = {
+  kicker: "שיטה, לא קסם",
+  title: "ארבעה דברים שהופכים ידע לתוצאה שנשארת",
+  pillars: [
+    {
+      title: "נבנה סביב השבוע האמיתי שלך",
+      body: "לא תפריט גנרי שנלחם בחיים שלך, אלא דרך שנבנית סביב מה שבאמת קורה אצלך בשבוע: העבודה, הילדים, האירועים, והערב שבו אין כוח לבשל. בגלל זה זה מחזיק.",
+    },
+    {
+      title: "בלי לוותר על האוכל שאת אוהבת",
+      body: "אנחנו לא מוחקות מאכלים ולא עושות רשימות אסור. לומדות איך לשלב את מה שאת אוהבת בתוך משהו שעובד, בלי אשמה, כדי שיהיה שקט בראש.",
+    },
+    {
+      title: "החלטות על סמך מדע עדכני",
+      body: "כל החלטה נשענת על מה שידוע היום על הגוף, לא על הדיאטה הבאה שכולם מדברים עליה. זה ההבדל בין ניחוש לבין שיטה.",
+    },
+    {
+      title: "ליווי צמוד גם בין הפגישות",
+      body: "אני איתך בין הפגישות, לא רק בחדר: כדי שהידע יהפוך להרגל, ושלא תישארי לבד באמצע הדרך.",
+    },
+  ],
+  cta: "ככה זה נראה בפועל, הנה החבילות ←",
+} as const;
 
 // COPY: ### סקשן 12 · PricingCard grid (3 חבילות)
 // הכרטיסים נגזרים מ-site.ts services (3, בלי מחירים) ומועשרים מ-COPY בלבד.
-
+const PACKAGES = {
+  kicker: "שלוש דרכים להיכנס",
+  title: "בחרי את הליווי שמתאים לך",
+  lead: "אותה שיטה, בשלוש רמות של ליווי. בלי מחיר קשיח: נבחר ביחד את מה שמתאים לחיים שלך, בשיחת היכרות בלי התחייבות.",
+  fitLabel: "למי זה מתאים:",
+  includedLabel: "מה כלול:",
+  cardCta: "בואי נדבר",
+  sharedLine: "על החבילה והמחיר נדבר בשיחה. נתאים אותם אלייך, בלי התחייבות.",
+} as const;
 
 // COPY: ### סקשן 12 · PricingCard grid (3 חבילות) — העשרת הכרטיסים לפי slug
-
+const PACKAGE_COPY: Record<
+  string,
+  { name: string; chip?: string; fit: string; included: readonly string[]; highlight?: boolean }
+> = {
+  "single-session": {
+    name: "פגישת עומק · חד-פעמית",
+    chip: "60 עד 75 דקות",
+    fit: "לרגע שבו את רוצה כיוון מקצועי אחד, נקי: פגישה עמוקה ותוכנית אישית שנשארת איתך.",
+    included: [
+      "אבחון מעמיק בפגישה של 60 עד 75 דקות",
+      "תוכנית אישית שנבנית סביב השבוע שלך",
+      "קובץ מפורט עם כלים, טיפים והנחיות להתנהלות עצמאית",
+    ],
+  },
+  "coaching-60": {
+    name: "ליווי בסיס · 60 יום",
+    fit: "כשאת רוצה לא רק לדעת מה נכון, אלא שמישהי תלווה אותך עד שזה נכנס לשגרה.",
+    included: [
+      "פגישת אבחון מעמיקה + 4 מפגשי מעקב (אחת לשבועיים)",
+      "וואטסאפ ביני לבינך בין המפגשים",
+      "פידבק על יומן האכילה",
+      "צירוף לקבוצת הוואטסאפ + גישה לאפליקציה ותכנים מקצועיים",
+    ],
+  },
+  "coaching-120": {
+    name: "ליווי מורחב · 120 יום",
+    // 7 מפגשים — העובדה אושרה על ידי רום 2026-07-31 ומחליפה את «4 מפגשי מעקב»
+    // שהיה מסומן [לאימות] ב-COPY.md סקשן 12. הכרטיס גם הפסיק להצביע על
+    // «כל מה שבליווי הבסיס» ומפרט בפועל: מי ששוקלת את המסלול הארוך צריכה לראות
+    // מה היא מקבלת, לא להרכיב את זה מהכרטיס שלידו.
+    chip: "7 מפגשים · 4 חודשים",
+    fit: "מתאים כשהדפוס ותיק וניסית כבר הכל, וחשוב לך שהפעם זה יישאר.",
+    included: [
+      "7 מפגשים לאורך 120 יום: פגישת אבחון מעמיקה + 6 מפגשי מעקב",
+      "ארבעה חודשים של ליווי, הזמן שלוקח להרגל להפוך לשגרה",
+      "וואטסאפ ביני לבינך בין המפגשים, לאורך כל התקופה",
+      "פידבק על יומן האכילה",
+      "צירוף לקבוצת הוואטסאפ + גישה לאפליקציה ותכנים מקצועיים",
+    ],
+    highlight: true,
+  },
+};
 
 // רצועת-עובדות שקטה מעל רשת החבילות (ביקורת-עיצוב #35) — מורכבת אך ורק
 // ממחרוזות COPY שכבר חיות בעמוד (צ'יפ הפגישה, שמות החבילות, HERO.micro).
 // בלי אנימציית-ספירה, בלי מדדים מומצאים.
+const PACKAGE_FACTS = [
+  "60 עד 75 דקות",
+  "ליווי בסיס · 60 יום",
+  "ליווי מורחב · 7 מפגשים",
+  "מענה עד 4 ימי עסקים",
+] as const;
 
+// סדר הצגה: קל → עמוק (חד-פעמית → בסיס 60 → מורחב 120), מעל שירותי site.ts.
+const PACKAGE_ORDER = ["single-session", "coaching-60", "coaching-120"] as const;
+const packageCards = PACKAGE_ORDER.flatMap((slug) => {
+  const svc = services.find((s) => s.slug === slug);
+  const copy = PACKAGE_COPY[slug];
+  return svc && copy ? [{ slug: svc.slug, ...copy }] : [];
+});
 
 // COPY: ### סקשן 13 · ProcessTimeline (מה קורה בפועל)
-
+const PROCESS = {
+  kicker: "שלב אחרי שלב",
+  title: "מה קורה בכל שלב",
+  lead: "בחרת כיוון? הנה מה שקורה בפועל, בלי הפתעות: אותה דרך חמה, אחת-על-אחת, שנבנית סביב השבוע שלך.",
+  steps: [
+    {
+      t: "שיחת היכרות",
+      d: "בחינם ובלי התחייבות. נכיר, תספרי לי מה עובר עלייך, ונבין ביחד אם אני האדם הנכון ללוות אותך. שיחה, לא שיחת מכירה.",
+    },
+    {
+      t: "פגישה עמוקה + תוכנית אישית",
+      d: "60 עד 75 דקות שיושבות לעומק: מה את אוהבת לאכול, איך נראה היום שלך, מה כבר ניסית, ובדיקות דם אם רלוונטי. את יוצאת עם תוכנית שנבנית סביב החיים שלך, לא במקומם.",
+    },
+    {
+      t: "ליווי שנשאר",
+      d: "כאן זה לא נגמר. בין המפגשים אני איתך בוואטסאפ, עם פידבק על יומן האכילה, ובחבילות גם אפליקציית ליווי, כדי שהדברים ייכנסו לשגרה ויישארו. לא עוד דיאטה שנגמרת ואת נשארת לבד איתה.",
+    },
+  ],
+  cta: "מרגישה שזה מדבר אלייך? בואי נדבר ←",
+} as const;
 
 // COPY: ### סקשן 14 · MediaFrame band + ResultCard
-
+const PROOF = {
+  kicker: "תראי בעצמך",
+  title: "מהמטבח של אלונה",
+  lead: "אוכל שאני באמת מבשלת, בתוך שבוע רגיל, בלי למחוק את מה שאת אוהבת.",
+  // סלוט ההמלצות נשאר חשוך מבנית עד שתגיע עדות אמיתית ומיוחסת (YMYL, הוכחה-אמיתית-בלבד)
+  testimonialEmpty: "המלצות אמיתיות יופיעו כאן ברגע שיהיו. אני לא ממציאה סיפור שלא קרה.",
+  cta: "הצצה למטבח שלי ←",
+  // צילומי אוכל אמיתיים מארכיון המתכונים של אלונה (media/client/recipes);
+  // ה-alt = כותרת המתכון מקובץ התוכן (content/recipes/*)
+  stills: [
+    { src: "/media/client/recipes/baked-bulgur-lentil-mujadara.webp", alt: "מג׳דרת בורגול ועדשים בתנור" },
+    { src: "/media/client/recipes/oven-fried-rice-tofu.webp", alt: "אורז מוקפץ בתנור עם ירקות וטופו" },
+    { src: "/media/client/recipes/hearty-lentil-soup.webp", alt: "מרק עדשים עשיר ומנחם" },
+  ],
+} as const;
 
 // COPY: ### סקשן 15 · FaqAccordion (11 פריטים)
-
+const FAQ = {
+  kicker: "לפני שנדבר",
+  title: "כל מה שאת שואלת את עצמך עכשיו",
+  lead: "ריכזתי כאן את השאלות שחוזרות אליי הכי הרבה, בכנות, בלי מכירה. אם נשאר לך עוד משהו, בדיוק בשביל זה יש שיחת היכרות בלי התחייבות.",
+  items: [
+    {
+      q: "אני כבר יודעת מה לאכול. אז מה ליווי בכלל ייתן לי?",
+      a: "רוב הנשים שמגיעות אליי יודעות בדיוק מה נכון. הפער אף פעם לא היה בידע, הוא בלעשות את זה לבד, בתוך שבוע עמוס. הליווי הוא לא עוד מידע: הוא דרך שנבנית סביב השבוע האמיתי שלך, ומישהי אחת שנשארת איתך עד שזה נכנס לשגרה.",
+    },
+    {
+      q: "ניסיתי כבר הכל. למה שדווקא זה יעבוד?",
+      a: "כי זה לא עוד דיאטה ולא עוד תפריט. אין אצלי קיצורי דרך, טרנדים והבטחות קסם: בונות דרך סביב החיים שלך, בלי לוותר על האוכל שאת אוהבת, בקצב שאפשר להתמיד בו.",
+    },
+    {
+      q: "אני לא רוצה עוד תפריט נוקשה שאי אפשר לעמוד בו.",
+      a: "ואני לא עובדת ככה. אין תפריט אחיד ואין רשימת איסורים: יש התאמה לשבוע שלך, לטעמים שלך ולקצב שלך, וגמישות כשהחיים משתנים.",
+    },
+    {
+      q: "יש לי כל הזמן רעש ואשמה בראש סביב אוכל. זה יכול להשתנות?",
+      a: 'זה בדיוק הלב של העבודה שלי. המטרה היא שקט: פחות התלבטות, פחות אשמה, יותר ראש נקי. בלי שיפוט ובלי "נפלת".',
+    },
+    {
+      q: "אני אוכלת הרבה מתוך לחץ או רגש. את מתייחסת גם לזה?",
+      a: "כן, זה חלק מרכזי בליווי. מסתכלות יחד על הדפוסים בעדינות, בלי שיפוט, ובונות במקומם הרגלים שקטים יותר ומערכת יחסים טובה יותר עם אוכל.",
+    },
+    {
+      q: "איך אני יודעת שהפעם זה יישאר ולא יחזור כמו תמיד?",
+      a: "כי אנחנו לא רודפות אחרי תוצאה מהירה שנעלמת. בונות הרגלים באמת, בקצב שנכון לך, כך שאפשר להתמיד לאורך זמן. הליווי המורחב קיים בדיוק בשביל זה.",
+    },
+    {
+      q: "מה קורה אחרי שהליווי נגמר? אני חוזרת לאותו מקום?",
+      a: "המטרה שלי הפוכה מתלות: שתצאי עם דרך שהיא כבר שלך. תוכנית שנשארת בידיים שלך, הרגלים שהפכו טבעיים, וכלים שיישארו גם הרבה אחרי שהליווי יסתיים.",
+    },
+    {
+      q: "אני מרגישה שאני מתמודדת עם זה לבד. איך הליווי עוזר בזה?",
+      a: "בזה שאני באמת שם. יש פגישות אחת-על-אחת, ובחבילות הליווי גם וואטסאפ ביני לבינך בין המפגשים, עם פידבק על יומן האכילה. המטרה היא שלא תישארי לבד מול האתגרים של היום יום.",
+    },
+    {
+      q: "את בת 26. יש לך מספיק ניסיון, או שאת עוד אינפלואנסרית?",
+      a: 'שאלה הוגנת. אני דיאטנית קלינית מוסמכת, רישיון משרד הבריאות 204526-11 (אפשר לבדוק במאגר משרד הבריאות), עם B.Sc במדעי התזונה והתמחות קלינית בבית החולים איכילוב. ואני דווקא חושבת שהגיל הוא יתרון: אני מגיעה עם אנרגיה, סקרנות ורצון ללמוד ולהתפתח. את כל הסיפור תמצאי בעמוד "עליי".',
+    },
+    {
+      q: "אין לי זמן וכוח לעוד פרויקט גדול. איך זה משתלב בחיים?",
+      a: "זה בכוונה לא פרויקט ענק. בונים את התהליך סביב החיים האמיתיים: גם אם את עובדת שעות ארוכות, אוכלת בחוץ או כמעט לא מבשלת, נמצא יחד מה שעובד אצלך. ויש גם פגישת עומק חד-פעמית, למי שרוצה כיוון בלי התחייבות ארוכה.",
+    },
+    {
+      q: "אינסטגרם מלא בתוכן חינם. למה בכלל לשלם על ליווי?",
+      a: "תוכן חינם הוא נהדר, אבל הוא כללי ומיועד לכולם, ולכן קל לדעת ולא לעשות. ליווי נותן ארבעה דברים שפוסט לא ייתן: התאמה אישית, מבנה, מישהי שבאמת חוזרת אלייך, וקהילה של בנות באותה דרך. המידע חינם; מה שמחזיק לאורך זמן זה הליווי.",
+    },
+  ],
+  closeLine: 'נשאר לך "כן, אבל" שלא מופיע כאן? בשיחת היכרות בלי עלות ובלי התחייבות נענה עליו יחד.',
+  closeCta: "בואי נדבר ←",
+  magnet: "עדיין לא בטוחה? הצצה למטבח שלי.",
+} as const;
 
 // COPY: ### סקשן 16 · ContactLeadForm (פאנל נייבי, Service+FAQPage JSON-LD)
+const CTA = {
+  title: "הגעת עד לפה.\nנשאר רק להכיר. בואי נדבר.",
+  body: "שיחת היכרות קצרה, בלי התחייבות. נכיר, ונבין יחד אם אני האדם הנכון ללוות אותך, בלי לוותר על האוכל שאת אוהבת, כדי שסוף-סוף יהיה שקט בראש.",
+  packagesLine: "הליווי נמכר בחבילות שמתאימות לחיים שלך. על זה נדבר בשיחה, בלי הפתעות ובלי מחיר שקופץ מהמסך.",
+  promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
+  trustToken: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
+  aboutPointer: "רוצה קודם להכיר אותי? הסיפור שלי בעמוד עליי ←",
+  button: "בואי נדבר, שיחת היכרות חינם",
+} as const;
 
+// Service JSON-LD — בלי מחירים (Q19), בלי דירוגים מומצאים; נגזר מ-site.ts בלבד.
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "ליווי תזונתי אישי",
+  serviceType: "ליווי תזונתי אישי",
+  provider: { "@type": "ProfessionalService", name: site.legalName, url: site.url },
+  areaServed: site.areasServed,
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: PACKAGES.kicker,
+    itemListElement: services.map((s) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: s.title, description: s.short },
+    })),
+  },
+};
 
-
-/** No match returns the text whole: a drifted highlight costs an underline, never a paragraph. */
-function splitAccent(text: string, accent: string): [string, string, string] {
-  const at = accent ? text.indexOf(accent) : -1;
-  if (at === -1) return [text, "", ""];
-  return [text.slice(0, at), accent, text.slice(at + accent.length)];
-}
-
-export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPublishedPage("coaching");
-  const hero = sectionPayload<CoachingHeroPayload>(page, "hero");
-  return {
-    title: page?.title ?? "איך עובדים איתי",
-    description: hero?.body,
-    alternates: { canonical: "/coaching" },
-    openGraph: { url: "/coaching" },
-  };
-}
+export const metadata: Metadata = {
+  title: "איך עובדים איתי",
+  description: HERO.body,
+  alternates: { canonical: "/coaching" },
+  openGraph: { url: "/coaching" },
+};
 
 // ביקורת-עיצוב #32 — still-הוכחה עם חשיפת ink-wipe: משכפל את גרייד-הבית של
 // MediaFrame (טינט + גרעון, aria-hidden, סטטיים) סביב ClipReveal — חשיפת-המדיה
@@ -108,39 +308,7 @@ function ProofStill({ src, alt }: { src: string; alt: string }) {
   );
 }
 
-export default async function CoachingPage() {
-  const page = await getPublishedPage("coaching");
-  const META = sectionPayload<PageMetaPayload>(page, "meta")!;
-  const HERO = sectionPayload<CoachingHeroPayload>(page, "hero")!;
-  const PROBLEM = sectionPayload<CoachingProblemPayload>(page, "problem")!;
-  const METHOD = sectionPayload<CoachingMethodPayload>(page, "method")!;
-  const PKG = sectionPayload<CoachingPackagesPayload>(page, "packages")!;
-  const PROCESS = sectionPayload<CoachingProcessPayload>(page, "process")!;
-  const PROOF = sectionPayload<CoachingProofPayload>(page, "proof")!;
-  const FAQ = sectionPayload<CoachingFaqPayload>(page, "faq")!;
-  const CTA = sectionPayload<CoachingCtaPayload>(page, "cta")!;
-  const [quoteBefore, quoteMark, quoteAfter] = splitAccent(PROBLEM.quote, PROBLEM.quoteAccent);
-  const packageCards = PKG.packages;
-
-  // Service JSON-LD — בלי מחירים (Q19), בלי דירוגים מומצאים; המעטפת מ-site.ts,
-  // שם השירות והקטלוג מהמסמך, כך שהדסק לא יכול לפצל אותם מהעמוד.
-  const serviceSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: META.serviceName,
-    serviceType: META.serviceType,
-    provider: { "@type": "ProfessionalService", name: site.legalName, url: site.url },
-    areaServed: site.areasServed,
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: PKG.kicker,
-      itemListElement: services.map((s) => ({
-        "@type": "Offer",
-        itemOffered: { "@type": "Service", name: s.title, description: s.short },
-      })),
-    },
-  };
-
+export default function CoachingPage() {
   return (
     <main>
       {/* ── 09 · HOOK — hero סנד חם: still שולחן-הייעוץ המיוצר (layer 8, בלי פנים) יושב
@@ -190,7 +358,7 @@ export default async function CoachingPage() {
         {/* house vertical rhythm — the same py-16/20/32 every content band on the
             site breathes with (the old md:py-24 was a one-off) */}
         <div className="mx-auto max-w-[var(--container-wide)] px-4 py-16 sm:px-6 sm:py-20 md:py-32">
-          <Breadcrumbs items={[{ label: HERO.breadcrumb, href: "/coaching" }]} />
+          <Breadcrumbs items={[{ label: "איך עובדים איתי", href: "/coaching" }]} />
           <MOrchestrate className="mt-10 max-w-[68ch]">
             <MItem as="p" className="flex items-center gap-2.5">
               <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
@@ -280,7 +448,7 @@ export default async function CoachingPage() {
 
       {/* ── 10 · TENSION — פרוזה ממורכזת: הפער הוא ה"לבד", לא הידע ── */}
       <Section tone="white" width="prose" border>
-        <SectionHeading eyebrow={PROBLEM.kicker} title={PROBLEM.title} lead={PROBLEM.lead} accent={PROBLEM.titleAccent} />
+        <SectionHeading eyebrow={PROBLEM.kicker} title={PROBLEM.title} lead={PROBLEM.subtitle} accent="יודעת" />
         {/* ONE orchestrator for the section (token stagger) — and the page's single
             lean-in: the rose-marked pull-quote arrives from the reading side while
             everything around it stays quiet. */}
@@ -290,9 +458,9 @@ export default async function CoachingPage() {
           </MItem>
           <MItem variants={slideIn("inline-start")}>
             <PullQuote>
-              {quoteBefore}
-              <span className="underline decoration-rose decoration-4 underline-offset-8">{quoteMark}</span>
-              {quoteAfter}
+              {PROBLEM.pullQuoteStart}
+              <span className="underline decoration-rose decoration-4 underline-offset-8">{PROBLEM.pullQuoteMark}</span>
+              {PROBLEM.pullQuoteEnd}
             </PullQuote>
           </MItem>
           <MItem as="p" className="mb-8 text-lg leading-relaxed text-ink">
@@ -319,7 +487,7 @@ export default async function CoachingPage() {
              Static twin (SSR / no-JS / reduced-motion / mobile): the numbered
              ledger below — every word always readable. ── */}
       <Section tone="sand" id="method" seam>
-        <SectionHeading eyebrow={METHOD.kicker} title={METHOD.title} accent={METHOD.titleAccent} />
+        <SectionHeading eyebrow={METHOD.kicker} title={METHOD.title} accent="שנשארת" />
         <MCardStack
           className="mt-6"
           dir="rtl"
@@ -427,10 +595,10 @@ export default async function CoachingPage() {
 
       {/* ── 12 · PLAN — שלוש חבילות מ-site.ts, מועשרות מ-COPY; בלי מחיר, בלי דחיפה ── */}
       <Section tone="white" id="packages" border>
-        <SectionHeading eyebrow={PKG.kicker} title={PKG.title} lead={PKG.lead} accent={PKG.titleAccent} />
+        <SectionHeading eyebrow={PACKAGES.kicker} title={PACKAGES.title} lead={PACKAGES.lead} accent="שמתאים לך" />
         <Reveal delay={100} className="mt-8">
           <ul className="flex flex-wrap items-center gap-2.5">
-            {PKG.facts.map((fact) => (
+            {PACKAGE_FACTS.map((fact) => (
               <li key={fact}>
                 <span className="inline-flex rounded-full border border-line bg-card px-3 py-1 text-xs font-bold text-navy-700">
                   {fact}
@@ -481,14 +649,12 @@ export default async function CoachingPage() {
                       : "border-transparent bg-transparent text-transparent"
                   }`}
                 >
-                  {/* || not ??: an empty chip from the desk must keep the NBSP
-                      that preserves the invisible pill's line height */}
-                  {card.chip || " "}
+                  {card.chip ?? " "}
                 </span>
               </p>
-              <p className="mt-5 text-sm font-bold text-gold-ink">{PKG.fitLabel}</p>
+              <p className="mt-5 text-sm font-bold text-gold-ink">{PACKAGES.fitLabel}</p>
               <p className="mt-1 leading-relaxed text-muted">{card.fit}</p>
-              <p className="mt-5 text-sm font-bold text-gold-ink">{PKG.includedLabel}</p>
+              <p className="mt-5 text-sm font-bold text-gold-ink">{PACKAGES.includedLabel}</p>
               <ul className="mt-2 flex flex-col gap-2.5">
                 {card.included.map((item) => (
                   <li key={item} className="flex items-start gap-2.5 leading-relaxed text-ink">
@@ -503,14 +669,14 @@ export default async function CoachingPage() {
                   data-cta={`coaching-package-${card.slug}`}
                   className="btn-chamfer block rounded-[6px] bg-gold px-6 py-3 text-center font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
                 >
-                  {PKG.cardCta}
+                  {PACKAGES.cardCta}
                 </Link>
               </div>
             </article>
           ))}
         </MStagger>
         <Reveal delay={120}>
-          <p className="mt-10 text-center leading-relaxed text-muted">{PKG.sharedLine}</p>
+          <p className="mt-10 text-center leading-relaxed text-muted">{PACKAGES.sharedLine}</p>
         </Reveal>
       </Section>
 
@@ -551,7 +717,7 @@ export default async function CoachingPage() {
             decode saving on a phone. */}
         <div aria-hidden className="absolute inset-y-0 end-0 hidden w-[52%] md:block">
           <Image
-            src={PROOF.photo}
+            src={PROOF.stills[0].src}
             alt=""
             fill
             sizes="(max-width: 768px) 0px, 52vw"
@@ -565,8 +731,8 @@ export default async function CoachingPage() {
         {/* mobile: the photo as a top band */}
         <div className="relative aspect-[3/2] md:hidden">
           <Image
-            src={PROOF.photo}
-            alt={PROOF.photoAlt}
+            src={PROOF.stills[0].src}
+            alt={PROOF.stills[0].alt}
             fill
             sizes="(max-width: 768px) 100vw, 0px"
             className="object-cover"
@@ -578,9 +744,9 @@ export default async function CoachingPage() {
           <div className="md:w-[52%]">
             <MStagger variants={slideIn("inline-start", 48)}>
               <div className="rounded-[16px] border border-line bg-card/80 p-7 shadow-[var(--elevation-2)] backdrop-blur-md md:p-9">
-                <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.lead} accent={PROOF.titleAccent} />
+                <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.lead} accent="אלונה" />
                 <div className="mt-8 grid grid-cols-2 gap-4">
-                  {PROOF.tiles.map((s) => (
+                  {PROOF.stills.slice(1).map((s) => (
                     <div key={s.src} className="relative aspect-square overflow-hidden rounded-[10px] border border-line">
                       {/* ~135px squares on mobile, ~200px on desktop — these were
                           shipping 193KB and 199KB source files at full size. */}
@@ -693,7 +859,7 @@ export default async function CoachingPage() {
             <div>
               {/* the rose thread ends at the door */}
               <span aria-hidden className="mb-3 block h-[2px] w-16 bg-rose" />
-              <p className="mb-4 font-serif text-xl font-bold text-white">{CTA.formHeading}</p>
+              <p className="mb-4 font-serif text-xl font-bold text-white">{CTA.button}</p>
               <ContactLeadForm />
             </div>
           </Reveal>

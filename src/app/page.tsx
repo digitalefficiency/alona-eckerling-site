@@ -8,7 +8,6 @@ import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
 import { MStagger } from "@/components/motion/MStagger";
 import { MScrollScene } from "@/components/motion/MScrollScene";
 import { DrawnRule } from "@/components/motion/DrawnRule";
-import { HeroFilm } from "@/components/media/HeroFilm";
 import { ProofRecipes } from "@/components/ProofRecipes";
 import { RevealHeading } from "@/components/motion/RevealHeading";
 import { irisDiamond, slideIn } from "@/lib/motion-variants";
@@ -17,7 +16,6 @@ import { SplitText } from "@/components/motion/SplitText";
 import { StickyScroll } from "@/components/motion/StickyScroll";
 import { Comparison } from "@/components/section/Comparison";
 import { DishRibbon } from "@/components/section/DishRibbon";
-import { RecognitionBadges } from "@/components/trust/RecognitionBadges";
 import { ResponsePromise } from "@/components/trust/ResponsePromise";
 import { ContactLeadForm } from "@/components/ContactLeadForm";
 import { JsonLd } from "@/components/JsonLd";
@@ -26,11 +24,6 @@ import { site, services } from "@/lib/site";
 import { socialWall } from "@/lib/settings";
 import { SocialLinks } from "@/components/SocialLinks";
 import { listDocs, type CollectionEntry } from "@/lib/collections";
-import { getPublishedPage, sectionPayload } from "@/lib/sections/source";
-import type {
-  HomeHeroPayload, HomeGuidePayload, HomeRibbonPayload, HomePlanPayload,
-  HomeProofPayload, HomeStakesPayload, HomeSuccessPayload, HomeCtaPayload,
-} from "@/lib/sections/payloads";
 
 // ============================================================================
 // בית — composed from plan/sections/01..08 (beats: HOOK→TENSION→GUIDE→PLAN→
@@ -39,17 +32,37 @@ import type {
 // ============================================================================
 
 // COPY: ### סקשן 1 · ImageHero + MOrchestrate
-// The hero room's poster — first frame of the ring-loop film (K1 overhead:
-// empty plate surrounded by abundance). ALSO the LCP — the video starts on
-// this exact frame, so the swap from poster to film is invisible.
-// The hero's copy lives in content/pages/home.json and is edited from the
-// desk, with NO hardcoded fallback — every section below asserts the same
-// document, so a missing document takes the whole page down regardless, and a
-// hero-only copy would just be a second source of truth drifting from desk
-// edits. Two width/a11y facts that must survive in code: the trust pill's
-// license clause is `hidden sm:inline` (shown by width, never reworded), and
-// scrollCue is decorative (aria-hidden) — layout.tsx already ships the WCAG
-// skip-link, and two similar promises confuse a screen reader.
+// The hero photograph — REAL client photography. Round 2 (Rom, 2026-08-12:
+// «אני רוצה תמונה טובה יותר ב-hero»): the green-shakshuka pan gave way to her
+// protein-pancakes frame (IMG_9931 from the Drive library, installed as
+// cl-115): a bright stack with figs, blueberries and banana on a white plate
+// over pale marble — morning light, generous quiet marble around the plate,
+// the warmest most editorial frame in her library. Privacy-checked on the
+// full pixels, EXIF stripped. It replaced the generated ring-loop film room:
+// DESIGN-DIRECTION locked «hero חם סטטי», and the media rule is real editorial
+// food photography wherever real pixels exist. The film assets stay on disk.
+const HERO_IMAGE = {
+  src: "/media/client/alona/dish-protein-pancakes.jpg",
+  alt: "מגדל פנקייקים עם תאנים, אוכמניות ובננה על צלחת לבנה, על שיש בהיר, מהמטבח של אלונה",
+} as const;
+
+const HERO = {
+  kicker: "תזונת נשים · ליווי אישי",
+  title: "את כבר יודעת מה לאכול.\nמה שחסר זה לא עוד תפריט.",
+  // refined 2026-08-11 (studio pass): the lede tightened from two winding
+  // sentences to two sharp ones — «נשאר בפנים» (the approved phrasing from
+  // sections 4 and 22) replaces the negative «בלי לוותר על», and the close
+  // lands in two beats instead of a long «כדי ש» clause.
+  lede: "אלא דרך שנבנית סביב השבוע האמיתי שלך, והאוכל שאת אוהבת נשאר בפנים. שקט בראש, ותוצאה שנשארת.",
+  ctaPrimary: "בואי נדבר",
+  ctaSub: "שיחת היכרות חינם",
+  // ONE trust line, split for the pill's sake: on <sm the license clause hides so
+  // the pill stays a single-line pill (the full license lives in GUIDE.credentials
+  // and /about); nothing is added or reworded — only shown by width.
+  trustToken: "דיאטנית קלינית מוסמכת · R.D.",
+  trustTokenLicense: " · רישיון משרד הבריאות",
+  ctaRecipes: "עוד לא מוכנה לשיחה? המתכונים שלי כאן",
+} as const;
 
 // COPY: ### סקשן 3 · FeatureRow + BioCard + CredentialStrip
 // §03 room background — the desk the dossier spreads on (generated per plan
@@ -58,11 +71,75 @@ const GUIDE_BG = "/media/generated/03-guide-desk.jpg";
 // REAL portrait (cl-101, MEDIA-PLAN §3) — never a generated face, never stock.
 const GUIDE_PORTRAIT = "/media/client/alona/alona-guide.jpg";
 
-// COPY: ### סקשן 3 — the dossier's words (empathy, credentials, tabs, תחומי
-// ליווי and the YMYL guardrail note) live in the page document now; what stays
-// here is the desk still and the portrait path — art direction, not her words.
+const GUIDE = {
+  kicker: "נעים להכיר",
+  title: "אני מכירה את הבלבול הזה",
+  // Her voice sits directly under the title as the section's standfirst (Rom,
+  // 2026-08-12: «תכניס את הפסקה מתחת לכותרת, כתת כותרת») — one continuous
+  // breath, same approved words. The old ageLine const was deleted — it was
+  // never rendered here, and its home is /about.
+  empathy:
+    "גם אני עמדתי מול הבלגן הזה, עד שכבר לא ידעתי מה נכון ומה לא נכון. בדיוק בגלל זה הלכתי ללמוד: להבין מה באמת קורה בגוף שלנו.",
+  name: "אלונה אקרלינג",
+  role: "דיאטנית קלינית מוסמכת · R.D.",
+  portraitAlt: "אלונה אקרלינג, דיאטנית קלינית מוסמכת, אוכלת מקערה במטבח שלה",
+  credentials: [
+    "דיאטנית קלינית מוסמכת · R.D.",
+    "רישיון משרד הבריאות 204526-11",
+    "B.Sc במדעי התזונה",
+    "התמחות קלינית · איכילוב",
+  ],
+  // the four mechanism labels became one first-person hello (Rom, 2026-08-12:
+  // «כמה משפטים בגוף ראשון, משהו כמו היי אני אלונה») — same approved content
+  // (דיאטנית שמבשלת · נבנה סביב השבוע שלך · מדע עדכני · ליווי אחת-על-אחת ·
+  // בגובה העיניים), woven into her voice instead of an index.
+  introHello: "היי, אני אלונה.",
+  intro:
+    "דיאטנית קלינית שגם מבשלת באמת, כל שבוע, במטבח שלי. אני מלווה אחת-על-אחת, בדרך שנבנית סביב השבוע האמיתי שלך ונשענת על המדע הכי עדכני. ומה שהכי חשוב לי: שנדבר בגובה העיניים.",
+  // COPY: ### סקשן 3 — תחומי ליווי (נוסף 2026-07-26)
+  // The dossier metaphor earns this: a file on the desk lists what it covers.
+  // The last three arrived from Alona via Rom; the first two were already in the
+  // positioning, and pairing them is what makes this read as a list of areas
+  // rather than a new announcement. [לאימות מולה: ניסוח במילים שלה]
+  areasLabel: "תחומי ליווי",
+  areas: [
+    "תזונת הריון",
+    "שחלות פוליציסטיות (PCOS)",
+    "טרום סוכרת ואיזון מדדי דם",
+    "ירידה במשקל בלי דיאטה",
+    "אכילה רגשית",
+  ],
+  // The YMYL guardrail, rendered — never a promise to move a lab value.
+  areasNote: "בתחומים הרפואיים אני עובדת לצד הרופא או הרופאה שמלווים אותך, לא במקומם.",
+  cta: "בואי לראות איך עובדים יחד ←",
+} as const;
 
 // COPY: ### סקשן 4 · ProcessTimeline (3 שלבים)
+const PLAN = {
+  kicker: "איך זה עובד",
+  title: "שלושה צעדים, בשפה שלך",
+  // the "לא X אלא Y" flip is the hero's line and stays THERE alone (it read as a
+  // pasted twin here); the plan states the same thing plainly, in her own voice.
+  lead: "תפריטים כבר יש לך. הדרך צריכה להיבנות סביב השבוע שלך.",
+  steps: [
+    {
+      n: "01",
+      t: "שיחת היכרות",
+      d: "שיחה קצרה, בחינם ובלי שום התחייבות. את מספרת לי מה עובר עלייך עכשיו, מה כבר ניסית, ומה הכי מעייף אותך סביב האוכל, ואני בעיקר מקשיבה. בסוף השיחה נבין ביחד אם אני האדם הנכון ללוות אותך, ואם התשובה היא לא, אגיד לך את זה בכנות. זו שיחה, לא שיחת מכירה, ואת לא צריכה להגיע אליה מוכנה.",
+    },
+    {
+      n: "02",
+      t: "פגישה עמוקה + תוכנית אישית",
+      d: "פגישה של 60 עד 75 דקות שיושבת לעומק: מה את אוהבת לאכול, איך נראה היום שלך באמת, מה כבר ניסית ומה נשבר בדרך, ובדיקות דם אם רלוונטי. אין כאן שיפוט ואין רשימת איסורים, יש הקשבה למה שבאמת קורה אצלך בשבוע. מהפגישה את יוצאת עם תוכנית אישית שנבנית סביב החיים שלך ולא במקומם, והאוכל שאת אוהבת נשאר בפנים. התוכנית נשארת אצלך, ולא נעלמת ברגע שיצאת מהחדר.",
+    },
+    {
+      n: "03",
+      t: "ליווי שנשאר",
+      d: "אני לא נעלמת אחרי הפגישה, וזה בדיוק החלק שרוב הדיאטות מפספסות. בחבילות הליווי אני איתך בוואטסאפ בין המפגשים, לשאלות הקטנות שצצות באמצע היום ולרגעים שבהם מתחשק לוותר, ויש גם פידבק על יומן האכילה ומפגשי מעקב לאורך הדרך. ככה הדברים מפסיקים להיות רעיון יפה ונכנסים לשגרה, גם בשבועות העמוסים. המטרה שלי היא שלא תישארי לבד מול האתגרים של היום יום, ושבסוף הדרך יישאר לך משהו שהוא כבר שלך. לא עוד דיאטה שנגמרת.",
+    },
+  ],
+  cta: "רוצה לראות איך זה נראה בפועל? הצצה למטבח שלי ←",
+} as const;
 
 // Rung media (rungs 01–02 only; rung 03 keeps the designed sage panel so the ladder
 // ends on the site's own calm). 01 stays the generated still — decorative, alt="".
@@ -78,18 +155,116 @@ const PLAN_MEDIA: readonly { src: string; alt: string }[] = [
 ];
 
 // COPY: ### סקשן 5 · RecipeCard grid + ResultCard
+const PROOF = {
+  kicker: "תראי בעצמך",
+  // first person (Rom, 2026-08-12): the section speaks in her voice, like the
+  // hello above it — «אני», not «היא»
+  title: "אני באמת מבשלת",
+  body: "לא עוד תמונה יפה. אוכל אמיתי שאני מבשלת, מתוך שבוע רגיל ועמוס.",
+  // re-verified against the CMS after the 2026-08-12 archive import (55 real
+  // entries) — the honest count, never rounded up
+  countChip: "55 מתכונים · מתכון חדש כל שבוע",
+  // the honest dark slots (testimonials + media logos) came off 2026-08-12
+  // (Rom: «במקום המקום של ההמלצות תעשה מקום ל-3 מאמרים») — replaced by the
+  // articles index below. The INTEGRITY rule is untouched: no invented
+  // testimonials, and the testimonial capability (consent gate) stays intact
+  // for another page when real quotes exist.
+  cta: "לכל המתכונים ←",
+} as const;
+
+// COPY: ### סקשן 5 — אינדקס המאמרים (2026-08-12): שלושה סלוטים, נמשכים חיים
+// מאוסף המאמרים (כותרת + תקציר מה-frontmatter שלהם) — כשיש פחות משלושה,
+// מוצגים רק האמיתיים; הסלוט השלישי מופיע כשמאמר שלישי מתפרסם. אפס המצאה.
+const ARTICLES_STRIP = {
+  kicker: "מאמרים",
+  // a real masthead (Rom, 2026-08-12: «חסר לי כאן כותרת כמו שצריך») — the old
+  // lead line split into a serif title + a quiet standfirst; the title is
+  // stored in two parts so the rose rule can rest under the accent
+  titleA: "מה שאני מסבירה בקליניקה, ",
+  titleAccent: "כתוב כאן",
+  lead: "בלי קיצורי דרך ובלי הפחדות.",
+  itemCta: "לקריאה ←",
+  allCta: "לכל המאמרים ←",
+} as const;
 
 // COPY: ### סקשן 5 — רצועת המנות (הרחבה של ביט ה-PROOF, 2026-07-26)
 // המנות אמיתיות ומצולמות על ידה; נבחרו לעוצמה ויזואלית באריח אחיד (MEDIA-PLAN §2)
 // — פריימים דהויים (מרק בקערת זכוכית, כוסות פרפה על שיש אפור) נפסלו בכוונה.
-// The band's words AND its default tile set live in the page document (the
-// social wall in settings still takes the strip over when the desk fills it).
+const RIBBON = {
+  kicker: "מהמטבח שלי",
+  note: "כל מתכון כאן נבדק אצלי בבית לפני שהוא מגיע אלייך. אלה לא צילומי מאגר.",
+  // The band was already a wall of her real food; these two lines are what turn
+  // it into the CHANNEL. «הקהילה = האינסטגרם» (Rom) — so the proof-of-craft and
+  // the follow ask are the same object, instead of a second photo band competing
+  // with this one for the same job further down the page.
+  follow: "כל מנה כאן עלתה קודם לאינסטגרם. שם עולים מתכונים חדשים, טיפים קטנים, ומה שבאמת קורה במטבח ביום רגיל.",
+  // spoken only by screen readers, appended to each linked tile's name
+  linkHint: "לצפייה באינסטגרם, נפתח בלשונית חדשה",
+  tiles: [
+    { src: "/media/client/alona/ribbon/kale-chickpea.jpg", alt: "קערת עלים ירוקים עם חומוס קלוי ובצל סגול כבוש" },
+    { src: "/media/client/alona/ribbon/pancakes-figs.jpg", alt: "מגדל פנקייקים עם תאנים, בננה ואוכמניות" },
+    { src: "/media/client/alona/ribbon/roasted-tray.jpg", alt: "תבנית ירקות שורש צלויים עם רוזמרין ולימון" },
+    { src: "/media/client/alona/ribbon/fruit-bowl.jpg", alt: "קערת פירות חתוכים: מלון, אבטיח, קיווי ואוכמניות" },
+    { src: "/media/client/alona/ribbon/pepper-salad.jpg", alt: "סלט פלפלים צבעוניים, מלפפון ובצל" },
+    { src: "/media/client/alona/ribbon/cauliflower-dip.jpg", alt: "כרובית פריכה בציפוי זהוב לצד רוטב ירוק" },
+    { src: "/media/client/alona/ribbon/fritters-tray.jpg", alt: "תבנית אפייה מלאה בלביבות זהובות" },
+    { src: "/media/client/alona/ribbon/chickpea-bowl.jpg", alt: "קערה עם חומוס קלוי, עלים ירוקים ובצל כבוש" },
+    { src: "/media/client/alona/ribbon/quinoa-platter.jpg", alt: "מגש קינואה עם ירק קצוץ ושקדים" },
+    { src: "/media/client/alona/ribbon/lasagna-basil.jpg", alt: "לזניה בתבנית עם עלי בזיליקום טריים" },
+    { src: "/media/client/alona/ribbon/green-pasta.jpg", alt: "מחבת פסטה ברוטב ירוק עם גבינה מגוררת" },
+    { src: "/media/client/alona/ribbon/focaccia.jpg", alt: "פוקצ'ה ביתית עם שומשום וזיתים" },
+    { src: "/media/client/alona/ribbon/rice-pan.jpg", alt: "מחבת אורז צהוב עם ירקות" },
+  ],
+} as const;
 
 // COPY: ### סקשן 6 · Comparison + צעד חינם צמוד
+const STAKES = {
+  kicker: "נמאס מהסבב הזה?",
+  title: "עוד שנה רועשת, או דרך שסוף-סוף שקטה",
+  cue: "הדרך שאני ממליצה עליה",
+  quiet: {
+    label: "הדרך השקטה",
+    note: "פעם אחת, בליווי, והאוכל שאת אוהבת נשאר על השולחן",
+    points: [
+      "דרך שנבנית סביב השבוע האמיתי שלך",
+      "שקט. לאכול בלי לספור ובלי להתנצל",
+      "משהו שנשאר איתך, כי זו לא עוד דיאטה",
+      "אחת-על-אחת, גם בין הפגישות",
+    ],
+  },
+  noisy: {
+    label: "עוד שנה רועשת",
+    note: "עוד דיאטה שמתחילה ביום ראשון ונשברת ברביעי",
+    points: [
+      "תפריט חדש שאת כבר יודעת שלא יחזיק",
+      "רעש בראש סביב כל ארוחה, ואשמה אחריה",
+      '"הפעם זה יחזיק", שכבר אמרת לעצמך',
+      "לבד מול עוד ניסיון",
+    ],
+  },
+  band: "במקום עוד שנה כזאת, בואי נדבר. שיחת היכרות בלי עלות ובלי התחייבות.",
+  bandCta: "בואי נדבר ←",
+  bandSecondary: "או קחי בינתיים הצצה למתכונים",
+} as const;
 
 // COPY: ### סקשן 7 · חצי-קומפוזיציה: still-ערב + PullQuote (רעש→שקט)
+const SUCCESS = {
+  kicker: "ככה זה יכול להרגיש",
+  lines: "בפעם הראשונה, אני לא בדיאטה.\nאכלתי בחוץ, נהניתי, ובלי אשמה.\nיש לי אנרגיה, ובראש שקט.",
+  bridge: "וזה מתחיל בשיחה אחת, בלי לחץ. ←",
+} as const;
 
 // COPY: ### סקשן 8 · ContactLeadForm (פאנל נייבי #lead)
+const CTA = {
+  title: "בואי נדבר.\nהצעד הראשון קטן, וחינם.",
+  body: "שיחת היכרות קצרה, בלי התחייבות. נכיר, ונבין יחד אם אני האדם הנכון ללוות אותך אל השקט הזה.",
+  packages:
+    "הליווי נמכר בחבילות שמתאימות לחיים שלך. על זה בדיוק נדבר בשיחה, בלי הפתעות ובלי מחיר שקופץ מהמסך.",
+  promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
+  // split like HERO.trustToken: the license clause hides below sm (pill stays one line)
+  trustToken: "דיאטנית קלינית מוסמכת · R.D.",
+  trustTokenLicense: " · רישיון משרד הבריאות",
+} as const;
 
 // One neutral meta line at most (mirrors the archive's tileMeta): a real prep
 // time, then the first diet tag — never invented numbers (YMYL).
@@ -101,20 +276,7 @@ function recipeMeta(e: CollectionEntry): string | undefined {
   return parts.length ? parts.slice(0, 2).join(" · ") : undefined;
 }
 
-export default async function HomePage() {
-  // ONE read for the whole page. Every section below takes its words from here;
-  // what stays in this file is only what the editor must not own — the room
-  // stills, the rung media, the scroll choreography.
-  const page = await getPublishedPage("");
-  const HERO = sectionPayload<HomeHeroPayload>(page, "hero")!;
-  const GUIDE = sectionPayload<HomeGuidePayload>(page, "guide")!;
-  const RIBBON = sectionPayload<HomeRibbonPayload>(page, "ribbon")!;
-  const PLAN = sectionPayload<HomePlanPayload>(page, "plan")!;
-  const PROOF = sectionPayload<HomeProofPayload>(page, "proof")!;
-  const STAKES = sectionPayload<HomeStakesPayload>(page, "stakes")!;
-  const SUCCESS = sectionPayload<HomeSuccessPayload>(page, "success")!;
-  const CTA = sectionPayload<HomeCtaPayload>(page, "cta")!;
-
+export default function HomePage() {
   // The ribbon's tiles: client-edited set when she has filled one from /admin,
   // otherwise the authored default. An empty settings file therefore renders the
   // page exactly as designed rather than an empty band, so she can take the strip
@@ -144,112 +306,135 @@ export default async function HomePage() {
           : undefined,
     }));
 
+  // Up to three real articles for the §05 index — title + its own frontmatter
+  // description, nothing invented; the strip renders only when at least one
+  // article exists, and the third slot fills itself on publish.
+  const articlesPool = listDocs("articles").slice(0, 3).map((e) => ({
+    slug: e.slug,
+    title: e.title,
+    description: e.description,
+    tag: e.tags[0],
+  }));
+
   return (
     <>
       {/* structured identity for the front door (GEO/SEO) — same builder as /contact */}
       <JsonLd data={professionalService(site, services)} />
-      {/* ── 01 · HOOK — «חדר הבוקר» (full-bleed film hero, Rom's call 2026-07-20):
-             the kitchen morning IS the room now. HeroFilm mounts the poster as the
-             LCP (static, eager, painted on the first frame) and swaps in the
-             ring-loop film strictly after window.load — different camera angles
-             setting one plate, produced via the scroll-cinema pipeline (webm/mp4
-             props land when production does; until then this is a full-bleed
-             poster hero). The words keep their exact choreography on a logical
-             side scrim (paper solid under the text column, opening into the room);
-             the thread is still born from the CTA's chamfered corner. The old
-             gold-framed panel retires — its vocabulary lives on in §03/§07.
-             The limp hero chip is GONE (Rom's call); the thought-chip arc that
-             replaced it lived in the §02 film and retired with it (2026-08-11).
+      {/* ── 01 · HOOK — the editorial split hero (2026-08-11, the design-language
+             pass): a magazine spread instead of words-over-footage. The words own
+             the reading edge (RTL inline-start = right) on the page paper — no
+             scrim, no contrast debt, and the H1 finally wears the LOCKED display
+             scale clamp(2.6rem,6vw,4.75rem) (it had been capped at 3.3rem, a
+             subheading pretending to be a masthead). The photograph owns the
+             other column at near-native ratio: her REAL green shakshuka (cl-012)
+             replacing the generated ring-loop film room — MEDIA-PLAN's split-band
+             answer to real 3:4 pixels, and DESIGN-DIRECTION's «hero חם סטטי»
+             finally honored. LCP becomes the H1 text itself (faster than any
+             poster). The trust chip and the recipes escape-link fused into ONE
+             hairline masthead row — the editorial credential treatment, no boxes.
+             The thought-chip arc retired with the §02 film (2026-08-11); the old
+             HeroFilm ring loop stays on disk should a real film production land.
              Header safety is DEFAULT-ON: the white nav treatment requires an
-             explicit [data-dark-hero], so a light hero can never ship an
-             invisible nav. The old data-light-hero marker was a no-op (nothing
-             ever read it) and was removed. ── */}
-      <section className="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-bg lg:items-center" style={{ "--grade-tint": "var(--hour-morning)" } as React.CSSProperties}>
-        <HeroFilm
-          poster={HERO.poster}
-          webm={HERO.filmWebm}
-          mp4={HERO.filmMp4}
-          objectPosition="70% center"
-        />
-        <div aria-hidden className="hero-scrim" />
-        {/* soft-curve seam (Rom 2026-07-20): the cream ground crests up into the
-            morning room — a shaped hand-off out of the hero (into the dossier,
-            since the film's exit 2026-08-11), not a hard photo cut */}
-        <SeamShape variant="curve-up" />
-        <Container width="wide" className="relative z-10 w-full pb-16 pt-44 sm:pt-56 md:pb-24 lg:py-24 lg:pb-32">
-          {/* ONE orchestrator, same word choreography as ever — block-axis steps */}
-          <MOrchestrate className="max-w-[620px]">
-            <MItem as="p" className="flex items-center gap-2.5 text-[13px] font-bold tracking-eyebrow text-muted">
-              <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-              {HERO.kicker}
-            </MItem>
-            {/* autoplay (LCP): the H1's masked rise runs as pure CSS from first
-                paint — hydration/IO arming was measured pushing LCP by seconds */}
-            <RevealHeading
-              as="h1"
-              text={HERO.title}
-              autoplay
-              // the rose ANSWERS the question — a hand-drawn rule under the
-              // promise, after the line lands («חוט ואור» move 4)
-              accentText={HERO.titleAccent}
-              className="mt-5 font-serif font-black leading-[1.12] text-navy"
-              style={{ fontSize: "clamp(2.1rem, 5vw, 3.3rem)" }}
-            />
-            <MItem as="p" className="mt-7 max-w-[54ch] text-lg leading-[1.7] text-ink">
-              {HERO.lede}
-            </MItem>
-            <MItem className="mt-10">
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
-                <div className="flex flex-col items-center gap-1.5">
-                  {/* magnet 1 of the page's pair («חוט ואור» move 6; ≤2 budget enforced by MMagnetic) */}
-                  <MMagnetic>
-                  <Link
-                    href="#lead"
-                    data-cta="hero-primary"
-                    className="btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
-                  >
-                    {HERO.ctaPrimary}
-                  </Link>
-                  </MMagnetic>
-                  <span className="text-[13px] font-semibold text-muted">{HERO.ctaSub}</span>
-                </div>
+             explicit [data-dark-hero], so this light hero can never ship an
+             invisible nav. ── */}
+      <section className="relative isolate overflow-hidden bg-bg" style={{ "--grade-tint": "var(--hour-morning)" } as React.CSSProperties}>
+        <div className="mx-auto grid w-full max-w-[1440px] lg:min-h-[88svh] lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)]">
+          {/* the words — reading start, on paper; ONE orchestrator, same
+              block-axis choreography as ever */}
+          <div className="flex items-center px-5 pb-4 pt-32 sm:px-8 sm:pt-36 lg:self-center lg:py-32 lg:pe-14 lg:ps-10 xl:ps-16">
+            <MOrchestrate className="max-w-[700px]">
+              <MItem as="p" className="flex items-center gap-2.5 text-xs font-bold tracking-eyebrow text-gold-ink">
+                <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
+                {HERO.kicker}
+              </MItem>
+              {/* autoplay (LCP): the H1's masked rise runs as pure CSS from first
+                  paint — hydration/IO arming was measured pushing LCP by seconds */}
+              <RevealHeading
+                as="h1"
+                text={HERO.title}
+                autoplay
+                // the rose ANSWERS the question — a hand-drawn rule under the
+                // promise, after the line lands («חוט ואור» move 4)
+                accentText="לא עוד תפריט"
+                // the display scale, re-fit for a split column (the D1 lock's
+                // 6vw/4.75rem was measured for a FULL-width hero; in an 11fr
+                // column it wraps the composed two-line masthead into four) —
+                // 4.5vw/4rem is the largest size that keeps each written line
+                // whole from 1024px up
+                className="mt-6 font-serif font-black leading-[1.08] text-navy md:tracking-[-0.01em]"
+                style={{ fontSize: "clamp(2.4rem, 4.5vw, 4rem)" }}
+              />
+              {/* the standfirst — its own register between display and body
+                  (text-xl, tighter measure), so the ladder reads kicker →
+                  display → standfirst → body */}
+              <MItem as="p" className="mt-7 max-w-[48ch] text-xl leading-[1.65] text-ink">
+                {HERO.lede}
+              </MItem>
+              {/* the CTA stands alone — the «שיחת היכרות חינם» sub-line came off
+                  (Rom, 2026-08-12); the free-call promise still lives in §04 step
+                  01 and on /coaching, so the button stays quiet here */}
+              <MItem className="mt-10">
+                {/* magnet 1 of the page's pair («חוט ואור» move 6; ≤2 budget enforced by MMagnetic) */}
+                <MMagnetic>
                 <Link
-                  href="/about"
-                  data-cta="hero-credential"
-                  className="inline-flex items-center rounded-full border border-line bg-sand px-4 py-2.5 text-sm font-semibold text-navy transition hover:border-gold/60"
+                  href="#lead"
+                  data-cta="hero-primary"
+                  className="btn-chamfer inline-block rounded-[6px] bg-gold px-9 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                 >
-                  {/* one span = one flex item, so the inline separator keeps its space */}
-                  <span>
-                    {HERO.trustToken}
-                    <span className="hidden sm:inline">{HERO.trustTokenLicense}</span>
-                  </span>
+                  {HERO.ctaPrimary}
                 </Link>
-              </div>
-            </MItem>
-            {/* the hero thread-birth was removed with the site-wide thread
-                (Rom 2026-07-20: "החוט לא קשור לכלום") — the connective tissue is
-                now the soft photo dissolves between rooms, not a drawn line. */}
-            <MItem className="mt-7">
-              <Link
-                href="/recipes"
-                data-cta="hero-recipes"
-                className="text-[0.95rem] font-medium text-muted underline decoration-rose decoration-2 underline-offset-4 transition hover:text-navy"
-              >
-                {HERO.ctaRecipes}
-              </Link>
-            </MItem>
-          </MOrchestrate>
-        </Container>
-        {/* scroll cue — decorative only, and desktop only. On mobile the layout
-            is items-end with the CTA already near the fold, so a cue would both
-            crowd it and state the obvious; at lg the hero centres and the room
-            below genuinely needs announcing. Sits above the seam (z-20). */}
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-8 z-20 hidden justify-center lg:flex">
-          <span className="inline-flex flex-col items-center gap-1 text-[0.7rem] font-bold tracking-eyebrow text-muted">
-            {HERO.scrollCue}
-            <span className="hero-cue-arrow text-sm leading-none text-gold">↓</span>
-          </span>
+                </MMagnetic>
+              </MItem>
+              {/* the masthead footer — ONE hairline-ruled row instead of a boxed
+                  trust chip + an orphaned link: the rule and the spaced kicker
+                  ARE the editorial credential treatment («קווי מערכת, קיקרים
+                  באותיות מרווחות», no boxes). The width-conditional license
+                  split survives verbatim. */}
+              <MItem className="mt-10">
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line/80 pt-5">
+                  <Link
+                    href="/about"
+                    data-cta="hero-credential"
+                    className="text-[13px] font-bold tracking-eyebrow text-navy transition hover:text-gold-ink"
+                  >
+                    {/* one span = one flex item, so the inline separator keeps its space */}
+                    <span>
+                      {HERO.trustToken}
+                      <span className="hidden sm:inline">{HERO.trustTokenLicense}</span>
+                    </span>
+                  </Link>
+                  <span aria-hidden className="hidden text-muted sm:inline">·</span>
+                  <Link
+                    href="/recipes"
+                    data-cta="hero-recipes"
+                    className="text-[0.95rem] font-medium text-muted underline decoration-rose decoration-2 underline-offset-4 transition hover:text-navy"
+                  >
+                    {HERO.ctaRecipes}
+                  </Link>
+                </div>
+              </MItem>
+            </MOrchestrate>
+          </div>
+          {/* the photograph — real pixels at near-native ratio, graded by the
+              one-camera system (tint + grain), stretching the full spread height
+              on lg; a quiet 4:5 band on mobile below the words */}
+          <div className="relative mt-8 aspect-[4/5] w-full sm:aspect-[3/4] lg:mt-0 lg:aspect-auto lg:self-stretch">
+            <Image
+              src={HERO_IMAGE.src}
+              alt={HERO_IMAGE.alt}
+              fill
+              priority
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="object-cover"
+            />
+            <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+            <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.05" } as React.CSSProperties} />
+          </div>
         </div>
+        {/* soft-curve seam — the cream ground crests up over the photo's foot,
+            a shaped hand-off into the dossier, not a hard photo cut.
+            The «גללי» scroll cue came off (Rom, 2026-08-12). */}
+        <SeamShape variant="curve-up" />
       </section>
 
       {/* ── 02 · TENSION — THE FILM IS GONE (Rom, 2026-08-11: «תוריד את הסקשן של
@@ -261,14 +446,22 @@ export default async function HomePage() {
              hands straight into the dossier, whose room-edges-top fade was already
              built for a soft entry. ── */}
 
-      {/* ── 03 · GUIDE — «הדוסייה על השולחן» (overlap-layered): the camera looks down at
-             her work desk (a photo ROOM via MScrollScene, never a framed object) and
-             the section assembles like a professional file spreading open — paper
-             pieces arriving from meaningful sides, sewn together by drawn rose
-             stitches (the "spec that connects while scrolling"). Portrait slot stays
-             the honest empty-state (real Alona photo pending — never a generated
-             face), now a waiting frame pinned to the file. Text NEVER sits on the
-             bare photo — every piece is an opaque/milky paper card (AA).
+      {/* ── 03 · GUIDE — «הדוסייה על השולחן», re-set as an editorial spread
+             (2026-08-11, the design-language pass): hierarchy from typography,
+             hairlines and space — «כמעט בלי קופסאות». The desk-photo room stays
+             (md+ via MScrollScene); the five boxed surfaces that used to stack in
+             the text column (heading strip, empathy card, credentials card, tab
+             chips, areas slip — three foreign radii, five backdrop-blurs)
+             collapsed into ONE opaque sheet, md+ only: on mobile there is no
+             photo behind, so the type sits straight on the page paper with no
+             box at all. Inside the sheet: a serif pull-quote opening in her
+             voice, one ruled mechanism band, a hairline credentials ledger and a
+             two-column areas list — one radius (16), one elevation, zero inner
+             chrome, zero blur. The portrait dropped its scrapbook dress (tilt,
+             ◆ pin, gold double-frame, overlaid caption strip): it stands
+             straight in a hairline frame and carries authority by size and
+             stillness, with a magazine figcaption BELOW the pixels — so the AA
+             text-never-on-photo rule is satisfied by construction.
              id="guide" stays as an in-page anchor (it was the retired film's
              escape-hatch target); the
              global scroll-padding-top of 6rem clears the fixed header, so no
@@ -285,123 +478,111 @@ export default async function HomePage() {
               <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
               {/* mid-page material diet */}
               <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
-              {/* THE PAPER WASH IS GONE (Rom, 2026-07-29). It was `bg-bg/72` — a
-                  72% warm-white sheet over the whole desk photo, which is what
-                  made this room read as washed out. It was never load-bearing for
-                  legibility: every text piece in this section sits on its own
-                  opaque paper card (see the section note above), so the contrast
-                  was already paid for locally. The remaining two layers do not
-                  whiten: --grade-tint is a 10% NAVY tint (the shared house grade,
-                  it deepens) and the grain sits at 0.035. */}
+              {/* no paper wash over the room (Rom, 2026-07-29) — the ONE sheet
+                  below pays the whole AA budget; --grade-tint deepens (10% navy),
+                  grain stays 0.035 */}
               {/* top fade only — the seam shape carries the bottom hand-off */}
               <div aria-hidden className="room-edges-top" />
             </>
           }
         >
-          {/* The mobile top band is GONE (Rom, 2026-07-29: «מיותרת»). It used to
-              repeat the same desk photo as a 3:2 strip above the heading, purely
-              so the phone would also "see the room". In practice it pushed the
-              actual content of the beat a full band down the page and carried no
-              information the section does not already state in words. The
-              full-bleed desk backdrop stays on md+ (mediaClassName), where it is
-              a background rather than a block the reader has to scroll past. */}
           <Container width="wide" className="py-16 sm:py-20 md:py-32">
-            {/* the heading rides its own paper strip — never bare over the photo */}
-            <div className="inline-block rounded-[10px] bg-bg/90 md:px-7 md:py-5 md:backdrop-blur-sm">
-              <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} accent={GUIDE.titleAccent} />
-            </div>
-            <MOrchestrate className="relative mt-12 grid items-start gap-x-12 gap-y-9 md:grid-cols-[0.85fr_1.15fr]">
-              {/* file anchor column — RTL inline-start (right): the calling card,
-                  dropped on the desk at a hand-placed tilt, pinned like a photo.
-                  Rom 2026-07-20: the age-quote note below it is removed and the
-                  card enlarged back to portrait — nothing sits under it now, so
-                  the taller ratio balances the pieces column instead of opening
-                  dead desk. */}
-              <div className="mx-auto w-full max-w-[440px] md:self-center">
-                <MItem>
-                  <div className="relative rotate-[-1.5deg]">
-                    {/* the pin — the ◆ glyph holding the card to the file */}
-                    <span
-                      aria-hidden
-                      className="absolute -top-2 start-1/2 z-10 h-4 w-4 translate-x-1/2 rotate-45 border border-gold/60 bg-gold-soft"
+            {/* ONE sheet over the room — the only surface in the section. Its
+                bg-bg/95 carries the entire AA budget over the desk photo;
+                nothing inside it wears its own border-box. On mobile (no photo
+                behind, mediaClassName hides the room) there is no box at all. */}
+            <MOrchestrate className="md:rounded-[16px] md:bg-bg/95 md:p-10 md:shadow-[var(--elevation-1)] lg:p-14">
+              <MItem>
+                {/* centered masthead (Rom, 2026-08-12) — her voice is the
+                    subtitle, set as a SplitText so the rose rule can DRAW
+                    itself under «להבין מה באמת קורה בגוף שלנו» (base state
+                    drawn — the same static-twin contract as every accent) */}
+                <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} accent="מכירה" align="center" />
+                <SplitText
+                  as="p"
+                  text={GUIDE.empathy}
+                  accentText="להבין מה באמת קורה בגוף שלנו"
+                  className="mx-auto mt-4 max-w-[60ch] text-center text-[1.08rem] leading-relaxed text-muted"
+                />
+              </MItem>
+              <div className="mt-12 grid items-start gap-x-12 gap-y-10 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-x-16">
+              {/* the portrait — an editorial figure on the reading edge (RTL
+                  inline-start = right), asymmetric against the wider text plate.
+                  Real photo (2026-07-25, MEDIA-PLAN §3, cl-101), straightened:
+                  the tilt, the ◆ pin, the gold double-frame and the overlaid
+                  caption strip all retired with the design-language pass — the
+                  photo carries authority by size and stillness, and the caption
+                  sits BELOW the pixels as a ruled magazine figcaption. */}
+              <MItem className="mx-auto w-full max-w-[440px] md:max-w-none md:self-center">
+                <figure>
+                  <div
+                    className="frame-double relative aspect-[4/5] overflow-hidden rounded-[16px] bg-sand"
+                    style={{ "--frame-gap": "7px" } as React.CSSProperties}
+                  >
+                    <Image
+                      src={GUIDE_PORTRAIT}
+                      alt={GUIDE.portraitAlt}
+                      fill
+                      sizes="(max-width: 768px) 88vw, 40vw"
+                      className="object-cover"
                     />
-                    {/* the real portrait (2026-07-25, MEDIA-PLAN §3): the honest
-                        empty-state retired — Alona's own photo, supplied to the
-                        project Drive on 2026-07-23, now fills the calling card.
-                        The name/role stay on an OPAQUE ivory strip at the foot,
-                        never over the bare photo (this room's AA rule). */}
-                    <div
-                      className="frame-double relative aspect-[4/5] overflow-hidden rounded-[16px] bg-gold-soft"
-                      style={{ "--frame-gap": "7px", "--frame-color": "var(--color-gold)" } as React.CSSProperties}
-                    >
-                      <Image
-                        src={GUIDE_PORTRAIT}
-                        alt={GUIDE.portraitAlt}
-                        fill
-                        sizes="(max-width: 768px) 88vw, 440px"
-                        className="object-cover"
-                      />
-                      <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
-                      <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
-                      <div className="absolute inset-x-0 bottom-0 bg-bg/94 px-5 py-4 text-center">
-                        <span className="block text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-                        <div className="mt-2 font-serif text-2xl font-bold text-navy">{GUIDE.name}</div>
-                        <span aria-hidden className="mx-auto mt-2 block h-[3px] w-10 rounded-full bg-rose" />
-                        <div className="mt-2 font-serif text-sm font-semibold text-navy-700">{GUIDE.role}</div>
-                      </div>
-                    </div>
+                    <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+                    <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.035" } as React.CSSProperties} />
                   </div>
-                </MItem>
-              </div>
-              {/* the file's pieces — empathy strictly before authority */}
-              <div className="flex flex-col gap-7">
-                {/* one entrance verb for the whole room (constitution rule 4):
-                    the file's pieces settle in reading order on the block axis.
-                    The old four-grammar mix here was the biggest violation in the
-                    code, and its horizontal travel also overflowed 390px phones. */}
+                  <figcaption className="mt-4 border-t border-line pt-3">
+                    <div className="font-serif text-2xl font-bold text-navy">{GUIDE.name}</div>
+                    <div className="mt-1 text-xs font-bold tracking-eyebrow text-muted">{GUIDE.role}</div>
+                  </figcaption>
+                </figure>
+              </MItem>
+              {/* the record — authority AFTER her voice (which now leads the
+                  heading); one entrance verb for the whole room (block-axis
+                  settle) */}
+              <div className="flex flex-col">
+                {/* her hello — first person, one breath, inside the ruled band
+                    (Rom, 2026-08-12: sentences instead of the mechanism index;
+                    the four labels live on inside the sentences) */}
                 <MItem>
-                  <div className="rounded-[12px] border border-line bg-card p-6 shadow-[var(--elevation-1)] md:bg-card/90 md:backdrop-blur-md">
-                    <p className="max-w-[62ch] text-lg leading-[1.7] text-ink">{GUIDE.empathy}</p>
-                  </div>
-                </MItem>
-                <MItem>
-                  <div className="rounded-[12px] border border-line bg-card p-6 shadow-[var(--elevation-1)] md:bg-card/90 md:backdrop-blur-md">
-                    <RecognitionBadges badges={[...GUIDE.credentials]} />
-                  </div>
-                </MItem>
-                {/* index tabs at the file's bottom edge — the mechanism */}
-                <ul className="flex flex-wrap gap-2.5">
-                  {GUIDE.mechanism.map((m) => (
-                    <MItem as="li" key={m}>
-                      <span className="inline-block rounded-t-[10px] border border-b-2 border-line border-b-rose bg-card px-4 py-2.5 font-serif text-base font-bold text-navy md:bg-card/90 md:backdrop-blur-md">
-                        {m}
-                      </span>
-                    </MItem>
-                  ))}
-                </ul>
-                {/* areas of care — a paper slip clipped under the index tabs, so
-                    the dossier says what it covers. Deliberately quieter than the
-                    mechanism tabs above it: this is reference, not the pitch. */}
-                <MItem className="mt-6">
-                  <div className="rounded-[10px] border border-line bg-card/90 px-5 py-4 md:backdrop-blur-md">
-                    <p className="flex items-center gap-2 text-[13px] font-bold tracking-eyebrow text-gold-ink">
-                      <span className="text-[0.6rem] leading-none" aria-hidden>◆</span>
-                      {GUIDE.areasLabel}
+                  <div className="border-y border-line py-6">
+                    <p className="max-w-[58ch] text-lg leading-[1.75] text-ink">
+                      <span className="font-serif text-xl font-bold text-navy">{GUIDE.introHello} </span>
+                      {GUIDE.intro}
                     </p>
-                    <ul className="mt-3 flex flex-wrap gap-x-2.5 gap-y-2">
-                      {GUIDE.areas.map((a) => (
-                        <li
-                          key={a}
-                          className="rounded-full bg-sand px-3.5 py-1.5 text-sm font-semibold text-navy"
-                        >
-                          {a}
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="mt-3.5 text-sm leading-relaxed text-muted">{GUIDE.areasNote}</p>
                   </div>
                 </MItem>
-                <MItem className="mt-2">
+                {/* the record — a hairline ledger, each row a quiet fact
+                    (RecognitionBadges chips retired from this room) */}
+                <MItem className="mt-8">
+                  <ul>
+                    {GUIDE.credentials.map((c) => (
+                      <li
+                        key={c}
+                        className="flex items-center gap-3 border-b border-line/70 py-2.5 text-[13px] font-bold tracking-eyebrow text-muted last:border-0"
+                      >
+                        <span aria-hidden className="h-[3px] w-3 rounded-full bg-rose" />
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
+                </MItem>
+                {/* areas of care — quiet reference in a two-column list; the
+                    YMYL note under it is a guardrail, not decoration */}
+                <MItem className="mt-8">
+                  <p className="flex items-center gap-2 text-xs font-bold tracking-eyebrow text-gold-ink">
+                    <span className="text-[0.6rem] leading-none" aria-hidden>◆</span>
+                    {GUIDE.areasLabel}
+                  </p>
+                  <ul className="mt-3 grid gap-x-8 gap-y-2 sm:grid-cols-2">
+                    {GUIDE.areas.map((a) => (
+                      <li key={a} className="flex items-center gap-3 text-sm font-semibold text-navy">
+                        <span aria-hidden className="h-[3px] w-3 rounded-full bg-rose" />
+                        {a}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-3.5 max-w-[58ch] text-sm leading-relaxed text-muted">{GUIDE.areasNote}</p>
+                </MItem>
+                <MItem className="mt-9">
                   <Link
                     href="/coaching"
                     data-cta="guide-to-coaching"
@@ -410,6 +591,7 @@ export default async function HomePage() {
                     {GUIDE.cta}
                   </Link>
                 </MItem>
+              </div>
               </div>
             </MOrchestrate>
           </Container>
@@ -470,7 +652,7 @@ export default async function HomePage() {
           }
         >
         <Container width="wide" className="py-16 sm:py-20 md:py-32">
-          <SectionHeading eyebrow={PLAN.kicker} title={PLAN.title} lead={PLAN.lead} accent={PLAN.titleAccent} />
+          <SectionHeading eyebrow={PLAN.kicker} title={PLAN.title} lead={PLAN.lead} accent="בשפה שלך" />
           <StickyScroll
             className="mt-14"
             mediaSide="start"
@@ -550,7 +732,7 @@ export default async function HomePage() {
       {/* ── 05 · PROOF — card-grid: a random trio of real CMS recipes per visit;
              testimonial + media-logo slots stay honestly DARK until real. ── */}
       <Section tone="white" border id="proof">
-        <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.body} accent={PROOF.titleAccent} />
+        <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.body} accent="באמת" />
         <div className="mt-6">
           <span className="inline-block rounded-full bg-gold-soft px-4 py-1.5 text-sm font-semibold text-gold-ink">
             {PROOF.countChip}
@@ -567,15 +749,9 @@ export default async function HomePage() {
             {PROOF.cta}
           </Link>
         </div>
-        {/* the honest dark slots — ONE quiet wash band, structurally dark until real
-            proof lands (soft wash + ◆, never card-sized ghosts, never dashed chrome) */}
-        {/* two honest notes, separated by the rose thread — the ◆ is a STRUCTURE mark
-            (kickers + step markers), never sentence punctuation. */}
-        <div className="mt-10 rounded-[16px] bg-bg2 px-6 py-4 text-center">
-          <p className="text-sm leading-relaxed text-muted">{PROOF.darkTestimonial}</p>
-          <span aria-hidden className="mx-auto my-3 block h-[2px] w-10 rounded-full bg-rose" />
-          <p className="text-sm leading-relaxed text-muted">{PROOF.darkLogos}</p>
-        </div>
+        {/* the articles index moved BELOW the stakes fork (Rom, 2026-08-12:
+            «תחליף בין סקשן המאמרים לבין סקשן נמאס מהסבב הזה») — it now reads
+            as the quiet study after the fork, right before the evening peak. */}
       </Section>
 
       {/* ── 06 · STAKES — comparison: another noisy year vs the quiet way, the cost
@@ -587,7 +763,7 @@ export default async function HomePage() {
       <section className="relative" style={{ "--grade-tint": "var(--hour-golden)" } as React.CSSProperties}>
         <Container width="wide" className="pb-32 pt-4 sm:pb-36 md:pb-44 md:pt-6">
           <div className="relative z-10 rounded-[16px] border border-line bg-bg p-7 shadow-[var(--elevation-2)] md:p-10">
-            <SectionHeading eyebrow={STAKES.kicker} title={STAKES.title} accent={STAKES.titleAccent} />
+            <SectionHeading eyebrow={STAKES.kicker} title={STAKES.title} accent="שקטה" />
             <p className="mt-8 font-serif text-lg italic text-rose-ink">{STAKES.cue}</p>
             <Comparison
               className="mt-5"
@@ -623,6 +799,74 @@ export default async function HomePage() {
           </div>
         </Container>
       </section>
+
+      {/* ── 06b · the articles study — up to three REAL articles from the
+             collection (title + its own frontmatter description, family-wash
+             cards), placed after the fork (Rom, 2026-08-12) as the calm
+             reading room before the evening peak; renders only when articles
+             exist, the third slot fills itself on publish. ── */}
+      {articlesPool.length > 0 && (
+        <Section tone="white" border>
+          {/* a centered masthead — kicker, serif title with the rose rule
+              resting under «כתוב כאן» (base state drawn), quiet standfirst */}
+          <div className="flex flex-col items-center text-center">
+            <div className="flex items-center gap-2.5">
+              <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
+              <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{ARTICLES_STRIP.kicker}</span>
+            </div>
+            <h3
+              className="mt-4 font-serif font-black leading-[1.15] text-navy"
+              style={{ fontSize: "clamp(1.5rem, 2.8vw, 2.2rem)" }}
+            >
+              {ARTICLES_STRIP.titleA}
+              <span className="u-rose-draw">{ARTICLES_STRIP.titleAccent}</span>
+            </h3>
+            <p className="mt-3 max-w-[60ch] text-[1.08rem] leading-relaxed text-muted">{ARTICLES_STRIP.lead}</p>
+          </div>
+          {/* the three slots wear the family washes (sage-soft / blush / sand)
+              — color and life from the sanctioned palette, body text in ink
+              (never muted) so every wash pays AA */}
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {articlesPool.map((a, i) => (
+              <article
+                key={a.slug}
+                className={`flex flex-col rounded-[16px] p-7 ${["bg-gold-soft", "bg-blush", "bg-sand"][i % 3]}`}
+              >
+                <span className="flex items-center gap-2 text-xs font-bold tracking-eyebrow text-gold-ink">
+                  <span className="text-[0.6rem] leading-none text-gold" aria-hidden>◆</span>
+                  {a.tag ?? ARTICLES_STRIP.kicker}
+                </span>
+                <h4 className="mt-4 font-serif text-2xl font-bold leading-snug text-navy">
+                  <Link
+                    href={`/articles/${a.slug}`}
+                    data-cta="articles-item"
+                    className="transition hover:text-gold-ink"
+                  >
+                    {a.title}
+                  </Link>
+                </h4>
+                <p className="mt-3 grow text-[0.95rem] leading-relaxed text-ink">{a.description}</p>
+                <Link
+                  href={`/articles/${a.slug}`}
+                  data-cta="articles-read"
+                  className="mt-6 text-sm font-bold text-gold-ink underline decoration-rose decoration-2 underline-offset-4 transition hover:text-navy"
+                >
+                  {ARTICLES_STRIP.itemCta}
+                </Link>
+              </article>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Link
+              href="/articles"
+              data-cta="articles-all"
+              className="text-sm font-bold text-gold-ink underline-offset-4 transition hover:underline"
+            >
+              {ARTICLES_STRIP.allCta}
+            </Link>
+          </div>
+        </Section>
+      )}
 
       {/* ── 07 · SUCCESS — «חדר שעת הזהב» (background-art): the peak goes full-bleed.
              The golden-hour restaurant IS the room now (wide still via MScrollScene);
