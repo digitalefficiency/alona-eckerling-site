@@ -14,6 +14,7 @@
 // ============================================================================
 import businessJson from "../../content/settings/business.json";
 import testimonialsJson from "../../content/settings/testimonials.json";
+import socialWallJson from "../../content/settings/social-wall.json";
 
 export type BusinessOverrides = Partial<{
   phone: string;
@@ -36,6 +37,20 @@ export type Testimonial = {
 };
 
 export const testimonials = testimonialsJson as Testimonial[];
+
+// The dish ribbon's tiles, editable from /admin. Ships EMPTY and the home page
+// falls back to the authored set, so an untouched site looks exactly as designed
+// and the client can take the band over whenever she wants — she is not required
+// to fill it before it works. `imageAlt` is the paired alt key the CMS writes
+// beside every image field (see validateFields' requiredAlt), and `href` is
+// optional: a tile without one links to her profile rather than to nothing.
+export type SocialTile = {
+  image: string;
+  imageAlt?: string;
+  href?: string;
+};
+
+export const socialWall = socialWallJson as SocialTile[];
 
 // Deep-merge one level: `business.address = {city}` overrides only `city`.
 export function withOverrides<T extends Record<string, unknown>>(base: T, over: Record<string, unknown>): T {

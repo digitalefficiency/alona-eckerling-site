@@ -41,5 +41,24 @@
         "required": true
       }
     ]
+  },
+  "social-wall": {
+    "label": "רצועת המנות",
+    "array": true,
+    "itemLabel": "מנה",
+    "fields": [
+      {
+        "key": "image",
+        "type": "image",
+        "label": "התמונה",
+        "required": true,
+        "requiredAlt": true
+      },
+      {
+        "key": "href",
+        "type": "text",
+        "label": "קישור לפוסט באינסטגרם (לא חובה — בלעדיו האריח מקשר לעמוד שלך)"
+      }
+    ]
   }
 }

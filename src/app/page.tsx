@@ -23,6 +23,8 @@ import { ContactLeadForm } from "@/components/ContactLeadForm";
 import { JsonLd } from "@/components/JsonLd";
 import { professionalService } from "@/lib/schema-presets";
 import { site, services } from "@/lib/site";
+import { socialWall } from "@/lib/settings";
+import { SocialLinks } from "@/components/SocialLinks";
 import { listDocs, type CollectionEntry } from "@/lib/collections";
 
 // ============================================================================
@@ -154,6 +156,13 @@ const PROOF = {
 const RIBBON = {
   kicker: "מהמטבח שלי",
   note: "כל מתכון כאן נבדק אצלי בבית לפני שהוא מגיע אלייך. אלה לא צילומי מאגר.",
+  // The band was already a wall of her real food; these two lines are what turn
+  // it into the CHANNEL. «הקהילה = האינסטגרם» (Rom) — so the proof-of-craft and
+  // the follow ask are the same object, instead of a second photo band competing
+  // with this one for the same job further down the page.
+  follow: "כל מנה כאן עלתה קודם לאינסטגרם. שם עולים מתכונים חדשים, טיפים קטנים, ומה שבאמת קורה במטבח ביום רגיל.",
+  // spoken only by screen readers, appended to each linked tile's name
+  linkHint: "לצפייה באינסטגרם, נפתח בלשונית חדשה",
   tiles: [
     { src: "/media/client/alona/ribbon/kale-chickpea.jpg", alt: "קערת עלים ירוקים עם חומוס קלוי ובצל סגול כבוש" },
     { src: "/media/client/alona/ribbon/pancakes-figs.jpg", alt: "מגדל פנקייקים עם תאנים, בננה ואוכמניות" },
@@ -231,6 +240,18 @@ function recipeMeta(e: CollectionEntry): string | undefined {
 }
 
 export default function HomePage() {
+  // The ribbon's tiles: client-edited set when she has filled one from /admin,
+  // otherwise the authored default. An empty settings file therefore renders the
+  // page exactly as designed rather than an empty band, so she can take the strip
+  // over whenever she likes without being required to.
+  //
+  // A tile without its own post URL links to the PROFILE, never to a guessed
+  // permalink — we do not have per-post links yet and inventing them would send
+  // readers to 404s under her name.
+  const instagram = site.socials.find((s) => s.network === "instagram")?.url;
+  const ribbonTiles = (socialWall.length
+    ? socialWall.map((t) => ({ src: t.image, alt: t.imageAlt ?? "", href: t.href || instagram }))
+    : RIBBON.tiles.map((t) => ({ ...t, href: instagram })));
   // Real recipe cards from the CMS (proof-of-craft) — real client photography
   // only. The FULL pool goes to the client grid, which shows a random trio per
   // visit (Rom's call 2026-07-19: no "newest" highlight, fresh three each time).
@@ -538,9 +559,16 @@ export default function HomePage() {
             <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{RIBBON.kicker}</span>
           </p>
         </Container>
-        <DishRibbon tiles={RIBBON.tiles} />
+        <DishRibbon tiles={ribbonTiles} linkHint={RIBBON.linkHint} />
         <Container width="wide">
           <p className="mt-7 text-center text-sm text-muted">{RIBBON.note}</p>
+          <p className="mx-auto mt-3 max-w-[56ch] text-center text-sm leading-relaxed text-muted">
+            {RIBBON.follow}
+          </p>
+          {/* the follow ask sits with the proof, where she has just earned it */}
+          <div className="mt-7 flex justify-center">
+            <SocialLinks showHandle />
+          </div>
         </Container>
       </div>
 
