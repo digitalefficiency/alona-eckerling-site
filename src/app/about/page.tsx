@@ -67,28 +67,38 @@ const STORY = {
 // below — the argument moves from persona to method. The retired copy survives
 // in the studio record at clients/alona-eckerling/sections/19-about-age-quote.md.
 
-// COPY: ### סקשן 20 · BentoGrid (קיר הקרדנציאלים)
-const CREDENTIALS = {
-  kicker: "הרקע, בגילוי מלא",
-  title: "הרקע אמיתי, ואפשר לבדוק אותו",
-  anchor: {
-    title: "דיאטנית קלינית מוסמכת · R.D.",
-    line: "רישיון משרד הבריאות 204526-11",
-    verify: "בדקי אותי במאגר משרד הבריאות",
-  },
-  bsc: { title: "B.Sc במדעי התזונה", line: "המרכז האקדמי פרס, 2024" },
-  intern: { title: "התמחות קלינית · בית החולים איכילוב", line: "חצי שנה, 2025" },
-  // A COURSE, stated as a course. The rows above carry institution + year because
-  // those are verified; this one says "לימודי המשך" instead, because we do not
-  // have them yet. [לאימות מולה: שם הקורס, המוסד, השנה, קיום תעודה]
-  course: { title: "קורס בתזונת הריון", line: "לימודי המשך, מעבר לתואר" },
-  craft: {
-    title: "דיאטנית שמבשלת",
-    line: "לא רק אומרת לך מה לאכול. יודעת בדיוק איך זה נראה במטבח האמיתי.",
-    link: "אל המתכונים ←",
-    micro: "בערך 30 מתכונים, מתעדכן מדי שבוע",
-  },
-  bridge: 'אז אם השאלה היא "אינפלואנסרית או דיאטנית אמיתית?", הנה הרקע, גלוי לבדיקה.',
+// COPY: ### סקשן 20 · הדרך לכאן — כתיבה אישית + סרגל הרשומות
+// (2026-08-12, Rom: the old «הרקע, בגילוי מלא» ledger duplicated the standard's
+// argument — «תשאיר את הסטנדרט, והרקע תחליף לכתיבה אישית של אלונה: איך זה
+// הגיע, מה הוביל לשם, ולמה בחרה במקצוע»). Every sentence below is woven ONLY
+// from approved sources — STORY p1/p2 (Corona → cooking → Instagram → myths →
+// studying), the standard's own facts (degree, Ichilov internship, license),
+// Q14 («בגובה העיניים») and the credo («טעים», «ליהנות») — zero new biography.
+// The checkable records did NOT leave the page: they close the essay as a
+// quiet ruled ledger, with the real MOH registry link preserved.
+const ROAD = {
+  kicker: "הדרך לכאן",
+  title: "הדרך לא התחילה בקליניקה.\nהיא התחילה במטבח.",
+  p1: "בתקופת הקורונה גיליתי את הבישול הבריא, והתחלתי לשתף באינסטגרם. וככל ששיתפתי יותר, נכנסו לחיים שלי יותר קולות: כל אחד אמר משהו אחר, וכולם נשמעו בטוחים לגמרי.",
+  p2: "בשלב מסוים טבעתי במיתוסים, עד שכבר לא ידעתי בעצמי מה נכון ומה לא. שם הבנתי שלא מספיקה לי עוד דעה, אני רוצה לדעת באמת. הלכתי ללמוד תואר במדעי התזונה, המשכתי להתמחות קלינית באיכילוב, והוצאתי רישיון של משרד הבריאות.",
+  p3: "בחרתי במקצוע הזה בגלל הבלבול שהייתי בתוכו בעצמי. רציתי להיות התשובה שחיפשתי אז: מקום אחד שקט, שבו ההמלצות נשענות על מדע, נאמרות בגובה העיניים, והאוכל נשאר טעים ומהנה.",
+  // the short role line (also under the hero portrait's signature strip)
+  roleLine: "דיאטנית קלינית מוסמכת · R.D.",
+  recordsLabel: "הרשומות",
+  records: [
+    "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
+    "B.Sc במדעי התזונה · המרכז האקדמי פרס, 2024",
+    "התמחות קלינית · בית החולים איכילוב · חצי שנה, 2025",
+    // a COURSE, stated as a course — never a specialty title
+    // [לאימות מולה: שם הקורס, המוסד, השנה, קיום תעודה]
+    "קורס בתזונת הריון · לימודי המשך, מעבר לתואר",
+  ],
+  // the essay's close drives action instead of a registry link (Rom,
+  // 2026-08-12: «משהו שיותר מניע לפעולה עם חשיבה אישית על התהליך») — her
+  // thinking, then the approved free-call ask.
+  bridge:
+    "ואם הבלבול הזה מרגיש לך מוכר, הצעד הראשון שלך יכול להיות דומה לשלי: להפסיק לנחש, ולהתחיל להבין מה נכון לך.",
+  bridgeCta: "בואי נדבר, שיחת היכרות בלי עלות ←",
 } as const;
 
 // COPY: ### סקשן 19 · הסטנדרט המקצועי + תחומי ליווי
@@ -281,7 +291,7 @@ export default function AboutPage() {
                   <span className="text-[0.55rem] leading-none text-gold">◆</span>
                   <span className="h-px w-12 bg-gold/60" />
                 </span>
-                <p className="text-sm font-semibold text-muted">{CREDENTIALS.anchor.title}</p>
+                <p className="text-sm font-semibold text-muted">{ROAD.roleLine}</p>
               </div>
             </div>
           </Reveal>
@@ -426,127 +436,59 @@ export default function AboutPage() {
         </Reveal>
       </Section>
 
-      {/* ===== 20 · GUIDE - credentials rebuilt (Rom: 'לבנות אחרת'): the bento's
-           dead-air tiles become a VERIFICATION LEDGER - the license as a
-           gold-double-framed navy certificate with a chamfered verify button,
-           two stamped record rows beneath (diamond markers, gold hairlines) -
-           and beside it the human counterpoint: the dietitian who COOKS, a real
-           dish from her kitchen. Checkable facts only, no logos, no metrics,
-           no testimonials. COPY: ### סקשן 20 ===== */}
+      {/* ===== 20 · GUIDE - «הדרך לכאן» (2026-08-12, Rom's call): the old
+           credentials wall duplicated the standard's argument, so it retired.
+           In its place: Alona's personal writing — how it started, what led
+           here, why this profession — at prose measure, in her voice, woven
+           only from approved sources. The checkable records stay as a quiet
+           ruled ledger at the essay's foot, with the REAL MOH registry link.
+           archetype=centered-prose — adjacent to §19 card-grid and §22
+           spotlight-card, both distinct. COPY: ### סקשן 20 ===== */}
       <Section tone="sand" seam>
-        <SectionHeading eyebrow={CREDENTIALS.kicker} title={CREDENTIALS.title} accent="אמיתי" />
-        <div className="mt-12 grid items-stretch gap-10 md:grid-cols-[1.12fr_0.88fr] md:gap-12">
-          {/* ── the official ledger: certificate + stamped rows ── */}
-          <MStagger variants={slideIn("inline-start", 40)} className="flex flex-col">
-            {/* the license certificate - the one navy cell, double-framed in gold */}
-            <article
-              className="frame-double relative rounded-[16px] bg-navy p-7 text-white md:p-9"
-              style={{ "--frame-gap": "8px", "--frame-color": "var(--color-gold-soft)" } as React.CSSProperties}
-            >
-              <div className="flex items-start justify-between gap-5">
-                <div>
-                  {/* explicit white — the global h3 rule paints navy, invisible on navy */}
-                  <h3 className="font-serif text-2xl font-black leading-snug text-white md:text-[1.65rem]">
-                    {CREDENTIALS.anchor.title}
-                  </h3>
-                  <p className="mt-3 text-lg font-semibold tracking-wide text-gold-soft">
-                    {CREDENTIALS.anchor.line}
-                  </p>
-                </div>
-                <span aria-hidden className="grid h-11 w-11 shrink-0 rotate-45 place-items-center border border-gold-soft/60">
-                  <span className="-rotate-45 text-[0.7rem] leading-none text-gold-soft">◆</span>
-                </span>
-              </div>
-              {/* the checkability promise is a REAL link: the MOH practitioners registry */}
-              <a
-                href="https://practitioners.health.gov.il"
-                target="_blank"
-                rel="noopener noreferrer"
-                data-cta="about-credentials-verify"
-                className="btn-chamfer mt-7 inline-flex items-center gap-2.5 rounded-[6px] border border-gold-soft/50 px-5 py-3 text-sm font-bold text-gold-soft transition hover:border-gold-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-soft focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
-              >
+        <div className="mx-auto max-w-[760px]">
+          <SectionHeading eyebrow={ROAD.kicker} title={ROAD.title} accent="במטבח" />
+          <Reveal delay={80}>
+            <p className="mt-7 text-lg leading-[1.75] text-ink">{ROAD.p1}</p>
+          </Reveal>
+          <Reveal delay={140}>
+            <p className="mt-5 text-lg leading-[1.75] text-ink">{ROAD.p2}</p>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="mt-5 text-lg leading-[1.75] text-ink">{ROAD.p3}</p>
+          </Reveal>
+          {/* the records — the same checkable facts, folded to a ruled ledger */}
+          <Reveal delay={260}>
+            <div className="mt-12">
+              <p className="flex items-center gap-2 text-xs font-bold tracking-eyebrow text-gold-ink">
                 <span className="text-[0.6rem] leading-none" aria-hidden>◆</span>
-                {CREDENTIALS.anchor.verify}
-              </a>
-            </article>
-            {/* record row - the degree */}
-            <div className="mt-8 flex items-center gap-5 border-b border-gold/35 pb-7">
-              <span aria-hidden className="grid h-11 w-11 shrink-0 rotate-45 place-items-center border border-gold/60 bg-card">
-                <span className="-rotate-45 text-[0.6rem] leading-none text-gold">◆</span>
-              </span>
-              <div>
-                <h3 className="font-serif text-xl font-black leading-snug text-navy">
-                  {CREDENTIALS.bsc.title}
-                </h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted">{CREDENTIALS.bsc.line}</p>
-              </div>
-            </div>
-            {/* record row - the clinical internship */}
-            <div className="mt-7 flex items-center gap-5 border-b border-gold/35 pb-7">
-              <span aria-hidden className="grid h-11 w-11 shrink-0 rotate-45 place-items-center border border-gold/60 bg-card">
-                <span className="-rotate-45 text-[0.6rem] leading-none text-gold">◆</span>
-              </span>
-              <div>
-                <h3 className="font-serif text-xl font-black leading-snug text-navy">
-                  {CREDENTIALS.intern.title}
-                </h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted">{CREDENTIALS.intern.line}</p>
-              </div>
-            </div>
-            {/* record row - continuing education (2026-07-26). Same ledger row as
-                the degree and the internship, deliberately: it belongs to her
-                background. What it must never become is a specialty title. */}
-            <div className="mt-7 flex items-center gap-5 border-b border-gold/35 pb-7">
-              <span aria-hidden className="grid h-11 w-11 shrink-0 rotate-45 place-items-center border border-gold/60 bg-card">
-                <span className="-rotate-45 text-[0.6rem] leading-none text-gold">◆</span>
-              </span>
-              <div>
-                <h3 className="font-serif text-xl font-black leading-snug text-navy">
-                  {CREDENTIALS.course.title}
-                </h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted">{CREDENTIALS.course.line}</p>
-              </div>
-            </div>
-          </MStagger>
-          {/* ── the human counterpoint: the dietitian who cooks (real dish) ── */}
-          <MStagger variants={slideIn("inline-end", 48)} className="flex" itemClassName="flex w-full">
-            <article className="flex w-full flex-col overflow-hidden rounded-[16px] border border-line bg-card shadow-[var(--elevation-1)]">
-              <div className="relative aspect-[3/2]">
-                <Image
-                  src="/media/client/recipes/quinoa-citrus-salad.jpg"
-                  alt="סלט קינואה והדרים, מנה אמיתית מהמטבח של אלונה"
-                  fill
-                  sizes="(min-width: 768px) 38vw, 92vw"
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex grow flex-col bg-gold-soft p-7 md:p-8">
-                <h3 className="font-serif text-2xl font-black leading-snug text-navy">
-                  {CREDENTIALS.craft.title}
-                </h3>
-                <p className="mt-3 grow text-base leading-relaxed text-ink">{CREDENTIALS.craft.line}</p>
-                <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
-                  <Link
-                    href="/recipes"
-                    data-cta="about-credentials-recipes"
-                    className="inline-block py-1.5 font-bold text-gold-ink underline decoration-gold/40 underline-offset-4 transition hover:decoration-gold"
+                {ROAD.recordsLabel}
+              </p>
+              <ul className="mt-3">
+                {ROAD.records.map((r) => (
+                  <li
+                    key={r}
+                    className="flex items-center gap-3 border-b border-line/70 py-2.5 text-[13px] font-bold tracking-eyebrow text-muted last:border-0"
                   >
-                    {CREDENTIALS.craft.link}
-                  </Link>
-                  <span className="text-sm text-muted">{CREDENTIALS.craft.micro}</span>
-                </div>
-              </div>
-            </article>
-          </MStagger>
+                    <span aria-hidden className="h-[3px] w-3 shrink-0 rounded-full bg-rose" />
+                    {r}
+                  </li>
+                ))}
+              </ul>
+              {/* the close drives action (Rom, 2026-08-12): her thinking about
+                  the process, then the approved free-call ask — the registry
+                  link retired (the license number above stays checkable, and
+                  the standard still names the public registry) */}
+              <p className="mt-8 max-w-[58ch] text-lg leading-[1.75] text-ink">{ROAD.bridge}</p>
+              <Link
+                href="/contact"
+                data-cta="about-road-cta"
+                className="mt-5 inline-block font-bold text-gold-ink underline decoration-rose decoration-2 underline-offset-4 transition hover:text-navy"
+              >
+                {ROAD.bridgeCta}
+              </Link>
+            </div>
+          </Reveal>
         </div>
-        <Reveal delay={220}>
-          <p className="mt-10 max-w-[62ch] text-base leading-relaxed text-muted">
-            {CREDENTIALS.bridge}
-          </p>
-        </Reveal>
-        {/* §21's reserved media/collab line was removed 2026-07-26 (Rom's call).
-             It was honest, but it announced an absence rather than stating
-             anything, and the ledger now closes on the bridge line instead. */}
       </Section>
 
       {/* ===== 22 · RESOLUTION - one elevated spotlight-card: the no-pressure

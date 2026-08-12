@@ -788,6 +788,22 @@
       },
       "alt": "מחבת אורז צהוב עם ירקות",
       "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-115",
+      "installPath": "/media/client/alona/dish-protein-pancakes.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "0ff2427584bd97ea19eb237522b1501b6c570b4b96172cee7b1d82b0bbba9893",
+        "bytes": 301656,
+        "pipeline": "PIL exif_transpose (EXIF stripped) → JPEG q76 progressive 4:2:2 (2026-08-12 hero round, source IMG_9931 1330x2364)"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט (1yRPfMp8F4cICVq9Fu2EBBw46SdwFsdAf) ב-2026-07-23, במענה ישיר לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md ('קבצי מקור: צילומים, פורטרטים'). מקור: MEDIA-PLAN.md §0/§6. פריים IMG_9931 מתוך zip «תמונות iCloud»; נבדק פרטיות על הפיקסלים בגודל מלא (אין פנים, אין טקסט קריא, אין מיתוג) ו-EXIF הוסר."
+      },
+      "alt": "מגדל פנקייקים עם תאנים, אוכמניות ובננה על צלחת לבנה, על שיש בהיר",
+      "source": "client-drive-handover-2026-07-23"
     }
   ]
 }
