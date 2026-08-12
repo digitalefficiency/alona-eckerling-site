@@ -18,6 +18,11 @@ import { ResponsePromise } from "@/components/trust/ResponsePromise";
 import { SocialLinks } from "@/components/SocialLinks";
 import { JsonLd } from "@/components/JsonLd";
 import { personFromBio } from "@/lib/schema-presets";
+import { getPublishedPage, sectionPayload } from "@/lib/sections/source";
+import type {
+  AboutHeroPayload, AboutStoryPayload, AboutStandardPayload,
+  AboutRoadPayload, AboutCtaPayload,
+} from "@/lib/sections/payloads";
 
 // The Solitreo signature-script hand was retired from this page on 2026-07-26
 // (Rom's call) together with the age-quote section it anchored. Her name still
@@ -32,35 +37,7 @@ import { personFromBio } from "@/lib/schema-presets";
 // REAL portrait (cl-102, MEDIA-PLAN §3) — never a generated face, never stock.
 const HERO_PORTRAIT = "/media/client/alona/alona-goldenhour.jpg";
 
-const HERO = {
-  crumbLabel: "עליי",
-  kicker: "נעים להכיר",
-  title: "אלונה אקרלינג", // איות מחייב: אקרלינג, לא אקרלינק
-  lede: "דיאטנית קלינית מוסמכת שמלווה נשים אל שקט סביב האוכל, בגובה העיניים, בלי דיאטות ובלי אשמה. הנה מי שעומדת מאחורי כל מילה כאן.",
-  licenseChip: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
-  // תווית-הכפתור והשורה-הקטנה שמתחתיה — פיצול משפחת-ההירו של הבית (בלי נקודה-אמצעית בתוך כפתור)
-  ctaPrimary: "בואי נדבר",
-  ctaPrimarySub: "שיחת היכרות בלי עלות",
-  ctaMicro: "תראי בעצמך אם זה מתאים · בלי התחייבות",
-  ctaSecondary: "קראי את הסיפור שלי ↓",
-  // שורת ה-alt מ-COPY משמשת כתווית מצב-הריק של משבצת הפורטרט (פורטרט אמיתי בלבד, טרם נמסר)
-  portraitLabel: "אלונה אקרלינג, דיאטנית קלינית מוסמכת, פורטרט",
-} as const;
-
 // COPY: ### סקשן 18 · Section width=prose (סיפור-המקור)
-const STORY = {
-  kicker: "הסיפור שלי",
-  title: "לפני שהייתי דיאטנית,\nהייתי בדיוק במקום שלך",
-  p1: "הכל התחיל אצלי בתקופת הקורונה, כשגיליתי את הבישול הבריא והתחלתי לשתף באינסטגרם.",
-  p2: "ואז טבעתי במיתוסים: בשלב מסוים כבר לא ידעתי מה נכון ומה לא נכון. בדיוק בגלל זה הלכתי ללמוד, כדי להבין מה באמת קורה בגוף שלנו.",
-  credo1: "אני מאמינה שאוכל בריא לא צריך להיות משעמם. להפך: הוא יכול להיות עשיר, מגוון, טעים וצבעוני, ולא מסובך בכלל.",
-  // הקרדו השני מפוצל סביב מילת-ההדגשה «ליהנות» (קו-יד ורוד) - אותו משפט, אחד-לאחד
-  credo2a: "אין מאכלים אסורים, אין אשמה. רק איזון חכם שמאפשר ",
-  credo2Mark: "ליהנות",
-  credo2b: " מהכל.",
-  signOff: "זמינה בשבילך לכל שאלה,",
-  signature: "אלונה",
-} as const;
 
 // §19 was the giant age-quote («כן, אני צעירה») with its handwritten seal.
 // Retired 2026-07-26 (Rom's call) and replaced by the professional standard
@@ -76,30 +53,6 @@ const STORY = {
 // Q14 («בגובה העיניים») and the credo («טעים», «ליהנות») — zero new biography.
 // The checkable records did NOT leave the page: they close the essay as a
 // quiet ruled ledger, with the real MOH registry link preserved.
-const ROAD = {
-  kicker: "הדרך לכאן",
-  title: "הדרך לא התחילה בקליניקה.\nהיא התחילה במטבח.",
-  p1: "בתקופת הקורונה גיליתי את הבישול הבריא, והתחלתי לשתף באינסטגרם. וככל ששיתפתי יותר, נכנסו לחיים שלי יותר קולות: כל אחד אמר משהו אחר, וכולם נשמעו בטוחים לגמרי.",
-  p2: "בשלב מסוים טבעתי במיתוסים, עד שכבר לא ידעתי בעצמי מה נכון ומה לא. שם הבנתי שלא מספיקה לי עוד דעה, אני רוצה לדעת באמת. הלכתי ללמוד תואר במדעי התזונה, המשכתי להתמחות קלינית באיכילוב, והוצאתי רישיון של משרד הבריאות.",
-  p3: "בחרתי במקצוע הזה בגלל הבלבול שהייתי בתוכו בעצמי. רציתי להיות התשובה שחיפשתי אז: מקום אחד שקט, שבו ההמלצות נשענות על מדע, נאמרות בגובה העיניים, והאוכל נשאר טעים ומהנה.",
-  // the short role line (also under the hero portrait's signature strip)
-  roleLine: "דיאטנית קלינית מוסמכת · R.D.",
-  recordsLabel: "הרשומות",
-  records: [
-    "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
-    "B.Sc במדעי התזונה · המרכז האקדמי פרס, 2024",
-    "התמחות קלינית · בית החולים איכילוב · חצי שנה, 2025",
-    // a COURSE, stated as a course — never a specialty title
-    // [לאימות מולה: שם הקורס, המוסד, השנה, קיום תעודה]
-    "קורס בתזונת הריון · לימודי המשך, מעבר לתואר",
-  ],
-  // the essay's close drives action instead of a registry link (Rom,
-  // 2026-08-12: «משהו שיותר מניע לפעולה עם חשיבה אישית על התהליך») — her
-  // thinking, then the approved free-call ask.
-  bridge:
-    "ואם הבלבול הזה מרגיש לך מוכר, הצעד הראשון שלך יכול להיות דומה לשלי: להפסיק לנחש, ולהתחיל להבין מה נכון לך.",
-  bridgeCta: "בואי נדבר, שיחת היכרות בלי עלות ←",
-} as const;
 
 // COPY: ### סקשן 19 · הסטנדרט המקצועי + תחומי ליווי
 // Rom's call 2026-07-26. The message is Alona's: the field is wide open, and the
@@ -109,59 +62,32 @@ const ROAD = {
 // Tone rule held: it names the REGULATORY reality (in Israel "דיאטן" is a
 // protected title but "יועץ תזונה" is not), never a competitor, and every
 // stakes line is welded to what she does instead.
-const STANDARD = {
-  kicker: "הסטנדרט שלי",
-  title: "בתזונה אפשר להגיד כמעט הכל.\nאני עובדת אחרת.",
-  body:
-    "זה תחום פרוץ. כמעט כל אחד יכול לפתוח עמוד ולתת עצות, ואין מי שיבדוק אותן. אני בחרתי בדרך הארוכה: תואר, התמחות קלינית, רישיון של משרד הבריאות, והמון שעות של קריאה ועדכון מאחורי כל תשובה. לכל המלצה שאת מקבלת ממני יש מקור. וכשהמחקר משתנה, גם ההמלצה משתנה.",
-  principles: [
-    {
-      t: "כל המלצה נשענת על מחקר",
-      d: "לא על הטרנד של החודש, ולא על מה שעבד למישהי אחרת בתנאים אחרים.",
-    },
-    {
-      t: "רישיון שאפשר לבדוק",
-      d: "רישיון משרד הבריאות 204526-11, פתוח לבדיקה של כל אחת במאגר.",
-    },
-    {
-      t: "בתחום רפואי, לצד הרופא/ה",
-      d: "בהריון, בשחלות פוליציסטיות ובטרום סוכרת אני עובדת לצד הצוות הרפואי שמלווה אותך, לא במקומו.",
-    },
-  ],
-  areasLabel: "התחומים שאני מלווה בהם",
-  // [לאימות מולה: ניסוח התחומים במילים שלה, ומה בדיוק היא עושה בכל אחד]
-  areas: [
-    "תזונת הריון",
-    "שחלות פוליציסטיות (PCOS)",
-    "טרום סוכרת ואיזון מדדי דם",
-    "ירידה במשקל בלי דיאטה",
-    "אכילה רגשית",
-  ],
-} as const;
 
 // §21's reserved media/collab line is retired 2026-07-26 (Rom's call). The live
 // Marquee still returns here if the names + logos are ever approved (Q21).
 
 // COPY: ### סקשן 22 · SpotlightCard + Person JSON-LD
-const CLOSE = {
-  kicker: "הצעד שלך",
-  title: "עכשיו כשאת מכירה אותי,\nבשיחת היכרות בלי עלות, תראי בעצמך אם זה מתאים.",
-  body: "עכשיו את כבר יודעת מאיפה אני מגיעה ומה הרקע שלי. מה שנשאר זה לשמוע אותך: שיחה קצרה, בלי עלות ובלי התחייבות, בגובה העיניים, ונראה אם הדרך שלי מתאימה לך. האוכל שאת אוהבת נשאר בפנים.",
-  recipes: "ורוצה קודם פשוט לראות מה אני מבשלת? המתכונים כאן ←",
-  trustToken: "דיאטנית קלינית מוסמכת · R.D. · רישיון משרד הבריאות 204526-11",
-  promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
-  button: "בואי נדבר, שיחת היכרות חינם",
-  signature: "אלונה",
-  // COPY: ### סקשן 22 — לאוואטר הספקנית: עוד דרך להתרשם לפני שמדברים
-  socialLabel: "ואם בא לך קודם לראות אותי ביומיום",
-} as const;
 
-export const metadata: Metadata = {
-  title: "עליי",
-  description: HERO.lede,
-  alternates: { canonical: "/about" },
-  openGraph: { url: "/about" },
-};
+// The words come from the document — the same read the page body does.
+const getAboutPage = () => getPublishedPage("about");
+
+/** No match returns the text whole: a drifted highlight costs an underline, never a paragraph. */
+function splitAccent(text: string, accent: string): [string, string, string] {
+  const at = accent ? text.indexOf(accent) : -1;
+  if (at === -1) return [text, "", ""];
+  return [text.slice(0, at), accent, text.slice(at + accent.length)];
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getAboutPage();
+  const hero = sectionPayload<AboutHeroPayload>(page, "hero");
+  return {
+    title: page?.title ?? "עליי",
+    description: hero?.lede,
+    alternates: { canonical: "/about" },
+    openGraph: { url: "/about" },
+  };
+}
 
 // Person JSON-LD (סקשן 22) - real, stated credentials only; no ratings/reviews.
 const personSchema = personFromBio(
@@ -188,7 +114,19 @@ const personSchema = personFromBio(
   site,
 );
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const page = await getAboutPage();
+  const HERO = sectionPayload<AboutHeroPayload>(page, "hero")!;
+  const STORY_DOC = sectionPayload<AboutStoryPayload>(page, "story")!;
+  const STANDARD = sectionPayload<AboutStandardPayload>(page, "standard")!;
+  const ROAD = sectionPayload<AboutRoadPayload>(page, "road")!;
+  const CLOSE = sectionPayload<AboutCtaPayload>(page, "cta")!;
+
+  // the credo's rose underline: stored joined, split around the accent — the
+  // exact serialisation the desk's mark field edits
+  const [credo2a, credo2Mark, credo2b] = splitAccent(STORY_DOC.credo2, STORY_DOC.credo2Accent);
+  const STORY = { ...STORY_DOC, credo2a, credo2Mark, credo2b };
+
   return (
     <>
       <JsonLd data={personSchema} />
@@ -313,7 +251,7 @@ export default function AboutPage() {
               house pattern rather than on a single page: the source is a full-size
               dish photo and was being served whole into a 375x250 mobile band. */}
           <Image
-            src="/media/client/recipes/light-cheese-lasagna-2.webp"
+            src={STORY.image}
             alt=""
             fill
             sizes="(max-width: 768px) 0px, 52vw"
@@ -334,8 +272,8 @@ export default function AboutPage() {
         />
         <div className="relative aspect-[3/2] md:hidden">
           <Image
-            src="/media/client/recipes/light-cheese-lasagna-2.webp"
-            alt="לזניה גבינה קלילה בתבנית עם עלי בזיליקום, מנה אמיתית מהמטבח של אלונה"
+            src={STORY.image}
+            alt={STORY.imageAlt}
             fill
             sizes="(max-width: 768px) 100vw, 0px"
             className="object-cover object-[50%_62%]"
@@ -403,7 +341,7 @@ export default function AboutPage() {
       <Section tone="white" border>
         {/* the argument stays at prose measure; the evidence widens out */}
         <div className="mx-auto max-w-[760px]">
-          <SectionHeading eyebrow={STANDARD.kicker} title={STANDARD.title} accent="אחרת" />
+          <SectionHeading eyebrow={STANDARD.kicker} title={STANDARD.title} accent={STANDARD.titleAccent} />
           <Reveal delay={80}>
             <p className="mt-7 text-lg leading-[1.75] text-ink">{STANDARD.body}</p>
           </Reveal>
@@ -446,7 +384,7 @@ export default function AboutPage() {
            spotlight-card, both distinct. COPY: ### סקשן 20 ===== */}
       <Section tone="sand" seam>
         <div className="mx-auto max-w-[760px]">
-          <SectionHeading eyebrow={ROAD.kicker} title={ROAD.title} accent="במטבח" />
+          <SectionHeading eyebrow={ROAD.kicker} title={ROAD.title} accent={ROAD.titleAccent} />
           <Reveal delay={80}>
             <p className="mt-7 text-lg leading-[1.75] text-ink">{ROAD.p1}</p>
           </Reveal>

@@ -13,10 +13,17 @@
 
 import type { SectionType } from "./schema";
 
+// CHANGED — replaces the existing HOME_HERO: the ring-loop film retired with
+// the round-2 hero (2026-08-12, DESIGN-DIRECTION «hero חם סטטי») —
+// poster/filmWebm/filmMp4 dropped with it, and the dead ctaSub + scrollCue
+// left too (the «שיחת היכרות חינם» sub-line and the «גללי» cue came off the
+// render). +imageAlt: the description of the static REAL photograph (cl-115,
+// protein pancakes) — the path stays a constant in page.tsx, the same
+// contract as the guide portrait. The film assets stay on disk.
 export const HOME_HERO: SectionType = {
   type: "home-hero",
-  label: "פתיח — חדר הבוקר",
-  purpose: "הרגע הראשון: הסרט מלא-הרוחב, ההבטחה, והכפתור הראשי.",
+  label: "פתיח — הפריסה החמה",
+  purpose: "הרגע הראשון: פריסת מגזין — המילים על הנייר, צילום אמיתי מהמטבח לצידן, והכפתור הראשי.",
   required: true,
   pin: "start",
   fields: [
@@ -26,8 +33,9 @@ export const HOME_HERO: SectionType = {
       kind: "text",
       required: true,
       max: 48,
-      // text-[13px] font-bold tracking-[0.14em] ≈ 9.5px/char in a 620px column,
-      // minus the ◆ glyph and its gap. 48 keeps it to two lines at 390px.
+      // text-xs font-bold tracking-eyebrow ≈ 9px/char in the words column
+      // (max-w-[700px]), minus the ◆ glyph and its gap. 48 keeps it to two
+      // lines at 390px.
       hint: "היהלום מצויר בקוד, אין צורך להקליד אותו",
     },
     {
@@ -36,11 +44,14 @@ export const HOME_HERO: SectionType = {
       kind: "textarea",
       required: true,
       lines: 2,
-      maxPerLine: 26,
-      max: 58,
+      maxPerLine: 24,
+      max: 50,
       // RevealHeading splits on \n ONLY and gives each line its own mask.
-      // clamp(2.1rem,5vw,3.3rem) → 52.8px cap in a 620px column ≈ 26 chars.
-      // A longer line wraps INSIDE its mask and the reveal stutters.
+      // clamp(2.4rem,4.5vw,4rem) → 64px cap in the split column's max-w-[700px]
+      // ≈ 24 chars a line — the design pass pinned 4.5vw/4rem as the largest
+      // size that keeps each written line whole from 1024px up, so the current
+      // lines sit exactly at the cap. A longer line wraps INSIDE its mask and
+      // the reveal stutters.
       hint: "שתי שורות. שורה ארוכה מדי תישבר באמצע האנימציה",
     },
     {
@@ -56,9 +67,9 @@ export const HOME_HERO: SectionType = {
       label: "פסקת הפתיחה",
       kind: "textarea",
       required: true,
-      max: 160,
-      // max-w-[54ch] text-lg leading-[1.7] → 54 chars a line, 3 lines before it
-      // pushes the button below the fold on a phone.
+      max: 140,
+      // max-w-[48ch] text-xl leading-[1.65] → 48 chars a line, 3 lines before
+      // it pushes the button below the fold on a phone.
     },
     {
       key: "ctaPrimary",
@@ -66,18 +77,19 @@ export const HOME_HERO: SectionType = {
       kind: "text",
       required: true,
       max: 18,
-      // btn-chamfer px-8 py-4 text-base font-bold. The clipped corner breaks if
+      // btn-chamfer px-9 py-4 text-base font-bold. The clipped corner breaks if
       // the label wraps, so this one really is a single line.
       hint: "שורה אחת. טקסט ארוך ישבור את הפינה החתוכה של הכפתור",
     },
-    { key: "ctaSub", label: "שורה מתחת לכפתור", kind: "text", max: 28 },
     {
       key: "trustToken",
       label: "תג האמון",
       kind: "text",
       required: true,
       max: 34,
-      // rounded-full border px-4 py-2.5 text-sm ≈ 7.4px/char pill
+      // text-[13px] font-bold tracking-eyebrow — a hairline masthead row now,
+      // not a pill: it shares the ruled border-t line with the recipes link
+      // (flex-wrap), so one line here keeps the row a masthead.
     },
     {
       key: "trustTokenLicense",
@@ -88,34 +100,17 @@ export const HOME_HERO: SectionType = {
     },
     { key: "ctaRecipes", label: "קישור משני למתכונים", kind: "text", max: 60 },
     {
-      key: "scrollCue",
-      label: "מילת רמז הגלילה",
+      key: "imageAlt",
+      label: "תיאור צילום הפתיח (alt)",
       kind: "text",
-      max: 12,
-      // text-[0.7rem] font-bold tracking-eyebrow, stacked flex-col over the
-      // ↓ arrow and centred at bottom-8; `hidden lg:flex`, so it exists only
-      // where the hero centres. One short word — the eyebrow letterspacing
-      // turns anything longer into a banner over the seam.
-      hint: "מילה אחת, דקורטיבית (aria-hidden). מוצגת רק במסך רחב; החץ ↓ מצויר בקוד",
+      required: true,
+      max: 110,
+      // the REAL hero photograph (cl-115) fills the 9fr column at near-native
+      // ratio; the photo path is art direction and stays a constant in
+      // page.tsx — only its description is hers. 110 = the house alt ceiling
+      // (same as home-guide portraitAlt).
+      hint: "מנה אמיתית מהמטבח שלה בלבד. לתאר מה רואים, בלי \"תמונה של\"",
     },
-    {
-      key: "poster",
-      label: "תמונת הפתיחה של הסרט",
-      kind: "image",
-      ratio: "wide",
-      minWidth: 1600,
-      decorative: true,
-      locked: true,
-      hint: "הפריים הראשון של סרט-הלופ — ה-LCP של העמוד; מוחלף רק דרך רום",
-    },
-    {
-      key: "filmWebm",
-      label: "קובץ הסרט (webm)",
-      kind: "video",
-      locked: true,
-      hint: "מוחלף רק יחד עם הפוסטר, דרך רום",
-    },
-    { key: "filmMp4", label: "קובץ הסרט (mp4)", kind: "video", locked: true },
   ],
 };
 
@@ -582,118 +577,97 @@ export const ABOUT_STANDARD: SectionType = {
   ],
 };
 
-// CHANGED — replaces the existing ABOUT_CREDENTIALS: +courseTitle/+courseLine
-// (the third ledger row, continuing education), −teamLink (the /team/alona
-// route was removed 2026-07-29; /about is the bio page now).
-export const ABOUT_CREDENTIALS: SectionType = {
-  type: "about-credentials",
-  label: "הרקע — קיר ההסמכות",
-  purpose: "פנקס האימות: תעודת הרישיון עם כפתור בדיקה, שלוש שורות רשומה, והצד האנושי — דיאטנית שמבשלת.",
+// NEW type — «הדרך לכאן» (2026-08-12): the personal essay that replaced the
+// credentials wall (the ledger duplicated the standard's argument). The
+// checkable records close the essay as a quiet ruled ledger.
+export const ABOUT_ROAD: SectionType = {
+  type: "about-road",
+  label: "הדרך לכאן — הכתיבה האישית",
+  purpose: "הסיפור מאחורי הבחירה במקצוע, בקולה, עם סרגל הרשומות הניתנות לבדיקה בסופו.",
   required: true,
   fields: [
       { key: "kicker",
         label: "שורת פתיחה קטנה",
         kind: "text",
         required: true,
-        max: 40 },
+        max: 40,
+        hint: "היהלום מצויר בקוד" },
       { key: "title",
         label: "כותרת הסקשן",
-        kind: "text",
+        kind: "textarea",
         required: true,
-        max: 45 },
+        // SectionHeading's SplitText at the same 760px prose measure as the
+        // standard above it — two lines, ~32 chars each before a written line
+        // wraps inside its own reveal mask.
+        max: 66,
+        lines: 2,
+        maxPerLine: 32,
+        hint: "שתי שורות, מופרדות ב-Enter" },
       { key: "titleAccent",
-        label: "המילה עם הקו הוורוד",
+        label: "המילים עם הקו הוורוד",
         kind: "mark",
-        max: 20,
         of: "title",
-        hint: "חייב להיות רצף מילים מתוך הכותרת. אין התאמה — הקו פשוט לא יצויר" },
-      { key: "anchorTitle",
-        label: "תעודה — כותרת",
-        kind: "text",
-        required: true,
-        max: 38 },
-      { key: "anchorLine",
-        label: "תעודה — מספר הרישיון",
-        kind: "text",
-        required: true,
-        max: 44,
-        hint: "נתון רגולטורי. לשנות רק מול התעודה" },
-      { key: "anchorVerify",
-        label: "תעודה — כפתור הבדיקה",
-        kind: "text",
-        required: true,
-        max: 40,
-        hint: "שורה אחת. זו הבטחת הבדיקוּת של העמוד" },
-      { key: "anchorVerifyHref",
-        label: "תעודה — קישור למאגר",
-        kind: "link",
-        locked: true,
-        hint: "מאגר מורשי משרד הבריאות. נעול: קישור שגוי הופך הבטחת אימות למבוי סתום. נפתח בלשונית חדשה" },
-      { key: "bscTitle",
-        label: "רשומה 1 — כותרת",
-        kind: "text",
-        required: true,
-        max: 44 },
-      { key: "bscLine",
-        label: "רשומה 1 — פירוט",
-        kind: "text",
-        max: 60 },
-      { key: "internTitle",
-        label: "רשומה 2 — כותרת",
-        kind: "text",
-        required: true,
-        max: 44 },
-      { key: "internLine",
-        label: "רשומה 2 — פירוט",
-        kind: "text",
-        max: 60 },
-      { key: "courseTitle",
-        label: "רשומה 3 — כותרת",
-        kind: "text",
-        required: true,
-        // the same ledger row as רשומה 1–2 — font-serif text-xl beside the h-11
-        // diamond in the 1.12fr column — so the 44 that fits them fits this.
-        max: 44,
-        hint: "לימודי המשך, לא תואר-התמחות — נשארת רשומת רקע, לעולם לא כותרת מומחיות" },
-      { key: "courseLine",
-        label: "רשומה 3 — פירוט",
-        kind: "text",
-        max: 60,
-        hint: "בלי מוסד ושנה עד שיאומתו מול תעודה — «לימודי המשך» אומר בדיוק מה שידוע" },
-      { key: "craftTitle",
-        label: "דיאטנית שמבשלת — כותרת",
-        kind: "text",
-        required: true,
-        max: 36 },
-      { key: "craftLine",
-        label: "דיאטנית שמבשלת — טקסט",
+        max: 20,
+        hint: "חייב להיות רצף מילים מתוך שורה אחת של הכותרת. אין התאמה — הקו פשוט לא יצויר" },
+      { key: "p1",
+        label: "פסקה ראשונה — איך זה התחיל",
         kind: "textarea",
         required: true,
-        max: 165 },
-      { key: "craftLink",
-        label: "קישור למתכונים",
-        kind: "text",
-        max: 24,
-        hint: "החץ ← הוא חלק מהטקסט" },
-      { key: "craftMicro",
-        label: "השורה הקטנה ליד הקישור",
-        kind: "text",
-        max: 40,
-        hint: "מספר המתכונים. לעדכן כשהארכיון גדל" },
-      { key: "craftImage",
-        label: "תמונת המנה",
-        kind: "image",
-        ratio: "3:2",
-        hint: "מנה אמיתית מהמטבח שלה בלבד. לא תמונת סטוק ולא תמונה מיוצרת" },
-      { key: "craftImageAlt",
-        label: "תיאור התמונה (alt)",
+        // text-lg leading-[1.75] in the 760px measure ≈ 90 chars a line —
+        // three lines per paragraph keeps the essay an essay.
+        max: 280 },
+      { key: "p2",
+        label: "פסקה שנייה — הדרך ללימודים",
+        kind: "textarea",
+        required: true,
+        max: 280,
+        hint: "העובדות כאן (תואר, התמחות, רישיון) חוזרות בסרגל הרשומות — לשנות יחד" },
+      { key: "p3",
+        label: "פסקה שלישית — למה המקצוע הזה",
+        kind: "textarea",
+        required: true,
+        max: 280 },
+      { key: "roleLine",
+        label: "שורת התפקיד",
         kind: "text",
         required: true,
-        max: 110 },
+        max: 40,
+        hint: "מופיעה גם מתחת לחתימה על כרטיס הפורטרט בפתיח" },
+      { key: "recordsLabel",
+        label: "כותרת סרגל הרשומות",
+        kind: "text",
+        required: true,
+        max: 24 },
+      { key: "records",
+        label: "הרשומות",
+        kind: "repeater",
+        required: true,
+        itemLabel: "רשומה",
+        min: 1,
+        max: 6,
+        fields: [
+          { key: "",
+            label: "שורת הרשומה",
+            kind: "text",
+            required: true,
+            // one ruled ledger row: text-[13px] tracking-eyebrow beside the
+            // rose dash in the 760px measure — one line ≈ 64 chars.
+            max: 64,
+            hint: "נתונים רגולטוריים ולימודיים. לשנות רק מול תעודה — לעולם לא כותרת מומחיות" }
+        ],
+        hint: "כל רשומה שורה אחת בפנקס; הסדר הוא סדר התצוגה" },
       { key: "bridge",
-        label: "שורת הגישור",
+        label: "שורת הסגירה",
         kind: "textarea",
-        max: 124 }
+        required: true,
+        max: 180,
+        hint: "המחשבה שלה על התהליך — מובילה אל הכפתור שמתחתיה" },
+      { key: "bridgeCta",
+        label: "קישור הפעולה",
+        kind: "text",
+        required: true,
+        max: 44,
+        hint: "החץ ← הוא חלק מהטקסט. היעד קבוע בקוד (/contact)" }
   ],
 };
 
@@ -1294,10 +1268,15 @@ export const COACHING_CTA: SectionType = {
   ],
 };
 
+// CHANGED — replaces the existing HOME_GUIDE (the 2026-08-12 first-person
+// re-set): −mechanism (the four index tabs became her hello), +introHello and
+// +intro (the ruled first-person band — the labels live on inside the
+// sentences), +empathyAccent (empathy now sits under the title as the
+// section's centred standfirst, and the rose rule draws itself under it).
 export const HOME_GUIDE: SectionType = {
   type: "home-guide",
   label: "המדריכה — «הדוסייה על השולחן»",
-  purpose: "מי עומדת מאחורי האתר: האמפתיה, השם, ההסמכות, ותחומי הליווי.",
+  purpose: "מי עומדת מאחורי האתר: הקול שלה בגוף ראשון, השם, ההסמכות, ותחומי הליווי.",
   fields: [
     { key: "kicker",
       label: "שורת פתיחה",
@@ -1309,7 +1288,7 @@ export const HOME_GUIDE: SectionType = {
       kind: "textarea",
       required: true,
       max: 42,
-      hint: "clamp(1.7rem,4.4vw,3.25rem) בעמודה צרה — שורה אחת" },
+      hint: "clamp(1.7rem,4.4vw,3.25rem) בכותרת ממורכזת — שורה אחת" },
     { key: "titleAccent",
       label: "המילה עם הקו הוורוד",
       kind: "mark",
@@ -1319,8 +1298,17 @@ export const HOME_GUIDE: SectionType = {
       label: "פסקת האמפתיה",
       kind: "textarea",
       required: true,
-      max: 260,
-      hint: "max-w-[62ch] בתוך כרטיס" },
+      max: 180,
+      // the standfirst under the centred masthead: mx-auto max-w-[60ch]
+      // text-center text-[1.08rem] leading-relaxed → 60 chars a line, three
+      // centred lines before it stops reading as a subtitle.
+      hint: "יושבת מתחת לכותרת כתת-כותרת ממורכזת — הקול שלה, נשימה אחת" },
+    { key: "empathyAccent",
+      label: "המילים עם הקו הוורוד באמפתיה",
+      kind: "mark",
+      of: "empathy",
+      max: 30,
+      hint: "חייב להיות רצף מילים מתוך פסקת האמפתיה. אין התאמה — הקו פשוט לא יצויר" },
     { key: "name",
       label: "שם",
       kind: "text",
@@ -1336,10 +1324,10 @@ export const HOME_GUIDE: SectionType = {
       kind: "text",
       required: true,
       max: 110,
-      // the REAL portrait (cl-101) fills the aspect-[4/5] calling card in the
-      // 440px anchor column; the photo path is art direction and stays a
-      // constant in page.tsx — only its description is hers. 110 = the house
-      // alt ceiling (same as about-story imageAlt).
+      // the REAL portrait (cl-101) stands straight in the hairline frame
+      // (aspect-[4/5]), its figcaption BELOW the pixels; the photo path is art
+      // direction and stays a constant in page.tsx — only its description is
+      // hers. 110 = the house alt ceiling (same as about-story imageAlt).
       hint: "פורטרט אמיתי בלבד, לעולם לא תמונה מיוצרת. לתאר מה רואים, בלי \"תמונה של\"" },
     { key: "credentials",
       label: "תגי ההסמכה",
@@ -1354,26 +1342,33 @@ export const HOME_GUIDE: SectionType = {
           required: true,
           max: 40 }
       ],
-      hint: "עד שבעה. מעבר לזה הקומפוננטה חותכת בשקט" },
-    { key: "mechanism",
-      label: "לשוניות המנגנון",
-      kind: "repeater",
-      itemLabel: "לשונית",
-      max: 4,
-      fields: [
-        { key: "",
-          label: "טקסט הלשונית",
-          kind: "text",
-          required: true,
-          max: 24 }
-      ] },
+      // a hairline ledger now (border-b rows at text-[13px] tracking-eyebrow),
+      // not RecognitionBadges — nothing slices; the ledger simply grows a row
+      // per item.
+      hint: "עד שבעה — כל תג הוא שורה בפנקס, ומעבר לזה הוא מפסיק להיקרא כעובדות שקטות" },
+    { key: "introHello",
+      label: "פתיחת ההיכרות",
+      kind: "text",
+      required: true,
+      max: 20,
+      // the serif opening breath (font-serif text-xl font-bold) — an inline
+      // span that opens the band's paragraph; the intro continues it in-line.
+      hint: "משפט קצר אחד — «היי, אני אלונה.»; ההמשך נכתב בשדה הבא באותה שורה" },
+    { key: "intro",
+      label: "ההיכרות בגוף ראשון",
+      kind: "textarea",
+      required: true,
+      max: 240,
+      // max-w-[58ch] text-lg leading-[1.75] inside the border-y band → 58
+      // chars a line, four lines before the breath stops being one.
+      hint: "נשימה אחת בקולה — ארבע תוויות המנגנון חיות בתוך המשפטים, לא כרשימה" },
     { key: "areasLabel",
       label: "כותרת תחומי הליווי",
       kind: "text",
       required: true,
       max: 24,
-      // text-[13px] font-bold tracking-eyebrow beside the ◆, inside a px-5
-      // paper slip — the kicker treatment on a narrower strip; one line.
+      // text-xs font-bold tracking-eyebrow beside the ◆ — the kicker
+      // treatment over the two-column list; one line.
       hint: "היהלום מצויר בקוד" },
     { key: "areas",
       label: "תחומי הליווי",
@@ -1387,19 +1382,18 @@ export const HOME_GUIDE: SectionType = {
           kind: "text",
           required: true,
           max: 34,
-          // rounded-full bg-sand px-3.5 py-1.5 text-sm — a pill in a flex-wrap
-          // row: the ROW wraps freely, the chip itself must stay one line
+          // text-sm font-semibold rows in the sm:grid-cols-2 list (the pills
+          // retired with the paper slip) — each item one line in its column
           // (the longest today is 25 chars).
-          hint: "צ'יפ בשורה אחת" }
+          hint: "פריט בשורה אחת" }
       ],
-      hint: "כל תחום הוא גלולה אחת; הרשימה יורדת שורה לבד כשצריך" },
+      hint: "רשימה בשתי עמודות ממסך 640 ומעלה; הסדר הוא סדר התצוגה" },
     { key: "areasNote",
       label: "שורת הגבול הרפואי",
       kind: "textarea",
       required: true,
       max: 120,
-      // text-sm leading-relaxed at the slip's foot; the pieces column runs
-      // ~640px ≈ 75 chars a line at text-sm, so 120 stays under two lines.
+      // text-sm leading-relaxed at max-w-[58ch] under the list — two lines.
       hint: "מעקה ה-YMYL: לצד הרופא או הרופאה, לא במקומם — לעולם לא הבטחה למדד" },
     { key: "cta",
       label: "קישור לעמוד הליווי",
@@ -1527,9 +1521,14 @@ export const HOME_PLAN: SectionType = {
   ],
 };
 
+// CHANGED — replaces the existing HOME_PROOF: the honest dark slots
+// (darkTestimonial + darkLogos) came off 2026-08-12 (Rom: «במקום המקום של
+// ההמלצות תעשה מקום ל-3 מאמרים») — the articles study (home-articles) took
+// their place on the page. The INTEGRITY rule is untouched: no invented
+// testimonials, and the consent-gated capability waits for real quotes.
 export const HOME_PROOF: SectionType = {
   type: "home-proof",
-  label: "הוכחה — «היא באמת מבשלת»",
+  label: "הוכחה — «אני באמת מבשלת»",
   purpose: "שלושה מתכונים אמיתיים מהארכיון, נבחרים אוטומטית בכל טעינה.",
   fields: [
     { key: "kicker",
@@ -1556,15 +1555,6 @@ export const HOME_PROOF: SectionType = {
       kind: "text",
       max: 42,
       hint: "חייב להתאים למספר המתכונים האמיתי בארכיון" },
-    { key: "darkTestimonial",
-      label: "הערת ההמלצות",
-      kind: "textarea",
-      max: 160,
-      hint: "מצב-ריק כן. לעדכן ביום שנכנסת המלצה ראשונה" },
-    { key: "darkLogos",
-      label: "הערת שיתופי הפעולה",
-      kind: "textarea",
-      max: 160 },
     { key: "cta",
       label: "קישור לכל המתכונים",
       kind: "text",
@@ -1629,6 +1619,60 @@ export const HOME_STAKES: SectionType = {
       label: "קישור משני בפס",
       kind: "text",
       max: 34 }
+  ],
+};
+
+// NEW type — the articles study (§06b, 2026-08-12): the quiet reading room
+// after the stakes fork. The three cards themselves come LIVE from the
+// articles collection (title + its own frontmatter description) and the
+// section renders only when at least one article exists — the document
+// carries only the strip's own words. Zero invention; the third slot fills
+// itself on publish.
+export const HOME_ARTICLES: SectionType = {
+  type: "home-articles",
+  label: "המאמרים — חדר הקריאה השקט",
+  purpose: "רצועת שלושת המאמרים אחרי הצומת: הכותרת, השורה השקטה ושני הקישורים — הכרטיסים עצמם נמשכים חיים מאוסף המאמרים.",
+  fields: [
+    { key: "kicker",
+      label: "שורת פתיחה קטנה",
+      kind: "text",
+      required: true,
+      max: 40,
+      // text-xs font-bold tracking-eyebrow, centred beside the ◆ — the same
+      // eyebrow treatment as every kicker on the page.
+      hint: "היהלום מצויר בקוד. משמשת גם כתג-גיבוי על כרטיס של מאמר בלי תגית משלו" },
+    { key: "titleA",
+      label: "הכותרת — החלק הראשון",
+      kind: "text",
+      required: true,
+      max: 36,
+      // font-serif font-black at clamp(1.5rem,2.8vw,2.2rem) → 35.2px cap,
+      // centred — the full masthead line = this part + the accent after it,
+      // and together they must hold one line on desktop.
+      hint: "נגמרת ברווח — ההדגשה שבשדה הבא ממשיכה את המשפט באותה שורה" },
+    { key: "titleAccent",
+      label: "סיפא הכותרת עם הקו הוורוד",
+      kind: "text",
+      max: 16,
+      hint: "לא רצף מתוך השדה הקודם אלא המשכו — הקו הוורוד מצייר את עצמו תחתיה (u-rose-draw)" },
+    { key: "lead",
+      label: "השורה השקטה מתחת לכותרת",
+      kind: "textarea",
+      max: 120,
+      // mx-auto max-w-[60ch] text-[1.08rem] leading-relaxed → 60 chars a line,
+      // two centred lines keep the standfirst quiet.
+      hint: "משפט אחד, בלי הבטחות — זו תת-הכותרת של חדר הקריאה" },
+    { key: "itemCta",
+      label: "קישור הקריאה בכרטיס",
+      kind: "text",
+      required: true,
+      max: 24,
+      hint: "החץ ← הוא חלק מהטקסט; אותו קישור בכל שלושת הכרטיסים — היעד קבוע בקוד" },
+    { key: "allCta",
+      label: "קישור לכל המאמרים",
+      kind: "text",
+      max: 40,
+      hint: "החץ ← הוא חלק מהטקסט" }
   ],
 };
 
@@ -1708,6 +1752,7 @@ export const REGISTRY: Record<string, SectionType> = Object.fromEntries(
     HOME_PLAN,
     HOME_PROOF,
     HOME_STAKES,
+    HOME_ARTICLES,
     HOME_SUCCESS,
     HOME_CTA,
     CONTACT_DOOR,
@@ -1716,7 +1761,7 @@ export const REGISTRY: Record<string, SectionType> = Object.fromEntries(
     ABOUT_HERO,
     ABOUT_STORY,
     ABOUT_STANDARD,
-    ABOUT_CREDENTIALS,
+    ABOUT_ROAD,
     ABOUT_CTA,
     PAGE_META,
     COACHING_HERO,

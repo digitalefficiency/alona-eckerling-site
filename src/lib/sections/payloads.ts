@@ -18,30 +18,35 @@ export type HomeHeroPayload = {
   titleAccent: string;
   lede: string;
   ctaPrimary: string;
-  ctaSub: string;
   trustToken: string;
-  /** hidden below sm so the pill stays one line — starts with its own separator */
+  /** hidden below sm so the masthead row stays one line — starts with its own separator */
   trustTokenLicense: string;
   ctaRecipes: string;
-  /** decorative scroll cue (aria-hidden, desktop only) — one short word over the ↓ */
-  scrollCue: string;
-  /** art direction: the film's last frame must match the scroll section's first */
-  poster: string;
-  filmWebm: string;
-  filmMp4: string;
+  /**
+   * alt of the REAL hero photograph (cl-115, «hero חם סטטי») — the image path
+   * stays code, like the guide portrait. The ring-loop film fields retired with
+   * the film itself (2026-08-12); the assets stay on disk.
+   */
+  imageAlt: string;
 };
 
 export type HomeGuidePayload = {
   kicker: string;
   title: string;
   titleAccent: string;
+  /** her voice as the standfirst under the title (Rom, 2026-08-12) */
   empathy: string;
+  /** a substring of `empathy` — the rose rule draws under it; a mismatch costs the line, not the page */
+  empathyAccent: string;
   name: string;
   role: string;
-  /** alt of the REAL portrait on the calling card — the image path stays code */
+  /** alt of the REAL portrait in the hairline frame — the image path stays code */
   portraitAlt: string;
   credentials: string[];
-  mechanism: string[];
+  /** the serif opening breath of the ruled band — «היי, אני אלונה.» */
+  introHello: string;
+  /** first person, one breath — the four mechanism labels live on inside these sentences */
+  intro: string;
   areasLabel: string;
   areas: string[];
   /** the YMYL guardrail, rendered — never a promise to move a lab value */
@@ -78,8 +83,6 @@ export type HomeProofPayload = {
   titleAccent: string;
   body: string;
   countChip: string;
-  darkTestimonial: string;
-  darkLogos: string;
   cta: string;
 };
 
@@ -93,6 +96,24 @@ export type HomeStakesPayload = {
   band: string;
   bandCta: string;
   bandSecondary: string;
+};
+
+/**
+ * The articles study (§06b, 2026-08-12) — the strip's own words only. The three
+ * article cards themselves come LIVE from the articles collection (title +
+ * frontmatter description), never from this payload: zero invention, and the
+ * third slot fills itself on publish.
+ */
+export type HomeArticlesPayload = {
+  kicker: string;
+  /** first part of the masthead title — keeps its trailing space, the accent continues the sentence */
+  titleA: string;
+  /** the accented tail of the title — the rose rule rests under it (u-rose-draw) */
+  titleAccent: string;
+  lead: string;
+  /** the per-card read link — the ← arrow is part of the text */
+  itemCta: string;
+  allCta: string;
 };
 
 export type HomeSuccessPayload = {
@@ -205,9 +226,8 @@ export type AboutHeroPayload = {
   ctaPrimarySub: string;
   ctaMicro: string;
   ctaSecondary: string;
+  /** the portrait's accessible description; the photo path is art direction in code */
   portraitLabel: string;
-  portraitSignature: string;
-  portraitRole: string;
 };
 
 export type AboutStoryPayload = {
@@ -236,27 +256,26 @@ export type AboutStandardPayload = {
   areas: string[];
 };
 
-export type AboutCredentialsPayload = {
+/**
+ * «הדרך לכאן» (2026-08-12) — the personal essay that replaced the credentials
+ * wall. The checkable records survive as its ruled ledger; every stated fact
+ * in them changes only against a certificate.
+ */
+export type AboutRoadPayload = {
   kicker: string;
+  /** two lines, split on \n by SplitText inside SectionHeading */
   title: string;
+  /** a substring of one line of `title`; a mismatch costs the underline, not the page */
   titleAccent: string;
-  anchorTitle: string;
-  anchorLine: string;
-  anchorVerify: string;
-  anchorVerifyHref: string;
-  bscTitle: string;
-  bscLine: string;
-  internTitle: string;
-  internLine: string;
-  courseTitle: string;
-  courseLine: string;
-  craftTitle: string;
-  craftLine: string;
-  craftLink: string;
-  craftMicro: string;
-  craftImage: string;
-  craftImageAlt: string;
+  p1: string;
+  p2: string;
+  p3: string;
+  /** also the hero portrait card's foot line */
+  roleLine: string;
+  recordsLabel: string;
+  records: string[];
   bridge: string;
+  bridgeCta: string;
 };
 
 export type AboutCtaPayload = {
