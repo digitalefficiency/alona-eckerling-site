@@ -21,9 +21,24 @@ import { SectionForm } from "./SectionForm";
 
 const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
 
+// 40px: a control she can hit with a thumb on a phone without aiming. The old
+// 32px squares also collided with the title at 375px — the controls now live
+// on their own wrap row there (see the card header below).
 const iconBtn =
-  "grid h-8 w-8 shrink-0 place-items-center rounded-[6px] border border-line text-muted transition " +
-  "hover:border-gold hover:text-ink disabled:cursor-not-allowed disabled:opacity-25 disabled:hover:border-line disabled:hover:text-muted";
+  "grid h-10 w-10 shrink-0 place-items-center rounded-[8px] border border-line text-muted transition " +
+  "hover:border-gold hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold " +
+  "disabled:cursor-not-allowed disabled:opacity-25 disabled:hover:border-line disabled:hover:text-muted";
+
+/** A real eye instead of the ●/◌ glyphs nobody could read as "visible". */
+function EyeIcon({ off }: { off: boolean }) {
+  return (
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12Z" />
+      <circle cx="12" cy="12" r="2.6" />
+      {off && <line x1="4" y1="20" x2="20" y2="4" />}
+    </svg>
+  );
+}
 
 /** The line that identifies a section to a human: its own biggest words. */
 function headline(s: SectionInstance): string {
@@ -134,10 +149,13 @@ export function PageView({
                 hidden && "opacity-55",
               )}
             >
-              <div className="flex items-center gap-3 p-3.5">
+              {/* Two rows on a phone (title first, controls under it), one row
+                  from sm up — the five-in-a-row version physically overlapped
+                  the title with the visibility toggle at 375px. */}
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 p-3 sm:flex-nowrap sm:p-3.5">
                 <span
                   aria-hidden
-                  className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-line text-[12px] font-black text-muted"
+                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line text-[12px] font-black text-muted"
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -145,45 +163,51 @@ export function PageView({
                 <button
                   type="button"
                   onClick={() => setOpenId(isOpen ? null : s.id)}
-                  className="flex min-w-0 grow flex-col items-start text-start"
+                  className="flex min-w-0 grow basis-[calc(100%-3.75rem)] flex-col items-start rounded-[6px] text-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold sm:basis-auto"
                   aria-expanded={isOpen}
+                  aria-label={`${isOpen ? "לסגור" : "לפתוח"} את הסקשן: ${headline(s) || type?.label || s.type}`}
                 >
-                  <span className="truncate text-[14.5px] font-bold text-ink">
+                  <span className="w-full truncate text-[14.5px] font-bold text-ink">
                     {headline(s) || type?.label || s.type}
                   </span>
-                  <span className="mt-0.5 truncate text-[12px] text-muted">
+                  <span className="mt-0.5 flex w-full items-center gap-1 truncate text-[12px] text-muted">
+                    <span aria-hidden className={cx("inline-block transition-transform", isOpen && "rotate-90")}>‹</span>
                     {type?.label ?? s.type}
                     {hidden && " · מוסתר מהאתר"}
                   </span>
                 </button>
 
-                <button
-                  type="button"
-                  className={iconBtn}
-                  onClick={() => setVisible(s.id, hidden)}
-                  aria-label={hidden ? "להציג באתר" : "להסתיר מהאתר"}
-                  title={hidden ? "להציג באתר" : "להסתיר מהאתר"}
-                >
-                  {hidden ? "◌" : "●"}
-                </button>
-                <button
-                  type="button"
-                  className={iconBtn}
-                  onClick={() => move(i, -1)}
-                  disabled={i === 0}
-                  aria-label="להעביר למעלה"
-                >
-                  ↑
-                </button>
-                <button
-                  type="button"
-                  className={iconBtn}
-                  onClick={() => move(i, 1)}
-                  disabled={i === doc.sections.length - 1}
-                  aria-label="להעביר למטה"
-                >
-                  ↓
-                </button>
+                <span className="ms-12 flex shrink-0 items-center gap-1.5 sm:ms-0">
+                  <button
+                    type="button"
+                    className={cx(iconBtn, hidden && "border-gold text-gold-ink")}
+                    onClick={() => setVisible(s.id, hidden)}
+                    aria-label={hidden ? "להציג באתר" : "להסתיר מהאתר"}
+                    title={hidden ? "להציג באתר" : "להסתיר מהאתר"}
+                  >
+                    <EyeIcon off={hidden} />
+                  </button>
+                  <button
+                    type="button"
+                    className={iconBtn}
+                    onClick={() => move(i, -1)}
+                    disabled={i === 0}
+                    aria-label="להעביר למעלה"
+                    title="להעביר למעלה"
+                  >
+                    ↑
+                  </button>
+                  <button
+                    type="button"
+                    className={iconBtn}
+                    onClick={() => move(i, 1)}
+                    disabled={i === doc.sections.length - 1}
+                    aria-label="להעביר למטה"
+                    title="להעביר למטה"
+                  >
+                    ↓
+                  </button>
+                </span>
               </div>
 
               {isOpen && type && (

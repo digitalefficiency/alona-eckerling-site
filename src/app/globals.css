@@ -1218,3 +1218,12 @@ html.a11y-big-cursor * {
   .dish-ribbon-track { animation: none; }
 }
 html.a11y-stop-motion .dish-ribbon-track { animation: none !important; }
+
+/* Desk chrome: the admin tab strip scrolls sideways on a phone — the scrollbar
+   itself is noise there (the affordance is the clipped last tab). Admin-only. */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}

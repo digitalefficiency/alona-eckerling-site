@@ -62,13 +62,19 @@ export function AdminShell({
 
   return (
     <div dir={brand.direction} className="min-h-screen bg-sand">
-      <header className="border-b border-line bg-card">
-        <div className="mx-auto flex max-w-[1100px] flex-wrap items-center gap-4 px-6 py-5">
-          <div className="flex items-center gap-2.5">
-            <BrandLogo className="h-7 w-auto" />
-            <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{T("admin.deskTitle")}</span>
+      {/* Sticky and phone-first: on her phone the old header stacked the logo,
+          two wrapped rows of tabs and the account row — half the screen gone
+          before any content. One slim row, tabs scroll sideways instead of
+          wrapping, the email shows only where there is room for it. */}
+      <header className="sticky top-0 z-40 border-b border-line bg-card/95 backdrop-blur">
+        <div className="mx-auto flex max-w-[1100px] items-center gap-3 px-4 py-2.5 sm:px-6 sm:py-3">
+          <div className="flex shrink-0 items-center gap-2.5">
+            <BrandLogo className="h-6 w-auto sm:h-7" />
+            <span className="hidden text-xs font-bold tracking-eyebrow text-gold-ink sm:inline">
+              {T("admin.deskTitle")}
+            </span>
           </div>
-          <nav className="flex flex-wrap gap-2">
+          <nav className="scrollbar-none flex min-w-0 grow gap-2 overflow-x-auto py-1">
             {pages.length > 0 && (
               <Tab active={view.kind === "pages"} onClick={() => setView({ kind: "pages" })}>
                 עמודים
@@ -93,8 +99,8 @@ export function AdminShell({
               </Tab>
             ))}
           </nav>
-          <div className="ms-auto flex items-center gap-3 text-sm text-muted">
-            <span dir="ltr">{email}</span>
+          <div className="ms-auto flex shrink-0 items-center gap-3 text-sm text-muted">
+            <span dir="ltr" className="hidden md:inline">{email}</span>
             <form method="POST" action="/api/cms/auth/logout">
               <button type="submit" className="font-semibold text-gold-ink underline-offset-4 hover:underline">
                 {T("admin.logout")}
@@ -140,7 +146,9 @@ function Tab({ active, onClick, children }: { active: boolean; onClick: () => vo
   return (
     <button
       onClick={onClick}
-      className={`rounded-[4px] px-4 py-2 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
+      // shrink-0 + nowrap: the tab strip scrolls sideways on a phone; a tab
+      // that wraps or squeezes reads as a broken button, not a nav.
+      className={`shrink-0 whitespace-nowrap rounded-[6px] px-4 py-2 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold ${
         active ? "bg-ink text-bg" : "border border-line text-ink hover:border-gold"
       }`}
       style={{ transitionDuration: cssDur(DUR.micro), transitionTimingFunction: cssEase(EASE.micro) }}

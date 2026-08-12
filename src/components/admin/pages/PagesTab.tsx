@@ -100,12 +100,14 @@ export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialD
 
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[240px_minmax(0,1fr)]">
-      <aside>
+    <div className="grid gap-4 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-6">
+      {/* On a phone the page list is a sideways chip strip, not a stack — the
+          old stack pushed the actual sections four screens down. */}
+      <aside className="min-w-0">
         <p className="mb-2 text-[11px] font-bold tracking-eyebrow text-muted">עמודי האתר</p>
-        <ul className="space-y-1">
+        <ul className="scrollbar-none -mx-1 flex gap-2 overflow-x-auto px-1 pb-1 lg:mx-0 lg:block lg:space-y-1 lg:overflow-visible lg:px-0 lg:pb-0">
           {pages.map((p) => (
-            <li key={p.slug}>
+            <li key={p.slug} className="shrink-0 lg:shrink">
               <button
                 type="button"
                 onClick={() => setSlug(p.slug)}
@@ -116,9 +118,12 @@ export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialD
                   p.slug === slug ? "border-gold bg-gold-soft/40" : "border-line bg-card hover:border-gold",
                 )}
               >
-                <span className="block text-[13.5px] font-bold text-ink">{p.title}</span>
-                <span className="block text-[11.5px] text-muted">
-                  {p.route} · {p.sections} סקשנים
+                <span className="block whitespace-nowrap text-[13.5px] font-bold text-ink lg:whitespace-normal">
+                  {p.title}
+                </span>
+                {/* bdi keeps the Latin route from scrambling the Hebrew tail */}
+                <span className="block whitespace-nowrap text-[11.5px] text-muted lg:whitespace-normal">
+                  <bdi dir="ltr">{p.route}</bdi> · {p.sections} סקשנים
                 </span>
               </button>
             </li>
@@ -162,7 +167,12 @@ export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialD
           </div>
         )}
 
-        <div className="mb-4 flex flex-wrap items-center gap-3">
+        {/* The publish bar RIDES ALONG (sticky under the shell header): a long
+            section form used to strand her a full page-scroll away from the
+            publish button, and the "did I save?" anxiety is exactly what this
+            desk exists to remove. The bar also carries the dirty state, so the
+            answer is always one glance up. */}
+        <div className="sticky top-[54px] z-30 mb-4 flex flex-wrap items-center gap-2.5 rounded-[10px] border border-line bg-card/95 px-3 py-2.5 shadow-sm backdrop-blur sm:top-[60px] sm:gap-3 sm:px-4">
           <button
             type="button"
             onClick={publish}
@@ -182,6 +192,10 @@ export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialD
           >
             תצוגה מקדימה
           </button>
+
+          {dirty && !saving && !status && (
+            <span className="text-[12.5px] font-semibold text-gold-ink">יש שינויים שעוד לא באוויר</span>
+          )}
 
           {status && (
             <span
