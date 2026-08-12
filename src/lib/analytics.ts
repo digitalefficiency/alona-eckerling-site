@@ -12,6 +12,8 @@ export type DataLayerEvent = Record<string, unknown> & { event: string };
 declare global {
   interface Window {
     dataLayer?: DataLayerEvent[];
+    /** set ONLY by our own GA4 loader (MarketingBootstrap, NEXT_PUBLIC_GA_ID) */
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
@@ -25,9 +27,29 @@ export function getDataLayer(): DataLayerEvent[] {
 // Core push. Keep PERSONAL data (name/phone/email) OUT of the dataLayer — PII
 // travels only to the server via the form POST. City / project-type / source
 // attribution are marketing dimensions, not PII, and are fine to push.
+//
+// GA4-direct mirror: when NEXT_PUBLIC_GA_ID is set, MarketingBootstrap loads
+// gtag.js and defines window.gtag — a dataLayer.push alone is a GTM convention
+// that direct GA4 never reads, so every event is ALSO forwarded through
+// gtag('event', …). page_view maps to GA4's own page_view shape (the config is
+// send_page_view:false, so this manual fire is the only one — no double count,
+// and SPA navigations are counted correctly). With GTM instead of GA-direct,
+// window.gtag is undefined and this mirror is a no-op.
 export function track(event: string, params: Record<string, unknown> = {}): void {
   if (typeof window === "undefined") return;
   getDataLayer().push({ event, ...params });
+  if (typeof window.gtag === "function") {
+    if (event === "page_view") {
+      const page = typeof params.page === "string" ? params.page : window.location.pathname;
+      window.gtag("event", "page_view", {
+        page_path: page,
+        page_location: window.location.origin + page,
+        page_title: document.title,
+      });
+    } else {
+      window.gtag("event", event, params);
+    }
+  }
 }
 
 // ---- Named helpers (stable event names → map these to triggers in GTM) ----

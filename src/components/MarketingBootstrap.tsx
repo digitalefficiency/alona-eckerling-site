@@ -73,6 +73,19 @@ export function MarketingBootstrap() {
             ? "email"
             : "link";
       trackCtaClick(location, { channel, page: window.location.pathname });
+      // Social profiles get their OWN event on top of cta_click (Rom, 2026-08-12:
+      // «כמה אנשים לוחצים על האינסטגרם והטיקטוק») — detected by destination, so
+      // every placement (header icons, footer chips, drawer, ribbon tiles) counts
+      // under one stable GA4 event with `network` + `placement` dimensions.
+      const dest = anchor.href || "";
+      const network = dest.includes("instagram.com")
+        ? "instagram"
+        : dest.includes("tiktok.com")
+          ? "tiktok"
+          : null;
+      if (network) {
+        track("social_click", { network, placement: location, page: window.location.pathname });
+      }
     };
     document.addEventListener("click", onClick, { capture: true });
     return () => document.removeEventListener("click", onClick, { capture: true });
@@ -90,11 +103,37 @@ export function MarketingBootstrap() {
     track("page_change", { page: pathname });
   }, [pathname]);
 
+  // Two tag doors, both consent-gated and either one optional:
+  //  • NEXT_PUBLIC_GA_ID  — GA4 direct (gtag.js). send_page_view:false because
+  //    lib/analytics mirrors page_view manually (SPA-correct, no double count);
+  //    IPs anonymized. Every track() call is forwarded to GA4 via the mirror,
+  //    so traffic sources, cta_click, social_click, scroll_depth, form_* and
+  //    generate_lead all land in GA4 with no container to manage.
+  //  • NEXT_PUBLIC_GTM_ID — the GTM container (for paid-marketing tags later).
+  //    When BOTH are set, GTM must NOT also load a GA4 tag for the same
+  //    property, or events double-count — the note lives in MARKETING.md.
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
-  if (!gtmId || !consented) return null;
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  if (!consented) return null;
   return (
-    <Script id="gtm-loader" strategy="afterInteractive">
-      {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');`}
-    </Script>
+    <>
+      {gaId && (
+        <>
+          <Script
+            id="ga4-src"
+            src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+            strategy="afterInteractive"
+          />
+          <Script id="ga4-init" strategy="afterInteractive">
+            {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js',new Date());gtag('config','${gaId}',{send_page_view:false,anonymize_ip:true});`}
+          </Script>
+        </>
+      )}
+      {gtmId && (
+        <Script id="gtm-loader" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');`}
+        </Script>
+      )}
+    </>
   );
 }
