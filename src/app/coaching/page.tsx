@@ -182,9 +182,9 @@ const PROOF = {
   // צילומי אוכל אמיתיים מארכיון המתכונים של אלונה (media/client/recipes);
   // ה-alt = כותרת המתכון מקובץ התוכן (content/recipes/*)
   stills: [
-    { src: "/media/client/recipes/green-shakshuka.jpg", alt: "שקשוקה ירוקה - שקשוקת תרד חלומית" },
-    { src: "/media/client/recipes/one-pot-bulgur-stew.jpg", alt: "תבשיל בורגול בסיר אחד" },
-    { src: "/media/client/recipes/roasted-tomato-soup.jpg", alt: "מרק עגבניות צלויות" },
+    { src: "/media/client/recipes/baked-bulgur-lentil-mujadara.webp", alt: "מג׳דרת בורגול ועדשים בתנור" },
+    { src: "/media/client/recipes/oven-fried-rice-tofu.webp", alt: "אורז מוקפץ בתנור עם ירקות וטופו" },
+    { src: "/media/client/recipes/hearty-lentil-soup.webp", alt: "מרק עדשים עשיר ומנחם" },
   ],
 } as const;
 

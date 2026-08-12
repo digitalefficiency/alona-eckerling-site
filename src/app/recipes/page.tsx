@@ -81,7 +81,11 @@ export default function RecipesPage() {
   // Hero raster = a REAL Alona dish photo straight from the CMS data (bright,
   // warm, homemade — the cover of the cookbook). Art-directed pick with a
   // data-driven fallback; no literal media path lives in this file.
-  const hero = entries.find((e) => e.slug === "homemade-hummus" && e.image) ?? entries.find((e) => e.image);
+  // (art-directed pick refreshed with the 2026-08-11 archive import: the antipasti
+  // tray is the most "cover of the cookbook" frame in the new set — one shot, every
+  // colour of the archive in it.)
+  const hero =
+    entries.find((e) => e.slug === "roasted-vegetable-antipasti" && e.image) ?? entries.find((e) => e.image);
   const heroImage = hero?.image;
 
   // CMS field labels feed the chip-group aria names (trimmed at the hint "(").
