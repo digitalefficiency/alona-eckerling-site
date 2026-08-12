@@ -243,12 +243,13 @@ export async function loadPage(slug: string): Promise<PageDocument | null> {
  */
 export async function listPages(): Promise<{ slug: string; title: string; route: string; sections: number }[]> {
   if (!(await requireSession())) return [];
+  // /testimonials retired 2026-07-30 → /articles (a content collection, edited
+  // like recipes, not a section page) — so four section pages remain.
   const known = [
     { slug: "", title: "דף הבית", route: "/" },
     { slug: "about", title: "עליי", route: "/about" },
     { slug: "coaching", title: "איך עובדים איתי", route: "/coaching" },
     { slug: "contact", title: "צור קשר", route: "/contact" },
-    { slug: "testimonials", title: "המלצות", route: "/testimonials" },
   ];
   const out = [];
   for (const p of known) {

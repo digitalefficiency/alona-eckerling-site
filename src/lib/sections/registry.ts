@@ -88,6 +88,17 @@ export const HOME_HERO: SectionType = {
     },
     { key: "ctaRecipes", label: "קישור משני למתכונים", kind: "text", max: 60 },
     {
+      key: "scrollCue",
+      label: "מילת רמז הגלילה",
+      kind: "text",
+      max: 12,
+      // text-[0.7rem] font-bold tracking-eyebrow, stacked flex-col over the
+      // ↓ arrow and centred at bottom-8; `hidden lg:flex`, so it exists only
+      // where the hero centres. One short word — the eyebrow letterspacing
+      // turns anything longer into a banner over the seam.
+      hint: "מילה אחת, דקורטיבית (aria-hidden). מוצגת רק במסך רחב; החץ ↓ מצויר בקוד",
+    },
+    {
       key: "poster",
       label: "תמונת הפתיחה של הסרט",
       kind: "image",
@@ -95,7 +106,7 @@ export const HOME_HERO: SectionType = {
       minWidth: 1600,
       decorative: true,
       locked: true,
-      hint: "הפריים האחרון של הסרט חייב להיות זהה לפריים הראשון של סקשן הגלילה",
+      hint: "הפריים הראשון של סרט-הלופ — ה-LCP של העמוד; מוחלף רק דרך רום",
     },
     {
       key: "filmWebm",
@@ -105,151 +116,6 @@ export const HOME_HERO: SectionType = {
       hint: "מוחלף רק יחד עם הפוסטר, דרך רום",
     },
     { key: "filmMp4", label: "קובץ הסרט (mp4)", kind: "video", locked: true },
-  ],
-};
-
-export const TESTIMONIALS_HERO: SectionType = {
-  type: "testimonials-hero",
-  label: "פתיח — ההבטחה הכנה",
-  purpose: "המסגור הכן: אין עדיין המלצות, וזו בחירה. הפסקה הראשונה היא גם תיאור העמוד בגוגל.",
-  required: true,
-  pin: "start",
-  fields: [
-      { key: "kicker",
-        label: "שורת פתיחה קטנה",
-        kind: "text",
-        required: true,
-        max: 32,
-        hint: "היהלום ◆ מצויר בקוד, אין צורך להקליד אותו" },
-      { key: "title",
-        label: "כותרת ראשית",
-        kind: "text",
-        required: true,
-        max: 24,
-        hint: "שורה אחת בלבד, בלי ירידת שורה. שורה ארוכה יותר תישבר בתוך אותה מסכה והעלייה תיראה כפולה" },
-      { key: "body",
-        label: "פסקת הפתיחה",
-        kind: "textarea",
-        required: true,
-        max: 160,
-        hint: "זו גם השורה שגוגל מציג מתחת לכותרת — לכן התקרה קשיחה" },
-      { key: "bridge",
-        label: "פסקת הגשר",
-        kind: "textarea",
-        max: 150,
-        hint: "מזכירה במילים את המתכונים והרישיון — בלי קישורים, הקישורים בבעלות הסקשן הבא" },
-      { key: "invite",
-        label: "שורת ההזמנה",
-        kind: "text",
-        max: 75 },
-      { key: "cta",
-        label: "קישור הפעולה",
-        kind: "text",
-        required: true,
-        max: 28,
-        hint: "החץ ← הוא חלק מהטקסט. היעד (/contact) קבוע בקוד" }
-  ],
-};
-
-export const TESTIMONIALS_GRID: SectionType = {
-  type: "testimonials-grid",
-  label: "רשת ההמלצות — מצב ריק כן",
-  purpose: "הריק המכובד: הודעה כנה במקום כרטיסי רפאים, ושתי דלתות למה שכן אמיתי היום.",
-  required: true,
-  fields: [
-      { key: "title",
-        label: "כותרת כרטיס הריק",
-        kind: "text",
-        required: true,
-        max: 25,
-        hint: "מוצג רק כשאין המלצות. ברגע שתיכנס המלצה מאושרת הכרטיס הזה נעלם לגמרי" },
-      { key: "emptyLead",
-        label: "שורת המצב",
-        kind: "text",
-        required: true,
-        max: 70,
-        hint: "מוצג רק במצב הריק" },
-      { key: "emptyBody",
-        label: "ההסבר הכן",
-        kind: "textarea",
-        required: true,
-        max: 190,
-        hint: "מוצג רק במצב הריק. זו ההבטחה של הסקשן — אל תרככי אותה לניסוח שיווקי" },
-      { key: "redirectIntro",
-        label: "שורת ההפניה",
-        kind: "text",
-        required: true,
-        max: 50,
-        hint: "מוצג תמיד — גם אחרי שייכנסו המלצות אמיתיות" },
-      { key: "redirects",
-        label: "כפתורי ההפניה",
-        kind: "repeater",
-        required: true,
-        itemLabel: "כפתור",
-        min: 2,
-        fields: [
-          { key: "",
-            label: "טקסט הכפתור",
-            kind: "text",
-            max: 32 }
-        ],
-        hint: "היעד קבוע בקוד לפי הסדר: הראשון למתכונים, השני לעליי. שני פריטים בדיוק" },
-      { key: "reciprocity",
-        label: "שורת ההדדיות",
-        kind: "text",
-        max: 50,
-        hint: "כל השורה היא קישור לטופס ההיכרות. החץ ← חלק מהטקסט" }
-  ],
-};
-
-export const TESTIMONIALS_CTA: SectionType = {
-  type: "testimonials-cta",
-  label: "סיום — הזמנה לשיחה",
-  purpose: "הסגירה: הכנות שאין בה עדויות היא עצמה ההבטחה, ומכאן לשיחת ההיכרות.",
-  required: true,
-  pin: "end",
-  fields: [
-      { key: "title",
-        label: "כותרת הסיום",
-        kind: "textarea",
-        required: true,
-        max: 60,
-        lines: 2,
-        maxPerLine: 28,
-        hint: "שתי שורות. השורה השנייה נצבעת בזהב-רך בקוד — אל תוסיפי שורה שלישית" },
-      { key: "body",
-        label: "פסקת הסיום",
-        kind: "textarea",
-        required: true,
-        max: 240 },
-      { key: "packages",
-        label: "שורת החבילות",
-        kind: "textarea",
-        max: 130,
-        hint: "בלי מחירים — הכרעת השאלון Q19" },
-      { key: "promise",
-        label: "הבטחת המענה",
-        kind: "text",
-        required: true,
-        max: 60,
-        hint: "מספר ימי העסקים חייב להיות אמיתי — זו הבטחה, לא סלוגן" },
-      { key: "trustToken",
-        label: "תג האמון",
-        kind: "text",
-        required: true,
-        max: 68,
-        hint: "מספר הרישיון חייב להתאים לתעודה. שדה YMYL" },
-      { key: "ctaPrimary",
-        label: "כפתור ראשי",
-        kind: "text",
-        required: true,
-        max: 30,
-        hint: "שורה אחת. היעד /contact#lead קבוע בקוד" },
-      { key: "ctaRecipes",
-        label: "קישור רך למתכונים",
-        kind: "text",
-        max: 46,
-        hint: "החץ ← חלק מהטקסט" }
   ],
 };
 
@@ -426,7 +292,7 @@ export const CONTACT_LEAD: SectionType = {
 export const CONTACT_WHERE: SectionType = {
   type: "contact-where",
   label: "איפה נפגשות",
-  purpose: "שלוש הדרכים האמיתיות להיפגש: אונליין, קליניקה ברעננה, וואטסאפ בין הפגישות.",
+  purpose: "שלוש הדרכים האמיתיות להיפגש: אונליין, קליניקה ברעננה, וואטסאפ בין הפגישות — ושורת המעקב, הדרך הרביעית שלא מבקשת כלום.",
   required: true,
   fields: [
       { key: "kicker",
@@ -471,7 +337,16 @@ export const CONTACT_WHERE: SectionType = {
         kind: "text",
         required: true,
         max: 44,
-        hint: "אותה הבטחה שמופיעה בפתיח ובכרטיס הטופס" }
+        hint: "אותה הבטחה שמופיעה בפתיח ובכרטיס הטופס" },
+      { key: "socialLabel",
+        label: "כותרת שורת המעקב",
+        kind: "text",
+        max: 40,
+        // SocialLinks renders it mb-3 text-sm font-bold inside the sand card
+        // (p-7 below md) — at 390px the card's inner line is ~300px, and 14px
+        // bold Hebrew ≈ 7.5px/char, so 40 keeps the heading to one quiet line
+        // on a phone.
+        hint: "הכותרת מעל צ'יפי אינסטגרם/טיקטוק. הפרופילים עצמם מנוהלים בהגדרות — כאן רק המילים; ריקון השדה משמיט את הכותרת והצ'יפים נשארים" }
   ],
 };
 
@@ -619,45 +494,101 @@ export const ABOUT_STORY: SectionType = {
   ],
 };
 
-export const ABOUT_AGE: SectionType = {
-  type: "about-age",
-  label: "על הגיל — הציטוט הגדול",
-  purpose: "התשובה לשאלת הגיל, כטיפוגרפיה מדורגת עם חותם בכתב-יד.",
+// NEW type — the professional standard that replaced the age answer (§19).
+export const ABOUT_STANDARD: SectionType = {
+  type: "about-standard",
+  label: "הסטנדרט המקצועי — שלושת העקרונות",
+  purpose: "הטיעון מהשיטה (החליף את תשובת-הגיל): תחום פרוץ, שלושה עקרונות שווים, ותחומי הליווי.",
+  required: true,
   fields: [
       { key: "kicker",
         label: "שורת פתיחה קטנה",
         kind: "text",
         required: true,
-        max: 40 },
-      { key: "quote",
-        label: "הציטוט",
+        max: 40,
+        hint: "היהלום מצויר בקוד, אין צורך להקליד אותו" },
+      { key: "title",
+        label: "כותרת הסקשן",
         kind: "textarea",
         required: true,
-        max: 130,
-        lines: 4,
-        maxPerLine: 38,
-        hint: "ארבע שורות שיורדות במדרגות. כל שורה נחשפת בנפרד" },
-      { key: "quoteAccent",
-        label: "המילה עם הקו הוורוד",
+        // SplitText at var(--text-section) — clamp(1.7rem,4.4vw,3.25rem) → 52px
+        // cap — inside the mx-auto max-w-[760px] column ≈ 32 chars a line; a
+        // longer line wraps INSIDE its own reveal mask and the ink-wipe stutters.
+        max: 66,
+        lines: 2,
+        maxPerLine: 32,
+        hint: "שתי שורות, מופרדות ב-Enter. שורה ארוכה מדי תישבר באמצע האנימציה" },
+      { key: "titleAccent",
+        label: "המילים עם הקו הוורוד",
         kind: "mark",
         max: 20,
-        of: "quote",
-        hint: "שימי לב: הקוד מסמן את המילה בכל שורה שהיא מופיעה בה (ורק את המופע הראשון בכל שורה). מילה נפוצה תקבל כמה קווים" },
-      { key: "support",
-        label: "שורת התמיכה",
+        of: "title",
+        hint: "חייב להיות רצף מילים מתוך שורה אחת של הכותרת בדיוק, אחרת הקו פשוט לא יצויר" },
+      { key: "body",
+        label: "פסקת הטיעון",
         kind: "textarea",
-        max: 76 },
-      { key: "signature",
-        label: "החתימה",
+        required: true,
+        // text-lg leading-[1.75] in the same max-w-[760px] measure ≈ 90 chars a
+        // line → four lines before the argument reads as a wall.
+        max: 360 },
+      { key: "principles",
+        label: "שלושת העקרונות",
+        kind: "repeater",
+        required: true,
+        itemLabel: "עיקרון",
+        min: 3,
+        max: 3,
+        fields: [
+          { key: "t",
+            label: "כותרת העיקרון",
+            kind: "text",
+            required: true,
+            // a grid column is (max-w-[1000px] − 2×gap-5)/3 ≈ 320px minus the
+            // card's p-6 → ~272px; font-serif text-lg font-black ≈ 8px/char →
+            // one line ≈ 34. leading-snug still holds a wrapped second line.
+            max: 34 },
+          { key: "d",
+            label: "גוף העיקרון",
+            kind: "textarea",
+            required: true,
+            // text-sm leading-relaxed in the same ~272px card ≈ 42 chars a line —
+            // four lines before the three cards stop reading as peers.
+            max: 170 }
+        ],
+        hint: "שלושה בדיוק — הרשת היא sm:grid-cols-3, רביעי יישבר לשורה משלו" },
+      { key: "areasLabel",
+        label: "כותרת רצועת התחומים",
         kind: "text",
-        max: 12 }
+        required: true,
+        // text-[13px] font-bold tracking-eyebrow beside the ◆, one line inside
+        // the sand band's p-7 at the 1000px measure.
+        max: 30 },
+      { key: "areas",
+        label: "תחומי הליווי",
+        kind: "repeater",
+        required: true,
+        itemLabel: "תחום",
+        min: 1,
+        fields: [
+          { key: "",
+            label: "שם התחום",
+            kind: "text",
+            required: true,
+            // rounded-full border px-4 py-2 text-sm — a pill; a name that wraps
+            // stops being a pill, so one line ≈ 30 at ~6.5px/char.
+            max: 30 }
+        ],
+        hint: "צ'יפים בשורה נגללת (flex-wrap) — הסדר הוא סדר התצוגה" }
   ],
 };
 
+// CHANGED — replaces the existing ABOUT_CREDENTIALS: +courseTitle/+courseLine
+// (the third ledger row, continuing education), −teamLink (the /team/alona
+// route was removed 2026-07-29; /about is the bio page now).
 export const ABOUT_CREDENTIALS: SectionType = {
   type: "about-credentials",
   label: "הרקע — קיר ההסמכות",
-  purpose: "פנקס האימות: תעודת הרישיון עם כפתור בדיקה, שתי שורות רשומה, והצד האנושי — דיאטנית שמבשלת.",
+  purpose: "פנקס האימות: תעודת הרישיון עם כפתור בדיקה, שלוש שורות רשומה, והצד האנושי — דיאטנית שמבשלת.",
   required: true,
   fields: [
       { key: "kicker",
@@ -716,6 +647,19 @@ export const ABOUT_CREDENTIALS: SectionType = {
         label: "רשומה 2 — פירוט",
         kind: "text",
         max: 60 },
+      { key: "courseTitle",
+        label: "רשומה 3 — כותרת",
+        kind: "text",
+        required: true,
+        // the same ledger row as רשומה 1–2 — font-serif text-xl beside the h-11
+        // diamond in the 1.12fr column — so the 44 that fits them fits this.
+        max: 44,
+        hint: "לימודי המשך, לא תואר-התמחות — נשארת רשומת רקע, לעולם לא כותרת מומחיות" },
+      { key: "courseLine",
+        label: "רשומה 3 — פירוט",
+        kind: "text",
+        max: 60,
+        hint: "בלי מוסד ושנה עד שיאומתו מול תעודה — «לימודי המשך» אומר בדיוק מה שידוע" },
       { key: "craftTitle",
         label: "דיאטנית שמבשלת — כותרת",
         kind: "text",
@@ -749,32 +693,16 @@ export const ABOUT_CREDENTIALS: SectionType = {
       { key: "bridge",
         label: "שורת הגישור",
         kind: "textarea",
-        max: 124 },
-      { key: "teamLink",
-        label: "קישור לעמוד ההסמכות המלא",
-        kind: "text",
-        max: 32,
-        hint: "החץ ← הוא חלק מהטקסט" }
+        max: 124 }
   ],
 };
 
-export const ABOUT_PRESS: SectionType = {
-  type: "about-press",
-  label: "מדיה ושיתופי פעולה",
-  purpose: "המקום ששמור ללוגואים, כל עוד הוא ריק — הצהרה למה הוא ריק.",
-  fields: [
-      { key: "reserved",
-        label: "ההודעה בזמן שהמקום שמור",
-        kind: "textarea",
-        required: true,
-        max: 110 }
-  ],
-};
-
+// CHANGED — replaces the existing ABOUT_CTA: +socialLabel (the sceptic's
+// watch-first off-ramp above the social chips row).
 export const ABOUT_CTA: SectionType = {
   type: "about-cta",
   label: "סגירה — הצעד שלך",
-  purpose: "ההזמנה לשיחה בלי לחץ, עם דלת צדדית למתכונים.",
+  purpose: "ההזמנה לשיחה בלי לחץ, עם דלת צדדית למתכונים ולרשתות.",
   required: true,
   pin: "end",
   fields: [
@@ -807,6 +735,13 @@ export const ABOUT_CTA: SectionType = {
         kind: "text",
         max: 56,
         hint: "החץ ← הוא חלק מהטקסט" },
+      { key: "socialLabel",
+        label: "הכותרת מעל צ'יפי הרשתות",
+        kind: "text",
+        max: 40,
+        // SocialLinks label: mb-3 text-sm font-bold — one quiet line above the
+        // chips row inside the 880px spotlight card.
+        hint: "הפרופילים עצמם (אינסטגרם/טיקטוק) מנוהלים בהגדרות האתר, לא כאן" },
       { key: "trustToken",
         label: "תג האמון",
         kind: "text",
@@ -1359,77 +1294,10 @@ export const COACHING_CTA: SectionType = {
   ],
 };
 
-export const HOME_FILM: SectionType = {
-  type: "home-film",
-  label: "סרט הגלילה — «בניית המנה»",
-  purpose: "הרגע החתימתי של האתר. הטקסטים כאן מופיעים לפי מיקום בגלילה, והתזמון עצמו נעול.",
-  fields: [
-    { key: "kicker",
-      label: "צ'יפ הפתיחה על הסרט",
-      kind: "text",
-      required: true,
-      max: 36,
-      hint: "rounded-full px-4 py-1.5 text-[13px] font-semibold — גלולה בשורה אחת" },
-    { key: "staticKicker",
-      label: "שורת פתיחה — גרסה סטטית",
-      kind: "text",
-      required: true,
-      max: 36 },
-    { key: "staticHeading",
-      label: "כותרת — גרסה סטטית",
-      kind: "textarea",
-      required: true,
-      max: 80,
-      hint: "זו הכותרת שמנועי חיפוש וקוראי-מסך מקבלים. לא טקסט גיבוי, אלא הקופי האמיתי של הסקשן" },
-    { key: "staticBody",
-      label: "פסקה — גרסה סטטית",
-      kind: "textarea",
-      required: true,
-      max: 320,
-      hint: "מה שרואה מי שגלילה לא עובדת אצלו, וגם גוגל" },
-    { key: "finalAlt",
-      label: "תיאור התמונה המסכמת",
-      kind: "text",
-      required: true,
-      max: 125,
-      hint: "נקרא בקול לקוראי-מסך" },
-    { key: "chips",
-      label: "צ'יפי המחשבות",
-      kind: "repeater",
-      itemLabel: "מחשבה",
-      max: 5,
-      fields: [
-        { key: "",
-          label: "טקסט המחשבה",
-          kind: "text",
-          required: true,
-          max: 34 }
-      ],
-      hint: "חמש מחשבות שנערמות ונעלמות יחד. המיקום והתזמון על המסך נעולים" },
-    { key: "captions",
-      label: "כיתובי התחנות",
-      kind: "repeater",
-      itemLabel: "כיתוב",
-      max: 4,
-      fields: [
-        { key: "big",
-          label: "שורה גדולה",
-          kind: "text",
-          required: true,
-          max: 48 },
-        { key: "small",
-          label: "שורה קטנה",
-          kind: "text",
-          max: 90 }
-      ],
-      hint: "ארבע תחנות: פתיחה, תפנית, שיא, סיום" }
-  ],
-};
-
 export const HOME_GUIDE: SectionType = {
   type: "home-guide",
   label: "המדריכה — «הדוסייה על השולחן»",
-  purpose: "מי עומדת מאחורי האתר: האמפתיה, השם, ההסמכות.",
+  purpose: "מי עומדת מאחורי האתר: האמפתיה, השם, ההסמכות, ותחומי הליווי.",
   fields: [
     { key: "kicker",
       label: "שורת פתיחה",
@@ -1463,6 +1331,16 @@ export const HOME_GUIDE: SectionType = {
       kind: "text",
       required: true,
       max: 46 },
+    { key: "portraitAlt",
+      label: "תיאור הפורטרט (alt)",
+      kind: "text",
+      required: true,
+      max: 110,
+      // the REAL portrait (cl-101) fills the aspect-[4/5] calling card in the
+      // 440px anchor column; the photo path is art direction and stays a
+      // constant in page.tsx — only its description is hers. 110 = the house
+      // alt ceiling (same as about-story imageAlt).
+      hint: "פורטרט אמיתי בלבד, לעולם לא תמונה מיוצרת. לתאר מה רואים, בלי \"תמונה של\"" },
     { key: "credentials",
       label: "תגי ההסמכה",
       kind: "repeater",
@@ -1489,11 +1367,107 @@ export const HOME_GUIDE: SectionType = {
           required: true,
           max: 24 }
       ] },
+    { key: "areasLabel",
+      label: "כותרת תחומי הליווי",
+      kind: "text",
+      required: true,
+      max: 24,
+      // text-[13px] font-bold tracking-eyebrow beside the ◆, inside a px-5
+      // paper slip — the kicker treatment on a narrower strip; one line.
+      hint: "היהלום מצויר בקוד" },
+    { key: "areas",
+      label: "תחומי הליווי",
+      kind: "repeater",
+      required: true,
+      itemLabel: "תחום",
+      min: 1,
+      fields: [
+        { key: "",
+          label: "שם התחום",
+          kind: "text",
+          required: true,
+          max: 34,
+          // rounded-full bg-sand px-3.5 py-1.5 text-sm — a pill in a flex-wrap
+          // row: the ROW wraps freely, the chip itself must stay one line
+          // (the longest today is 25 chars).
+          hint: "צ'יפ בשורה אחת" }
+      ],
+      hint: "כל תחום הוא גלולה אחת; הרשימה יורדת שורה לבד כשצריך" },
+    { key: "areasNote",
+      label: "שורת הגבול הרפואי",
+      kind: "textarea",
+      required: true,
+      max: 120,
+      // text-sm leading-relaxed at the slip's foot; the pieces column runs
+      // ~640px ≈ 75 chars a line at text-sm, so 120 stays under two lines.
+      hint: "מעקה ה-YMYL: לצד הרופא או הרופאה, לא במקומם — לעולם לא הבטחה למדד" },
     { key: "cta",
       label: "קישור לעמוד הליווי",
       kind: "text",
       max: 45,
       hint: "החץ ← חלק מהטקסט. היעד קבוע בקוד" }
+  ],
+};
+
+export const HOME_RIBBON: SectionType = {
+  type: "home-ribbon",
+  label: "רצועת המנות — הערוץ באינסטגרם",
+  purpose: "הוכחת-המלאכה של הדוסייה: קיר המנות האמיתיות שלה, שהוא גם ההזמנה לעקוב.",
+  fields: [
+    { key: "kicker",
+      label: "שורת פתיחה קטנה",
+      kind: "text",
+      required: true,
+      max: 40,
+      // text-xs font-bold tracking-eyebrow, centred over the band — the same
+      // eyebrow treatment as every kicker on the page.
+      hint: "היהלום מצויר בקוד" },
+    { key: "note",
+      label: "שורת המקור",
+      kind: "text",
+      required: true,
+      max: 90,
+      // text-center text-sm text-muted directly under the band — one sentence;
+      // at 390px it folds to two centred lines around 45 chars and stays calm.
+      hint: "משפט אחד: מאיפה המנות באמת" },
+    { key: "follow",
+      label: "שורת הערוץ",
+      kind: "textarea",
+      max: 170,
+      // mx-auto max-w-[56ch] text-sm leading-relaxed — 56 chars a line;
+      // 170 keeps the follow ask to three centred lines.
+      hint: "ההזמנה לעקוב — צ'יפי הרשתות עצמם מגיעים מההגדרות (SocialLinks)" },
+    { key: "linkHint",
+      label: "רמז הקישור לקורא-מסך",
+      kind: "text",
+      required: true,
+      max: 60,
+      hint: "לא מוצג על המסך — מוקרא אחרי שם המנה בכל אריח מקושר, כדי שלקישור תהיה מטרה בשמו" },
+    { key: "tiles",
+      label: "אריחי המנות",
+      kind: "repeater",
+      required: true,
+      itemLabel: "מנה",
+      min: 6,
+      // the CSS loop (.dish-ribbon-track, translateX(-50%)) doubles the tiles
+      // and needs ONE repeat wider than the viewport: at the md tile width
+      // (212px + 18px margin) a 1280px+ screen needs at least 6 tiles or the
+      // seam shows through. 13 today.
+      fields: [
+        { key: "src",
+          label: "תמונת המנה",
+          kind: "image",
+          ratio: "4:5",
+          minWidth: 424,
+          hint: "מנה אמיתית מהמטבח שלה בלבד, חתוכה מראש ל-424×530 — האריחים עוקפים את האופטימייזר בכוונה" },
+        { key: "alt",
+          label: "טקסט חלופי",
+          kind: "text",
+          required: true,
+          max: 100,
+          hint: "לתאר את המנה עצמה, בלי \"תמונה של\"" }
+      ],
+      hint: "אלה אריחי ברירת-המחדל: ברגע שקיר-הרשתות בהגדרות מלא, הוא תופס את הרצועה (כולל קישורי פוסטים)" }
   ],
 };
 
@@ -1729,24 +1703,20 @@ export const HOME_CTA: SectionType = {
 export const REGISTRY: Record<string, SectionType> = Object.fromEntries(
   [
     HOME_HERO,
-    HOME_FILM,
     HOME_GUIDE,
+    HOME_RIBBON,
     HOME_PLAN,
     HOME_PROOF,
     HOME_STAKES,
     HOME_SUCCESS,
     HOME_CTA,
-    TESTIMONIALS_HERO,
-    TESTIMONIALS_GRID,
-    TESTIMONIALS_CTA,
     CONTACT_DOOR,
     CONTACT_LEAD,
     CONTACT_WHERE,
     ABOUT_HERO,
     ABOUT_STORY,
-    ABOUT_AGE,
+    ABOUT_STANDARD,
     ABOUT_CREDENTIALS,
-    ABOUT_PRESS,
     ABOUT_CTA,
     PAGE_META,
     COACHING_HERO,

@@ -26,6 +26,11 @@ import { site, services } from "@/lib/site";
 import { socialWall } from "@/lib/settings";
 import { SocialLinks } from "@/components/SocialLinks";
 import { listDocs, type CollectionEntry } from "@/lib/collections";
+import { getPublishedPage, sectionPayload } from "@/lib/sections/source";
+import type {
+  HomeHeroPayload, HomeGuidePayload, HomeRibbonPayload, HomePlanPayload,
+  HomeProofPayload, HomeStakesPayload, HomeSuccessPayload, HomeCtaPayload,
+} from "@/lib/sections/payloads";
 
 // ============================================================================
 // בית — composed from plan/sections/01..08 (beats: HOOK→TENSION→GUIDE→PLAN→
@@ -37,25 +42,14 @@ import { listDocs, type CollectionEntry } from "@/lib/collections";
 // The hero room's poster — first frame of the ring-loop film (K1 overhead:
 // empty plate surrounded by abundance). ALSO the LCP — the video starts on
 // this exact frame, so the swap from poster to film is invisible.
-const HERO_POSTER = "/media/generated/01-hero-film-poster.jpg";
-
-const HERO = {
-  kicker: "תזונת נשים · ליווי אישי",
-  title: "את כבר יודעת מה לאכול.\nמה שחסר זה לא עוד תפריט.",
-  lede: "אלא דרך שנבנית סביב השבוע האמיתי שלך, בלי לוותר על האוכל שאת אוהבת. כדי שסוף-סוף יהיה שקט בראש, והתוצאה תישאר.",
-  ctaPrimary: "בואי נדבר",
-  ctaSub: "שיחת היכרות חינם",
-  // ONE trust line, split for the pill's sake: on <sm the license clause hides so
-  // the pill stays a single-line pill (the full license lives in GUIDE.credentials
-  // and /about); nothing is added or reworded — only shown by width.
-  trustToken: "דיאטנית קלינית מוסמכת · R.D.",
-  trustTokenLicense: " · רישיון משרד הבריאות",
-  ctaRecipes: "עוד לא מוכנה לשיחה? המתכונים שלי כאן",
-  // decorative only (aria-hidden): tells the eye the room continues below the
-  // fold. Deliberately NOT phrased as "skip to content" — layout.tsx already
-  // ships the WCAG skip-link, and two similar promises confuse a screen reader.
-  scrollCue: "גללי",
-} as const;
+// The hero's copy lives in content/pages/home.json and is edited from the
+// desk, with NO hardcoded fallback — every section below asserts the same
+// document, so a missing document takes the whole page down regardless, and a
+// hero-only copy would just be a second source of truth drifting from desk
+// edits. Two width/a11y facts that must survive in code: the trust pill's
+// license clause is `hidden sm:inline` (shown by width, never reworded), and
+// scrollCue is decorative (aria-hidden) — layout.tsx already ships the WCAG
+// skip-link, and two similar promises confuse a screen reader.
 
 // COPY: ### סקשן 3 · FeatureRow + BioCard + CredentialStrip
 // §03 room background — the desk the dossier spreads on (generated per plan
@@ -64,67 +58,11 @@ const GUIDE_BG = "/media/generated/03-guide-desk.jpg";
 // REAL portrait (cl-101, MEDIA-PLAN §3) — never a generated face, never stock.
 const GUIDE_PORTRAIT = "/media/client/alona/alona-guide.jpg";
 
-const GUIDE = {
-  kicker: "נעים להכיר",
-  title: "אני מכירה את הבלבול הזה",
-  empathy:
-    "גם אני עמדתי מול הבלגן הזה. בשלב מסוים כבר לא ידעתי מה נכון ומה לא נכון. בדיוק בגלל זה הלכתי ללמוד, כדי להבין מה באמת קורה בגוף שלנו.",
-  ageLine:
-    "כן, אני צעירה. וזה בדיוק מה שמאפשר לי להחזיק את המדע הכי עדכני, ולדבר איתך בגובה העיניים, לא מלמעלה.",
-  name: "אלונה אקרלינג",
-  role: "דיאטנית קלינית מוסמכת · R.D.",
-  portraitAlt: "אלונה אקרלינג, דיאטנית קלינית מוסמכת, אוכלת מקערה במטבח שלה",
-  credentials: [
-    "דיאטנית קלינית מוסמכת · R.D.",
-    "רישיון משרד הבריאות 204526-11",
-    "B.Sc במדעי התזונה",
-    "התמחות קלינית · איכילוב",
-  ],
-  mechanism: ["דיאטנית שמבשלת", "נבנה סביב השבוע שלך", "מדע עדכני", "ליווי אחת-על-אחת"],
-  // COPY: ### סקשן 3 — תחומי ליווי (נוסף 2026-07-26)
-  // The dossier metaphor earns this: a file on the desk lists what it covers.
-  // The last three arrived from Alona via Rom; the first two were already in the
-  // positioning, and pairing them is what makes this read as a list of areas
-  // rather than a new announcement. [לאימות מולה: ניסוח במילים שלה]
-  areasLabel: "תחומי ליווי",
-  areas: [
-    "תזונת הריון",
-    "שחלות פוליציסטיות (PCOS)",
-    "טרום סוכרת ואיזון מדדי דם",
-    "ירידה במשקל בלי דיאטה",
-    "אכילה רגשית",
-  ],
-  // The YMYL guardrail, rendered — never a promise to move a lab value.
-  areasNote: "בתחומים הרפואיים אני עובדת לצד הרופא או הרופאה שמלווים אותך, לא במקומם.",
-  cta: "בואי לראות איך עובדים יחד ←",
-} as const;
+// COPY: ### סקשן 3 — the dossier's words (empathy, credentials, tabs, תחומי
+// ליווי and the YMYL guardrail note) live in the page document now; what stays
+// here is the desk still and the portrait path — art direction, not her words.
 
 // COPY: ### סקשן 4 · ProcessTimeline (3 שלבים)
-const PLAN = {
-  kicker: "איך זה עובד",
-  title: "שלושה צעדים, בשפה שלך",
-  // the "לא X אלא Y" flip is the hero's line and stays THERE alone (it read as a
-  // pasted twin here); the plan states the same thing plainly, in her own voice.
-  lead: "תפריטים כבר יש לך. הדרך צריכה להיבנות סביב השבוע שלך.",
-  steps: [
-    {
-      n: "01",
-      t: "שיחת היכרות",
-      d: "שיחה קצרה, בחינם ובלי שום התחייבות. את מספרת לי מה עובר עלייך עכשיו, מה כבר ניסית, ומה הכי מעייף אותך סביב האוכל, ואני בעיקר מקשיבה. בסוף השיחה נבין ביחד אם אני האדם הנכון ללוות אותך, ואם התשובה היא לא, אגיד לך את זה בכנות. זו שיחה, לא שיחת מכירה, ואת לא צריכה להגיע אליה מוכנה.",
-    },
-    {
-      n: "02",
-      t: "פגישה עמוקה + תוכנית אישית",
-      d: "פגישה של 60 עד 75 דקות שיושבת לעומק: מה את אוהבת לאכול, איך נראה היום שלך באמת, מה כבר ניסית ומה נשבר בדרך, ובדיקות דם אם רלוונטי. אין כאן שיפוט ואין רשימת איסורים, יש הקשבה למה שבאמת קורה אצלך בשבוע. מהפגישה את יוצאת עם תוכנית אישית שנבנית סביב החיים שלך ולא במקומם, והאוכל שאת אוהבת נשאר בפנים. התוכנית נשארת אצלך, ולא נעלמת ברגע שיצאת מהחדר.",
-    },
-    {
-      n: "03",
-      t: "ליווי שנשאר",
-      d: "אני לא נעלמת אחרי הפגישה, וזה בדיוק החלק שרוב הדיאטות מפספסות. בחבילות הליווי אני איתך בוואטסאפ בין המפגשים, לשאלות הקטנות שצצות באמצע היום ולרגעים שבהם מתחשק לוותר, ויש גם פידבק על יומן האכילה ומפגשי מעקב לאורך הדרך. ככה הדברים מפסיקים להיות רעיון יפה ונכנסים לשגרה, גם בשבועות העמוסים. המטרה שלי היא שלא תישארי לבד מול האתגרים של היום יום, ושבסוף הדרך יישאר לך משהו שהוא כבר שלך. לא עוד דיאטה שנגמרת.",
-    },
-  ],
-  cta: "רוצה לראות איך זה נראה בפועל? הצצה למטבח שלי ←",
-} as const;
 
 // Rung media (rungs 01–02 only; rung 03 keeps the designed sage panel so the ladder
 // ends on the site's own calm). 01 stays the generated still — decorative, alt="".
@@ -140,94 +78,18 @@ const PLAN_MEDIA: readonly { src: string; alt: string }[] = [
 ];
 
 // COPY: ### סקשן 5 · RecipeCard grid + ResultCard
-const PROOF = {
-  kicker: "תראי בעצמך",
-  title: "היא באמת מבשלת",
-  body: "לא עוד תמונה יפה. אוכל אמיתי שאני מבשלת, מתוך שבוע רגיל ועמוס.",
-  countChip: "בערך 30 מתכונים · מתכון חדש כל שבוע",
-  darkTestimonial: "המלצות אמיתיות יופיעו כאן ברגע שיהיו. אני לא ממציאה סיפור שלא קרה.",
-  darkLogos: "שיתופי פעולה ומדיה יתווספו עם האישור.",
-  cta: "לכל המתכונים ←",
-} as const;
 
 // COPY: ### סקשן 5 — רצועת המנות (הרחבה של ביט ה-PROOF, 2026-07-26)
 // המנות אמיתיות ומצולמות על ידה; נבחרו לעוצמה ויזואלית באריח אחיד (MEDIA-PLAN §2)
 // — פריימים דהויים (מרק בקערת זכוכית, כוסות פרפה על שיש אפור) נפסלו בכוונה.
-const RIBBON = {
-  kicker: "מהמטבח שלי",
-  note: "כל מתכון כאן נבדק אצלי בבית לפני שהוא מגיע אלייך. אלה לא צילומי מאגר.",
-  // The band was already a wall of her real food; these two lines are what turn
-  // it into the CHANNEL. «הקהילה = האינסטגרם» (Rom) — so the proof-of-craft and
-  // the follow ask are the same object, instead of a second photo band competing
-  // with this one for the same job further down the page.
-  follow: "כל מנה כאן עלתה קודם לאינסטגרם. שם עולים מתכונים חדשים, טיפים קטנים, ומה שבאמת קורה במטבח ביום רגיל.",
-  // spoken only by screen readers, appended to each linked tile's name
-  linkHint: "לצפייה באינסטגרם, נפתח בלשונית חדשה",
-  tiles: [
-    { src: "/media/client/alona/ribbon/kale-chickpea.jpg", alt: "קערת עלים ירוקים עם חומוס קלוי ובצל סגול כבוש" },
-    { src: "/media/client/alona/ribbon/pancakes-figs.jpg", alt: "מגדל פנקייקים עם תאנים, בננה ואוכמניות" },
-    { src: "/media/client/alona/ribbon/roasted-tray.jpg", alt: "תבנית ירקות שורש צלויים עם רוזמרין ולימון" },
-    { src: "/media/client/alona/ribbon/fruit-bowl.jpg", alt: "קערת פירות חתוכים: מלון, אבטיח, קיווי ואוכמניות" },
-    { src: "/media/client/alona/ribbon/pepper-salad.jpg", alt: "סלט פלפלים צבעוניים, מלפפון ובצל" },
-    { src: "/media/client/alona/ribbon/cauliflower-dip.jpg", alt: "כרובית פריכה בציפוי זהוב לצד רוטב ירוק" },
-    { src: "/media/client/alona/ribbon/fritters-tray.jpg", alt: "תבנית אפייה מלאה בלביבות זהובות" },
-    { src: "/media/client/alona/ribbon/chickpea-bowl.jpg", alt: "קערה עם חומוס קלוי, עלים ירוקים ובצל כבוש" },
-    { src: "/media/client/alona/ribbon/quinoa-platter.jpg", alt: "מגש קינואה עם ירק קצוץ ושקדים" },
-    { src: "/media/client/alona/ribbon/lasagna-basil.jpg", alt: "לזניה בתבנית עם עלי בזיליקום טריים" },
-    { src: "/media/client/alona/ribbon/green-pasta.jpg", alt: "מחבת פסטה ברוטב ירוק עם גבינה מגוררת" },
-    { src: "/media/client/alona/ribbon/focaccia.jpg", alt: "פוקצ'ה ביתית עם שומשום וזיתים" },
-    { src: "/media/client/alona/ribbon/rice-pan.jpg", alt: "מחבת אורז צהוב עם ירקות" },
-  ],
-} as const;
+// The band's words AND its default tile set live in the page document (the
+// social wall in settings still takes the strip over when the desk fills it).
 
 // COPY: ### סקשן 6 · Comparison + צעד חינם צמוד
-const STAKES = {
-  kicker: "נמאס מהסבב הזה?",
-  title: "עוד שנה רועשת, או דרך שסוף-סוף שקטה",
-  cue: "הדרך שאני ממליצה עליה",
-  quiet: {
-    label: "הדרך השקטה",
-    note: "פעם אחת, בליווי, והאוכל שאת אוהבת נשאר על השולחן",
-    points: [
-      "דרך שנבנית סביב השבוע האמיתי שלך",
-      "שקט. לאכול בלי לספור ובלי להתנצל",
-      "משהו שנשאר איתך, כי זו לא עוד דיאטה",
-      "אחת-על-אחת, גם בין הפגישות",
-    ],
-  },
-  noisy: {
-    label: "עוד שנה רועשת",
-    note: "עוד דיאטה שמתחילה ביום ראשון ונשברת ברביעי",
-    points: [
-      "תפריט חדש שאת כבר יודעת שלא יחזיק",
-      "רעש בראש סביב כל ארוחה, ואשמה אחריה",
-      '"הפעם זה יחזיק", שכבר אמרת לעצמך',
-      "לבד מול עוד ניסיון",
-    ],
-  },
-  band: "במקום עוד שנה כזאת, בואי נדבר. שיחת היכרות בלי עלות ובלי התחייבות.",
-  bandCta: "בואי נדבר ←",
-  bandSecondary: "או קחי בינתיים הצצה למתכונים",
-} as const;
 
 // COPY: ### סקשן 7 · חצי-קומפוזיציה: still-ערב + PullQuote (רעש→שקט)
-const SUCCESS = {
-  kicker: "ככה זה יכול להרגיש",
-  lines: "בפעם הראשונה, אני לא בדיאטה.\nאכלתי בחוץ, נהניתי, ובלי אשמה.\nיש לי אנרגיה, ובראש שקט.",
-  bridge: "וזה מתחיל בשיחה אחת, בלי לחץ. ←",
-} as const;
 
 // COPY: ### סקשן 8 · ContactLeadForm (פאנל נייבי #lead)
-const CTA = {
-  title: "בואי נדבר.\nהצעד הראשון קטן, וחינם.",
-  body: "שיחת היכרות קצרה, בלי התחייבות. נכיר, ונבין יחד אם אני האדם הנכון ללוות אותך אל השקט הזה.",
-  packages:
-    "הליווי נמכר בחבילות שמתאימות לחיים שלך. על זה בדיוק נדבר בשיחה, בלי הפתעות ובלי מחיר שקופץ מהמסך.",
-  promise: "אני חוזרת אלייך אישית, עד 4 ימי עסקים.",
-  // split like HERO.trustToken: the license clause hides below sm (pill stays one line)
-  trustToken: "דיאטנית קלינית מוסמכת · R.D.",
-  trustTokenLicense: " · רישיון משרד הבריאות",
-} as const;
 
 // One neutral meta line at most (mirrors the archive's tileMeta): a real prep
 // time, then the first diet tag — never invented numbers (YMYL).
@@ -239,7 +101,20 @@ function recipeMeta(e: CollectionEntry): string | undefined {
   return parts.length ? parts.slice(0, 2).join(" · ") : undefined;
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  // ONE read for the whole page. Every section below takes its words from here;
+  // what stays in this file is only what the editor must not own — the room
+  // stills, the rung media, the scroll choreography.
+  const page = await getPublishedPage("");
+  const HERO = sectionPayload<HomeHeroPayload>(page, "hero")!;
+  const GUIDE = sectionPayload<HomeGuidePayload>(page, "guide")!;
+  const RIBBON = sectionPayload<HomeRibbonPayload>(page, "ribbon")!;
+  const PLAN = sectionPayload<HomePlanPayload>(page, "plan")!;
+  const PROOF = sectionPayload<HomeProofPayload>(page, "proof")!;
+  const STAKES = sectionPayload<HomeStakesPayload>(page, "stakes")!;
+  const SUCCESS = sectionPayload<HomeSuccessPayload>(page, "success")!;
+  const CTA = sectionPayload<HomeCtaPayload>(page, "cta")!;
+
   // The ribbon's tiles: client-edited set when she has filled one from /admin,
   // otherwise the authored default. An empty settings file therefore renders the
   // page exactly as designed rather than an empty band, so she can take the strip
@@ -291,9 +166,9 @@ export default function HomePage() {
              ever read it) and was removed. ── */}
       <section className="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-bg lg:items-center" style={{ "--grade-tint": "var(--hour-morning)" } as React.CSSProperties}>
         <HeroFilm
-          poster={HERO_POSTER}
-          webm="/media/generated/01-hero-film.webm"
-          mp4="/media/generated/01-hero-film.mp4"
+          poster={HERO.poster}
+          webm={HERO.filmWebm}
+          mp4={HERO.filmMp4}
           objectPosition="70% center"
         />
         <div aria-hidden className="hero-scrim" />
@@ -316,7 +191,7 @@ export default function HomePage() {
               autoplay
               // the rose ANSWERS the question — a hand-drawn rule under the
               // promise, after the line lands («חוט ואור» move 4)
-              accentText="לא עוד תפריט"
+              accentText={HERO.titleAccent}
               className="mt-5 font-serif font-black leading-[1.12] text-navy"
               style={{ fontSize: "clamp(2.1rem, 5vw, 3.3rem)" }}
             />
@@ -433,7 +308,7 @@ export default function HomePage() {
           <Container width="wide" className="py-16 sm:py-20 md:py-32">
             {/* the heading rides its own paper strip — never bare over the photo */}
             <div className="inline-block rounded-[10px] bg-bg/90 md:px-7 md:py-5 md:backdrop-blur-sm">
-              <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} accent="מכירה" />
+              <SectionHeading eyebrow={GUIDE.kicker} title={GUIDE.title} accent={GUIDE.titleAccent} />
             </div>
             <MOrchestrate className="relative mt-12 grid items-start gap-x-12 gap-y-9 md:grid-cols-[0.85fr_1.15fr]">
               {/* file anchor column — RTL inline-start (right): the calling card,
@@ -595,7 +470,7 @@ export default function HomePage() {
           }
         >
         <Container width="wide" className="py-16 sm:py-20 md:py-32">
-          <SectionHeading eyebrow={PLAN.kicker} title={PLAN.title} lead={PLAN.lead} accent="בשפה שלך" />
+          <SectionHeading eyebrow={PLAN.kicker} title={PLAN.title} lead={PLAN.lead} accent={PLAN.titleAccent} />
           <StickyScroll
             className="mt-14"
             mediaSide="start"
@@ -675,7 +550,7 @@ export default function HomePage() {
       {/* ── 05 · PROOF — card-grid: a random trio of real CMS recipes per visit;
              testimonial + media-logo slots stay honestly DARK until real. ── */}
       <Section tone="white" border id="proof">
-        <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.body} accent="באמת" />
+        <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.body} accent={PROOF.titleAccent} />
         <div className="mt-6">
           <span className="inline-block rounded-full bg-gold-soft px-4 py-1.5 text-sm font-semibold text-gold-ink">
             {PROOF.countChip}
@@ -712,7 +587,7 @@ export default function HomePage() {
       <section className="relative" style={{ "--grade-tint": "var(--hour-golden)" } as React.CSSProperties}>
         <Container width="wide" className="pb-32 pt-4 sm:pb-36 md:pb-44 md:pt-6">
           <div className="relative z-10 rounded-[16px] border border-line bg-bg p-7 shadow-[var(--elevation-2)] md:p-10">
-            <SectionHeading eyebrow={STAKES.kicker} title={STAKES.title} accent="שקטה" />
+            <SectionHeading eyebrow={STAKES.kicker} title={STAKES.title} accent={STAKES.titleAccent} />
             <p className="mt-8 font-serif text-lg italic text-rose-ink">{STAKES.cue}</p>
             <Comparison
               className="mt-5"

@@ -25,7 +25,9 @@ import path from "node:path";
 
 const BASE = process.env.PARITY_BASE ?? "http://127.0.0.1:3020";
 const DIR = path.join(process.cwd(), ".parity");
-const ROUTES = ["/", "/about", "/coaching", "/contact", "/testimonials", "/recipes"];
+// /testimonials retired 2026-07-30 → /articles; one article detail rides along
+// so template changes are gated too.
+const ROUTES = ["/", "/about", "/coaching", "/contact", "/articles", "/articles/how-to-choose-a-dietitian", "/recipes"];
 
 // Belt to the normaliser's braces: the visible text is compared too, so a change
 // that a markup normaliser could swallow still fails. If the words a reader sees

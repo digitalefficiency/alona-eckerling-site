@@ -48,9 +48,10 @@ async function rest(path, init = {}) {
 
 // ── 1. the public read surface ──────────────────────────────────────────────
 {
+  // 4 section pages since /testimonials retired into the /articles collection
   const { status, body } = await rest("pages?select=slug,sections&order=slug");
   const slugs = Array.isArray(body) ? body.map((r) => r.slug).sort() : [];
-  record("anon reads 5 published pages", status === 200 && slugs.length === 5, `got ${status}, ${slugs.length} rows [${slugs.join(", ")}]`);
+  record("anon reads 4 published pages", status === 200 && slugs.length === 4, `got ${status}, ${slugs.length} rows [${slugs.join(", ")}]`);
 
   // The invariant behind the whole drafts/published table split: no section
   // that the editor hid may appear in what the world can fetch.

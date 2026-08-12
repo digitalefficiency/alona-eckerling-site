@@ -23,28 +23,12 @@ export type HomeHeroPayload = {
   /** hidden below sm so the pill stays one line — starts with its own separator */
   trustTokenLicense: string;
   ctaRecipes: string;
+  /** decorative scroll cue (aria-hidden, desktop only) — one short word over the ↓ */
+  scrollCue: string;
   /** art direction: the film's last frame must match the scroll section's first */
   poster: string;
   filmWebm: string;
   filmMp4: string;
-};
-
-/**
- * The scroll film. `chips` and `captions` carry TEXT ONLY; each entry is paired
- * by index with the choreography in page.tsx. The static* fields are not a
- * fallback — they are what crawlers, no-JS readers and anyone with reduced
- * motion actually get, which makes them the SEO copy of the page's largest
- * section.
- */
-export type HomeFilmPayload = {
-  kicker: string;
-  staticKicker: string;
-  staticHeading: string;
-  staticBody: string;
-  finalAlt: string;
-  /** text only — paired by index with the choreography in page.tsx */
-  chips: string[];
-  captions: { big: string; small?: string }[];
 };
 
 export type HomeGuidePayload = {
@@ -54,9 +38,29 @@ export type HomeGuidePayload = {
   empathy: string;
   name: string;
   role: string;
+  /** alt of the REAL portrait on the calling card — the image path stays code */
+  portraitAlt: string;
   credentials: string[];
   mechanism: string[];
+  areasLabel: string;
+  areas: string[];
+  /** the YMYL guardrail, rendered — never a promise to move a lab value */
+  areasNote: string;
   cta: string;
+};
+
+/**
+ * The dish ribbon — §03's proof-of-craft extension AND the Instagram channel.
+ * The tiles here are the authored DEFAULT set: when the desk fills the social
+ * wall in settings, that set (with its per-post links) takes the strip over.
+ */
+export type HomeRibbonPayload = {
+  kicker: string;
+  note: string;
+  follow: string;
+  /** screen-reader only — appended to each linked tile's accessible name */
+  linkHint: string;
+  tiles: { src: string; alt: string }[];
 };
 
 export type HomePlanPayload = {
@@ -182,6 +186,12 @@ export type ContactWherePayload = {
   body: string;
   items: { title: string; body: string }[];
   chip: string;
+  /**
+   * heading above the social chips row — the fourth, no-commitment way in.
+   * Optional because published rows written before this field existed lack the
+   * key, and SocialLinks drops a falsy label by design.
+   */
+  socialLabel?: string;
 };
 
 // /about
@@ -214,12 +224,16 @@ export type AboutStoryPayload = {
   imageAlt: string;
 };
 
-export type AboutAgePayload = {
+export type AboutStandardPayload = {
   kicker: string;
-  quote: string;
-  quoteAccent: string;
-  support: string;
-  signature: string;
+  /** two lines, split on \n by SplitText */
+  title: string;
+  /** a substring of one line of `title`; a mismatch costs the underline, not the page */
+  titleAccent: string;
+  body: string;
+  principles: { t: string; d: string }[];
+  areasLabel: string;
+  areas: string[];
 };
 
 export type AboutCredentialsPayload = {
@@ -234,6 +248,8 @@ export type AboutCredentialsPayload = {
   bscLine: string;
   internTitle: string;
   internLine: string;
+  courseTitle: string;
+  courseLine: string;
   craftTitle: string;
   craftLine: string;
   craftLink: string;
@@ -241,11 +257,6 @@ export type AboutCredentialsPayload = {
   craftImage: string;
   craftImageAlt: string;
   bridge: string;
-  teamLink: string;
-};
-
-export type AboutPressPayload = {
-  reserved: string;
 };
 
 export type AboutCtaPayload = {
@@ -254,6 +265,11 @@ export type AboutCtaPayload = {
   title: string;
   body: string;
   recipes: string;
+  /**
+   * heading above the social chips row — the sceptic's watch-first off-ramp.
+   * Optional for the same pre-existing-rows reason as ContactWherePayload.
+   */
+  socialLabel?: string;
   trustToken: string;
   button: string;
   signature: string;

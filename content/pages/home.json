@@ -17,45 +17,10 @@
         "trustToken": "דיאטנית קלינית מוסמכת · R.D.",
         "trustTokenLicense": " · רישיון משרד הבריאות",
         "ctaRecipes": "עוד לא מוכנה לשיחה? המתכונים שלי כאן",
+        "scrollCue": "גללי",
         "poster": "/media/generated/01-hero-film-poster.jpg",
         "filmWebm": "/media/generated/01-hero-film.webm",
         "filmMp4": "/media/generated/01-hero-film.mp4"
-      }
-    },
-    {
-      "id": "film",
-      "type": "home-film",
-      "schema_version": 1,
-      "visible": false,
-      "payload": {
-        "kicker": "מוכר לך? · צלחת אחת, ערב אחד",
-        "staticKicker": "מוכר לך?",
-        "staticHeading": "ניסית כבר הכל, והאוכל עדיין מרגיש כמו מלחמה.",
-        "staticBody": "את יודעת בדיוק מה נכון לאכול, אבל לבד זה לא מחזיק. כל ביס מגיע עם חשבון בראש, וביס אחד \"לא נכון\" הופך מהר ל\"היום כבר נהרס\". ארוחה אמיתית, בלי חשבון ובלי אשמה, אפשרית, ואת לא צריכה להגיע לזה לבד.",
-        "finalAlt": "צלחת מאוזנת ומלאה, ערוכה ומוכנה",
-        "chips": [
-          "אוקיי, סלט. בטוח.",
-          "רגע, קינואה זה פחמימה?",
-          "בטטה בערב?!",
-          "כמה קלוריות זה כבר?",
-          "טחינה זה שמן... אבל אני אוהבת."
-        ],
-        "captions": [
-          {
-            "big": "ארוחת ערב. כמה קשה זה כבר יכול להיות?"
-          },
-          {
-            "big": "שומעת את הרעש הזה?",
-            "small": "זה לא רעב. זו כל דיאטה שנשארה לך בראש."
-          },
-          {
-            "big": "ארוחה אמיתית. בלי חשבון, בלי אשמה."
-          },
-          {
-            "big": "ואת לא צריכה להגיע לזה לבד.",
-            "small": "בדיוק בשביל זה יש ליווי."
-          }
-        ]
       }
     },
     {
@@ -69,6 +34,7 @@
         "empathy": "גם אני עמדתי מול הבלגן הזה. בשלב מסוים כבר לא ידעתי מה נכון ומה לא נכון. בדיוק בגלל זה הלכתי ללמוד, כדי להבין מה באמת קורה בגוף שלנו.",
         "name": "אלונה אקרלינג",
         "role": "דיאטנית קלינית מוסמכת · R.D.",
+        "portraitAlt": "אלונה אקרלינג, דיאטנית קלינית מוסמכת, אוכלת מקערה במטבח שלה",
         "cta": "בואי לראות איך עובדים יחד ←",
         "titleAccent": "מכירה",
         "credentials": [
@@ -82,6 +48,81 @@
           "נבנה סביב השבוע שלך",
           "מדע עדכני",
           "ליווי אחת-על-אחת"
+        ],
+        "areasLabel": "תחומי ליווי",
+        "areas": [
+          "תזונת הריון",
+          "שחלות פוליציסטיות (PCOS)",
+          "טרום סוכרת ואיזון מדדי דם",
+          "ירידה במשקל בלי דיאטה",
+          "אכילה רגשית"
+        ],
+        "areasNote": "בתחומים הרפואיים אני עובדת לצד הרופא או הרופאה שמלווים אותך, לא במקומם."
+      }
+    },
+    {
+      "id": "ribbon",
+      "type": "home-ribbon",
+      "schema_version": 1,
+      "visible": true,
+      "payload": {
+        "kicker": "מהמטבח שלי",
+        "note": "כל מתכון כאן נבדק אצלי בבית לפני שהוא מגיע אלייך. אלה לא צילומי מאגר.",
+        "follow": "כל מנה כאן עלתה קודם לאינסטגרם. שם עולים מתכונים חדשים, טיפים קטנים, ומה שבאמת קורה במטבח ביום רגיל.",
+        "linkHint": "לצפייה באינסטגרם, נפתח בלשונית חדשה",
+        "tiles": [
+          {
+            "src": "/media/client/alona/ribbon/kale-chickpea.jpg",
+            "alt": "קערת עלים ירוקים עם חומוס קלוי ובצל סגול כבוש"
+          },
+          {
+            "src": "/media/client/alona/ribbon/pancakes-figs.jpg",
+            "alt": "מגדל פנקייקים עם תאנים, בננה ואוכמניות"
+          },
+          {
+            "src": "/media/client/alona/ribbon/roasted-tray.jpg",
+            "alt": "תבנית ירקות שורש צלויים עם רוזמרין ולימון"
+          },
+          {
+            "src": "/media/client/alona/ribbon/fruit-bowl.jpg",
+            "alt": "קערת פירות חתוכים: מלון, אבטיח, קיווי ואוכמניות"
+          },
+          {
+            "src": "/media/client/alona/ribbon/pepper-salad.jpg",
+            "alt": "סלט פלפלים צבעוניים, מלפפון ובצל"
+          },
+          {
+            "src": "/media/client/alona/ribbon/cauliflower-dip.jpg",
+            "alt": "כרובית פריכה בציפוי זהוב לצד רוטב ירוק"
+          },
+          {
+            "src": "/media/client/alona/ribbon/fritters-tray.jpg",
+            "alt": "תבנית אפייה מלאה בלביבות זהובות"
+          },
+          {
+            "src": "/media/client/alona/ribbon/chickpea-bowl.jpg",
+            "alt": "קערה עם חומוס קלוי, עלים ירוקים ובצל כבוש"
+          },
+          {
+            "src": "/media/client/alona/ribbon/quinoa-platter.jpg",
+            "alt": "מגש קינואה עם ירק קצוץ ושקדים"
+          },
+          {
+            "src": "/media/client/alona/ribbon/lasagna-basil.jpg",
+            "alt": "לזניה בתבנית עם עלי בזיליקום טריים"
+          },
+          {
+            "src": "/media/client/alona/ribbon/green-pasta.jpg",
+            "alt": "מחבת פסטה ברוטב ירוק עם גבינה מגוררת"
+          },
+          {
+            "src": "/media/client/alona/ribbon/focaccia.jpg",
+            "alt": "פוקצ'ה ביתית עם שומשום וזיתים"
+          },
+          {
+            "src": "/media/client/alona/ribbon/rice-pan.jpg",
+            "alt": "מחבת אורז צהוב עם ירקות"
+          }
         ]
       }
     },
@@ -198,12 +239,12 @@
       "type": "home-hero"
     },
     {
-      "id": "film",
-      "type": "home-film"
-    },
-    {
       "id": "guide",
       "type": "home-guide"
+    },
+    {
+      "id": "ribbon",
+      "type": "home-ribbon"
     },
     {
       "id": "plan",
