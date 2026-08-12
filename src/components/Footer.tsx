@@ -1,15 +1,25 @@
 import Link from "next/link";
 import { site, services, nav, currentYear } from "@/lib/site";
 import { CookiePrefsButton } from "@/components/CookiePrefsButton";
+import { SocialLinks } from "@/components/SocialLinks";
+import { BrandLogo } from "@/components/BrandLogo";
 
 export function Footer() {
   return (
     <footer className="mt-auto border-t-4 border-rose bg-navy text-on-navy-muted">
       <div className="mx-auto grid max-w-[1120px] grid-cols-1 gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
         <div>
-          <p className="font-serif text-lg font-black text-white">{site.name}</p>
-          <p className="mt-2 text-sm leading-relaxed">{site.tagline}</p>
+          {/* the FULL two-line lockup lives here, not in the header: this column
+              is ~260px wide, so the long credential line finally has the measure
+              to be read rather than guessed at. `dark` keeps the type white on
+              navy while the avocado holds its own colour. */}
+          <BrandLogo variant="full" dark className="h-14 w-auto max-w-full" />
+          <p className="mt-4 text-sm leading-relaxed">{site.tagline}</p>
           <p className="mt-3 text-sm text-on-navy-muted">מאז {site.foundingYear}</p>
+          {/* the everyday channel — the site is where she explains, the feed is
+              where she shows up. Footer, never the header: an outbound link in
+              the primary nav leaks visitors before they ever reach the form. */}
+          <SocialLinks tone="dark" label="גם כאן, כל יום" className="mt-5" />
         </div>
 
         <div>

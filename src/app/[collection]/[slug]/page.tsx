@@ -10,6 +10,7 @@ import { ArticleMeta } from "@/components/ArticleMeta";
 import { MediaFrame } from "@/components/media/MediaFrame";
 import { Gallery } from "@/components/media/Gallery";
 import { Prose } from "@/components/Prose";
+import { ServiceGuideTOC } from "@/components/ServiceGuideTOC";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { SectionHeading } from "@/components/SectionHeading";
 import { JsonLd, faqSchema } from "@/components/JsonLd";
@@ -121,10 +122,21 @@ export default async function CollectionEntryPage({ params }: Params) {
         dateModified: String(doc.data.last_updated ?? doc.date),
         inLanguage: htmlLang[defaultLocale],
         mainEntityOfPage: `${site.url}/${collection}/${slug}`,
-        // Reference the ONE canonical Person node (defined on /team/alona) by @id,
-        // instead of a second lookalike at /about — the entity-resolution fix.
-        author: { "@type": "Person", "@id": `${site.url}/team/alona#person`, name: site.name, url: `${site.url}/team/alona` },
-        ...(doc.image ? { image: `${site.url}${doc.image}` } : {}),
+        // Reference the ONE canonical Person node by @id rather than emitting a
+        // second lookalike here — the entity-resolution fix. That node moved to
+        // /about when /team/alona was removed
+        // (2026-07-29) — this @id MUST match personFromBio's on /about or the
+        // recipes start referencing an entity that no longer resolves
+        author: { "@type": "Person", "@id": `${site.url}/about#person`, name: site.name, url: `${site.url}/about` },
+        // Google's Recipe guidance asks for MULTIPLE images of the finished dish;
+        // now that a recipe carries its own photo set, the hero rides at the front
+        // and the first few gallery shots follow (capped — the rest add bytes to
+        // every page's head without adding a signal).
+        ...(doc.image
+          ? {
+              image: [doc.image, ...doc.gallery.slice(0, 3).map((g) => g.url)].map((u) => `${site.url}${u}`),
+            }
+          : {}),
         ...(doc.data.category ? { recipeCategory: String(doc.data.category) } : {}),
         ...(Array.isArray(doc.data.tags) && doc.data.tags.length
           ? { keywords: (doc.data.tags as string[]).join(", ") }
@@ -198,22 +210,78 @@ export default async function CollectionEntryPage({ params }: Params) {
         </div>
       </Section>
 
-      <Section tone="white" width="prose" border>
-        {doc.image && (
-          <MediaFrame
-            src={doc.image}
-            alt={doc.imageAlt ?? doc.title}
-            ratio="16/9"
-            priority
-            className="mb-10"
-          />
-        )}
-        <Prose html={doc.html} />
-      </Section>
+      {/* ── The article body. Long-form entries with a real outline get the
+             running table of contents beside them; recipes and short pieces keep
+             the plain prose measure.
 
+             Why `>= 2` and not `> 0`: a contents list with ONE entry is not a
+             contents list, it is a duplicate of the title taking up a column.
+
+             ONE TOC instance, not one per breakpoint. The grid is single-column
+             on mobile with the aside first (so the outline reads as an intro to
+             what follows) and two-column at lg, where `order` puts the article on
+             the reading edge and the aside on the outer one. Rendering a second
+             copy inside a mobile <details> would have been easier and would have
+             put two IntersectionObservers on the same headings.
+
+             The stickiness lives HERE, not in ServiceGuideTOC: the component
+             scroll-spies but never positions itself, so it stays usable in a
+             non-sticky context too. top-28 clears the fixed header and matches
+             the global scroll-padding-top, so a clicked anchor and the sticky
+             rail agree about where a section starts. ── */}
+      {!isRecipe && doc.headings.length >= 2 ? (
+        <Section tone="white" width="wide" border>
+          <div className="grid gap-x-12 gap-y-10 lg:grid-cols-[minmax(0,1fr)_15rem]">
+            <aside className="lg:order-2">
+              <div className="lg:sticky lg:top-28">
+                <ServiceGuideTOC headings={doc.headings} />
+              </div>
+            </aside>
+            {/* min-w-0: without it a long unbroken string in the prose would
+                blow the 1fr track wider than the grid and shove the rail off */}
+            <div className="min-w-0 lg:order-1">
+              {doc.image && (
+                <MediaFrame
+                  src={doc.image}
+                  alt={doc.imageAlt ?? doc.title}
+                  ratio="16/9"
+                  priority
+                  className="mb-10"
+                />
+              )}
+              <Prose html={doc.html} />
+            </div>
+          </div>
+        </Section>
+      ) : (
+        <Section tone="white" width="prose" border>
+          {doc.image && (
+            <MediaFrame
+              src={doc.image}
+              alt={doc.imageAlt ?? doc.title}
+              ratio="16/9"
+              priority
+              className="mb-10"
+            />
+          )}
+          <Prose html={doc.html} />
+        </Section>
+      )}
+
+      {/* The photo set behind the entry. On a recipe these are Alona's own phone
+          shots (9:16), so the tiles take the PORTRAIT crop — the 4/3 card ate most
+          of the plate. Recipes also get a quiet heading, because a bare grid of
+          eight photos under a method reads as a layout accident; every other
+          collection keeps the unlabelled strip it already had. */}
       {doc.gallery.length > 0 && (
         <Section tone="white" width="wide" border>
-          <Gallery items={doc.gallery.map((g) => ({ src: g.url, alt: g.alt }))} />
+          {isRecipe && <SectionHeading eyebrow="מהמטבח" title="עוד תמונות מהמנה" />}
+          <div className={isRecipe ? "mt-10" : ""}>
+            <Gallery
+              items={doc.gallery.map((g) => ({ src: g.url, alt: g.alt }))}
+              ratio={isRecipe ? "portrait" : "card"}
+            />
+          </div>
         </Section>
       )}
 

@@ -1,6 +1,6 @@
 {
   "client": "alona-eckerling",
-  "generatedAt": "2026-07-16",
+  "generatedAt": "2026-07-25",
   "assets": [
     {
       "id": "cl-001",
@@ -466,6 +466,328 @@
       },
       "alt": "zucchini feta salad",
       "source": "wix-cdn-migration-2026-07-16"
+    },
+    {
+      "id": "cl-101",
+      "installPath": "/media/client/alona/alona-guide.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "3e3568c24d2c3f28b72ad707db8f7d4ded602a0239e66ef4859f8a3f1d7693bf",
+        "bytes": 204696,
+        "pipeline": "PIL LANCZOS → JPEG q72 progressive 4:2:2 (2026-07-25 media-plan round)",
+        "crop": "recropped 2026-07-25 — inline-end wall removed (readable third-party phone number + family photos on the fridge)"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט (1yRPfMp8F4cICVq9Fu2EBBw46SdwFsdAf) ב-2026-07-23, במענה ישיר לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md ('קבצי מקור: צילומים, פורטרטים'). מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "אלונה אקרלינג אוכלת מקערה במטבח, מחייכת אל המצלמה",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-102",
+      "installPath": "/media/client/alona/alona-goldenhour.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "c4e89b39d27c8934f417f6ec2bb29fb7e0d06c298c5b24e043a32ccfcf38fadd",
+        "bytes": 145257,
+        "pipeline": "PIL LANCZOS → JPEG q72 progressive 4:2:2 (2026-07-25 media-plan round)",
+        "crop": "recropped 2026-07-25 — tightened from the environmental wide: at 338px on mobile she read as a small figure in the frame"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט (1yRPfMp8F4cICVq9Fu2EBBw46SdwFsdAf) ב-2026-07-23, במענה ישיר לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md ('קבצי מקור: צילומים, פורטרטים'). מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "אלונה אקרלינג בשעת זהב, פורטרט חם",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-103",
+      "installPath": "/media/client/alona/alona-sea.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "32fa06ca6206e688567f5234e7a4e8864f72434ebf36683a968646f934db05ca",
+        "bytes": 238852,
+        "pipeline": "PIL LANCZOS → JPEG q72 progressive 4:2:2 (2026-07-25 media-plan round)"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט (1yRPfMp8F4cICVq9Fu2EBBw46SdwFsdAf) ב-2026-07-23, במענה ישיר לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md ('קבצי מקור: צילומים, פורטרטים'). מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "אלונה אקרלינג יושבת מול הים",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-111",
+      "installPath": "/media/client/alona/dish-kale-chickpea-bowl.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "cb911264068c90cded0e3c25d8d36a4f94f01f1145b0a2acb688fbf20085074f",
+        "bytes": 183366,
+        "pipeline": "PIL LANCZOS → JPEG q72 progressive 4:2:2 (2026-07-25 media-plan round)"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט (1yRPfMp8F4cICVq9Fu2EBBw46SdwFsdAf) ב-2026-07-23, במענה ישיר לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md ('קבצי מקור: צילומים, פורטרטים'). מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "קערת עלים ירוקים עם חומוס קלוי ובצל כבוש",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-112",
+      "installPath": "/media/client/alona/dish-roasted-tray.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "318193329133be723d759a75a773bf076978a5c71e763ff5fe6866a26bf0f90a",
+        "bytes": 261810,
+        "pipeline": "PIL LANCZOS → JPEG q72 progressive 4:2:2 (2026-07-25 media-plan round)"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט (1yRPfMp8F4cICVq9Fu2EBBw46SdwFsdAf) ב-2026-07-23, במענה ישיר לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md ('קבצי מקור: צילומים, פורטרטים'). מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "תבנית ירקות שורש צלויים בתנור",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-113",
+      "installPath": "/media/client/alona/dish-pancakes-figs.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "20c9959e4ea7247efbf79af555db204c81820860aeb32f2efc228ad2d3016138",
+        "bytes": 147609,
+        "pipeline": "PIL LANCZOS → JPEG q72 progressive 4:2:2 (2026-07-25 media-plan round)"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט (1yRPfMp8F4cICVq9Fu2EBBw46SdwFsdAf) ב-2026-07-23, במענה ישיר לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md ('קבצי מקור: צילומים, פורטרטים'). מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "פנקייקים עם תאנים, בננה ואוכמניות",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-114",
+      "installPath": "/media/client/alona/dish-green-beans.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "88f8d32fa80198d424fad475691f9af9c80e07920f80d69869ed6a9df1380398",
+        "bytes": 167229,
+        "pipeline": "PIL LANCZOS → JPEG q72 progressive 4:2:2 (2026-07-25 media-plan round)"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט (1yRPfMp8F4cICVq9Fu2EBBw46SdwFsdAf) ב-2026-07-23, במענה ישיר לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md ('קבצי מקור: צילומים, פורטרטים'). מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "שעועית ירוקה ובברוקוליני על נייר אפייה",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-201",
+      "installPath": "/media/client/alona/ribbon/kale-chickpea.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "352a7377cbe832604f30a56718ef0e3d1e47aaf68dc5dc71e674f9d637f9364e",
+        "bytes": 50081,
+        "pipeline": "PIL LANCZOS 424x530 (true 2x of the 212px tile) → JPEG q76 progressive 4:2:2; served unoptimized — see DishRibbon"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט ב-2026-07-23, במענה לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md. מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "קערת עלים ירוקים עם חומוס קלוי ובצל סגול כבוש",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-202",
+      "installPath": "/media/client/alona/ribbon/pancakes-figs.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "da3f401df55aa7f69ac5cc55f53adf2479764f756fd2971826ad62e827167145",
+        "bytes": 41009,
+        "pipeline": "PIL LANCZOS 424x530 (true 2x of the 212px tile) → JPEG q76 progressive 4:2:2; served unoptimized — see DishRibbon"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט ב-2026-07-23, במענה לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md. מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "מגדל פנקייקים עם תאנים, בננה ואוכמניות",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-203",
+      "installPath": "/media/client/alona/ribbon/roasted-tray.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "ca3767ade4a7ded9a79982cf813c56099ad54470bb2257673bae0c9980c9c246",
+        "bytes": 66191,
+        "pipeline": "PIL LANCZOS 424x530 (true 2x of the 212px tile) → JPEG q76 progressive 4:2:2; served unoptimized — see DishRibbon"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט ב-2026-07-23, במענה לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md. מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "תבנית ירקות שורש צלויים עם רוזמרין ולימון",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-204",
+      "installPath": "/media/client/alona/ribbon/fruit-bowl.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "891a9ab223be9c4960a741afcc3cf372c0f65453c28f7096a26622701d260abc",
+        "bytes": 42151,
+        "pipeline": "PIL LANCZOS 424x530 (true 2x of the 212px tile) → JPEG q76 progressive 4:2:2; served unoptimized — see DishRibbon"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט ב-2026-07-23, במענה לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md. מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "קערת פירות חתוכים: מלון, אבטיח, קיווי ואוכמניות",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-205",
+      "installPath": "/media/client/alona/ribbon/pepper-salad.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "bc404e5b9380082e36d9e38057deeadf17708efed003c5ec4e0b099b2b4f193a",
+        "bytes": 47998,
+        "pipeline": "PIL LANCZOS 424x530 (true 2x of the 212px tile) → JPEG q76 progressive 4:2:2; served unoptimized — see DishRibbon"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט ב-2026-07-23, במענה לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md. מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "סלט פלפלים צבעוניים, מלפפון ובצל",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-206",
+      "installPath": "/media/client/alona/ribbon/cauliflower-dip.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "a11c542ff66de0a918b828651f8cbaafac6909ebbcee5438b0f3540e305e7cd1",
+        "bytes": 47914,
+        "pipeline": "PIL LANCZOS 424x530 (true 2x of the 212px tile) → JPEG q76 progressive 4:2:2; served unoptimized — see DishRibbon"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט ב-2026-07-23, במענה לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md. מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "כרובית פריכה בציפוי זהוב לצד רוטב ירוק",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-207",
+      "installPath": "/media/client/alona/ribbon/fritters-tray.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "da1034394823f6c826cf861d5408ba7d308b47607c5263c4c371dd3472d708d7",
+        "bytes": 51866,
+        "pipeline": "PIL LANCZOS 424x530 (true 2x of the 212px tile) → JPEG q76 progressive 4:2:2; served unoptimized — see DishRibbon"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט ב-2026-07-23, במענה לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md. מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "תבנית אפייה מלאה בלביבות זהובות",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-208",
+      "installPath": "/media/client/alona/ribbon/chickpea-bowl.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "b70bdf23cf0851860654dcefa735fdf61136b6069b76aac6d7047718edaa641b",
+        "bytes": 51918,
+        "pipeline": "PIL LANCZOS 424x530 (true 2x of the 212px tile) → JPEG q76 progressive 4:2:2; served unoptimized — see DishRibbon"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט ב-2026-07-23, במענה לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md. מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "קערה עם חומוס קלוי, עלים ירוקים ובצל כבוש",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-209",
+      "installPath": "/media/client/alona/ribbon/quinoa-platter.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "cd2a8e68f068902f2d756365378c0087817ab9d9177a0639b19eb877985753fe",
+        "bytes": 63488,
+        "pipeline": "PIL LANCZOS 424x530 (true 2x of the 212px tile) → JPEG q76 progressive 4:2:2; served unoptimized — see DishRibbon"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט ב-2026-07-23, במענה לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md. מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "מגש קינואה עם ירק קצוץ ושקדים",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-210",
+      "installPath": "/media/client/alona/ribbon/lasagna-basil.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "636a798b5b978fe912f00ee766cb4dfbe618f8edb710c0801427038f0bac6814",
+        "bytes": 65335,
+        "pipeline": "PIL LANCZOS 424x530 (true 2x of the 212px tile) → JPEG q76 progressive 4:2:2; served unoptimized — see DishRibbon"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט ב-2026-07-23, במענה לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md. מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "לזניה בתבנית עם עלי בזיליקום טריים",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-211",
+      "installPath": "/media/client/alona/ribbon/green-pasta.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "b7551ee6ded16876784fcc2bc613ea7c42f691d639b71247d946c3bcea2bd273",
+        "bytes": 59393,
+        "pipeline": "PIL LANCZOS 424x530 (true 2x of the 212px tile) → JPEG q76 progressive 4:2:2; served unoptimized — see DishRibbon"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט ב-2026-07-23, במענה לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md. מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "מחבת פסטה ברוטב ירוק עם גבינה מגוררת",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-212",
+      "installPath": "/media/client/alona/ribbon/focaccia.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "7451dea89ec62cc3a28d4bfbabb96a0b8cd23890d331a25b1b451a078e11c2d2",
+        "bytes": 63298,
+        "pipeline": "PIL LANCZOS 424x530 (true 2x of the 212px tile) → JPEG q76 progressive 4:2:2; served unoptimized — see DishRibbon"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט ב-2026-07-23, במענה לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md. מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "פוקצ'ה ביתית עם שומשום וזיתים",
+      "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-213",
+      "installPath": "/media/client/alona/ribbon/rice-pan.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "b9df71829693963345e177b59b45b2a08c2ac101d4d891e9418db17a26396f3f",
+        "bytes": 52686,
+        "pipeline": "PIL LANCZOS 424x530 (true 2x of the 212px tile) → JPEG q76 progressive 4:2:2; served unoptimized — see DishRibbon"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "אלונה מסרה בעצמה את הקבצים לתיקיית ה-Drive המשותפת של הפרויקט ב-2026-07-23, במענה לבקשת קבצי-המקור שנרשמה ב-MATERIALS.md. מקור: MEDIA-PLAN.md §0/§6."
+      },
+      "alt": "מחבת אורז צהוב עם ירקות",
+      "source": "client-drive-handover-2026-07-23"
     }
   ]
 }

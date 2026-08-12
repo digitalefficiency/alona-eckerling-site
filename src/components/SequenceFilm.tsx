@@ -24,13 +24,9 @@ import { useMotionAllowed } from "@/lib/motion";
 
 export type FilmChip = {
   text: string;
-  /** progress window [from, to] in which the chip is visible */
+  /** progress window [from, to] in which the thought is visible */
   from: number;
   to: number;
-  /** absolute positioning, e.g. { top: "20%", right: "12%" } (RTL-aware caller) */
-  position: React.CSSProperties;
-  /** subtle rotation, e.g. -2 */
-  tilt?: number;
 };
 
 export type FilmCaption = {
@@ -60,6 +56,10 @@ export type SequenceFilmProps = {
   holdStart?: number;
   /** land on the last frame at this progress (hold through the resolution) */
   holdEnd?: number;
+  /** escape hatch — anchor target past the pinned region (e.g. "#guide") */
+  skipHref?: string;
+  /** escape hatch — visible label; the control renders only when BOTH are set */
+  skipLabel?: string;
 };
 
 export function SequenceFilm({
@@ -74,6 +74,8 @@ export function SequenceFilm({
   staticKicker,
   holdStart = 0.08,
   holdEnd = 0.78,
+  skipHref,
+  skipLabel,
 }: SequenceFilmProps) {
   const motionAllowed = useMotionAllowed();
   const [mounted, setMounted] = useState(false);
@@ -127,7 +129,10 @@ export function SequenceFilm({
 
   const sectionRef = useRef<HTMLElement | null>(null);
   const frameRefs = useRef<(HTMLImageElement | null)[]>([]);
-  const overlayRefs = useRef<HTMLDivElement[]>([]);
+  // HTMLElement, not HTMLDivElement: the thought-chips became <li> rows when they
+  // were rebuilt as an ordered list, and the captions/kicker are still <div>. The
+  // handler only ever touches dataset/style, which every HTMLElement has.
+  const overlayRefs = useRef<HTMLElement[]>([]);
   const barRef = useRef<HTMLDivElement | null>(null);
 
   const { scrollYProgress } = useScroll({
@@ -161,9 +166,24 @@ export function SequenceFilm({
     // Only cross-fade into the next frame once it is genuinely paintable.
     const blend = shown === i && ready(i + 1) ? f : 0;
 
+    // THE OUTGOING FRAME STAYS FULLY OPAQUE. This is the fix for the white
+    // flash that rose between every pair of frames (Rom, 2026-07-29).
+    //
+    // It used to be a symmetric cross-fade: outgoing at `1 - blend`, incoming at
+    // `blend`. Those two numbers sum to 1, which LOOKS correct and is not —
+    // stacked alpha compositing does not add, it composites. Midway through a
+    // transition (both at 0.5) the maths is:
+    //     0.5·B + 0.5·(0.5·A + 0.5·bg)  →  0.25·bg
+    // so a quarter of the section's bg-sand bled through on every single
+    // transition: a pale wash that pulsed once per frame change.
+    //
+    // Frames render in DOM order, so frame k+1 already paints ABOVE frame k.
+    // Holding the outgoing frame at 1 and dissolving the incoming one over it
+    // keeps the stack fully opaque at all times: the background can never show,
+    // and the dissolve itself is identical to the eye.
     frameRefs.current.forEach((img, k) => {
       if (!img) return;
-      img.style.opacity = k === shown ? String(1 - blend) : k === shown + 1 ? String(blend) : "0";
+      img.style.opacity = k === shown ? "1" : k === shown + 1 ? String(blend) : "0";
       const wc = k === shown || k === shown + 1 ? "opacity" : "auto";
       if (img.style.willChange !== wc) img.style.willChange = wc;
     });
@@ -197,7 +217,7 @@ export function SequenceFilm({
     return () => io.disconnect();
   }, [cinema]);
 
-  const setOverlayRef = (el: HTMLDivElement | null) => {
+  const setOverlayRef = (el: HTMLElement | null) => {
     // prune detached nodes (cinema can unmount/remount via the a11y stop-motion
     // toggle) so the scroll handler never mutates stale, off-DOM elements
     overlayRefs.current = overlayRefs.current.filter((n) => n.isConnected);
@@ -232,12 +252,83 @@ export function SequenceFilm({
       style={reserveRunway ? { height: `${height}vh` } : undefined}
       aria-label={staticHeading}
     >
+      {/* ── Layer C — the ESCAPE HATCH (WCAG: never trap a reader in a pinned
+             region). Three things this layer gets right, each the hard way:
+
+             1. It sits OUTSIDE the cinema's aria-hidden subtree. The stage below
+                is aria-hidden="true" wall to wall; a focusable anchor inside it
+                would be reachable by Tab yet unannounced by a screen reader —
+                a worse failure than having no skip at all.
+             2. It is gated on `reserveRunway`, NOT on `cinema`. The runway is
+                reserved at hydration but the stage only mounts after
+                window.load + 300ms + frame-0 decode. On a slow connection that
+                gap is seconds of a 420vh box with no way out.
+             3. It is `h-0` and rendered FIRST. Two sticky siblings at h-[100svh]
+                would stack to 200svh of flow and tear the layout apart; at zero
+                height it costs nothing and its sticky origin is y=0, so it pins
+                from the very top. z-20 lifts it over the stage, which paints
+                later in DOM order at z-index auto. ── */}
+      {reserveRunway && skipHref && skipLabel && (
+        // EVERY breakpoint (Rom's call): the runway is 420vh of pinned stage on a
+        // desktop too, so the reader is just as stuck there as on a phone. The
+        // only other way out at any width is the header nav, which is not an
+        // answer to "let me past this film".
+        <div className="sticky top-0 z-20 h-0">
+          {/* CENTRED, not corner-anchored (Rom, 2026-07-29). It used to sit at
+              `start-6` — the inline-start corner, which in this RTL document is
+              the PHYSICAL RIGHT, exactly where WhatsAppFloat is fixed on md+
+              (bottom-4 start-4, 17-68px up). The two overlapped outright.
+              Both bottom corners are spoken for on desktop (start = WhatsApp,
+              physical left = the accessibility button), so the only free lane is
+              the middle. Centring also reads better for what this control is:
+              "past the film ↓", not a corner utility.
+              Verified clear on mobile too, where WhatsAppFloat does not render
+              and the accessibility button hugs the physical left. */}
+          {/* dvh, matching the stage — with svh the chip drifted away from the
+              stage's bottom edge the moment the browser chrome retracted. */}
+          <div className="absolute inset-x-0 top-[calc(100dvh-var(--chrome-bottom)-3.25rem)] flex justify-center px-4 md:top-[calc(100dvh-3.25rem)]">
+          <a
+            href={skipHref}
+            data-cta="film-skip"
+            // Vertical offset is RESPONSIVE because the obstacle is: below md the
+            // StickyContactBar is fixed over the same viewport and the chip sat
+            // UNDER it (in the DOM, invisible on the phone — precisely the failure
+            // this escape hatch exists to prevent), so it clears --chrome-bottom.
+            // At md+ that bar does not render at all, and keeping the offset would
+            // strand the chip ~56px above the fold for no reason.
+            //
+            // Rest of the class list: the same paper-chip vocabulary as the
+            // thought-chips and the kicker, so the way out belongs to the film
+            // rather than floating over it.
+            // bg-bg/92 and no backdrop-blur: opaque enough to read on its own,
+            // so it does not smear the frame behind it.
+            className="inline-flex items-center gap-1.5 rounded-full border border-line bg-bg/92 px-4 py-2 text-[0.78rem] font-bold text-ink shadow-sm transition-colors duration-[var(--dur-micro)] hover:border-gold hover:text-gold-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          >
+            {skipLabel}
+            <span aria-hidden>↓</span>
+          </a>
+          </div>
+        </div>
+      )}
+
       {/* ── Layer B — the cinema (mounts only when motion is allowed) ── */}
       {cinema && (
-        // h-[100svh] (not h-screen): the stage lives inside the SMALL viewport that
-        // iOS guarantees even with the URL bar open — svh is stable (no dvh jump),
-        // so captions never dive below the visible line mid-scrub
-        <div className="sticky top-0 h-[100svh] overflow-hidden" aria-hidden="true">
+        // NO WHITE CAN REACH THE READER (Rom, 2026-07-29: «תבטל לגמרי»). Two
+        // separate holes let the page background flash between frames, and this
+        // line closes both structurally rather than by tuning:
+        //
+        // 1. h-[100dvh], was h-[100svh]. `svh` is the SMALL viewport — the height
+        //    with the browser chrome EXPANDED. The moment the URL bar retracts on
+        //    scroll (which is exactly "between scrolls"), the visible area grows
+        //    past the stage and a strip of the section's bg-sand opens at the
+        //    bottom. `dvh` tracks the live viewport, so the stage always fills it.
+        // 2. bg-navy on the STAGE. Even in the impossible case — a frame that has
+        //    not decoded, a sub-pixel rounding seam, a future edit that breaks the
+        //    opacity maths again — what sits behind the film is now the darkest
+        //    brand colour, not near-white paper. A dark seam is invisible; a white
+        //    one is the flash being complained about. The section keeps bg-sand
+        //    for the static twin below, which is ink-on-paper and needs it.
+        <div className="sticky top-0 h-[100dvh] overflow-hidden bg-navy" aria-hidden="true">
           {frames.map((src, k) => (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
@@ -257,14 +348,16 @@ export function SequenceFilm({
               decoding="async"
             />
           ))}
-          {/* soft veil for caption legibility */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(180deg, color-mix(in srgb, var(--color-navy) 16%, transparent) 0%, transparent 30%, transparent 55%, var(--color-bg) 130%)",
-            }}
-          />
+          {/* NO GLOBAL VEIL (Rom's call, 2026-07-29). There used to be a
+              full-stage gradient here that ran to `var(--color-bg)` at the
+              bottom — a warm-white wash over the lower half of every frame. It
+              bought caption legibility by draining the photographs, which is the
+              wrong trade on the site's one signature moment: the frames ARE the
+              content, and they are only 1400x781 to begin with.
+              Legibility is now paid for LOCALLY instead, by the elements that
+              actually need it: the kicker, the thought-list and the caption card
+              each carry their own opaque paper backing. Nothing else touches the
+              pixels. */}
           {/* progress hairline — pinned to the stage's BOTTOM edge: the top of the
               viewport belongs to the fixed header (which draws its own gold progress
               bar), so two gold hairlines never stack and tell different numbers */}
@@ -290,31 +383,44 @@ export function SequenceFilm({
               </span>
             </div>
           )}
-          {/* chip stage: inset on small screens (positions pull inward, clear of the
-              kicker) so no chip can touch or overflow the viewport edge */}
+          {/* THE THOUGHT LIST (Rom's call, 2026-07-29) — was: five chips scattered
+              at hand-placed top/inset percentages with random tilts, i.e. visual
+              noise standing in for mental noise. It read as clutter, and on some
+              frames two chips landed over the same busy area.
+
+              Now it is an ORDERED LIST pinned to the reading edge (inline-start =
+              RIGHT in this RTL document). Each thought occupies its own fixed row
+              and simply fills in as the scrub reaches its window, so the stack
+              GROWS downward in reading order and never reflows: the rows are laid
+              out once and only opacity changes. That is what makes it read as
+              "the noise is piling up" rather than "things are flying around".
+              Tilt is deliberately ignored here — a list is upright. */}
           {chips.length > 0 && (
-            <div className="absolute inset-x-[4vw] top-20 bottom-0 md:inset-x-0 md:top-0">
+            <ol className="absolute top-24 md:top-28 start-[5vw] md:start-[6%] flex max-w-[min(84vw,25rem)] flex-col items-start gap-2.5">
               {chips.map((c) => (
-                <div
+                <li
                   key={c.text}
                   ref={setOverlayRef}
                   data-from={c.from}
                   data-to={c.to}
-                  data-tilt={c.tilt ?? 0}
-                  className="absolute max-w-[min(85vw,34rem)] rounded-full border border-line bg-bg/85 px-5 py-2.5 text-center font-serif italic text-ink shadow-sm [text-wrap:balance]"
+                  data-tilt="0"
+                  className="flex items-start gap-2.5 rounded-2xl border border-line bg-bg/90 px-4 py-2.5 text-start font-serif italic text-ink shadow-sm [text-wrap:balance]"
                   style={{
-                    ...c.position,
-                    fontSize: "clamp(15px, 1.9vw, 21px)",
+                    fontSize: "clamp(15px, 1.7vw, 20px)",
                     opacity: 0,
-                    transform: `translateY(12px) rotate(${c.tilt ?? 0}deg)`,
+                    transform: "translateY(12px) rotate(0deg)",
                     transition:
                       "opacity var(--dur-reveal) var(--ease-out), transform var(--dur-reveal) var(--ease-out)",
                   }}
                 >
-                  {c.text}
-                </div>
+                  {/* rose bullet — the list marker, in the palette's warmth role.
+                      A real <ol> would render Latin numerals into an RTL Hebrew
+                      column, so the marker is drawn instead (list-none by flex). */}
+                  <span aria-hidden className="mt-[0.5em] h-1.5 w-1.5 shrink-0 rounded-full bg-rose" />
+                  <span>{c.text}</span>
+                </li>
               ))}
-            </div>
+            </ol>
           )}
           {captions.map((cap) => (
             <div
@@ -330,8 +436,11 @@ export function SequenceFilm({
                   "opacity var(--dur-reveal) var(--ease-out), transform var(--dur-reveal) var(--ease-out)",
               }}
             >
-              {/* soft paper scrim so the caption reads over any frame */}
-              <div className="mx-auto w-fit max-w-[min(88vw,40rem)] rounded-2xl bg-bg/75 px-6 py-4 backdrop-blur-[2px] shadow-sm">
+              {/* Paper card, NOT a blur. `backdrop-blur` smears the photograph
+                  behind the caption and reads as the same white haze the global
+                  veil used to cast; a slightly more opaque card carries the text
+                  just as well and leaves the frame sharp right up to its edge. */}
+              <div className="mx-auto w-fit max-w-[min(88vw,40rem)] rounded-2xl bg-bg/92 px-6 py-4 shadow-sm">
                 {cap.tone === "turn" && (
                   <div className="mx-auto mb-3 h-[3px] w-12 rounded-full bg-gold" />
                 )}

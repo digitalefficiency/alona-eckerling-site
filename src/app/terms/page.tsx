@@ -28,8 +28,15 @@ const COPY = {
   cancellations:
     "ביטול עסקה והחזרים נעשים בהתאם לחוק הגנת הצרכן, התשמ״א-1981 ותקנותיו, כולל ההבחנה בין שירות למוצר-מידע דיגיטלי.",
   // §5 דיסקליימר תזונתי-רפואי (מרונדר בעמוד, verbatim)
+  // REWORDED 2026-07-26 — the site now states pregnancy nutrition, PCOS and
+  // pre-diabetes as areas of care, and the previous wording listed pregnancy as
+  // a reason to stay away ("התייעצי עם הרופא המטפל לפני כל שינוי תזונתי"). That
+  // was a live contradiction on a YMYL page: advertising a service while the
+  // terms tell that exact reader not to use it. The medical-supervision
+  // principle is UNCHANGED and if anything stronger; only its framing moves from
+  // exclusion to collaboration. [לאישור עו"ד — נוסח סופי בשער עו"ד כמו שאר העמוד]
   disclaimer:
-    "התכנים באתר הם מידע כללי ואינם ייעוץ רפואי או תחליף לו. אם יש לך מצב רפואי, הריון או הנקה, תרופות קבועות או רקע של הפרעת אכילה, התייעצי עם הרופא המטפל לפני כל שינוי תזונתי.",
+    "התכנים באתר הם מידע כללי ואינם ייעוץ רפואי או תחליף לו. בליווי אישי במצבים רפואיים, ובהם הריון והנקה, שחלות פוליציסטיות, טרום סוכרת, נטילת תרופות קבועה או רקע של הפרעת אכילה, אני עובדת לצד הרופא או הרופאה שמטפלים בך ולא במקומם. בכל מקרה חשוב לעדכן אותם לפני שינוי תזונתי משמעותי.",
   // §6 + §7 — נוסח בסיס כללי-בטוח מהתבנית (בשער עו"ד)
   ip: "כל זכויות הקניין הרוחני באתר ובתכניו, לרבות טקסטים, מתכונים, עיצוב, לוגו ותמונות, שייכות לאלונה אקרלינג או לבעלי הזכויות מטעמה, ואין לעשות בהם שימוש ללא הרשאה מראש ובכתב.",
   liability:

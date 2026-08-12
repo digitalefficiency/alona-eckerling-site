@@ -44,6 +44,12 @@ function organizationBase(site: SiteShape, services?: ServicesShape) {
     url: site.url,
     foundingDate: String(site.foundingYear),
     areaServed: [...site.areasServed],
+    // sameAs on the ORG, not only on the Person. It used to live in
+    // personFromBio alone, which meant the profiles reached /about and
+    // /team/<slug> and nowhere else: the home page and /contact both render
+    // professionalService(), so the front door published no entity links at all.
+    // MARKETING.md:36 flags this as the single highest-leverage AI-citation fix.
+    ...(site.socials && site.socials.length ? { sameAs: site.socials.map((s) => s.url) } : {}),
     ...(services && services.length ? { knowsAbout: services.map((s) => s.title) } : {}),
     ...(site.phone ? { telephone: site.phone } : {}),
     ...(site.email ? { email: site.email } : {}),
@@ -93,7 +99,7 @@ export function personFromBio(member: BioShape, site?: SiteShape) {
   // Stable @id so other entities (each Recipe's author) reference THIS Person by
   // one canonical node instead of a second lookalike — the entity-resolution fix.
   const id = url ? `${url}#person` : undefined;
-  const sameAs = site?.socials;
+  const sameAs = site?.socials?.map((s) => s.url);
   return {
     "@context": "https://schema.org",
     "@type": "Person",
