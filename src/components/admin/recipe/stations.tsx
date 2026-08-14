@@ -3,6 +3,7 @@ import { T } from "@/lib/cms/desk-strings";
 import type { CollectionConfig } from "@/lib/cms/config";
 import { type StationId } from "@/lib/cms/journey-status.mjs";
 import { MediaPicker } from "@/components/admin/MediaPicker";
+import { GalleryField } from "@/components/admin/GalleryField";
 import { InlineImageInserter } from "@/components/admin/InlineImageInserter";
 import { ChipSelect } from "@/components/admin/ChipSelect";
 import { LineListEditor } from "@/components/admin/recipe/LineListEditor";
@@ -117,11 +118,12 @@ export function StepsStation({
 }
 
 export function ImageExtrasStation({
-  collection, image, imageAlt, tip, extra, advancedOpen, onImage, onTip, onExtra, onToggleAdvanced, onInsertExtra, errorFor,
+  collection, image, imageAlt, galleryUrls, galleryAlts, tip, extra, advancedOpen, onImage, onGallery, onTip, onExtra, onToggleAdvanced, onInsertExtra, errorFor,
 }: {
   collection: CollectionConfig;
-  image: string; imageAlt: string; tip: string; extra: string; advancedOpen: boolean;
+  image: string; imageAlt: string; galleryUrls: string[]; galleryAlts: string[]; tip: string; extra: string; advancedOpen: boolean;
   onImage: (url: string, alt: string) => void;
+  onGallery: (urls: string[], alts: string[]) => void;
   onTip: (v: string) => void;
   onExtra: (v: string) => void;
   onToggleAdvanced: () => void;
@@ -136,6 +138,20 @@ export function ImageExtrasStation({
         <MediaPicker url={image} alt={imageAlt} onChange={onImage} />
         {err("image")}
         {err("imageAlt")}
+      </div>
+      {/* the extra dish photos — the same GalleryField the generic editor
+          mounts, so add/remove/reorder behave identically in both editors.
+          54 of the 55 recipes already carry 2+ photos; until now the journey
+          simply had no surface that showed them. */}
+      <div>
+        <GalleryField
+          label={fieldLabel(collection, "gallery")}
+          urls={galleryUrls}
+          alts={galleryAlts}
+          onChange={onGallery}
+        />
+        {err("gallery")}
+        {err("galleryAlt")}
       </div>
       <label className="block">
         <span className="text-sm font-semibold text-ink">{T("journey.tip.label")}</span>

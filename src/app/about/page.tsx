@@ -116,16 +116,18 @@ const personSchema = personFromBio(
 
 export default async function AboutPage() {
   const page = await getAboutPage();
-  const HERO = sectionPayload<AboutHeroPayload>(page, "hero")!;
-  const STORY_DOC = sectionPayload<AboutStoryPayload>(page, "story")!;
-  const STANDARD = sectionPayload<AboutStandardPayload>(page, "standard")!;
-  const ROAD = sectionPayload<AboutRoadPayload>(page, "road")!;
-  const CLOSE = sectionPayload<AboutCtaPayload>(page, "cta")!;
+  const HERO = sectionPayload<AboutHeroPayload>(page, "hero");
+  const STORY_DOC = sectionPayload<AboutStoryPayload>(page, "story");
+  const STANDARD = sectionPayload<AboutStandardPayload>(page, "standard");
+  const ROAD = sectionPayload<AboutRoadPayload>(page, "road");
+  const CLOSE = sectionPayload<AboutCtaPayload>(page, "cta");
 
   // the credo's rose underline: stored joined, split around the accent — the
   // exact serialisation the desk's mark field edits
-  const [credo2a, credo2Mark, credo2b] = splitAccent(STORY_DOC.credo2, STORY_DOC.credo2Accent);
-  const STORY = { ...STORY_DOC, credo2a, credo2Mark, credo2b };
+  const [credo2a, credo2Mark, credo2b] = STORY_DOC
+    ? splitAccent(STORY_DOC.credo2, STORY_DOC.credo2Accent)
+    : ["", "", ""];
+  const STORY = STORY_DOC ? { ...STORY_DOC, credo2a, credo2Mark, credo2b } : null;
 
   return (
     <>
@@ -134,6 +136,7 @@ export default async function AboutPage() {
       {/* ===== 17 · HOOK - asymmetric-split hero on warm paper: real-portrait slot
            (designed empty-state, face never generated) bleeding to the reading edge,
            name + license chip + free-call CTA. COPY: ### סקשן 17 ===== */}
+      {HERO && (
       <section className="border-b border-line">
         {/* house vertical rhythm (py-16 sm:py-20 md:py-32). The ONE deviation is the
             mobile top pad: the header is `fixed`, so a light hero has to clear it —
@@ -222,19 +225,20 @@ export default async function AboutPage() {
               <div aria-hidden className="grain-overlay" />
               <div className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-2 bg-bg/94 px-6 py-5 text-center">
                 <span className="font-serif text-3xl font-black leading-none text-navy">
-                  {STORY.signature}
+                  {STORY?.signature}
                 </span>
                 <span aria-hidden className="flex items-center gap-3">
                   <span className="h-px w-12 bg-gold/60" />
                   <span className="text-[0.55rem] leading-none text-gold">◆</span>
                   <span className="h-px w-12 bg-gold/60" />
                 </span>
-                <p className="text-sm font-semibold text-muted">{ROAD.roleLine}</p>
+                <p className="text-sm font-semibold text-muted">{ROAD?.roleLine}</p>
               </div>
             </div>
           </Reveal>
         </Container>
       </section>
+      )}
 
       {/* ===== 18 · GUIDE - centered-prose origin story: a signed personal letter.
            No credential claims here (they live in section 20). COPY: ### סקשן 18 ===== */}
@@ -245,6 +249,7 @@ export default async function AboutPage() {
           (paper-and-frames, not glassmorphism). Mobile: photo band on top, letter below. */}
       {/* border-t only: the bottom hairline retired when the soft curve moved in —
           a ruled line 1px under the crest reads as two seams stacked. */}
+      {STORY && (
       <section id="story" className="relative overflow-hidden border-t border-line bg-card scroll-mt-24">
         <div aria-hidden className="absolute inset-y-0 start-0 hidden w-[52%] md:block">
           {/* next/image — same fix as the /coaching proof band, applied as one
@@ -327,6 +332,7 @@ export default async function AboutPage() {
             nothing to alternate with here: this is the only image seam on /about. */}
         <SeamShape variant="curve-up" />
       </section>
+      )}
 
       {/* ===== 19 · GUIDE - the professional standard (Rom's call 2026-07-26,
            replacing the giant age-quote). The age answer was the page's argument
@@ -338,6 +344,7 @@ export default async function AboutPage() {
            long undifferentiated wall (and lint-variety forbids the adjacency).
            The three principles are peers, so a row of three cards states that
            better than a stacked list anyway. COPY: ### סקשן 19 ===== */}
+      {STANDARD && (
       <Section tone="white" border>
         {/* the argument stays at prose measure; the evidence widens out */}
         <div className="mx-auto max-w-[760px]">
@@ -373,6 +380,7 @@ export default async function AboutPage() {
           </div>
         </Reveal>
       </Section>
+      )}
 
       {/* ===== 20 · GUIDE - «הדרך לכאן» (2026-08-12, Rom's call): the old
            credentials wall duplicated the standard's argument, so it retired.
@@ -382,6 +390,7 @@ export default async function AboutPage() {
            ruled ledger at the essay's foot, with the REAL MOH registry link.
            archetype=centered-prose — adjacent to §19 card-grid and §22
            spotlight-card, both distinct. COPY: ### סקשן 20 ===== */}
+      {ROAD && (
       <Section tone="sand" seam>
         <div className="mx-auto max-w-[760px]">
           <SectionHeading eyebrow={ROAD.kicker} title={ROAD.title} accent={ROAD.titleAccent} />
@@ -428,10 +437,12 @@ export default async function AboutPage() {
           </Reveal>
         </div>
       </Section>
+      )}
 
       {/* ===== 22 · RESOLUTION - one elevated spotlight-card: the no-pressure
            invitation to see for herself + recipes side-door + Person JSON-LD.
            COPY: ### סקשן 22 ===== */}
+      {CLOSE && (
       <section className="overflow-hidden">
         <Container width="standard" className="py-16 sm:py-20 md:py-32">
           <SectionSeam className="mb-10 md:mb-14" />
@@ -500,6 +511,7 @@ export default async function AboutPage() {
           </div>
         </Container>
       </section>
+      )}
     </>
   );
 }

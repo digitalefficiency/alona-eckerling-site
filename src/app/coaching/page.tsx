@@ -110,21 +110,23 @@ function ProofStill({ src, alt }: { src: string; alt: string }) {
 
 export default async function CoachingPage() {
   const page = await getPublishedPageRequiring("coaching", ["meta", "hero", "problem", "method", "packages", "process", "proof", "faq", "cta"]);
-  const META = sectionPayload<PageMetaPayload>(page, "meta")!;
-  const HERO = sectionPayload<CoachingHeroPayload>(page, "hero")!;
-  const PROBLEM = sectionPayload<CoachingProblemPayload>(page, "problem")!;
-  const METHOD = sectionPayload<CoachingMethodPayload>(page, "method")!;
-  const PKG = sectionPayload<CoachingPackagesPayload>(page, "packages")!;
-  const PROCESS = sectionPayload<CoachingProcessPayload>(page, "process")!;
-  const PROOF = sectionPayload<CoachingProofPayload>(page, "proof")!;
-  const FAQ = sectionPayload<CoachingFaqPayload>(page, "faq")!;
-  const CTA = sectionPayload<CoachingCtaPayload>(page, "cta")!;
-  const [quoteBefore, quoteMark, quoteAfter] = splitAccent(PROBLEM.quote, PROBLEM.quoteAccent);
-  const packageCards = PKG.packages;
+  const META = sectionPayload<PageMetaPayload>(page, "meta");
+  const HERO = sectionPayload<CoachingHeroPayload>(page, "hero");
+  const PROBLEM = sectionPayload<CoachingProblemPayload>(page, "problem");
+  const METHOD = sectionPayload<CoachingMethodPayload>(page, "method");
+  const PKG = sectionPayload<CoachingPackagesPayload>(page, "packages");
+  const PROCESS = sectionPayload<CoachingProcessPayload>(page, "process");
+  const PROOF = sectionPayload<CoachingProofPayload>(page, "proof");
+  const FAQ = sectionPayload<CoachingFaqPayload>(page, "faq");
+  const CTA = sectionPayload<CoachingCtaPayload>(page, "cta");
+  const [quoteBefore, quoteMark, quoteAfter] = PROBLEM
+    ? splitAccent(PROBLEM.quote, PROBLEM.quoteAccent)
+    : ["", "", ""];
+  const packageCards = PKG?.packages ?? [];
 
   // Service JSON-LD — בלי מחירים (Q19), בלי דירוגים מומצאים; המעטפת מ-site.ts,
   // שם השירות והקטלוג מהמסמך, כך שהדסק לא יכול לפצל אותם מהעמוד.
-  const serviceSchema = {
+  const serviceSchema = META && PKG ? {
     "@context": "https://schema.org",
     "@type": "Service",
     name: META.serviceName,
@@ -139,7 +141,7 @@ export default async function CoachingPage() {
         itemOffered: { "@type": "Service", name: s.title, description: s.short },
       })),
     },
-  };
+  } : null;
 
   return (
     <main>
@@ -149,6 +151,7 @@ export default async function CoachingPage() {
              בלי SeamShape ובלי room-edges-top כאן בכוונה: הצילום ממוסגר ומוזח
              (inset-y-10) ואינו נוגע בקצה החדר, כך שהגבול התחתון הוא נייר-על-נייר
              עם קו-שיער מתוכנן, לא חיתוך-תמונה. קשת רכה שייכת לחדר-תמונה שנחתך. ── */}
+      {HERO && (
       <section className="relative isolate overflow-hidden border-b border-line bg-sand">
         <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
           {/* the still is CROPPED INTO A FRAMED PANEL, not melted into the page: a
@@ -277,8 +280,10 @@ export default async function CoachingPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* ── 10 · TENSION — פרוזה ממורכזת: הפער הוא ה"לבד", לא הידע ── */}
+      {PROBLEM && (
       <Section tone="white" width="prose" border>
         <SectionHeading eyebrow={PROBLEM.kicker} title={PROBLEM.title} lead={PROBLEM.lead} accent={PROBLEM.titleAccent} />
         {/* ONE orchestrator for the section (token stagger) — and the page's single
@@ -309,6 +314,7 @@ export default async function CoachingPage() {
           </MItem>
         </MOrchestrate>
       </Section>
+      )}
 
       {/* ── 11 · GUIDE — the method DECK (the page's ONE pinned moment, client-
              requested): scroll deals each pillar-card in from the side and lands
@@ -318,6 +324,7 @@ export default async function CoachingPage() {
              the food gallery lives in PROOF (§14) and /recipes.
              Static twin (SSR / no-JS / reduced-motion / mobile): the numbered
              ledger below — every word always readable. ── */}
+      {METHOD && (
       <Section tone="sand" id="method" seam>
         <SectionHeading eyebrow={METHOD.kicker} title={METHOD.title} accent={METHOD.titleAccent} />
         <MCardStack
@@ -424,8 +431,10 @@ export default async function CoachingPage() {
           </Link>
         </Reveal>
       </Section>
+      )}
 
       {/* ── 12 · PLAN — שלוש חבילות מ-site.ts, מועשרות מ-COPY; בלי מחיר, בלי דחיפה ── */}
+      {PKG && (
       <Section tone="white" id="packages" border>
         <SectionHeading eyebrow={PKG.kicker} title={PKG.title} lead={PKG.lead} accent={PKG.titleAccent} />
         <Reveal delay={100} className="mt-8">
@@ -513,8 +522,10 @@ export default async function CoachingPage() {
           <p className="mt-10 text-center leading-relaxed text-muted">{PKG.sharedLine}</p>
         </Reveal>
       </Section>
+      )}
 
       {/* ── 13 · PLAN — ציר תהליך תלת-תחנתי: הסרת אי-ודאות לפני הסגירה ── */}
+      {PROCESS && (
       <Section tone="sand" seam>
         <SectionHeading eyebrow={PROCESS.kicker} title={PROCESS.title} lead={PROCESS.lead} />
         {/* ONE orchestrator, token stagger — no hand-rolled delay ladder */}
@@ -533,6 +544,7 @@ export default async function CoachingPage() {
           </MItem>
         </MOrchestrate>
       </Section>
+      )}
 
       {/* ── 14 · PROOF — the "half-bg + card" pattern (the approved plan's #1 placement):
              her real dish photo bleeds the inline-END half to the viewport edge; a
@@ -541,6 +553,7 @@ export default async function CoachingPage() {
              stacks, no slide. The testimonial slot stays honestly dark (soft wash, ◆). ── */}
       {/* border-t only: the room's BOTTOM hand-off is the soft seam below, not a
           hairline (the house contract — a shaped edge replaces the cut) */}
+      {PROOF && (
       <section className="relative overflow-hidden border-t border-line bg-card">
         {/* the half-bleed photo (desktop) — inline-end half, scrimmed toward the text half */}
         {/* next/image, not raw <img>: these three were the only images on the
@@ -619,8 +632,10 @@ export default async function CoachingPage() {
             The page's ONE seam: it is the page's ONE full/half-bleed photo room. */}
         <SeamShape variant="curve-up" fill="var(--color-sand)" />
       </section>
+      )}
 
       {/* ── 15 · OBJECTION — 11 שאלות בקולה שלה + FAQPage JSON-LD ── */}
+      {FAQ && (
       <Section tone="sand" width="prose" seam>
         <JsonLd data={faqSchema([...FAQ.items])} />
         <SectionHeading eyebrow={FAQ.kicker} title={FAQ.title} lead={FAQ.lead} />
@@ -648,10 +663,12 @@ export default async function CoachingPage() {
           </MItem>
         </MOrchestrate>
       </Section>
+      )}
 
       {/* ── 16 · RESOLUTION — פאנל נייבי #lead: הצעד הקטן והבטוח + Service JSON-LD ── */}
+      {CTA && (
       <Section tone="navy" id="lead" seam>
-        <JsonLd data={serviceSchema} />
+        {serviceSchema && <JsonLd data={serviceSchema} />}
         {/* ביקורת-UX: הכותרת יוצאת מעל הגריד (רוחב מלא) ועמודת הטופס עולה ראשונה
             במובייל — מי שהקליקה "בואי נדבר" נוחתת על דלת, לא על עוד מסך וחצי פיץ'.
             בדסקטופ הסדר הוויזואלי נשאר: קופי ב-inline-start, טופס ב-inline-end. */}
@@ -699,6 +716,7 @@ export default async function CoachingPage() {
           </Reveal>
         </div>
       </Section>
+      )}
     </main>
   );
 }

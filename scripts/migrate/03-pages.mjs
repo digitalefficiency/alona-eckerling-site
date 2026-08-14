@@ -98,7 +98,11 @@ const sql = [
     return (
       `insert into public.pages (id, slug, kind, title, description, sections, baseline_order, status, published_at)\n` +
       `values (${lit(id)}, ${lit(doc.slug)}, ${lit(kind)}::public.page_kind, ${lit(doc.title)}, ${lit(doc.description ?? null)},\n` +
-      `        ${jlit(doc.sections.filter((s) => s.visible !== false))},\n` +
+      // a hidden section is published as a STUB (id+type, empty payload) —
+      // never its content. The stub is how the render distinguishes
+      // "deliberately hidden" (skip the band) from "document older than the
+      // code" (fall back to the shipped file). Mirrors savePage exactly.
+      `        ${jlit(doc.sections.map((s) => s.visible !== false ? s : { id: s.id, type: s.type, schema_version: s.schema_version, visible: false, payload: {} }))},\n` +
       `        ${jlit(doc.baseline_order ?? [])}, 'published', now())\n` +
       `on conflict (id) do update set\n` +
       `  title = excluded.title,\n` +

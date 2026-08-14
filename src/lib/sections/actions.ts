@@ -193,14 +193,25 @@ export async function savePage(slug: string, doc: PageDocument): Promise<SaveRes
     // "no error" proves nothing and "the row exists" (a read-back) proves even
     // less — the row existing is exactly what a refused update leaves behind.
     // Only "the update returned the row" means the write landed.
+    //
+    // A hidden section becomes a STUB — id and type with an EMPTY payload —
+    // rather than vanishing. The content still never reaches the public row
+    // (that is the whole drafts/published split), but the stub is what lets
+    // the render tell "deliberately hidden" apart from "document older than
+    // the code": a missing id trips the stale-doc file fallback, a stub means
+    // skip this band. Without it, hiding a structural section resurrected the
+    // shipped copy — measured on /about's «הדרך לכאן», hidden in the desk yet
+    // still on the live page.
     const { data: updated, error } = await sb
       .from("pages")
       .update({
         title: clean.title,
         description: clean.description ?? null,
-        // only what is visible crosses into the published row — the same rule
-        // publish_entity enforces, applied here too so the two cannot disagree
-        sections: clean.sections.filter((x) => x.visible !== false),
+        sections: clean.sections.map((x) =>
+          x.visible !== false
+            ? x
+            : { id: x.id, type: x.type, schema_version: x.schema_version, visible: false as const, payload: {} },
+        ),
         status: "published",
       })
       .eq("id", backend.id)

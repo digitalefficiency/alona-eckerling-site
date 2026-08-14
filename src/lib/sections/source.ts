@@ -56,13 +56,12 @@ const toDoc = (r: PageRow): PageDocument => ({
 });
 
 /**
- * The public read. Hidden sections are stripped HERE as well as at publish
- * time — belt and braces, because the cost of the belt is one filter and the
- * cost of it being missing is unannounced copy on a live page.
+ * The raw published document, hidden entries still in place. Publish writes a
+ * hidden section as a STUB (id + type, empty payload) precisely so this layer
+ * can tell "deliberately hidden" from "document older than the code" — the
+ * content itself never reaches the public row either way.
  */
-export async function getPublishedPage(slug: string): Promise<PageDocument | null> {
-  let doc: PageDocument | null = null;
-
+async function rawPublishedPage(slug: string): Promise<PageDocument | null> {
   if (supabaseConfigured) {
     const { data, error } = await publicClient()
       .from("pages")
@@ -71,13 +70,25 @@ export async function getPublishedPage(slug: string): Promise<PageDocument | nul
       .eq("status", "published")
       .is("deleted_at", null)
       .maybeSingle();
-    if (!error && data) doc = toDoc(data as PageRow);
+    if (!error && data) return toDoc(data as PageRow);
     // a miss OR an error falls through to the file: the page stays up
   }
+  return fromFile(slug);
+}
 
-  doc ??= await fromFile(slug);
-  if (!doc) return null;
-  return { ...doc, sections: doc.sections.filter((s) => s.visible !== false) };
+const dropHidden = (doc: PageDocument): PageDocument => ({
+  ...doc,
+  sections: doc.sections.filter((s) => s.visible !== false),
+});
+
+/**
+ * The public read. Hidden sections are stripped HERE as well as at publish
+ * time — belt and braces, because the cost of the belt is one filter and the
+ * cost of it being missing is unannounced copy on a live page.
+ */
+export async function getPublishedPage(slug: string): Promise<PageDocument | null> {
+  const doc = await rawPublishedPage(slug);
+  return doc ? dropHidden(doc) : null;
 }
 
 /**
@@ -114,37 +125,34 @@ export async function getDraftPage(slug: string): Promise<PageDocument | null> {
 }
 
 /**
- * The public read for a page whose composition NEEDS certain sections.
+ * The public read for a page whose composition is art-directed around known
+ * sections. Two different absences, two different answers:
  *
- * The four core pages dereference their structural sections without null
- * checks — the composition is one piece, art-directed in code. That is fine
- * until the database document is OLDER than the code (a content round shipped
- * in code before its update-pages.sql was pasted): the DB row then lacks a
- * section the code requires, and prerender dies on a null — measured, the
- * 2026-08 round-2 build crashed exactly this way on about's `road`.
+ *   - An id MISSING from the raw document means the document is OLDER than
+ *     the code (a content round shipped in code before its update-pages.sql
+ *     was pasted) — fall back to the SHIPPED file document, which is always
+ *     the same generation as the code. Measured: the 2026-08 round-2 build
+ *     crashed prerendering /about on a missing `road` before this existed.
  *
- * So: if the published document is missing any required section, fall back to
- * the SHIPPED file document, which is always the same generation as the code.
- * The page renders the newest complete content and never crashes; the moment
- * the DB catches up, the fallback goes dormant.
+ *   - An id present as a hidden STUB means the editor hid it on purpose —
+ *     honor it: the band is dropped and the page renders without it. (The
+ *     first version of this fallback could not tell the two apart and
+ *     resurrected the shipped copy over a deliberate hide.)
  *
- * Known limit, deliberate for now: deliberately HIDING one of these
- * structural sections from the desk trips the same fallback and resurrects
- * the shipped copy. Per-band null-guards are the real answer; until then the
- * desk's hide-eye is for the optional bands, and a hidden structural band
- * shows shipped content rather than a crashed page.
+ * Pages guard each band on its payload being present, so a dropped section
+ * skips its band instead of crashing.
  */
 export async function getPublishedPageRequiring(
   slug: string,
-  requiredIds: readonly string[],
+  knownIds: readonly string[],
 ): Promise<PageDocument | null> {
-  const doc = await getPublishedPage(slug);
+  const raw = await rawPublishedPage(slug);
   const has = (d: PageDocument, id: string) => d.sections.some((s) => s.id === id);
-  if (doc && requiredIds.every((id) => has(doc, id))) return doc;
+  if (raw && knownIds.every((id) => has(raw, id))) return dropHidden(raw);
 
   const shipped = await fromFile(slug);
-  if (!shipped) return doc;
-  return { ...shipped, sections: shipped.sections.filter((s) => s.visible !== false) };
+  if (!shipped) return raw ? dropHidden(raw) : null;
+  return dropHidden(shipped);
 }
 
 /**

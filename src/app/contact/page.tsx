@@ -77,18 +77,25 @@ orgSchema.address = {
 
 export default async function ContactPage() {
   const page = await getPublishedPageRequiring("contact", ["door", "lead", "where"]);
-  const DOOR = sectionPayload<ContactDoorPayload>(page, "door")!;
-  const FORM = sectionPayload<ContactLeadPayload>(page, "lead")!;
-  const WHERE = sectionPayload<ContactWherePayload>(page, "where")!;
-  const [doorBefore, doorMark, doorAfter] = splitAccent(DOOR.body, DOOR.bodyAccent);
-  const [formBefore, formMark, formAfter] = splitAccent(FORM.title, FORM.titleAccent);
+  const DOOR = sectionPayload<ContactDoorPayload>(page, "door");
+  const FORM = sectionPayload<ContactLeadPayload>(page, "lead");
+  const WHERE = sectionPayload<ContactWherePayload>(page, "where");
+  const [doorBefore, doorMark, doorAfter] = DOOR
+    ? splitAccent(DOOR.body, DOOR.bodyAccent)
+    : ["", "", ""];
+  const [formBefore, formMark, formAfter] = FORM
+    ? splitAccent(FORM.title, FORM.titleAccent)
+    : ["", "", ""];
   // the thank-you sentence carries its link phrase inline, split the same way
-  const [thanksBefore, , thanksAfter] = splitAccent(FORM.thanks, FORM.thanksLink);
+  const [thanksBefore, , thanksAfter] = FORM
+    ? splitAccent(FORM.thanks, FORM.thanksLink)
+    : ["", "", ""];
 
   return (
     <>
       {/* ===== 35 · HOOK — הדלת השקטה: פרוזה ממורכזת על blush, נשיפה אחת איטית.
            COPY: ### סקשן 35 ===== */}
+      {DOOR && (
       <section className="relative overflow-hidden bg-blush/60">
         {/* רצועת-מרקם מהמטבח שלה (MEDIA-PLAN §2, שכבה A). נבחר דווקא לוח השיש
             ולא רצועת הירק: הסקשן הוא פרוזה ממורכזת על blush, ומרקם עלים נבדק כאן
@@ -158,12 +165,14 @@ export default async function ContactPage() {
             (crest). מסירה מעוצבת בין חדרים, לא חתך צבע שטוח. */}
         <SeamShape variant="curve-up" fill="var(--color-blush)" />
       </section>
+      )}
 
       {/* ===== 36 · RESOLUTION — רצפת-החיכוך: כרטיס שנהב אחד מואר על שדה blush;
            טופס ≤5 שדות + וואטסאפ + מגנט רך; מסך-תודה שמשחזר את ההבטחה.
            COPY: ### סקשן 36 ===== */}
       {/* בלי scroll-mt — ה-scroll-padding-top הגלובלי (6rem) כבר מפנה את ההדר;
           אופסט כפול הנחית את «בואי נדבר» על ~330px של blush ריק לפני הכותרת. */}
+      {FORM && (
       <section id="lead" className="relative overflow-hidden bg-blush">
         <div aria-hidden className="grain-overlay" />
         <Container width="standard" className="relative py-16 sm:py-20 md:py-32">
@@ -246,10 +255,12 @@ export default async function ContactPage() {
             blush→bg שהיה בו: מסירה אחת מעוצבת במקום שני מנגנוני-מעבר. */}
         <SeamShape variant="curve-down" />
       </section>
+      )}
 
       {/* ===== 37 · GUIDE — איפה נפגשות: פיצול א-סימטרי יחיד בעמוד — מפה מסוגננת
            (SSR, בלי צד-שלישי, רמת-עיר בלבד) מול רשימת-נגישות על שנהב; אמון-Fogg,
            בלי CTA. מחזיק את ה-JSON-LD העסקי. COPY: ### סקשן 37 ===== */}
+      {WHERE && (
       <section className="relative overflow-hidden bg-bg">
         <JsonLd data={orgSchema} />
         <div aria-hidden className="grain-overlay" />
@@ -314,6 +325,7 @@ export default async function ContactPage() {
           </div>
         </Container>
       </section>
+      )}
     </>
   );
 }

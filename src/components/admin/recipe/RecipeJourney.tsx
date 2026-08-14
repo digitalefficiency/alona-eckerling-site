@@ -43,7 +43,7 @@ const micro = { transitionDuration: cssDur(DUR.micro), transitionTimingFunction:
 const FIELD_STATION: Record<string, StationId> = {
   title: "dish", prepTime: "dish", servings: "dish",
   body: "story",
-  image: "image", imageAlt: "image",
+  image: "image", imageAlt: "image", gallery: "image", galleryAlt: "image",
   category: "catalog", tags: "catalog", date: "catalog",
   description: "publish", slug: "publish",
 };
@@ -321,10 +321,13 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
             collection={collection}
             image={String(values.image ?? "")}
             imageAlt={String(values.imageAlt ?? "")}
+            galleryUrls={Array.isArray(values.gallery) ? (values.gallery as string[]) : []}
+            galleryAlts={Array.isArray(values.galleryAlt) ? (values.galleryAlt as string[]) : []}
             tip={model.tip}
             extra={model.extra}
             advancedOpen={advancedOpen}
             onImage={(url, alt) => { set("image", url); set("imageAlt", alt); }}
+            onGallery={(urls, alts) => { set("gallery", urls); set("galleryAlt", alts); }}
             onTip={(v) => setModel((m) => ({ ...m, tip: v }))}
             onExtra={(v) => setModel((m) => ({ ...m, extra: v }))}
             onToggleAdvanced={() => setAdvancedOpen((o) => !o)}

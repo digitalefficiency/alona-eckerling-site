@@ -132,15 +132,15 @@ export default async function HomePage() {
   // what stays in this file is only what the editor must not own — the room
   // stills, the rung media, the scroll choreography.
   const page = await getPublishedPageRequiring("", ["hero", "guide", "ribbon", "plan", "articles", "proof", "stakes", "success", "cta"]);
-  const HERO = sectionPayload<HomeHeroPayload>(page, "hero")!;
-  const GUIDE = sectionPayload<HomeGuidePayload>(page, "guide")!;
-  const RIBBON = sectionPayload<HomeRibbonPayload>(page, "ribbon")!;
-  const PLAN = sectionPayload<HomePlanPayload>(page, "plan")!;
-  const PROOF = sectionPayload<HomeProofPayload>(page, "proof")!;
-  const STAKES = sectionPayload<HomeStakesPayload>(page, "stakes")!;
-  const ARTICLES = sectionPayload<HomeArticlesPayload>(page, "articles")!;
-  const SUCCESS = sectionPayload<HomeSuccessPayload>(page, "success")!;
-  const CTA = sectionPayload<HomeCtaPayload>(page, "cta")!;
+  const HERO = sectionPayload<HomeHeroPayload>(page, "hero");
+  const GUIDE = sectionPayload<HomeGuidePayload>(page, "guide");
+  const RIBBON = sectionPayload<HomeRibbonPayload>(page, "ribbon");
+  const PLAN = sectionPayload<HomePlanPayload>(page, "plan");
+  const PROOF = sectionPayload<HomeProofPayload>(page, "proof");
+  const STAKES = sectionPayload<HomeStakesPayload>(page, "stakes");
+  const ARTICLES = sectionPayload<HomeArticlesPayload>(page, "articles");
+  const SUCCESS = sectionPayload<HomeSuccessPayload>(page, "success");
+  const CTA = sectionPayload<HomeCtaPayload>(page, "cta");
 
   // The ribbon's tiles: client-edited set when she has filled one from /admin,
   // otherwise the authored default. An empty settings file therefore renders the
@@ -153,7 +153,7 @@ export default async function HomePage() {
   const instagram = site.socials.find((s) => s.network === "instagram")?.url;
   const ribbonTiles = (socialWall.length
     ? socialWall.map((t) => ({ src: t.image, alt: t.imageAlt ?? "", href: t.href || instagram }))
-    : RIBBON.tiles.map((t) => ({ ...t, href: instagram })));
+    : (RIBBON?.tiles ?? []).map((t) => ({ ...t, href: instagram })));
   // Real recipe cards from the CMS (proof-of-craft) — real client photography
   // only. The FULL pool goes to the client grid, which shows a random trio per
   // visit (Rom's call 2026-07-19: no "newest" highlight, fresh three each time).
@@ -202,6 +202,7 @@ export default async function HomePage() {
              Header safety is DEFAULT-ON: the white nav treatment requires an
              explicit [data-dark-hero], so this light hero can never ship an
              invisible nav. ── */}
+      {HERO && (
       <section className="relative isolate overflow-hidden bg-bg" style={{ "--grade-tint": "var(--hour-morning)" } as React.CSSProperties}>
         <div className="mx-auto grid w-full max-w-[1440px] lg:min-h-[88svh] lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)]">
           {/* the words — reading start, on paper; ONE orchestrator, same
@@ -301,6 +302,7 @@ export default async function HomePage() {
             The «גללי» scroll cue came off (Rom, 2026-08-12). */}
         <SeamShape variant="curve-up" />
       </section>
+      )}
 
       {/* ── 02 · TENSION — THE FILM IS GONE (Rom, 2026-08-11: «תוריד את הסקשן של
              סרט הגלילה»). The pinned «בניית המנה» scroll-film (SequenceFilm, 14
@@ -331,6 +333,7 @@ export default async function HomePage() {
              escape-hatch target); the
              global scroll-padding-top of 6rem clears the fixed header, so no
              per-section scroll-mt is needed here. ── */}
+      {GUIDE && (
       <section id="guide" className="relative">
         <MScrollScene
           amplitude={4}
@@ -464,6 +467,7 @@ export default async function HomePage() {
         {/* soft-curve seam into the plan (crest — opposite the film's trough) */}
         <SeamShape variant="curve-up" />
       </section>
+      )}
 
       {/* ── 03b · the dish ribbon — an EXTENSION of §03's GUIDE beat, not a new section.
              §03 answers "who is she"; the ribbon answers it in her own material —
@@ -474,6 +478,7 @@ export default async function HomePage() {
              new beat, no arrives/leaves contract rewritten. Archetype: marquee —
              adjacent to overlap-layered (§03) and sticky-scroll (§04), both
              distinct, and §21 holds marquee on /about where the rule is per-page. ── */}
+      {RIBBON && (
       <div className="border-y border-line bg-card py-16 sm:py-20 md:py-24">
         <Container width="wide">
           <p className="mb-7 flex items-center justify-center gap-2.5 text-center">
@@ -493,11 +498,13 @@ export default async function HomePage() {
           </div>
         </Container>
       </div>
+      )}
 
       {/* ── 04 · PLAN — sticky-scroll ladder: three named rungs climb from a free call
              to the support that stays. Rungs 01–02 carry the generated stills (the
              conversation · the weekly plan, plan layer 8); rung 03 keeps the designed
              sage panel so the ladder ends on the site's own calm. ── */}
+      {PLAN && (
       <div className="relative bg-bg">
         {/* «חדר התכנון»: the weekly-plan still becomes the room behind the ladder
             (desktop only — mobile keeps clean sand, saving decode where we measure).
@@ -593,9 +600,11 @@ export default async function HomePage() {
         {/* mirror-curve seam into the proof — trough, opposite the dossier's crest */}
         <SeamShape variant="curve-down" />
       </div>
+      )}
 
       {/* ── 05 · PROOF — card-grid: a random trio of real CMS recipes per visit;
              testimonial + media-logo slots stay honestly DARK until real. ── */}
+      {PROOF && (
       <Section tone="white" border id="proof">
         <SectionHeading eyebrow={PROOF.kicker} title={PROOF.title} lead={PROOF.body} accent={PROOF.titleAccent} />
         <div className="mt-6">
@@ -618,6 +627,7 @@ export default async function HomePage() {
             «תחליף בין סקשן המאמרים לבין סקשן נמאס מהסבב הזה») — it now reads
             as the quiet study after the fork, right before the evening peak. */}
       </Section>
+      )}
 
       {/* ── 06 · STAKES — comparison: another noisy year vs the quiet way, the cost
              priced in noise and guilt (never kilos), the easy free step welded beneath.
@@ -625,6 +635,7 @@ export default async function HomePage() {
              fork mode); the block overlaps up out of the proof band ("the choice rises
              out of the proof"); the sage wash at the bottom flows seamlessly into the
              Success field — no drawn seam before the emotional peak. ── */}
+      {STAKES && (
       <section className="relative" style={{ "--grade-tint": "var(--hour-golden)" } as React.CSSProperties}>
         <Container width="wide" className="pb-32 pt-4 sm:pb-36 md:pb-44 md:pt-6">
           <div className="relative z-10 rounded-[16px] border border-line bg-bg p-7 shadow-[var(--elevation-2)] md:p-10">
@@ -664,13 +675,14 @@ export default async function HomePage() {
           </div>
         </Container>
       </section>
+      )}
 
       {/* ── 06b · the articles study — up to three REAL articles from the
              collection (title + its own frontmatter description, family-wash
              cards), placed after the fork (Rom, 2026-08-12) as the calm
              reading room before the evening peak; renders only when articles
              exist, the third slot fills itself on publish. ── */}
-      {articlesPool.length > 0 && (
+      {ARTICLES && articlesPool.length > 0 && (
         <Section tone="white" border>
           {/* a centered masthead — kicker, serif title with the rose rule
               resting under «כתוב כאן» (base state drawn), quiet standfirst */}
@@ -740,6 +752,7 @@ export default async function HomePage() {
              One milky ivory card carries the felt-lines. Zero grain — the material
              diet's clean end. A dusk gradient hands the evening to §08's navy night, where the
              gold ◆ of the form is the light that stays. ── */}
+      {SUCCESS && (
       <section className="relative">
         <MScrollScene
           amplitude={5}
@@ -804,9 +817,11 @@ export default async function HomePage() {
           <SeamShape variant="arch" fill="var(--color-navy)" height={88} />
         </MScrollScene>
       </section>
+      )}
 
       {/* ── 08 · RESOLUTION — the navy #lead: calm asymmetric split, the small free
              step made safe (no price, a human answer, a dignified soft magnet). ── */}
+      {CTA && (
       <Section tone="navy" id="lead" seam>
         <div className="grid items-start gap-12 md:grid-cols-[1.05fr_0.95fr]">
           <div>
@@ -841,6 +856,7 @@ export default async function HomePage() {
           </div>
         </div>
       </Section>
+      )}
     </>
   );
 }
