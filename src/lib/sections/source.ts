@@ -114,6 +114,40 @@ export async function getDraftPage(slug: string): Promise<PageDocument | null> {
 }
 
 /**
+ * The public read for a page whose composition NEEDS certain sections.
+ *
+ * The four core pages dereference their structural sections without null
+ * checks — the composition is one piece, art-directed in code. That is fine
+ * until the database document is OLDER than the code (a content round shipped
+ * in code before its update-pages.sql was pasted): the DB row then lacks a
+ * section the code requires, and prerender dies on a null — measured, the
+ * 2026-08 round-2 build crashed exactly this way on about's `road`.
+ *
+ * So: if the published document is missing any required section, fall back to
+ * the SHIPPED file document, which is always the same generation as the code.
+ * The page renders the newest complete content and never crashes; the moment
+ * the DB catches up, the fallback goes dormant.
+ *
+ * Known limit, deliberate for now: deliberately HIDING one of these
+ * structural sections from the desk trips the same fallback and resurrects
+ * the shipped copy. Per-band null-guards are the real answer; until then the
+ * desk's hide-eye is for the optional bands, and a hidden structural band
+ * shows shipped content rather than a crashed page.
+ */
+export async function getPublishedPageRequiring(
+  slug: string,
+  requiredIds: readonly string[],
+): Promise<PageDocument | null> {
+  const doc = await getPublishedPage(slug);
+  const has = (d: PageDocument, id: string) => d.sections.some((s) => s.id === id);
+  if (doc && requiredIds.every((id) => has(doc, id))) return doc;
+
+  const shipped = await fromFile(slug);
+  if (!shipped) return doc;
+  return { ...shipped, sections: shipped.sections.filter((s) => s.visible !== false) };
+}
+
+/**
  * One section by id, typed by the caller.
  *
  * Returns the payload only. A page component asks for what it renders and gets

@@ -6,7 +6,7 @@ import { Section } from "@/components/layout/Section";
 import { SeamShape } from "@/components/layout/SeamShape";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { getPublishedPage, sectionPayload } from "@/lib/sections/source";
+import { getPublishedPageRequiring, sectionPayload } from "@/lib/sections/source";
 import type {
   PageMetaPayload, CoachingHeroPayload, CoachingProblemPayload, CoachingMethodPayload,
   CoachingPackagesPayload, CoachingProcessPayload, CoachingProofPayload,
@@ -77,7 +77,7 @@ function splitAccent(text: string, accent: string): [string, string, string] {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPublishedPage("coaching");
+  const page = await getPublishedPageRequiring("coaching", ["meta", "hero", "problem", "method", "packages", "process", "proof", "faq", "cta"]);
   const hero = sectionPayload<CoachingHeroPayload>(page, "hero");
   return {
     title: page?.title ?? "איך עובדים איתי",
@@ -109,7 +109,7 @@ function ProofStill({ src, alt }: { src: string; alt: string }) {
 }
 
 export default async function CoachingPage() {
-  const page = await getPublishedPage("coaching");
+  const page = await getPublishedPageRequiring("coaching", ["meta", "hero", "problem", "method", "packages", "process", "proof", "faq", "cta"]);
   const META = sectionPayload<PageMetaPayload>(page, "meta")!;
   const HERO = sectionPayload<CoachingHeroPayload>(page, "hero")!;
   const PROBLEM = sectionPayload<CoachingProblemPayload>(page, "problem")!;

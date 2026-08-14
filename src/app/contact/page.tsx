@@ -17,7 +17,7 @@ import { IsraelReachMap } from "@/components/media/IsraelReachMap";
 import { SocialLinks } from "@/components/SocialLinks";
 import { JsonLd } from "@/components/JsonLd";
 import { professionalService } from "@/lib/schema-presets";
-import { getPublishedPage, sectionPayload } from "@/lib/sections/source";
+import { getPublishedPageRequiring, sectionPayload } from "@/lib/sections/source";
 import type {
   ContactDoorPayload, ContactLeadPayload, ContactWherePayload,
 } from "@/lib/sections/payloads";
@@ -76,7 +76,7 @@ orgSchema.address = {
 // החדר, והכיוון מתחלף בין תפרים עוקבים — בדיוק כמו בעמוד הבית.
 
 export default async function ContactPage() {
-  const page = await getPublishedPage("contact");
+  const page = await getPublishedPageRequiring("contact", ["door", "lead", "where"]);
   const DOOR = sectionPayload<ContactDoorPayload>(page, "door")!;
   const FORM = sectionPayload<ContactLeadPayload>(page, "lead")!;
   const WHERE = sectionPayload<ContactWherePayload>(page, "where")!;

@@ -24,7 +24,7 @@ import { site, services } from "@/lib/site";
 import { socialWall } from "@/lib/settings";
 import { SocialLinks } from "@/components/SocialLinks";
 import { listDocs, type CollectionEntry } from "@/lib/collections";
-import { getPublishedPage, sectionPayload } from "@/lib/sections/source";
+import { getPublishedPageRequiring, sectionPayload } from "@/lib/sections/source";
 import type {
   HomeHeroPayload, HomeGuidePayload, HomeRibbonPayload, HomePlanPayload,
   HomeProofPayload, HomeStakesPayload, HomeArticlesPayload, HomeSuccessPayload,
@@ -131,7 +131,7 @@ export default async function HomePage() {
   // ONE read for the whole page. Every section below takes its words from here;
   // what stays in this file is only what the editor must not own — the room
   // stills, the rung media, the scroll choreography.
-  const page = await getPublishedPage("");
+  const page = await getPublishedPageRequiring("", ["hero", "guide", "ribbon", "plan", "articles", "proof", "stakes", "success", "cta"]);
   const HERO = sectionPayload<HomeHeroPayload>(page, "hero")!;
   const GUIDE = sectionPayload<HomeGuidePayload>(page, "guide")!;
   const RIBBON = sectionPayload<HomeRibbonPayload>(page, "ribbon")!;

@@ -18,7 +18,7 @@ import { ResponsePromise } from "@/components/trust/ResponsePromise";
 import { SocialLinks } from "@/components/SocialLinks";
 import { JsonLd } from "@/components/JsonLd";
 import { personFromBio } from "@/lib/schema-presets";
-import { getPublishedPage, sectionPayload } from "@/lib/sections/source";
+import { getPublishedPageRequiring, sectionPayload } from "@/lib/sections/source";
 import type {
   AboutHeroPayload, AboutStoryPayload, AboutStandardPayload,
   AboutRoadPayload, AboutCtaPayload,
@@ -69,7 +69,7 @@ const HERO_PORTRAIT = "/media/client/alona/alona-goldenhour.jpg";
 // COPY: ### סקשן 22 · SpotlightCard + Person JSON-LD
 
 // The words come from the document — the same read the page body does.
-const getAboutPage = () => getPublishedPage("about");
+const getAboutPage = () => getPublishedPageRequiring("about", ["hero", "story", "standard", "road", "cta"]);
 
 /** No match returns the text whole: a drifted highlight costs an underline, never a paragraph. */
 function splitAccent(text: string, accent: string): [string, string, string] {
