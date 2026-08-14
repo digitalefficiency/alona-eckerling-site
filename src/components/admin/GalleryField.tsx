@@ -24,27 +24,37 @@ export function GalleryField({
   const { upload, busy, error } = useImageUpload();
   const micro = { transitionDuration: cssDur(DUR.micro), transitionTimingFunction: cssEase(EASE.micro) };
 
+  // addFiles awaits between commits, so arrays captured at click time go stale the
+  // moment the user edits an alt mid-batch. Every mutation must read latest.current
+  // and go through commit(), which updates the ref BEFORE onChange so the next
+  // commit builds on the freshest state even before the parent re-renders.
+  const latest = useRef({ urls, alts });
+  latest.current = { urls, alts }; // props are the source of truth on every render
+  const commit = (nextUrls: string[], nextAlts: string[]) => {
+    latest.current = { urls: nextUrls, alts: nextAlts };
+    onChange(nextUrls, nextAlts);
+  };
+
   async function addFiles(files: FileList) {
-    let nextUrls = [...urls];
-    let nextAlts = [...alts];
     for (const file of Array.from(files)) {
       const r = await upload(file, "");
       if ("url" in r) {
-        nextUrls = [...nextUrls, r.url];
-        nextAlts = [...nextAlts, ""];
-        onChange(nextUrls, nextAlts); // commit incrementally so a slow batch shows progress
+        // commit incrementally so a slow batch shows progress
+        commit([...latest.current.urls, r.url], [...latest.current.alts, ""]);
       }
     }
   }
 
-  const setAlt = (i: number, v: string) => onChange(urls, alts.map((a, idx) => (idx === i ? v : a)));
-  const remove = (i: number) => onChange(urls.filter((_, idx) => idx !== i), alts.filter((_, idx) => idx !== i));
+  const setAlt = (i: number, v: string) =>
+    commit(latest.current.urls, latest.current.alts.map((a, idx) => (idx === i ? v : a)));
+  const remove = (i: number) =>
+    commit(latest.current.urls.filter((_, idx) => idx !== i), latest.current.alts.filter((_, idx) => idx !== i));
   const move = (i: number, dir: -1 | 1) => {
     const j = i + dir;
-    if (j < 0 || j >= urls.length) return;
-    const u = [...urls]; const a = [...alts];
+    if (j < 0 || j >= latest.current.urls.length) return;
+    const u = [...latest.current.urls]; const a = [...latest.current.alts];
     [u[i], u[j]] = [u[j], u[i]]; [a[i], a[j]] = [a[j], a[i]];
-    onChange(u, a);
+    commit(u, a);
   };
 
   return (

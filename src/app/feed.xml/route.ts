@@ -1,3 +1,5 @@
+import { statSync } from "node:fs";
+import path from "node:path";
 import { site } from "@/lib/site";
 import { listDocs } from "@/lib/collections";
 
@@ -12,6 +14,23 @@ export const dynamic = "force-static";
 const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
+// RSS 2.0 requires type AND length on <enclosure>. type follows the extension
+// (the archive mixes .jpg with .webp); length is the byte size of the file under
+// public/, and 0 when the file cannot be read — the spec's value for "unknown".
+const ENCLOSURE_MIME: Record<string, string> = {
+  ".png": "image/png",
+  ".webp": "image/webp",
+  ".gif": "image/gif",
+};
+const enclosureFor = (base: string, img: string) => {
+  const type = ENCLOSURE_MIME[path.extname(img).toLowerCase()] ?? "image/jpeg";
+  let length = 0;
+  try {
+    length = statSync(path.join(process.cwd(), "public", img.replace(/^\//, ""))).size;
+  } catch {}
+  return `\n      <enclosure url="${esc(base + img)}" type="${type}" length="${length}" />`;
+};
+
 export function GET() {
   const base = site.url;
   const recipes = listDocs("recipes");
@@ -21,7 +40,7 @@ export function GET() {
     .map((e) => {
       const link = `${base}/recipes/${e.slug}`;
       const pub = /^\d{4}-\d{2}-\d{2}/.test(e.date) ? new Date(e.date).toUTCString() : buildDate;
-      const img = e.image ? `\n      <enclosure url="${esc(base + e.image)}" type="image/jpeg" />` : "";
+      const img = e.image ? enclosureFor(base, e.image) : "";
       return `    <item>
       <title>${esc(e.title)}</title>
       <link>${esc(link)}</link>

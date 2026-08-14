@@ -250,6 +250,9 @@ for (const file of files) {
 
   const before = currentJsonLdIngredients(content);
   const after = ingredients.filter((i) => i.kind === "item").map((i) => i.text);
+  // «**label:** items» lines (marked `inline` by classifyIngredientLine) are the
+  // one classified shape that explains a count delta beyond bullet-glyph drift.
+  const splitCount = ingredients.filter((i) => i.inline).length;
   if (before.length !== after.length) {
     notes.push(
       `${file}: JSON-LD ingredients ${before.length} → ${after.length}` +

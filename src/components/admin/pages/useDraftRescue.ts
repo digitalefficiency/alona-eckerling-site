@@ -17,9 +17,13 @@ const KEY = (slug: string) => `alona.page-draft.${slug || "home"}`;
 const DEBOUNCE_MS = 800;
 const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
-type Saved = { at: number; doc: PageDocument };
+// `rev` is the draft revision the work was typed on, so a restored rescue
+// publishes against ITS base and not against whatever is current — an old
+// rescue must conflict, never silently revert a newer publish. Optional
+// because entries written before the field existed lack it.
+type Saved = { at: number; doc: PageDocument; rev?: string | null };
 
-export function useDraftRescue(slug: string, doc: PageDocument | null, dirty: boolean) {
+export function useDraftRescue(slug: string, doc: PageDocument | null, dirty: boolean, rev: string | null) {
   const [rescue, setRescue] = useState<Saved | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -50,7 +54,7 @@ export function useDraftRescue(slug: string, doc: PageDocument | null, dirty: bo
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => {
       try {
-        window.localStorage.setItem(KEY(slug), JSON.stringify({ at: Date.now(), doc } satisfies Saved));
+        window.localStorage.setItem(KEY(slug), JSON.stringify({ at: Date.now(), doc, rev } satisfies Saved));
       } catch {
         // a full quota must never break typing
       }
@@ -58,7 +62,7 @@ export function useDraftRescue(slug: string, doc: PageDocument | null, dirty: bo
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
-  }, [slug, doc, dirty]);
+  }, [slug, doc, dirty, rev]);
 
   const clear = () => {
     try {

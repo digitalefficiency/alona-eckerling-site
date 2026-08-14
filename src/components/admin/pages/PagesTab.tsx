@@ -21,9 +21,20 @@ const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ")
 
 export type PageSummary = { slug: string; title: string; route: string; sections: number };
 
-export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialDoc: PageDocument | null }) {
+export function PagesTab({
+  pages,
+  initialDoc,
+  initialRev,
+}: {
+  pages: PageSummary[];
+  initialDoc: PageDocument | null;
+  initialRev: string | null;
+}) {
   const [slug, setSlug] = useState<string>(pages[0]?.slug ?? "");
   const [doc, setDoc] = useState<PageDocument | null>(initialDoc);
+  // the draft revision this screen's document is based on; publish sends it
+  // back so a stale tab conflicts instead of silently reverting newer work
+  const [rev, setRev] = useState<string | null>(initialRev);
   const [dirty, setDirty] = useState(false);
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
@@ -33,7 +44,7 @@ export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialD
 
   const [loading, setLoading] = useState(false);
   const route = pages.find((p) => p.slug === slug)?.route ?? "/";
-  const { rescue, dismiss, clear } = useDraftRescue(slug, doc, dirty);
+  const { rescue, dismiss, clear } = useDraftRescue(slug, doc, dirty, rev);
 
   // Switching pages fetches that page's document. Only the first one is sent
   // with the initial render, so the desk paints without waiting on five files.
@@ -48,7 +59,8 @@ export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialD
     setStatus(null);
     loadPage(slug).then((next) => {
       if (!live) return;
-      setDoc(next);
+      setDoc(next?.doc ?? null);
+      setRev(next?.rev ?? null);
       setDirty(false);
       setLoading(false);
     });
@@ -85,9 +97,10 @@ export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialD
     if (!doc) return;
     setSaving(true);
     setStatus(null);
-    const res = await savePage(slug, doc);
+    const res = await savePage(slug, doc, rev);
     setSaving(false);
     if (res.ok) {
+      setRev(res.rev);
       setDirty(false);
       clear();
       setStatus({ kind: "ok", text: "השינוי באוויר" });
@@ -149,6 +162,11 @@ export function PagesTab({ pages, initialDoc }: { pages: PageSummary[]; initialD
                 type="button"
                 onClick={() => {
                   setDoc(rescue.doc);
+                  // publish against the revision the rescue was typed on, not
+                  // the one just loaded — restoring must not bypass the
+                  // stale-payload guard. Entries without a rev conflict too,
+                  // which is the safe direction.
+                  setRev(rescue.rev ?? null);
                   setDirty(true);
                   dismiss();
                 }}

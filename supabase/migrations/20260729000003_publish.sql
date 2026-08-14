@@ -14,10 +14,14 @@
 --    and the moment she clicks פרסום, and the revision log records the phone's
 --    payload as "reviewed".
 --
--- 2. A HIDDEN SECTION NEVER SHIPS. pages.sections is world-readable through the
+-- 2. HIDDEN CONTENT NEVER SHIPS. pages.sections is world-readable through the
 --    anon key, and RLS cannot filter inside a jsonb value. publish_entity
---    strips invisible sections; the full authoring document lives only in
---    drafts and revisions, which have no anon policy at all.
+--    empties invisible sections down to a STUB — {id, type, schema_version,
+--    visible:false, payload:{}} — the same shape savePage writes
+--    (src/lib/sections/actions.ts): the payload never crosses, but the id
+--    survives so the render can tell "deliberately hidden" from "document
+--    older than the code". The full authoring document lives only in drafts
+--    and revisions, which have no anon policy at all.
 --
 -- 3. AN RLS-DENIED WRITE IS NEVER REPORTED AS SUCCESS. For UPDATE, a row that
 --    fails a policy's USING expression is SILENTLY SKIPPED: PostgreSQL raises
@@ -115,6 +119,13 @@ $$;
 -- Invariant 2, isolated so it is testable on its own. A non-array input (JSON
 -- null, an object, a missing key) yields an empty document rather than raising:
 -- publish must never abort on a malformed payload it can safely normalise.
+--
+-- A hidden section is not DROPPED, it is emptied to a STUB: {id, type,
+-- schema_version, visible:false, payload:{}} — byte-compatible with what
+-- savePage publishes (src/lib/sections/actions.ts). The stub is what lets the
+-- render tell "deliberately hidden" (skip this band) apart from "document older
+-- than the code" (missing id → stale-doc fallback); dropping the section
+-- resurrected shipped copy the editor had hidden.
 
 create or replace function public.visible_sections(p_sections jsonb)
   returns jsonb
@@ -125,19 +136,35 @@ create or replace function public.visible_sections(p_sections jsonb)
 as $$
   select coalesce(
     (
-      select jsonb_agg(s order by ord)
+      select jsonb_agg(
+               case
+                 -- default to VISIBLE when the flag is absent or is not a JSON
+                 -- boolean. A section with no usable flag is one the editor
+                 -- never touched, and silently hiding it is worse than showing
+                 -- it. Reading it as (s ->> 'visible')::boolean would raise
+                 -- 22P02 on any non-boolean value and abort the whole publish.
+                 when coalesce(
+                        case when jsonb_typeof(s -> 'visible') = 'boolean'
+                             then (s -> 'visible')::text::boolean end,
+                        true)
+                 then s
+                 -- deliberate hide → stub. schema_version is appended only when
+                 -- the key exists, because JSON.stringify drops an undefined
+                 -- value on the app side and the two writers must agree byte
+                 -- for byte.
+                 else jsonb_build_object(
+                        'id',      s -> 'id',
+                        'type',    s -> 'type',
+                        'visible', false,
+                        'payload', '{}'::jsonb)
+                      || case when s ? 'schema_version'
+                              then jsonb_build_object('schema_version', s -> 'schema_version')
+                              else '{}'::jsonb end
+               end
+               order by ord)
         from jsonb_array_elements(
                case when jsonb_typeof(p_sections) = 'array' then p_sections else '[]'::jsonb end
              ) with ordinality as t(s, ord)
-       -- default to VISIBLE when the flag is absent or is not a JSON boolean.
-       -- A section with no usable flag is one the editor never touched, and
-       -- silently hiding it is worse than showing it. Reading it as
-       -- (s ->> 'visible')::boolean would raise 22P02 on any non-boolean value
-       -- and abort the whole publish.
-       where coalesce(
-               case when jsonb_typeof(s -> 'visible') = 'boolean'
-                    then (s -> 'visible')::text::boolean end,
-               true)
     ),
     '[]'::jsonb
   )
@@ -332,8 +359,9 @@ begin
        set title       = coalesce(v_payload ->> 'title', p.title),
            description = case when v_payload ? 'description'
                               then v_payload ->> 'description' else p.description end,
-           -- invariant 2: only what is visible crosses into the public row, and
-           -- any image_id inside a section is resolved to a {path, alt} the
+           -- invariant 2: only visible CONTENT crosses into the public row
+           -- (a hidden section ships as an empty-payload stub), and any
+           -- image_id inside a section is resolved to a {path, alt} the
            -- anon-key renderer can use.
            --
            -- The `jsonb_typeof = 'array'` guard is load-bearing: without it, a

@@ -70,6 +70,21 @@ export function SectionForm({
             onChange={(v) => set(f.key, v)}
           />
         );
+      case "boolean":
+        return (
+          <div key={f.key} className="mb-5">
+            <label className="flex w-fit cursor-pointer items-center gap-2.5 rounded-[6px] border border-line bg-bg px-3.5 py-2.5 transition focus-within:border-gold focus-within:ring-2 focus-within:ring-gold/25">
+              <input
+                type="checkbox"
+                checked={payload[f.key] === true}
+                onChange={(e) => set(f.key, e.target.checked)}
+                className="h-4 w-4 accent-gold-ink outline-none"
+              />
+              <span className="text-[13px] font-bold text-ink">{f.label}</span>
+            </label>
+            {f.hint && <p className="mt-1.5 text-[12px] leading-relaxed text-muted">{f.hint}</p>}
+          </div>
+        );
       case "repeater":
         return (
           <Repeater

@@ -5,6 +5,7 @@ export type JourneyInput = {
   title: string; prepTime: string; intro: string;
   ingredients: string[]; steps: string[];
   image: string; imageAlt: string;
+  gallery?: string[]; galleryAlt?: string[]; // paired by index, both optional (non-recipe callers omit them)
   category: string; tags: string[]; date: string;
   description: string; slug: string; isNew: boolean;
 };

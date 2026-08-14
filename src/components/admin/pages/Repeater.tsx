@@ -57,13 +57,19 @@ export function Repeater({
   };
 
   const add = () => {
-    const blank: Item = scalar ? "" : Object.fromEntries(spec.fields.map((f) => [f.key, ""]));
+    const blank: Item = scalar
+      ? ""
+      : Object.fromEntries(spec.fields.map((f) => [f.key, f.kind === "boolean" ? false : ""]));
     onChange([...value, blank]);
     setOpen(value.length);
   };
 
   const atMin = spec.min !== undefined && value.length <= spec.min;
   const atMax = spec.max !== undefined && value.length >= spec.max;
+  // An image slot cannot be filled from the desk, so a spec that carries one
+  // offers no "add": a fresh item would publish src:"" — a broken <Image> on
+  // the live page. Existing items stay editable; new ones come through Rom.
+  const hasImage = spec.fields.some((f) => f.kind === "image");
 
   return (
     <div className="mb-6">
@@ -152,6 +158,41 @@ export function Repeater({
                           />
                         );
                       }
+                      if (f.kind === "boolean") {
+                        return (
+                          <div key={f.key} className="mb-5">
+                            <label className="flex w-fit cursor-pointer items-center gap-2.5 rounded-[6px] border border-line bg-bg px-3.5 py-2.5 transition focus-within:border-gold focus-within:ring-2 focus-within:ring-gold/25">
+                              <input
+                                type="checkbox"
+                                checked={(item as Record<string, unknown>)[f.key] === true}
+                                onChange={(e) =>
+                                  onChange(
+                                    value.map((x, j) => (j === i ? { ...(x as object), [f.key]: e.target.checked } : x)),
+                                  )
+                                }
+                                className="h-4 w-4 accent-gold-ink outline-none"
+                              />
+                              <span className="text-[13px] font-bold text-ink">{f.label}</span>
+                            </label>
+                            {f.hint && <p className="mt-1.5 text-[12px] leading-relaxed text-muted">{f.hint}</p>}
+                          </div>
+                        );
+                      }
+                      // An art-directed asset: shown read-only, the same dimmed
+                      // row a locked top-level image gets in SectionForm.
+                      if (f.kind === "image") {
+                        return (
+                          <div key={f.key} className="mb-5">
+                            <span className="mb-1.5 block text-[13px] font-bold text-ink">{f.label}</span>
+                            <div className="flex items-center gap-3 rounded-[6px] border border-line bg-bg px-3.5 py-2.5">
+                              <span className="truncate text-[13px] text-muted">
+                                {String((item as Record<string, unknown>)[f.key] ?? "—")}
+                              </span>
+                            </div>
+                            {f.hint && <p className="mt-1.5 text-[12px] leading-relaxed text-muted">{f.hint}</p>}
+                          </div>
+                        );
+                      }
                       // A list inside a list — the coaching packages carry their
                       // "מה כלול" bullets inside each package. Without this the
                       // inner list is invisible in the desk: the data survives a
@@ -180,7 +221,7 @@ export function Repeater({
         })}
       </ul>
 
-      {!atMax && (
+      {!atMax && !hasImage && (
         <button
           type="button"
           onClick={add}

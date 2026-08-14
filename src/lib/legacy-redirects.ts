@@ -6,9 +6,13 @@
 // tag pagination are INDEXED in Google; when the new site goes live on the same
 // domain they must 301 to the new routes or their accumulated equity 404s away.
 //
-// Sources are the URL-DECODED Hebrew pathnames — Next.js matches redirects on the
-// decoded pathname, so `/post/%D7%93…` (encoded) matches source `/post/דגים…`.
-// `permanent: true` emits a 308 (equity-passing, like a 301).
+// Sources are STORED URL-decoded (readable Hebrew) but EMITTED percent-encoded:
+// next.config redirects compile through path-to-regexp against the ENCODED
+// request pathname, so a decoded-Hebrew source never matches (measured on dev
+// AND prod — the mapped recipes fell to the /post catch-all and the page
+// sources hard-404'd). Requests arriving with raw UTF-8 bytes in the path are
+// normalized to the encoded form before matching, so one encoded source covers
+// both spellings. `permanent: true` emits a 308 (equity-passing, like a 301).
 //
 // RECIPE_MAP holds the 34 old→new pairs where the recipe was rebuilt on the new
 // site (every current recipe has an archived counterpart).  Every other old
@@ -43,13 +47,16 @@ export const PAGE_MAP: Record<string, string> = {
 };
 
 export function legacyRedirects(): LegacyRedirect[] {
+  // encodeURI (not encodeURIComponent) so the leading/interior `/` survives;
+  // the encoded output is only `%`+hex, `/`, `-`, and ASCII letters — none of
+  // which are path-to-regexp metacharacters, so no further escaping is needed.
   const recipePosts = Object.entries(RECIPE_MAP).map(([he, en]) => ({
-    source: `/post/${he}`,
+    source: encodeURI(`/post/${he}`),
     destination: `/recipes/${en}`,
     permanent: true,
   }));
   const pages = Object.entries(PAGE_MAP).map(([from, to]) => ({
-    source: from,
+    source: encodeURI(from),
     destination: to,
     permanent: true,
   }));
@@ -60,7 +67,10 @@ export function legacyRedirects(): LegacyRedirect[] {
     ...pages,
     // 3. the rest of the recipe archive: every un-rebuilt /post/* + all the old
     //    /blog category/tag/page pagination → the new recipe index (NOT the home).
-    //    `:path+` requires ≥1 segment so the new (designed) /blog route is left alone.
+    //    `:path+` requires ≥1 segment so a future real /blog/<post> route can
+    //    reclaim the prefix by removing ONLY that line; the exact /blog source
+    //    below covers the old Wix blog ROOT, which has no route and 404'd.
+    { source: "/blog", destination: "/recipes", permanent: true },
     { source: "/blog/:path+", destination: "/recipes", permanent: true },
     { source: "/post/:slug*", destination: "/recipes", permanent: true },
     // 4. Wix on-site search had its own indexed pages — no equivalent, land softly.

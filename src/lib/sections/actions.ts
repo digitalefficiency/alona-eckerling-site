@@ -33,7 +33,9 @@ const PAGES_DIR = path.join(process.cwd(), "content", "pages");
 const fileFor = (slug: string) => path.join(PAGES_DIR, `${slug === "" ? "home" : slug}.json`);
 const routeFor = (slug: string) => (slug === "" ? "/" : `/${slug}`);
 
-export type SaveResult = { ok: true; savedAt: string } | { ok: false; error: string };
+export type SaveResult =
+  | { ok: true; savedAt: string; rev: string | null }
+  | { ok: false; error: string };
 
 async function requireSession(): Promise<string | null> {
   const jar = await cookies();
@@ -45,11 +47,15 @@ async function requireSession(): Promise<string | null> {
  * Unknown keys are dropped silently — they cannot have come from the desk, and
  * storing them would mean the document grows fields no form can ever edit.
  */
-function sanitise(doc: PageDocument): PageDocument | { registryGap: string } {
+function sanitise(doc: PageDocument): PageDocument | { registryGap: string } | { requiredHidden: string } {
   const gaps: string[] = [];
+  // required in the registry means the live page is broken without the
+  // section: a document that hides one is refused, never repaired silently
+  const requiredHidden: string[] = [];
   const sections = doc.sections.map((s) => {
       const type = getSectionType(s.type);
       if (!type) return s; // a section we do not model yet passes through untouched
+      if (type.required && s.visible === false) requiredHidden.push(type.label);
       const allowed = new Set(type.fields.map((f) => f.key));
       // A payload key the registry does not declare is NOT junk to strip — the
       // desk cannot produce one, so it can only mean the registry entry is
@@ -69,6 +75,7 @@ function sanitise(doc: PageDocument): PageDocument | { registryGap: string } {
       }
       return { ...s, payload, visible: s.visible !== false };
   });
+  if (requiredHidden.length) return { requiredHidden: requiredHidden.join("», «") };
   if (gaps.length) return { registryGap: gaps.join(", ") };
   return { ...doc, sections };
 }
@@ -86,8 +93,11 @@ function sanitise(doc: PageDocument): PageDocument | { registryGap: string } {
 // row carries only the visible projection, which is the same split
 // publish_entity enforces. Without the drafts row, hiding a section and saving
 // would DELETE its content from the only place it existed.
+// `rev` is the drafts row's updated_at: the optimistic-concurrency token the
+// desk hands back on publish. Null before the first draft row exists, and in
+// file mode, where a single editor on a single machine has no second writer.
 type Backend =
-  | { mode: "db"; id: string; current: PageDocument }
+  | { mode: "db"; id: string; current: PageDocument; rev: string | null }
   | { mode: "file"; current: PageDocument }
   | { mode: "missing" };
 
@@ -105,18 +115,24 @@ async function resolveBackend(slug: string): Promise<Backend> {
       if (sb) {
         const { data: draft } = await sb
           .from("drafts")
-          .select("payload")
+          .select("payload,updated_at")
           .eq("entity_type", "page")
           .eq("entity_id", row.id)
           .maybeSingle();
         if (draft?.payload) {
-          return { mode: "db", id: row.id, current: draft.payload as PageDocument };
+          return {
+            mode: "db",
+            id: row.id,
+            current: draft.payload as PageDocument,
+            rev: typeof draft.updated_at === "string" ? draft.updated_at : null,
+          };
         }
       }
       // no draft yet (or desk user not wired): the published row is the truth
       return {
         mode: "db",
         id: row.id,
+        rev: null,
         current: {
           slug: row.slug,
           title: row.title,
@@ -135,7 +151,11 @@ async function resolveBackend(slug: string): Promise<Backend> {
   }
 }
 
-export async function savePage(slug: string, doc: PageDocument): Promise<SaveResult> {
+export async function savePage(
+  slug: string,
+  doc: PageDocument,
+  expectedRev?: string | null,
+): Promise<SaveResult> {
   const email = await requireSession();
   if (!email) return { ok: false, error: "לא מחוברת. יש להיכנס מחדש." };
 
@@ -144,6 +164,17 @@ export async function savePage(slug: string, doc: PageDocument): Promise<SaveRes
   const backend = await resolveBackend(slug);
   if (backend.mode === "missing") {
     return { ok: false, error: "לא הצלחתי לקרוא את העמוד. כדאי לרענן." };
+  }
+
+  // Optimistic concurrency. The section-id check below only catches STRUCTURE
+  // drift; a stale tab (or a week-old rescue) with the same sections would
+  // silently revert every published change. The desk sends back the draft
+  // revision it loaded; a different revision now means someone published since.
+  if (backend.mode === "db" && expectedRev !== undefined && backend.rev !== expectedRev) {
+    return {
+      ok: false,
+      error: "העמוד השתנה מאז שנפתח, כנראה פורסם מחלון או ממכשיר אחר. כדאי לרענן ולנסות שוב.",
+    };
   }
 
   // read-modify-write against the live source, so a stale tab cannot silently
@@ -166,7 +197,16 @@ export async function savePage(slug: string, doc: PageDocument): Promise<SaveRes
       error: `באג ברישום הסקשנים (${cleanOrGap.registryGap}) — השמירה נעצרה כדי לא לאבד תוכן. פנו לרום.`,
     };
   }
+  if ("requiredHidden" in cleanOrGap) {
+    return {
+      ok: false,
+      error: `השמירה נעצרה: הסקשן «${cleanOrGap.requiredHidden}» הוא חלק קבוע של העמוד ואי אפשר להסתיר אותו.`,
+    };
+  }
   const clean = cleanOrGap;
+
+  // the revision the desk must send back on its NEXT publish
+  let rev: string | null = null;
 
   if (backend.mode === "db") {
     const sb = await deskClient();
@@ -179,14 +219,22 @@ export async function savePage(slug: string, doc: PageDocument): Promise<SaveRes
     }
 
     // the FULL document (hidden sections included) lives in drafts, which has
-    // no anon policy at all; only then does the visible projection go public
-    const { error: draftErr } = await sb.from("drafts").upsert(
-      { entity_type: "page", entity_id: backend.id, payload: clean, updated_at: new Date().toISOString() },
-      { onConflict: "entity_type,entity_id" },
-    );
+    // no anon policy at all; only then does the visible projection go public.
+    // .select() reads the stored updated_at back rather than trusting `now`,
+    // in case the database touches the column on write.
+    const now = new Date().toISOString();
+    const { data: draftRows, error: draftErr } = await sb
+      .from("drafts")
+      .upsert(
+        { entity_type: "page", entity_id: backend.id, payload: clean, updated_at: now },
+        { onConflict: "entity_type,entity_id" },
+      )
+      .select("updated_at");
     if (draftErr) {
       return { ok: false, error: "השמירה נדחתה. התוכן שלך עדיין כאן במסך — פנו לרום." };
     }
+    const stored: unknown = draftRows?.[0]?.updated_at;
+    rev = typeof stored === "string" ? stored : now;
 
     // .select() makes the update RETURN the rows it touched. This is the whole
     // check: an RLS-refused update answers with ZERO rows and NO error, so
@@ -236,14 +284,21 @@ export async function savePage(slug: string, doc: PageDocument): Promise<SaveRes
   }
 
   revalidatePath(routeFor(slug));
-  return { ok: true, savedAt: new Date().toISOString() };
+  return { ok: true, savedAt: new Date().toISOString(), rev };
 }
 
-/** The desk reads through this so it never touches the backend itself. */
-export async function loadPage(slug: string): Promise<PageDocument | null> {
+/**
+ * The desk reads through this so it never touches the backend itself.
+ * `rev` is the optimistic-concurrency token savePage checks: the draft's
+ * updated_at in DB mode, null in file mode and before the first draft exists.
+ */
+export async function loadPage(
+  slug: string,
+): Promise<{ doc: PageDocument; rev: string | null } | null> {
   if (!(await requireSession())) return null;
   const backend = await resolveBackend(slug);
-  return backend.mode === "missing" ? null : backend.current;
+  if (backend.mode === "missing") return null;
+  return { doc: backend.current, rev: backend.mode === "db" ? backend.rev : null };
 }
 
 /**

@@ -32,3 +32,10 @@ test("bad slug gates publish only for NEW docs", () => {
 test("image needs BOTH url and alt", () => {
   assert.ok(!stationStatus({ ...FULL, imageAlt: "" }).image);
 });
+test("a gallery entry with an empty or missing alt blocks the image station", () => {
+  assert.ok(!stationStatus({ ...FULL, gallery: ["/media/g.jpg"], galleryAlt: [""] }).image);
+  assert.ok(!stationStatus({ ...FULL, gallery: ["/media/g.jpg"], galleryAlt: [] }).image);
+  assert.ok(stationStatus({ ...FULL, gallery: ["/media/g.jpg"], galleryAlt: ["גלריה"] }).image);
+  assert.ok(stationStatus({ ...FULL, gallery: [], galleryAlt: [] }).image);
+  assert.ok(stationStatus(FULL).image); // omitted arrays stay valid for non-gallery callers
+});

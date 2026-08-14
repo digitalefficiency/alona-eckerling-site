@@ -69,13 +69,18 @@ export function PageView({
     doc.sections.map((s) => s.id).join(",") !== doc.baseline_order.map((b) => b.id).join(",");
 
   const move = (i: number, d: -1 | 1) => {
+    const j = i + d;
+    if (j < 0 || j >= doc.sections.length) return;
+    // a pinned section never moves, and nothing crosses one: pin:"start"
+    // anchors the opening of the page, pin:"end" anchors the close
+    const own = getSectionType(doc.sections[i].type)?.pin;
+    const neighbour = getSectionType(doc.sections[j].type)?.pin;
+    if (own || (d === -1 && neighbour === "start") || (d === 1 && neighbour === "end")) return;
     if (!warned) {
       setShowWarning(true);
       setWarned(true);
     }
     const next = [...doc.sections];
-    const j = i + d;
-    if (j < 0 || j >= next.length) return;
     [next[i], next[j]] = [next[j], next[i]];
     onChange({ ...doc, sections: next });
   };
@@ -178,35 +183,56 @@ export function PageView({
                 </button>
 
                 <span className="ms-12 flex shrink-0 items-center gap-1.5 sm:ms-0">
-                  <button
-                    type="button"
-                    className={cx(iconBtn, hidden && "border-gold text-gold-ink")}
-                    onClick={() => setVisible(s.id, hidden)}
-                    aria-label={hidden ? "להציג באתר" : "להסתיר מהאתר"}
-                    title={hidden ? "להציג באתר" : "להסתיר מהאתר"}
-                  >
-                    <EyeIcon off={hidden} />
-                  </button>
-                  <button
-                    type="button"
-                    className={iconBtn}
-                    onClick={() => move(i, -1)}
-                    disabled={i === 0}
-                    aria-label="להעביר למעלה"
-                    title="להעביר למעלה"
-                  >
-                    ↑
-                  </button>
-                  <button
-                    type="button"
-                    className={iconBtn}
-                    onClick={() => move(i, 1)}
-                    disabled={i === doc.sections.length - 1}
-                    aria-label="להעביר למטה"
-                    title="להעביר למטה"
-                  >
-                    ↓
-                  </button>
+                  {/* required in the registry means the page is broken without
+                      the section: the hide control is absent, not disabled,
+                      and an empty slot keeps the control column aligned */}
+                  {type?.required ? (
+                    <span aria-hidden className="h-10 w-10 shrink-0" />
+                  ) : (
+                    <button
+                      type="button"
+                      className={cx(iconBtn, hidden && "border-gold text-gold-ink")}
+                      onClick={() => setVisible(s.id, hidden)}
+                      aria-label={hidden ? "להציג באתר" : "להסתיר מהאתר"}
+                      title={hidden ? "להציג באתר" : "להסתיר מהאתר"}
+                    >
+                      <EyeIcon off={hidden} />
+                    </button>
+                  )}
+                  {/* a pinned section shows no arrows at all; its neighbours'
+                      arrows are clamped in move() and disabled here */}
+                  {type?.pin ? (
+                    <>
+                      <span aria-hidden className="h-10 w-10 shrink-0" />
+                      <span aria-hidden className="h-10 w-10 shrink-0" />
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        className={iconBtn}
+                        onClick={() => move(i, -1)}
+                        disabled={i === 0 || getSectionType(doc.sections[i - 1].type)?.pin === "start"}
+                        aria-label="להעביר למעלה"
+                        title="להעביר למעלה"
+                      >
+                        ↑
+                      </button>
+                      <button
+                        type="button"
+                        className={iconBtn}
+                        onClick={() => move(i, 1)}
+                        disabled={
+                          i === doc.sections.length - 1 ||
+                          getSectionType(doc.sections[i + 1].type)?.pin === "end"
+                        }
+                        aria-label="להעביר למטה"
+                        title="להעביר למטה"
+                      >
+                        ↓
+                      </button>
+                    </>
+                  )}
                 </span>
               </div>
 

@@ -177,6 +177,8 @@ export function RecipeJourney({ collection, file, onDone }: { collection: Collec
     steps: model.steps,
     image: String(values.image ?? ""),
     imageAlt: String(values.imageAlt ?? ""),
+    gallery: Array.isArray(values.gallery) ? (values.gallery as string[]) : [],
+    galleryAlt: Array.isArray(values.galleryAlt) ? (values.galleryAlt as string[]) : [],
     category: String(values.category ?? ""),
     tags: Array.isArray(values.tags) ? (values.tags as string[]) : [],
     date: effectiveDate,

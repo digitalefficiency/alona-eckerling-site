@@ -35,7 +35,8 @@ export function AdminShell({
   docs: AdminCollection[];
   settings: Record<string, SettingsGroup>;
   pages: PageSummary[];
-  pageDoc: PageDocument | null;
+  /** the first page's document plus its draft revision, as loadPage returns it */
+  pageDoc: { doc: PageDocument; rev: string | null } | null;
 }) {
   const settingsKeys = Object.keys(settings);
   // Pages open first: it is the tab that covers the most of the site, and the
@@ -120,7 +121,7 @@ export function AdminShell({
           </p>
         )}
         {view.kind === "pages" ? (
-          <PagesTab pages={pages} initialDoc={pageDoc} />
+          <PagesTab pages={pages} initialDoc={pageDoc?.doc ?? null} initialRev={pageDoc?.rev ?? null} />
         ) : view.kind === "settings" && settings[view.group] ? (
           <SettingsForm name={view.group} group={settings[view.group]} />
         ) : view.kind === "list" && current ? (
