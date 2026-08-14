@@ -12,12 +12,14 @@ import { DocEditor } from "@/components/admin/DocEditor";
 import { RecipeJourney } from "@/components/admin/recipe/RecipeJourney";
 import { SettingsForm } from "@/components/admin/SettingsForm";
 import { PagesTab, type PageSummary } from "@/components/admin/pages/PagesTab";
+import { LeadsTab } from "@/components/admin/LeadsTab";
 import type { PageDocument } from "@/lib/sections/schema";
 
 // The desk. Views are client state, not routes — one page, one noindex, no router
 // surface to keep in sync with lint-seo/sitemap.
 type View =
   | { kind: "pages" }
+  | { kind: "leads" }
   | { kind: "list"; collectionId: string }
   | { kind: "edit"; collectionId: string; file?: string }
   | { kind: "settings"; group: string };
@@ -48,7 +50,8 @@ export function AdminShell({
         ? { kind: "list", collectionId: collections[0].id }
         : { kind: "settings", group: settingsKeys[0] ?? "" },
   );
-  const activeCollectionId = view.kind === "settings" || view.kind === "pages" ? "" : view.collectionId;
+  const activeCollectionId =
+    view.kind === "settings" || view.kind === "pages" || view.kind === "leads" ? "" : view.collectionId;
   const current = collections.find((c) => c.id === activeCollectionId);
   const bucket = docs.find((d) => d.id === activeCollectionId);
 
@@ -90,6 +93,9 @@ export function AdminShell({
                 {c.label}
               </Tab>
             ))}
+            <Tab active={view.kind === "leads"} onClick={() => setView({ kind: "leads" })}>
+              {T("leads.tab")}
+            </Tab>
             {settingsKeys.map((k) => (
               <Tab
                 key={k}
@@ -122,6 +128,8 @@ export function AdminShell({
         )}
         {view.kind === "pages" ? (
           <PagesTab pages={pages} initialDoc={pageDoc?.doc ?? null} initialRev={pageDoc?.rev ?? null} />
+        ) : view.kind === "leads" ? (
+          <LeadsTab />
         ) : view.kind === "settings" && settings[view.group] ? (
           <SettingsForm name={view.group} group={settings[view.group]} />
         ) : view.kind === "list" && current ? (
