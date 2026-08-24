@@ -1092,12 +1092,15 @@ html.a11y-big-cursor * {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  /* the top clears at 82% (room-scrim keeps 92%): Alona stands in the upper
+     third of the clinic still, and the 35%-at-78% veil read as a blur on her
+     face (Rom, 2026-08-24). The text base below 62% is untouched. */
   background: linear-gradient(
     to top,
     var(--color-bg) 46%,
     color-mix(in srgb, var(--color-bg) 86%, transparent) 62%,
-    color-mix(in srgb, var(--color-bg) 35%, transparent) 78%,
-    transparent 92%
+    color-mix(in srgb, var(--color-bg) 22%, transparent) 72%,
+    transparent 82%
   );
 }
 @media (min-width: 1024px) {

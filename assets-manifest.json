@@ -3219,6 +3219,40 @@
       },
       "alt": "מגדל פנקייקים עם תאנים, אוכמניות ובננה על צלחת לבנה, על שיש בהיר",
       "source": "client-drive-handover-2026-07-23"
+    },
+    {
+      "id": "cl-116",
+      "installPath": "/media/client/alona/alona-portrait-studio.png",
+      "status": "installed",
+      "optimized": {
+        "sha256": "ce38d4fab1c617ab3eb8b27502c4d259a86e1e75d948de1d75e56aeeb7308357",
+        "bytes": 2892570,
+        "pipeline": "transparent-PNG source (944x2048, alpha intact) → alpha-bbox trim 626x1148 → bytedance enhancement upscale 2k (flattened on cream, identity-checked side-by-side vs original — no generative repaint) → ORIGINAL alpha mask re-applied (lanczos + 2px choke) → LANCZOS to 1252x2291 → deterministic warm grade (PIL curve r×1.03 b×0.975) → PNG optimize (2026-08-24 hero-figure round)",
+        "note": "hero figure 01 — cutout on the page paper; the mid-thigh cut edge is designed to bleed below the section under the curve-up seam"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "פורטרט סטודיו מקצועי של אלונה עצמה, שנשלח על ידה ישירות לרום ב-WhatsApp ב-2026-08-24 לצורך ההירו של דף הבית (קובץ PNG שקוף כפי שסופק מהצלם). מקור בתיקיית ה-drop של החומרים: materials/drop. אישור תצוגת פורטרטים — אותו סעיף פתוח שנרשם ב-MEDIA-PLAN.md §6 לכלל הפורטרטים."
+      },
+      "alt": "אלונה אקרלינג, דיאטנית קלינית מוסמכת — פורטרט סטודיו",
+      "source": "client-whatsapp-handover-2026-08-24"
+    },
+    {
+      "id": "cl-117",
+      "installPath": "/media/client/alona/alona-stanley.jpg",
+      "status": "installed",
+      "optimized": {
+        "sha256": "4aacd208932227f5a18090d270f8280abf81e00cad93600139095e77ff86390a",
+        "bytes": 168848,
+        "pipeline": "source 1152x2048 selfie → 4:5 crop y[430,1870] (lamp + floor corner out, face upper-third, tumbler in) → JPEG q72 progressive 4:2:2, EXIF stripped by re-encode (2026-08-24 guide-portrait round)",
+        "crop": "privacy-checked on the crop: mirror sliver at inline-edge holds only a blurred room reflection; third-party wall art present in her own home; mirrored STANLEY logo left as-is (selfie camera flip — un-flipping would mirror her face)"
+      },
+      "license": {
+        "status": "client-confirmed",
+        "basis": "סלפי של אלונה עצמה, נשלח על ידה ישירות לרום ב-WhatsApp ב-2026-08-24 לצורך החלפת תמונת כרטיס-הפורטרט בסקשן 03. מקור בתיקיית ה-drop של החומרים: materials/drop. אישור תצוגת פורטרטים — אותו סעיף פתוח שנרשם ב-MEDIA-PLAN.md §6 לכלל הפורטרטים."
+      },
+      "alt": "אלונה אקרלינג בסלפי עם כוס השתייה הקבועה שלה, בבית",
+      "source": "client-whatsapp-handover-2026-08-24"
     }
   ]
 }
