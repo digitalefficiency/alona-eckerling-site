@@ -96,6 +96,11 @@ export function Header() {
           // and the two 1fr rails are equal, so the links are centred against the
           // ISLAND rather than against whatever is left over after the logo. With
           // justify-between the nav drifted with every logo/CTA width change.
+          // Each child carries an EXPLICIT col-start: below md the nav is
+          // display:none, and a none'd grid item is skipped by auto-placement —
+          // without the explicit columns the hamburger rail auto-flowed into the
+          // MIDDLE (auto) column and the burger floated mid-island on phones
+          // (Rom, 2026-08-24: «תתקן את מיקום של ההמבורגר במובייל»).
           className={`grid grid-cols-[1fr_auto_1fr] items-center gap-x-4 rounded-2xl px-4 transition-all duration-[var(--dur-micro)] md:px-5 ${
             condensed ? "py-2" : "py-2.5 md:py-3"
           } ${
@@ -104,7 +109,7 @@ export function Header() {
               : "border border-line bg-card/85 shadow-[0_14px_44px_-22px_color-mix(in_srgb,var(--color-navy)_55%,transparent)] backdrop-blur-md"
           }`}
         >
-          <Link href="/" className="flex flex-col items-end gap-1 justify-self-start leading-none">
+          <Link href="/" className="col-start-1 flex flex-col items-end gap-1 justify-self-start leading-none">
             <BrandLogo dark={light} className={`w-auto transition-[height] duration-[var(--dur-micro)] ${condensed ? "h-7" : "h-8"}`} />
             <span
               className={`hidden text-[0.6rem] font-medium tracking-wide transition-colors sm:block ${
@@ -116,7 +121,7 @@ export function Header() {
           </Link>
 
           {/* middle column — the nav itself, so it centres on the island */}
-          <nav aria-label="ראשי" className="hidden items-center gap-x-4 text-[0.9rem] font-medium md:flex lg:gap-x-6 lg:text-[0.95rem]">
+          <nav aria-label="ראשי" className="col-start-2 hidden items-center gap-x-4 text-[0.9rem] font-medium md:flex lg:gap-x-6 lg:text-[0.95rem]">
               {nav.map((n) => {
                 const active = isActive(n.href);
                 return (
@@ -141,7 +146,7 @@ export function Header() {
           </nav>
 
           {/* end column — socials, CTA, hamburger */}
-          <div className="flex items-center gap-2 justify-self-end sm:gap-3 md:gap-4">
+          <div className="col-start-3 flex items-center gap-2 justify-self-end sm:gap-3 md:gap-4">
             {/* Icon-only, which the labelled-chip rule in SocialLinks deliberately
                 avoids — the island has no room for a chip, so each link carries the
                 same aria-label the chips do and the meaning lives there instead of

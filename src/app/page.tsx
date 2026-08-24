@@ -43,29 +43,38 @@ import type {
 // ============================================================================
 
 // COPY: ### סקשן 1 · ImageHero + MOrchestrate
-// The hero photograph — REAL client photography. Round 2 (Rom, 2026-08-12:
-// «אני רוצה תמונה טובה יותר ב-hero»): the green-shakshuka pan gave way to her
-// protein-pancakes frame (IMG_9931 from the Drive library, installed as
-// cl-115): a bright stack with figs, blueberries and banana on a white plate
-// over pale marble — morning light, generous quiet marble around the plate,
-// the warmest most editorial frame in her library. Privacy-checked on the
-// full pixels, EXIF stripped. It replaced the generated ring-loop film room:
-// DESIGN-DIRECTION locked «hero חם סטטי», and the media rule is real editorial
-// food photography wherever real pixels exist. The film assets stay on disk.
+// The hero figure — REAL client photography. Round 3 (Rom, 2026-08-24: «רק
+// את התמונה של אלונה בלי המשרד»): her professional studio portrait as a clean
+// TRANSPARENT CUTOUT standing on the page paper itself — the magazine-opener
+// treatment (figure on paper, no photographic room). Round 2's protein-
+// pancakes frame (cl-115) returns to the library; an office-background
+// two-layer direction was produced, compared and set aside the same day.
+// Source: the studio portrait Alona sent as a transparent PNG (WhatsApp,
+// 2026-08-24; cl-116): enhancement-upscaled ~2x (bytedance — identity-checked
+// side by side, NO generative repaint), her ORIGINAL alpha re-applied, warm-
+// graded deterministically. Her face is her face — MEDIA-PLAN's law
+// («פורטרטים של אלונה תמיד אמיתיים») holds.
 // The PATH is art direction and stays here (same contract as the guide
-// portrait); the photograph's description (imageAlt) is hers, in the document.
+// portrait); the figure's description (imageAlt) is hers, in the document.
 // Two width/a11y facts that must survive in code: the trust line's license
 // clause is `hidden sm:inline` (shown by width, never reworded), and the
 // «שיחת היכרות חינם» sub-line + the «גללי» scroll cue came off with the
 // round-2 hero (Rom, 2026-08-12) — their fields left the document with them.
-const HERO_IMAGE = "/media/client/alona/dish-protein-pancakes.jpg";
+const HERO_FIGURE = {
+  src: "/media/client/alona/alona-portrait-studio.png",
+  width: 1252,
+  height: 2291,
+} as const;
 
 // COPY: ### סקשן 3 · FeatureRow + BioCard + CredentialStrip
 // §03 room background — the desk the dossier spreads on (generated per plan
 // layer 8: top-down desk, blank notebook, palette-locked linens, faceless).
 const GUIDE_BG = "/media/generated/03-guide-desk.jpg";
-// REAL portrait (cl-101, MEDIA-PLAN §3) — never a generated face, never stock.
-const GUIDE_PORTRAIT = "/media/client/alona/alona-guide.jpg";
+// REAL portrait — never a generated face, never stock. Swapped 2026-08-24
+// (Rom: «תשתמש בתמונה הזאת במקום התמונה שרשום אלונה אקרלינג»): the kitchen
+// bowl frame (cl-101, stays registered) gave way to her Stanley-tumbler
+// selfie (cl-117) — face-forward, present-day, the everyday-hydration beat.
+const GUIDE_PORTRAIT = "/media/client/alona/alona-stanley.jpg";
 
 // COPY: ### סקשן 3 — the dossier's words live in the page document. Round 2
 // (Rom, 2026-08-12): her voice moved under the title as the standfirst
@@ -281,26 +290,47 @@ export default async function HomePage() {
               </MItem>
             </MOrchestrate>
           </div>
-          {/* the photograph — real pixels at near-native ratio, graded by the
-              one-camera system (tint + grain), stretching the full spread height
-              on lg; a quiet 4:5 band on mobile below the words */}
-          <div className="relative mt-8 aspect-[4/5] w-full sm:aspect-[3/4] lg:mt-0 lg:aspect-auto lg:self-stretch">
-            <Image
-              src={HERO_IMAGE}
-              alt={HERO.imageAlt}
-              fill
-              priority
-              sizes="(min-width: 1024px) 45vw, 100vw"
-              className="object-cover"
-            />
-            <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
-            <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.05" } as React.CSSProperties} />
-          </div>
+          {/* the figure — her real studio portrait as a transparent cutout on
+              the page paper (Rom, 2026-08-24: no photographic room). Bottom-
+              anchored so the portrait's mid-thigh cut edge dips ~2.5% BELOW the
+              section and hides under the sand seam; a soft navy pool grounds
+              her on the paper so she never floats. Entrance is the «fade right
+              in» beat (Rom's words): slideIn("inline-start") — RTL inline-start
+              = the RIGHT — one orchestrated child, delayed five stagger steps
+              so the words' choreography lands first. This panel deliberately
+              skips the one-camera tint+grain overlays: a cutout on paper is not
+              a photograph of a room — the warm grade is baked into the asset,
+              and tinting the panel would wash the SAME paper the words sit on.
+              The section keeps overflow-hidden, so the bleed never leaks. */}
+          <MOrchestrate
+            delay={0.4}
+            className="relative mt-4 flex min-h-[54svh] items-end justify-center sm:min-h-[62svh] lg:mt-0 lg:min-h-0 lg:self-stretch"
+          >
+            <MItem variants={slideIn("inline-start", 48)} className="relative flex h-full items-end justify-center">
+              <div
+                aria-hidden
+                className="absolute inset-x-[12%] bottom-[1.5%] h-[5%] rounded-[50%] bg-navy/10 blur-2xl"
+              />
+              <Image
+                src={HERO_FIGURE.src}
+                alt={HERO.imageAlt}
+                width={HERO_FIGURE.width}
+                height={HERO_FIGURE.height}
+                priority
+                sizes="(min-width: 1024px) 38vw, 72vw"
+                className="relative h-[52svh] w-auto max-w-none translate-y-[2.5%] object-contain object-bottom sm:h-[60svh] lg:h-[76svh]"
+              />
+            </MItem>
+          </MOrchestrate>
         </div>
-        {/* soft-curve seam — the cream ground crests up over the photo's foot,
-            a shaped hand-off into the dossier, not a hard photo cut.
+        {/* soft-curve seam — now filled SAND, not bg: on the photo hero the
+            cream curve read against the pixels, but a cutout FIGURE stands on
+            the page's own cream — cream-on-cream made the hill invisible and
+            her mid-thigh cut looked like an unexplained arc. A visible warm
+            sand ground rising over her legs is what makes the cut READ as
+            "standing behind the hill" (the seam's whole conceit).
             The «גללי» scroll cue came off (Rom, 2026-08-12). */}
-        <SeamShape variant="curve-up" />
+        <SeamShape variant="curve-up" fill="var(--color-sand)" />
       </section>
       )}
 
