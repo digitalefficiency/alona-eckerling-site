@@ -60,12 +60,15 @@ import type {
 // sub-line and the «גללי» cue stay retired (fields left the document
 // 2026-08-12).
 const HERO_IMAGE = "/media/generated/01-hero-clinic-real.jpg";
-// The phone stage (Rom, 2026-08-24: «במובייל תכווץ את התמונה כדי שנראה יותר»):
-// a 2:3 SIBLING composite from the same two masters — she stands smaller at
-// the left, and the whole room comes with her (window, desk, diplomas, the
-// body-composition scale). Art-directed via <picture>, not object-position:
+// The phone stage (Rom, 2026-08-24, two calls: «תכווץ את התמונה כדי שנראה
+// יותר», then «זום אאוט»): a 2:3 SIBLING composite from the same two masters,
+// zoomed OUT — the clinic photo at near-native scale, FULL height (lace lamp
+// to floor: window, desk, diplomas, body-composition scale), she stands
+// smaller at the left third. Art-directed via <picture>, not object-position:
 // a wide 16:9 frame simply does not hold a full room in a phone-width slice.
-const HERO_IMAGE_TALL = "/media/generated/01-hero-clinic-real-tall.jpg";
+// Renamed (-room, was -real-tall) on the recomposition: the optimizer caches
+// by URL — same-name content swaps serve stale pixels (twice-learned today).
+const HERO_IMAGE_TALL = "/media/generated/01-hero-clinic-room.jpg";
 
 // COPY: ### סקשן 3 · FeatureRow + BioCard + CredentialStrip
 // §03 room background — the desk the dossier spreads on (generated per plan
