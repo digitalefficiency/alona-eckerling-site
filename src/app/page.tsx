@@ -66,9 +66,13 @@ const HERO_IMAGE = "/media/generated/01-hero-clinic-real.jpg";
 // to floor: window, desk, diplomas, body-composition scale), she stands
 // smaller at the left third. Art-directed via <picture>, not object-position:
 // a wide 16:9 frame simply does not hold a full room in a phone-width slice.
-// Renamed (-room, was -real-tall) on the recomposition: the optimizer caches
-// by URL — same-name content swaps serve stale pixels (twice-learned today).
-const HERO_IMAGE_TALL = "/media/generated/01-hero-clinic-room.jpg";
+// -2: round 3 (Rom: «תעלה את התמונה למעלה ותוריד את הבלור») — the scene
+// rises (her crown ~15%, face above the H1, lamp-top cropped) and her shin
+// crop sinks into the SOLID scrim base; the bottom third of the file is
+// deliberately rough (floor stretch, sofa corner) because the solid base owns
+// it. The mobile hero-scrim tightened with it — crisp photo above ~32%.
+// The name versions with the composition: the optimizer caches by URL.
+const HERO_IMAGE_TALL = "/media/generated/01-hero-clinic-room-2.jpg";
 
 // COPY: ### סקשן 3 · FeatureRow + BioCard + CredentialStrip
 // §03 room background — the desk the dossier spreads on (generated per plan
