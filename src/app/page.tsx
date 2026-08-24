@@ -212,7 +212,11 @@ export default async function HomePage() {
             src={HERO_IMAGE}
             alt={HERO.imageAlt}
             fill
-            sizes="100vw"
+            // NOT 100vw: object-cover fills the section HEIGHT, so on portrait
+            // phones the bitmap is ~svh*16/9 wide (~3.8x the viewport). 100vw
+            // fetched a 750px variant and upscaled it ~4x — the "blur" Rom saw
+            // on her face. 300vw lands on the largest real variant instead.
+            sizes="(min-width: 1024px) 100vw, 300vw"
             fetchPriority="high"
             loading="eager"
             className="object-cover"
