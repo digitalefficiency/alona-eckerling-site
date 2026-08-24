@@ -65,8 +65,11 @@ const HERO_IMAGE = "/media/generated/01-hero-clinic-real.jpg";
 // §03 room background — the desk the dossier spreads on (generated per plan
 // layer 8: top-down desk, blank notebook, palette-locked linens, faceless).
 const GUIDE_BG = "/media/generated/03-guide-desk.jpg";
-// REAL portrait (cl-101, MEDIA-PLAN §3) — never a generated face, never stock.
-const GUIDE_PORTRAIT = "/media/client/alona/alona-guide.jpg";
+// REAL portrait — never a generated face, never stock. Swapped 2026-08-24
+// (Rom: «תשתמש בתמונה הזאת במקום התמונה שרשום אלונה אקרלינג»): the kitchen
+// bowl frame (cl-101, stays registered) gave way to her Stanley-tumbler
+// selfie (cl-117) — face-forward, present-day, the everyday-hydration beat.
+const GUIDE_PORTRAIT = "/media/client/alona/alona-stanley.jpg";
 
 // COPY: ### סקשן 3 — the dossier's words live in the page document. Round 2
 // (Rom, 2026-08-12): her voice moved under the title as the standfirst
