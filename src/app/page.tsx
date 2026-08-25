@@ -73,7 +73,7 @@ const HERO_IMAGE = "/media/generated/01-hero-clinic-real.jpg";
 // surfaces: H1 on the white wall, lede+CTA over the smooth grey floor — the
 // room itself is the contrast layer, and the mobile scrim is UNMOUNTED.
 // The name versions with the composition: the optimizer caches by URL.
-const HERO_IMAGE_TALL = "/media/generated/01-hero-clinic-full.jpg";
+const HERO_IMAGE_TALL = "/media/generated/01-hero-clinic-full-2.jpg";
 
 // COPY: ### סקשן 3 · FeatureRow + BioCard + CredentialStrip
 // §03 room background — the desk the dossier spreads on (generated per plan
@@ -288,7 +288,11 @@ export default async function HomePage() {
                 sheet language: one radius, zero blur) — the full-bleed room
                 stays untouched around it and no veil ever crosses the photo.
                 lg+ the sheet dissolves: the side scrim already owns contrast. */}
-            <div className="mt-6 rounded-2xl bg-bg p-5 pt-1 lg:mt-0 lg:rounded-none lg:bg-transparent lg:p-0">
+            {/* -mx-5 mirrors the Container padding: the sheet runs edge to
+                edge below lg, swallowing her figure's crop line at every
+                viewport width (round 7 — she zoomed out to 61%, crop at 76%
+                behind the sheet, crown clear of the island at ~15%). */}
+            <div className="-mx-5 mt-6 rounded-2xl bg-bg p-5 pt-1 lg:mx-0 lg:mt-0 lg:rounded-none lg:bg-transparent lg:p-0">
             <MItem as="p" className="mt-4 max-w-[54ch] text-lg leading-[1.7] text-ink lg:mt-7">
               {HERO.lede}
             </MItem>
