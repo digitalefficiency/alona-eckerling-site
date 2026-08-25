@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { SeamShape } from "@/components/layout/SeamShape";
@@ -60,6 +60,19 @@ import type {
 // sub-line and the «גללי» cue stay retired (fields left the document
 // 2026-08-12).
 const HERO_IMAGE = "/media/generated/01-hero-clinic-real.jpg";
+// The phone stage (Rom, 2026-08-24, two calls: «תכווץ את התמונה כדי שנראה
+// יותר», then «זום אאוט»): a 2:3 SIBLING composite from the same two masters,
+// zoomed OUT — the clinic photo at near-native scale, FULL height (lace lamp
+// to floor: window, desk, diplomas, body-composition scale), she stands
+// smaller at the left third. Art-directed via <picture>, not object-position:
+// a wide 16:9 frame simply does not hold a full room in a phone-width slice.
+// -2: round 3 (Rom: «תעלה את התמונה למעלה ותוריד את הבלור») — the scene
+// rises (her crown ~15%, face above the H1, lamp-top cropped) and her shin
+// crop sinks into the SOLID scrim base; the bottom third of the file is
+// deliberately rough (floor stretch, sofa corner) because the solid base owns
+// it. The mobile hero-scrim tightened with it — crisp photo above ~32%.
+// The name versions with the composition: the optimizer caches by URL.
+const HERO_IMAGE_TALL = "/media/generated/01-hero-clinic-room-2.jpg";
 
 // COPY: ### סקשן 3 · FeatureRow + BioCard + CredentialStrip
 // §03 room background — the desk the dossier spreads on (generated per plan
@@ -207,24 +220,38 @@ export default async function HomePage() {
       {HERO && (
       <section className="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-bg lg:items-center" style={{ "--grade-tint": "var(--hour-morning)" } as React.CSSProperties}>
         {/* the room — her clinic, graded by the one-camera system (tint + grain).
-            objectPosition keeps her face whole in the phone crop: she stands at
-            the left third of the frame, and a drifted crop is corrected with
-            this one number, never by regenerating the image. */}
+            TWO frames of the same room, art-directed with <picture> (the safe
+            pattern for eager hero pixels — no preload hint to leak cross-route):
+            lg+ gets the wide 16:9 spread, phones get the 2:3 stage where she is
+            smaller and the whole room shows. Each frame keeps ONE objectPosition
+            number (35% tall / 5% wide) — a drifted crop is corrected there,
+            never by regenerating. sizes are per-frame: the wide one covers the
+            section HEIGHT on desktop (100vw is enough there), the tall one runs
+            ~1.5x the phone viewport width for the same reason, so neither ever
+            upscales a small variant into mush again. Both eager + fetchpriority
+            high, deliberately NOT `priority` (the RSC preload-replay trap). */}
         <div className="absolute inset-0">
-          <Image
-            src={HERO_IMAGE}
-            alt={HERO.imageAlt}
-            fill
-            // NOT 100vw: object-cover fills the section HEIGHT, so on portrait
-            // phones the bitmap is ~svh*16/9 wide (~3.8x the viewport). 100vw
-            // fetched a 750px variant and upscaled it ~4x — the "blur" Rom saw
-            // on her face. 300vw lands on the largest real variant instead.
-            sizes="(min-width: 1024px) 100vw, 300vw"
-            fetchPriority="high"
-            loading="eager"
-            className="object-cover"
-            style={{ objectPosition: "5% center" }}
-          />
+          {(() => {
+            const { props: wide } = getImageProps({
+              src: HERO_IMAGE, alt: "", width: 2400, height: 1350, sizes: "100vw",
+            });
+            const { props: tall } = getImageProps({
+              src: HERO_IMAGE_TALL, alt: "", width: 1400, height: 2100, sizes: "150vw",
+            });
+            return (
+              <picture>
+                <source media="(min-width: 1024px)" srcSet={wide.srcSet} sizes={wide.sizes} />
+                {/* eslint-disable-next-line jsx-a11y/alt-text -- alt spread from tall props below */}
+                <img
+                  {...tall}
+                  alt={HERO.imageAlt}
+                  loading="eager"
+                  fetchPriority="high"
+                  className="absolute inset-0 h-full w-full object-cover [object-position:35%_center] lg:[object-position:5%_center]"
+                />
+              </picture>
+            );
+          })()}
           <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
           <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.05" } as React.CSSProperties} />
         </div>

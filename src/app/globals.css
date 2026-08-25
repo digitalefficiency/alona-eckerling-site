@@ -1092,15 +1092,16 @@ html.a11y-big-cursor * {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  /* the top clears at 82% (room-scrim keeps 92%): Alona stands in the upper
-     third of the clinic still, and the 35%-at-78% veil read as a blur on her
-     face (Rom, 2026-08-24). The text base below 62% is untouched. */
+  /* round 4 (Rom: «תסיר את זה לגמרי») — NO fog band at all: the photo is
+     fully crisp down to one short 6% seam, then solid paper under the lede
+     and the CTA. The H1 reads straight off the clinic's white wall; her
+     waist dissolves at the seam like the figure standing behind the ground.
+     room-scrim keeps the original soft stops. */
   background: linear-gradient(
     to top,
-    var(--color-bg) 46%,
-    color-mix(in srgb, var(--color-bg) 86%, transparent) 62%,
-    color-mix(in srgb, var(--color-bg) 22%, transparent) 72%,
-    transparent 82%
+    var(--color-bg) 52%,
+    color-mix(in srgb, var(--color-bg) 97%, transparent) 54%,
+    transparent 58%
   );
 }
 @media (min-width: 1024px) {
