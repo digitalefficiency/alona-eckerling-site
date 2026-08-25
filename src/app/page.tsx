@@ -255,7 +255,24 @@ export default async function HomePage() {
           <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
           <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.05" } as React.CSSProperties} />
         </div>
-        <div aria-hidden className="hero-scrim" />
+        {/* lg+: the side scrim as ever. Below lg the scrim retired (round 5,
+            Rom: «מעבר חלק ונעים בין הלבן לתמונה — אולי חצי עיגול»): instead,
+            ONE curved seam — the paper sweeps in high on the reading side
+            (RTL: right) and dives left, so the photo and her figure run
+            deeper down the left while every word sits on clean cream. The
+            solid block below owns the composite's rough bottom third. */}
+        <div aria-hidden className="hidden lg:block hero-scrim" />
+        <div aria-hidden className="lg:hidden">
+          <svg
+            className="absolute inset-x-0"
+            style={{ top: "25%", height: "34%" }}
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+          >
+            <path d="M100,8 C 60,11 24,40 0,92 L0,100 L100,100 Z" fill="var(--color-bg)" />
+          </svg>
+          <div className="absolute inset-x-0 bottom-0" style={{ top: "57%", background: "var(--color-bg)" }} />
+        </div>
         {/* soft-curve seam — the cream ground crests up into the clinic, a
             shaped hand-off into the dossier, not a hard photo cut */}
         <SeamShape variant="curve-up" />
