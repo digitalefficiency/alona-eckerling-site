@@ -1092,11 +1092,10 @@ html.a11y-big-cursor * {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  /* round 4 (Rom: «תסיר את זה לגמרי») — NO fog band at all: the photo is
-     fully crisp down to one short 6% seam, then solid paper under the lede
-     and the CTA. The H1 reads straight off the clinic's white wall; her
-     waist dissolves at the seam like the figure standing behind the ground.
-     room-scrim keeps the original soft stops. */
+  /* round 6 (Rom: «שהתמונה תתפוס את הכל») — below lg the scrim is UNMOUNTED
+     (hidden lg:block in page.tsx): the full-bleed clinic frame is banded so
+     the words read off the room's own white wall and grey floor. These base
+     stops exist only as a safe default for any future non-lg mount. */
   background: linear-gradient(
     to top,
     var(--color-bg) 52%,
