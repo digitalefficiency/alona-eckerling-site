@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { SeamShape } from "@/components/layout/SeamShape";
@@ -43,29 +43,46 @@ import type {
 // ============================================================================
 
 // COPY: ### סקשן 1 · ImageHero + MOrchestrate
-// The hero photograph — REAL client photography. Round 2 (Rom, 2026-08-12:
-// «אני רוצה תמונה טובה יותר ב-hero»): the green-shakshuka pan gave way to her
-// protein-pancakes frame (IMG_9931 from the Drive library, installed as
-// cl-115): a bright stack with figs, blueberries and banana on a white plate
-// over pale marble — morning light, generous quiet marble around the plate,
-// the warmest most editorial frame in her library. Privacy-checked on the
-// full pixels, EXIF stripped. It replaced the generated ring-loop film room:
-// DESIGN-DIRECTION locked «hero חם סטטי», and the media rule is real editorial
-// food photography wherever real pixels exist. The film assets stay on disk.
-// The PATH is art direction and stays here (same contract as the guide
-// portrait); the photograph's description (imageAlt) is hers, in the document.
-// Two width/a11y facts that must survive in code: the trust line's license
-// clause is `hidden sm:inline` (shown by width, never reworded), and the
-// «שיחת היכרות חינם» sub-line + the «גללי» scroll cue came off with the
-// round-2 hero (Rom, 2026-08-12) — their fields left the document with them.
-const HERO_IMAGE = "/media/client/alona/dish-protein-pancakes.jpg";
+// The hero photograph — Alona herself, standing in her own clinic (Rom,
+// 2026-08-24, approved on screen): a PIXEL-TRUE composite, her real studio
+// cutout over her real clinic photo (both her own, materials/drop), assembled
+// in PIL — the wall extended rightward from a sampled clean column, and NO AI
+// re-rendering of her face or the room (an earlier nano-banana take was
+// rejected for exactly that). It returns the hero to a full-bleed room with
+// the words on the logical-side scrim, replacing the split-band pancakes
+// frame (cl-115, which stays in the library). The PATH is art direction and
+// stays here; the photograph's description (imageAlt) is hers, in the document.
+// The `-real` suffix is deliberate: the file replaced an earlier AI take under
+// the old name, and the image optimizer caches by URL — the same name would
+// keep serving the stale pixels.
+// Width/a11y facts that survive: the trust line's license clause is
+// `hidden sm:inline` (shown by width, never reworded); the «שיחת היכרות חינם»
+// sub-line and the «גללי» cue stay retired (fields left the document
+// 2026-08-12).
+const HERO_IMAGE = "/media/generated/01-hero-clinic-real.jpg";
+// The phone stage (Rom, 2026-08-24, two calls: «תכווץ את התמונה כדי שנראה
+// יותר», then «זום אאוט»): a 2:3 SIBLING composite from the same two masters,
+// zoomed OUT — the clinic photo at near-native scale, FULL height (lace lamp
+// to floor: window, desk, diplomas, body-composition scale), she stands
+// smaller at the left third. Art-directed via <picture>, not object-position:
+// a wide 16:9 frame simply does not hold a full room in a phone-width slice.
+// -2: round 3 (Rom: «תעלה את התמונה למעלה ותוריד את הבלור») — the scene
+// rises (her crown ~15%, face above the H1, lamp-top cropped) and her shin
+// crop sinks into the SOLID scrim base; the bottom third of the file is
+// deliberately rough (floor stretch, sofa corner) because the solid base owns
+// it. The mobile hero-scrim tightened with it — crisp photo above ~32%.
+// The name versions with the composition: the optimizer caches by URL.
+const HERO_IMAGE_TALL = "/media/generated/01-hero-clinic-room-2.jpg";
 
 // COPY: ### סקשן 3 · FeatureRow + BioCard + CredentialStrip
 // §03 room background — the desk the dossier spreads on (generated per plan
 // layer 8: top-down desk, blank notebook, palette-locked linens, faceless).
 const GUIDE_BG = "/media/generated/03-guide-desk.jpg";
-// REAL portrait (cl-101, MEDIA-PLAN §3) — never a generated face, never stock.
-const GUIDE_PORTRAIT = "/media/client/alona/alona-guide.jpg";
+// REAL portrait — never a generated face, never stock. Swapped 2026-08-24
+// (Rom: «תשתמש בתמונה הזאת במקום התמונה שרשום אלונה אקרלינג»): the kitchen
+// bowl frame (cl-101, stays registered) gave way to her Stanley-tumbler
+// selfie (cl-117) — face-forward, present-day, the everyday-hydration beat.
+const GUIDE_PORTRAIT = "/media/client/alona/alona-stanley.jpg";
 
 // COPY: ### סקשן 3 — the dossier's words live in the page document. Round 2
 // (Rom, 2026-08-12): her voice moved under the title as the standfirst
@@ -185,122 +202,123 @@ export default async function HomePage() {
     <>
       {/* structured identity for the front door (GEO/SEO) — same builder as /contact */}
       <JsonLd data={professionalService(site, services)} />
-      {/* ── 01 · HOOK — the editorial split hero (2026-08-11, the design-language
-             pass): a magazine spread instead of words-over-footage. The words own
-             the reading edge (RTL inline-start = right) on the page paper — no
-             scrim, no contrast debt, and the H1 finally wears the LOCKED display
-             scale clamp(2.6rem,6vw,4.75rem) (it had been capped at 3.3rem, a
-             subheading pretending to be a masthead). The photograph owns the
-             other column at near-native ratio: her REAL green shakshuka (cl-012)
-             replacing the generated ring-loop film room — MEDIA-PLAN's split-band
-             answer to real 3:4 pixels, and DESIGN-DIRECTION's «hero חם סטטי»
-             finally honored. LCP becomes the H1 text itself (faster than any
-             poster). The trust chip and the recipes escape-link fused into ONE
-             hairline masthead row — the editorial credential treatment, no boxes.
-             The thought-chip arc retired with the §02 film (2026-08-11); the old
-             HeroFilm ring loop stays on disk should a real film production land.
-             Header safety is DEFAULT-ON: the white nav treatment requires an
-             explicit [data-dark-hero], so this light hero can never ship an
-             invisible nav. ── */}
+      {/* ── 01 · HOOK — «הקליניקה» (full-bleed still, Rom's call 2026-08-24,
+             approved on screen): Alona standing in her own clinic IS the room —
+             a pixel-true full-bleed still (see HERO_IMAGE above), the words
+             keeping their block-axis choreography on the logical-side scrim
+             (paper solid under the text column, opening into the room). The H1
+             keeps the split-hero's re-fit cap (3.3rem): over a photograph the
+             display lock's 4.75rem wraps the two written lines into four. The
+             image is the LCP: eager + fetchPriority, and deliberately NOT
+             `priority` — a priority preload rides the RSC payload and replays
+             cross-route (the measured trap; HeroFilm's contract, kept here).
+             The «שיחת היכרות חינם» sub-line and the «גללי» cue stay retired
+             (their fields left the document 2026-08-12). Header safety is
+             DEFAULT-ON: the white nav treatment requires an explicit
+             [data-dark-hero], so this light hero can never ship an invisible
+             nav. ── */}
       {HERO && (
-      <section className="relative isolate overflow-hidden bg-bg" style={{ "--grade-tint": "var(--hour-morning)" } as React.CSSProperties}>
-        <div className="mx-auto grid w-full max-w-[1440px] lg:min-h-[88svh] lg:grid-cols-[minmax(0,11fr)_minmax(0,9fr)]">
-          {/* the words — reading start, on paper; ONE orchestrator, same
-              block-axis choreography as ever */}
-          <div className="flex items-center px-5 pb-4 pt-32 sm:px-8 sm:pt-36 lg:self-center lg:py-32 lg:pe-14 lg:ps-10 xl:ps-16">
-            <MOrchestrate className="max-w-[700px]">
-              <MItem as="p" className="flex items-center gap-2.5 text-xs font-bold tracking-eyebrow text-gold-ink">
-                <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
-                {HERO.kicker}
-              </MItem>
-              {/* autoplay (LCP): the H1's masked rise runs as pure CSS from first
-                  paint — hydration/IO arming was measured pushing LCP by seconds */}
-              <RevealHeading
-                as="h1"
-                text={HERO.title}
-                autoplay
-                // the rose ANSWERS the question — a hand-drawn rule under the
-                // promise, after the line lands («חוט ואור» move 4)
-                accentText={HERO.titleAccent}
-                // the display scale, re-fit for a split column (the D1 lock's
-                // 6vw/4.75rem was measured for a FULL-width hero; in an 11fr
-                // column it wraps the composed two-line masthead into four) —
-                // 4.5vw/4rem is the largest size that keeps each written line
-                // whole from 1024px up
-                className="mt-6 font-serif font-black leading-[1.08] text-navy md:tracking-[-0.01em]"
-                style={{ fontSize: "clamp(2.4rem, 4.5vw, 4rem)" }}
-              />
-              {/* the standfirst — its own register between display and body
-                  (text-xl, tighter measure), so the ladder reads kicker →
-                  display → standfirst → body */}
-              <MItem as="p" className="mt-7 max-w-[48ch] text-xl leading-[1.65] text-ink">
-                {HERO.lede}
-              </MItem>
-              {/* the CTA stands alone — the «שיחת היכרות חינם» sub-line came off
-                  (Rom, 2026-08-12); the free-call promise still lives in §04 step
-                  01 and on /coaching, so the button stays quiet here */}
-              <MItem className="mt-10">
+      <section className="relative isolate flex min-h-[92svh] items-end overflow-hidden bg-bg lg:items-center" style={{ "--grade-tint": "var(--hour-morning)" } as React.CSSProperties}>
+        {/* the room — her clinic, graded by the one-camera system (tint + grain).
+            TWO frames of the same room, art-directed with <picture> (the safe
+            pattern for eager hero pixels — no preload hint to leak cross-route):
+            lg+ gets the wide 16:9 spread, phones get the 2:3 stage where she is
+            smaller and the whole room shows. Each frame keeps ONE objectPosition
+            number (35% tall / 5% wide) — a drifted crop is corrected there,
+            never by regenerating. sizes are per-frame: the wide one covers the
+            section HEIGHT on desktop (100vw is enough there), the tall one runs
+            ~1.5x the phone viewport width for the same reason, so neither ever
+            upscales a small variant into mush again. Both eager + fetchpriority
+            high, deliberately NOT `priority` (the RSC preload-replay trap). */}
+        <div className="absolute inset-0">
+          {(() => {
+            // a desk-chosen photo (HERO.image) replaces BOTH stills — one
+            // upload, every frame; empty keeps the art-directed clinic pair
+            const { props: wide } = getImageProps({
+              src: HERO.image || HERO_IMAGE, alt: "", width: 2400, height: 1350, sizes: "100vw",
+            });
+            const { props: tall } = getImageProps({
+              src: HERO.image || HERO_IMAGE_TALL, alt: "", width: 1400, height: 2100, sizes: "150vw",
+            });
+            return (
+              <picture>
+                <source media="(min-width: 1024px)" srcSet={wide.srcSet} sizes={wide.sizes} />
+                {/* eslint-disable-next-line jsx-a11y/alt-text -- alt spread from tall props below */}
+                <img
+                  {...tall}
+                  alt={HERO.imageAlt}
+                  loading="eager"
+                  fetchPriority="high"
+                  className="absolute inset-0 h-full w-full object-cover [object-position:35%_center] lg:[object-position:5%_center]"
+                />
+              </picture>
+            );
+          })()}
+          <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
+          <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.05" } as React.CSSProperties} />
+        </div>
+        <div aria-hidden className="hero-scrim" />
+        {/* soft-curve seam — the cream ground crests up into the clinic, a
+            shaped hand-off into the dossier, not a hard photo cut */}
+        <SeamShape variant="curve-up" />
+        <Container width="wide" className="relative z-10 w-full pb-16 pt-44 sm:pt-56 md:pb-24 lg:py-24 lg:pb-32">
+          {/* ONE orchestrator, same word choreography as ever — block-axis steps */}
+          <MOrchestrate className="max-w-[620px]">
+            <MItem as="p" className="flex items-center gap-2.5 text-[13px] font-bold tracking-eyebrow text-muted">
+              <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
+              {HERO.kicker}
+            </MItem>
+            {/* autoplay (LCP): the H1's masked rise runs as pure CSS from first
+                paint — hydration/IO arming was measured pushing LCP by seconds */}
+            <RevealHeading
+              as="h1"
+              text={HERO.title}
+              autoplay
+              // the rose ANSWERS the question — a hand-drawn rule under the
+              // promise, after the line lands («חוט ואור» move 4)
+              accentText={HERO.titleAccent}
+              className="mt-5 font-serif font-black leading-[1.12] text-navy"
+              style={{ fontSize: "clamp(2.1rem, 5vw, 3.3rem)" }}
+            />
+            <MItem as="p" className="mt-7 max-w-[54ch] text-lg leading-[1.7] text-ink">
+              {HERO.lede}
+            </MItem>
+            <MItem className="mt-10">
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
                 {/* magnet 1 of the page's pair («חוט ואור» move 6; ≤2 budget enforced by MMagnetic) */}
                 <MMagnetic>
                 <Link
                   href="#lead"
                   data-cta="hero-primary"
-                  className="btn-chamfer inline-block rounded-[6px] bg-gold px-9 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                  className="btn-chamfer rounded-[6px] bg-gold px-8 py-4 text-base font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
                 >
                   {HERO.ctaPrimary}
                 </Link>
                 </MMagnetic>
-              </MItem>
-              {/* the masthead footer — ONE hairline-ruled row instead of a boxed
-                  trust chip + an orphaned link: the rule and the spaced kicker
-                  ARE the editorial credential treatment («קווי מערכת, קיקרים
-                  באותיות מרווחות», no boxes). The width-conditional license
-                  split survives verbatim. */}
-              <MItem className="mt-10">
-                <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line/80 pt-5">
-                  <Link
-                    href="/about"
-                    data-cta="hero-credential"
-                    className="text-[13px] font-bold tracking-eyebrow text-navy transition hover:text-gold-ink"
-                  >
-                    {/* one span = one flex item, so the inline separator keeps its space */}
-                    <span>
-                      {HERO.trustToken}
-                      <span className="hidden sm:inline">{HERO.trustTokenLicense}</span>
-                    </span>
-                  </Link>
-                  <span aria-hidden className="hidden text-muted sm:inline">·</span>
-                  <Link
-                    href="/recipes"
-                    data-cta="hero-recipes"
-                    className="text-[0.95rem] font-medium text-muted underline decoration-rose decoration-2 underline-offset-4 transition hover:text-navy"
-                  >
-                    {HERO.ctaRecipes}
-                  </Link>
-                </div>
-              </MItem>
-            </MOrchestrate>
-          </div>
-          {/* the photograph — real pixels at near-native ratio, graded by the
-              one-camera system (tint + grain), stretching the full spread height
-              on lg; a quiet 4:5 band on mobile below the words */}
-          <div className="relative mt-8 aspect-[4/5] w-full sm:aspect-[3/4] lg:mt-0 lg:aspect-auto lg:self-stretch">
-            <Image
-              src={HERO.image || HERO_IMAGE}
-              alt={HERO.imageAlt}
-              fill
-              priority
-              sizes="(min-width: 1024px) 45vw, 100vw"
-              className="object-cover"
-            />
-            <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
-            <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.05" } as React.CSSProperties} />
-          </div>
-        </div>
-        {/* soft-curve seam — the cream ground crests up over the photo's foot,
-            a shaped hand-off into the dossier, not a hard photo cut.
-            The «גללי» scroll cue came off (Rom, 2026-08-12). */}
-        <SeamShape variant="curve-up" />
+                <Link
+                  href="/about"
+                  data-cta="hero-credential"
+                  className="inline-flex items-center rounded-full border border-line bg-sand px-4 py-2.5 text-sm font-semibold text-navy transition hover:border-gold/60"
+                >
+                  {/* one span = one flex item, so the inline separator keeps its space */}
+                  <span>
+                    {HERO.trustToken}
+                    <span className="hidden sm:inline">{HERO.trustTokenLicense}</span>
+                  </span>
+                </Link>
+              </div>
+            </MItem>
+            <MItem className="mt-7">
+              <Link
+                href="/recipes"
+                data-cta="hero-recipes"
+                className="text-[0.95rem] font-medium text-muted underline decoration-rose decoration-2 underline-offset-4 transition hover:text-navy"
+              >
+                {HERO.ctaRecipes}
+              </Link>
+            </MItem>
+          </MOrchestrate>
+        </Container>
       </section>
       )}
 
