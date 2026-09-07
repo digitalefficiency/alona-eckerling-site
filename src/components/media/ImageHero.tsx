@@ -60,7 +60,7 @@ export function ImageHero({
             height (h-full) collapses against a stretched grid item, and the
             unlayered .frame-double{position:relative} blocks md:absolute. */}
         <div className="relative order-1 md:flex md:flex-col">
-          <div className="frame-double relative mx-4 my-8 aspect-[3/2] rounded-[10px] [--frame-color:var(--color-gold)] [--frame-gap:6px] sm:mx-6 md:m-0 md:aspect-auto md:min-h-0 md:flex-1 md:rounded-none md:rounded-e-[10px]">
+          <div className="frame-double relative mx-4 mb-0 mt-6 aspect-[3/2] rounded-[10px] [--frame-color:var(--color-gold)] [--frame-gap:6px] sm:mx-6 md:m-0 md:aspect-auto md:min-h-0 md:flex-1 md:rounded-none md:rounded-e-[10px]">
             {/* inner clip only — the plate itself must not hide frame-double's ::after */}
             <div className="absolute inset-0 overflow-hidden rounded-[inherit]">
               <Image
@@ -85,7 +85,7 @@ export function ImageHero({
         </div>
 
         {/* the ink field — navy ink on opaque sand */}
-        <div className="order-2 flex flex-col justify-center px-6 py-14 md:py-20 md:ps-12 lg:ps-16">
+        <div className="order-2 flex flex-col justify-center px-6 pb-12 pt-8 md:py-20 md:ps-12 lg:ps-16">
           <div className="w-full max-w-[46ch]">
             {crumbs && (
               <div className="mb-6">

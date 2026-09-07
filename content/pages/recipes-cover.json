@@ -1,0 +1,25 @@
+{
+  "slug": "recipes-cover",
+  "title": "מתכונים",
+  "sections": [
+    {
+      "id": "hero",
+      "type": "recipes-hero",
+      "schema_version": 1,
+      "visible": true,
+      "payload": {
+        "eyebrow": "בלי חוקים מיותרים",
+        "title": "המטבח של אלונה",
+        "lead": "מתכונים פשוטים שאני באמת מבשלת: אוכל אמיתי, בלי דיאטה ובלי לוותר על מה שאת אוהבת. מתכון חדש כל שבוע.",
+        "image": "",
+        "imageAlt": ""
+      }
+    }
+  ],
+  "baseline_order": [
+    {
+      "id": "hero",
+      "type": "recipes-hero"
+    }
+  ]
+}

@@ -20,6 +20,30 @@ import type { SectionType } from "./schema";
 // render). +imageAlt: the description of the static REAL photograph (cl-115,
 // protein pancakes) — the path stays a constant in page.tsx, the same
 // contract as the guide portrait. The film assets stay on disk.
+// The recipes-archive cover — the one bespoke page outside the five core
+// documents. Only the hero is a section; the archive grid below it stays
+// data-driven from the recipe files. `image` empty = the art-directed pick
+// (newest archive's most cover-like frame) keeps choosing the photo.
+export const RECIPES_HERO: SectionType = {
+  type: "recipes-hero",
+  label: "פתיח — המטבח של אלונה",
+  required: true,
+  pin: "start",
+  fields: [
+    { key: "eyebrow", label: "שורת פתיחה קטנה", kind: "text", required: true, max: 30 },
+    { key: "title", label: "כותרת ראשית", kind: "text", required: true, max: 40 },
+    { key: "lead", label: "פסקת הפתיחה", kind: "textarea", required: true, max: 220, lines: 4 },
+    {
+      key: "image",
+      label: "תמונת הפתיח",
+      kind: "image",
+      ratio: "3:2",
+      hint: "שדה ריק נותן לארכיון לבחור לבד את הצילום החדש והמתאים ביותר",
+    },
+    { key: "imageAlt", label: "תיאור התמונה (alt)", kind: "text", max: 110, hint: "לתאר מה רואים, בלי \"תמונה של\"" },
+  ],
+};
+
 export const HOME_HERO: SectionType = {
   type: "home-hero",
   label: "פתיח — הפריסה החמה",
@@ -100,15 +124,21 @@ export const HOME_HERO: SectionType = {
     },
     { key: "ctaRecipes", label: "קישור משני למתכונים", kind: "text", max: 60 },
     {
+      key: "image",
+      label: "צילום הפתיח",
+      kind: "image",
+      ratio: "4:5",
+      // desk-editable since 2026-08-15 (Rom's call): the cover dish is hers.
+      // Empty keeps the shipped photo, so a cleared field never breaks the band.
+      hint: "מנה אמיתית מהמטבח שלה. שדה ריק משאיר את הצילום שנמסר עם האתר",
+    },
+    {
       key: "imageAlt",
       label: "תיאור צילום הפתיח (alt)",
       kind: "text",
       required: true,
       max: 110,
-      // the REAL hero photograph (cl-115) fills the 9fr column at near-native
-      // ratio; the photo path is art direction and stays a constant in
-      // page.tsx — only its description is hers. 110 = the house alt ceiling
-      // (same as home-guide portraitAlt).
+      // 110 = the house alt ceiling (same as home-guide portraitAlt).
       hint: "מנה אמיתית מהמטבח שלה בלבד. לתאר מה רואים, בלי \"תמונה של\"",
     },
   ],
@@ -1319,16 +1349,21 @@ export const HOME_GUIDE: SectionType = {
       kind: "text",
       required: true,
       max: 46 },
+    { key: "portrait",
+      label: "הפורטרט",
+      kind: "image",
+      ratio: "4:5",
+      // desk-editable since 2026-08-15. A REAL photograph only — the YMYL law
+      // (no generated faces) holds through every replacement. Empty keeps the
+      // shipped portrait.
+      hint: "פורטרט אמיתי בלבד, לעולם לא תמונה מיוצרת. שדה ריק משאיר את הפורטרט שנמסר" },
     { key: "portraitAlt",
       label: "תיאור הפורטרט (alt)",
       kind: "text",
       required: true,
       max: 110,
-      // the REAL portrait (cl-101) stands straight in the hairline frame
-      // (aspect-[4/5]), its figcaption BELOW the pixels; the photo path is art
-      // direction and stays a constant in page.tsx — only its description is
-      // hers. 110 = the house alt ceiling (same as about-story imageAlt).
-      hint: "פורטרט אמיתי בלבד, לעולם לא תמונה מיוצרת. לתאר מה רואים, בלי \"תמונה של\"" },
+      // 110 = the house alt ceiling (same as about-story imageAlt).
+      hint: "לתאר מה רואים, בלי \"תמונה של\"" },
     { key: "credentials",
       label: "תגי ההסמכה",
       kind: "repeater",
@@ -1771,7 +1806,8 @@ export const REGISTRY: Record<string, SectionType> = Object.fromEntries(
     COACHING_PROCESS,
     COACHING_PROOF,
     COACHING_FAQ,
-    COACHING_CTA
+    COACHING_CTA,
+    RECIPES_HERO
   ].map((s) => [s.type, s]),
 );
 

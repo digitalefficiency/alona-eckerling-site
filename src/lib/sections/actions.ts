@@ -31,7 +31,10 @@ import { deskClient, publicClient, supabaseConfigured } from "@/lib/supabase/cli
 
 const PAGES_DIR = path.join(process.cwd(), "content", "pages");
 const fileFor = (slug: string) => path.join(PAGES_DIR, `${slug === "" ? "home" : slug}.json`);
-const routeFor = (slug: string) => (slug === "" ? "/" : `/${slug}`);
+// recipes-cover is the document ADDRESS; the ROUTE it feeds is the reserved
+// /recipes (the DB's slug_reserved guard rightly refuses a page row that
+// shadows a code-owned route, so the cover document lives one name aside).
+const routeFor = (slug: string) => (slug === "" ? "/" : slug === "recipes-cover" ? "/recipes" : `/${slug}`);
 
 export type SaveResult =
   | { ok: true; savedAt: string; rev: string | null }
@@ -316,6 +319,7 @@ export async function listPages(): Promise<{ slug: string; title: string; route:
     { slug: "about", title: "עליי", route: "/about" },
     { slug: "coaching", title: "איך עובדים איתי", route: "/coaching" },
     { slug: "contact", title: "צור קשר", route: "/contact" },
+    { slug: "recipes-cover", title: "מתכונים", route: "/recipes" },
   ];
   const out = [];
   for (const p of known) {

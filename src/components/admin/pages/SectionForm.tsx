@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import type { SectionType, FieldSpec } from "@/lib/sections/schema";
 import { TextInput, MarkInput } from "./Field";
 import { Repeater } from "./Repeater";
+import { MediaPicker } from "@/components/admin/MediaPicker";
 
 // SectionForm.tsx — every field of one section, generated from the registry.
 //
@@ -50,7 +51,13 @@ export function SectionForm({
   onChange: (next: Payload) => void;
 }) {
   const fields = useMemo(() => ordered(type.fields), [type.fields]);
-  const editable = fields.filter((f) => !f.locked);
+  const pickerAltKeys = new Set(
+    type.fields
+      .filter((f) => f.kind === "image" && !f.locked)
+      .map((f) => `${f.key}Alt`)
+      .filter((k) => type.fields.some((x) => x.key === k)),
+  );
+  const editable = fields.filter((f) => !f.locked && !pickerAltKeys.has(f.key));
   const locked = fields.filter((f) => f.locked);
 
   const set = (key: string, v: unknown) => onChange({ ...payload, [key]: v });
@@ -130,6 +137,28 @@ export function SectionForm({
         );
       }
       case "image":
+        // Unlocked images are really editable — the same MediaPicker the recipe
+        // journey uses, its alt bound to the section's `<key>Alt` text field so
+        // one control owns both halves (the standalone alt field is skipped
+        // below to avoid two inputs fighting over one value).
+        if (!f.locked) {
+          const altKey = `${f.key}Alt`;
+          const hasAlt = type.fields.some((x) => x.key === altKey);
+          return (
+            <div key={f.key} className="mb-5">
+              <span className="mb-1.5 block text-[13px] font-bold text-ink">{f.label}</span>
+              <MediaPicker
+                url={String(payload[f.key] ?? "")}
+                alt={hasAlt ? String(payload[altKey] ?? "") : ""}
+                onChange={(url, alt) =>
+                  onChange(hasAlt ? { ...payload, [f.key]: url, [altKey]: alt } : { ...payload, [f.key]: url })
+                }
+              />
+              {f.hint && <p className="mt-1.5 text-[12px] leading-relaxed text-muted">{f.hint}</p>}
+            </div>
+          );
+        }
+      // falls through — a locked image shows its path, same as video
       case "video":
         return (
           <div key={f.key} className="mb-5">

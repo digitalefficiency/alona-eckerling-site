@@ -23,10 +23,10 @@ export type HomeHeroPayload = {
   trustTokenLicense: string;
   ctaRecipes: string;
   /**
-   * alt of the REAL hero photograph (cl-115, «hero חם סטטי») — the image path
-   * stays code, like the guide portrait. The ring-loop film fields retired with
-   * the film itself (2026-08-12); the assets stay on disk.
+   * the REAL hero photograph. Editable from the desk since 2026-08-15 (Rom's
+   * call): she owns the dish on the cover. Empty string = the shipped photo.
    */
+  image?: string;
   imageAlt: string;
 };
 
@@ -40,7 +40,8 @@ export type HomeGuidePayload = {
   empathyAccent: string;
   name: string;
   role: string;
-  /** alt of the REAL portrait in the hairline frame — the image path stays code */
+  /** the REAL portrait in the hairline frame. Desk-editable (2026-08-15); empty = the shipped portrait */
+  portrait?: string;
   portraitAlt: string;
   credentials: string[];
   /** the serif opening breath of the ruled band — «היי, אני אלונה.» */
@@ -384,4 +385,13 @@ export type CoachingCtaPayload = {
   trustToken: string;
   aboutPointer: string;
   formHeading: string;
+};
+
+export type RecipesHeroPayload = {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  /** empty = the newest-archive art-directed pick keeps choosing the cover */
+  image?: string;
+  imageAlt: string;
 };

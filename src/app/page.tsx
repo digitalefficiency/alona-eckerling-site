@@ -286,7 +286,7 @@ export default async function HomePage() {
               on lg; a quiet 4:5 band on mobile below the words */}
           <div className="relative mt-8 aspect-[4/5] w-full sm:aspect-[3/4] lg:mt-0 lg:aspect-auto lg:self-stretch">
             <Image
-              src={HERO_IMAGE}
+              src={HERO.image || HERO_IMAGE}
               alt={HERO.imageAlt}
               fill
               priority
@@ -388,7 +388,7 @@ export default async function HomePage() {
                     style={{ "--frame-gap": "7px" } as React.CSSProperties}
                   >
                     <Image
-                      src={GUIDE_PORTRAIT}
+                      src={GUIDE.portrait || GUIDE_PORTRAIT}
                       alt={GUIDE.portraitAlt}
                       fill
                       sizes="(max-width: 768px) 88vw, 40vw"
@@ -637,7 +637,10 @@ export default async function HomePage() {
              Success field — no drawn seam before the emotional peak. ── */}
       {STAKES && (
       <section className="relative" style={{ "--grade-tint": "var(--hour-golden)" } as React.CSSProperties}>
-        <Container width="wide" className="pb-32 pt-4 sm:pb-36 md:pb-44 md:pt-6">
+        {/* mobile pb is its own scale: the desktop clearance (md:pb-44) exists
+            for the ghost-image overhang, which never renders under md — carrying
+            it down gave the phone a 136px blank band before the next section */}
+        <Container width="wide" className="pb-14 pt-4 sm:pb-20 md:pb-44 md:pt-6">
           <div className="relative z-10 rounded-[16px] border border-line bg-bg p-7 shadow-[var(--elevation-2)] md:p-10">
             <SectionHeading eyebrow={STAKES.kicker} title={STAKES.title} accent={STAKES.titleAccent} />
             <p className="mt-8 font-serif text-lg italic text-rose-ink">{STAKES.cue}</p>

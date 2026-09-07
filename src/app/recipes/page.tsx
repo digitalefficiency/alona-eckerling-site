@@ -6,6 +6,8 @@ import { listDocs } from "@/lib/collections";
 import { getCollection } from "@/lib/cms/config";
 import { scaleSoft } from "@/lib/motion-variants";
 import { ImageHero } from "@/components/media/ImageHero";
+import { getPublishedPageRequiring, sectionPayload } from "@/lib/sections/source";
+import type { RecipesHeroPayload } from "@/lib/sections/payloads";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { MOrchestrate, MItem } from "@/components/motion/MOrchestrate";
@@ -67,7 +69,7 @@ export const metadata: Metadata = {
   openGraph: { title: HERO.crumb, description: HERO.lead, url: "/recipes" },
 };
 
-export default function RecipesPage() {
+export default async function RecipesPage() {
   const c = getCollection("recipes");
   const docs = listDocs("recipes");
   const entries: RecipeTile[] = docs.map((e) => ({
@@ -88,7 +90,17 @@ export default function RecipesPage() {
   // colour of the archive in it.)
   const hero =
     entries.find((e) => e.slug === "roasted-vegetable-antipasti" && e.image) ?? entries.find((e) => e.image);
-  const heroImage = hero?.image;
+
+  // The desk's word comes first: the recipes page document (one hero section)
+  // overrides the shipped consts field by field, and an empty image lets the
+  // art-directed archive pick keep choosing the cover.
+  const heroDoc = await getPublishedPageRequiring("recipes-cover", ["hero"]);
+  const HERO_DOC = sectionPayload<RecipesHeroPayload>(heroDoc, "hero");
+  const heroImage = HERO_DOC?.image || hero?.image;
+  const heroImageAlt = HERO_DOC?.imageAlt || hero?.imageAlt || "";
+  const heroEyebrow = HERO_DOC?.eyebrow || HERO.eyebrow;
+  const heroTitle = HERO_DOC?.title || HERO.title;
+  const heroLead = HERO_DOC?.lead || HERO.lead;
 
   // CMS field labels feed the chip-group aria names (trimmed at the hint "(").
   const categoryGroup = (c?.fields.find((f) => f.key === "category")?.label ?? c?.label ?? "").split(" (")[0];
@@ -116,11 +128,11 @@ export default function RecipesPage() {
       {hero && heroImage ? (
         <ImageHero
           image={heroImage}
-          alt={hero.imageAlt || hero.title}
+          alt={heroImageAlt || heroTitle}
           crumbs={[{ label: HERO.crumb, href: "/recipes" }]}
-          eyebrow={HERO.eyebrow}
-          title={HERO.title}
-          lead={HERO.lead}
+          eyebrow={heroEyebrow}
+          title={heroTitle}
+          lead={heroLead}
         />
       ) : (
         // honest no-raster twin: the warm sand cover, no broken src ever
@@ -130,16 +142,16 @@ export default function RecipesPage() {
           </div>
           <div className="flex items-center gap-2.5">
             <span className="text-[0.7rem] leading-none text-gold" aria-hidden>◆</span>
-            <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{HERO.eyebrow}</span>
+            <span className="text-xs font-bold tracking-eyebrow text-gold-ink">{heroEyebrow}</span>
           </div>
           <SplitText
             as="h1"
             autoplay
-            text={HERO.title}
+            text={heroTitle}
             className="mt-5 font-serif font-black leading-[1.05] text-navy"
             style={{ fontSize: "var(--text-hero)" }}
           />
-          <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-muted">{HERO.lead}</p>
+          <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-muted">{heroLead}</p>
         </Section>
       )}
 
