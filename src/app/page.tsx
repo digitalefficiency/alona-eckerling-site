@@ -66,13 +66,14 @@ const HERO_IMAGE = "/media/generated/01-hero-clinic-real.jpg";
 // to floor: window, desk, diplomas, body-composition scale), she stands
 // smaller at the left third. Art-directed via <picture>, not object-position:
 // a wide 16:9 frame simply does not hold a full room in a phone-width slice.
-// -2: round 3 (Rom: «תעלה את התמונה למעלה ותוריד את הבלור») — the scene
-// rises (her crown ~15%, face above the H1, lamp-top cropped) and her shin
-// crop sinks into the SOLID scrim base; the bottom third of the file is
-// deliberately rough (floor stretch, sofa corner) because the solid base owns
-// it. The mobile hero-scrim tightened with it — crisp photo above ~32%.
+// -full: round 6 (Rom: «בוא נכניס שהתמונה תתפוס את הכל») — TRUE full-bleed:
+// the clinic photo COVERS the whole frame, every pixel real (no wall/floor
+// extensions), she stands full-height at the left, shin-crop at the frame
+// edge. The frame is banded so the words land on the room's own quiet
+// surfaces: H1 on the white wall, lede+CTA over the smooth grey floor — the
+// room itself is the contrast layer, and the mobile scrim is UNMOUNTED.
 // The name versions with the composition: the optimizer caches by URL.
-const HERO_IMAGE_TALL = "/media/generated/01-hero-clinic-room-2.jpg";
+const HERO_IMAGE_TALL = "/media/generated/01-hero-clinic-full-2.jpg";
 
 // COPY: ### סקשן 3 · FeatureRow + BioCard + CredentialStrip
 // §03 room background — the desk the dossier spreads on (generated per plan
@@ -257,14 +258,19 @@ export default async function HomePage() {
           <div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: "var(--grade-tint)" }} />
           <div aria-hidden className="grain-overlay" style={{ "--grain-opacity": "0.05" } as React.CSSProperties} />
         </div>
-        <div aria-hidden className="hero-scrim" />
+        {/* the scrim is a DESKTOP instrument now — below lg the photo owns the
+            whole stage (round 6) and the words read off the room's own quiet
+            surfaces; no veil, no seam. */}
+        <div aria-hidden className="hidden lg:block hero-scrim" />
         {/* soft-curve seam — the cream ground crests up into the clinic, a
             shaped hand-off into the dossier, not a hard photo cut */}
         <SeamShape variant="curve-up" />
         <Container width="wide" className="relative z-10 w-full pb-16 pt-44 sm:pt-56 md:pb-24 lg:py-24 lg:pb-32">
           {/* ONE orchestrator, same word choreography as ever — block-axis steps */}
           <MOrchestrate className="max-w-[620px]">
-            <MItem as="p" className="flex items-center gap-2.5 text-[13px] font-bold tracking-eyebrow text-muted">
+            {/* below lg the eyebrow rides the photo (wall/diploma edge) — the
+                gold-ink weight carries it there; lg+ returns to muted on paper */}
+            <MItem as="p" className="flex items-center gap-2.5 text-[13px] font-bold tracking-eyebrow text-gold-ink lg:text-muted">
               <span className="text-[0.65rem] leading-none text-gold" aria-hidden>◆</span>
               {HERO.kicker}
             </MItem>
@@ -280,10 +286,19 @@ export default async function HomePage() {
               className="mt-5 font-serif font-black leading-[1.12] text-navy"
               style={{ fontSize: "clamp(2.1rem, 5vw, 3.3rem)" }}
             />
-            <MItem as="p" className="mt-7 max-w-[54ch] text-lg leading-[1.7] text-ink">
+            {/* below lg the lede+CTA cluster rides ONE opaque sheet (the §03
+                sheet language: one radius, zero blur) — the full-bleed room
+                stays untouched around it and no veil ever crosses the photo.
+                lg+ the sheet dissolves: the side scrim already owns contrast. */}
+            {/* -mx-5 mirrors the Container padding: the sheet runs edge to
+                edge below lg, swallowing her figure's crop line at every
+                viewport width (round 7 — she zoomed out to 61%, crop at 76%
+                behind the sheet, crown clear of the island at ~15%). */}
+            <div className="-mx-5 mt-6 rounded-2xl bg-bg p-5 pt-1 lg:mx-0 lg:mt-0 lg:rounded-none lg:bg-transparent lg:p-0">
+            <MItem as="p" className="mt-4 max-w-[54ch] text-lg leading-[1.7] text-ink lg:mt-7">
               {HERO.lede}
             </MItem>
-            <MItem className="mt-10">
+            <MItem className="mt-8 lg:mt-10">
               <div className="flex flex-wrap items-center gap-x-5 gap-y-4">
                 {/* magnet 1 of the page's pair («חוט ואור» move 6; ≤2 budget enforced by MMagnetic) */}
                 <MMagnetic>
@@ -317,6 +332,7 @@ export default async function HomePage() {
                 {HERO.ctaRecipes}
               </Link>
             </MItem>
+            </div>
           </MOrchestrate>
         </Container>
       </section>
